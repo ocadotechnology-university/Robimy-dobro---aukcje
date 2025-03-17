@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 public class GoogleSheetsService {
-    private static final Dotenv dotenv = Dotenv.load();
+    private static final Dotenv dotenv = Dotenv.configure().load();
     private static final String SPREADSHEET_ID = dotenv.get("GOOGLE_SHEET_ID");
 
     public List<List<Object>> readSheet(String range) throws IOException {

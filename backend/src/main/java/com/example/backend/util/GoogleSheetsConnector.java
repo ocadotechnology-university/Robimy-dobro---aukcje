@@ -1,4 +1,4 @@
-package com.example.backend;
+package com.example.backend.util;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
@@ -27,9 +27,7 @@ public class GoogleSheetsConnector {
         }
     }
 
-    // Secure .env file reading
-    private static final Dotenv dotenv = Dotenv.load();
-    private static final String CREDENTIALS_FILE_PATH = dotenv.get("GOOGLE_CREDENTIALS_PATH");
+    private static final String CREDENTIALS_FILE_PATH = "backend/src/main/resources/credentials.json";
 
     public static Sheets getSheetsService() throws IOException {
         Credential credential = GoogleCredential.fromStream(new FileInputStream(CREDENTIALS_FILE_PATH))
