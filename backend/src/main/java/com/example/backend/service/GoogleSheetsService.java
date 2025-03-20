@@ -21,4 +21,13 @@ public class GoogleSheetsService {
                 .execute();
         return response.getValues();
     }
+
+    public void writeToSheet(String range, List<List<Object>> values) throws IOException {
+        Sheets sheetsService = GoogleSheetsConnector.getSheetsService();
+        ValueRange body = new ValueRange().setValues(values);
+        sheetsService.spreadsheets().values()
+                .update(GoogleSheetsService.SPREADSHEET_ID, range, body)
+                .setValueInputOption("RAW")
+                .execute();
+    }
 }

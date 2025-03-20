@@ -32,6 +32,17 @@ public class DemoApplication {
 			} catch (IOException e) {
 				System.err.println("Error reading Google Sheet: " + e.getMessage());
 			}
+
+			// Test task: Writing example data to a Google Sheet (range A4:C4)
+			List<List<Object>> dataToWrite = List.of(
+					List.of("First cell", "Second cell", "Third cell")
+			);
+			try {
+				sheetsService.writeToSheet("Arkusz1!A4:C4", dataToWrite);
+				System.out.println("Data successfully written to the Google Sheet.");
+			} catch (IOException e) {
+				System.err.println("Error while writing to Google Sheet: " + e.getMessage());
+			}
 		};
 	}
 
