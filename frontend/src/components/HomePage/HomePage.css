@@ -1,4 +1,5 @@
 .HomePage {
+    margin-top:6%;
     background-color: white;
     display: flex;
     flex-direction: column;
@@ -43,6 +44,7 @@
     background-color: transparent;
     font-weight: 700;
     font-size: 20px;
+    cursor: pointer;
 }
 
 .ButtonFrame button:hover {
@@ -57,7 +59,7 @@
     width: 70%;
     display: flex;
     flex-direction: column;
-    text-align: left;
+    text-align: justify;
     /*gap: 10px;*/
 }
 
