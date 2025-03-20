@@ -1,0 +1,69 @@
+.HomePage {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    height: 100%;
+}
+
+.ImageFrame {
+    margin-top: 80px;
+    max-width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.ImageFrame img {
+    width: 90%;
+}
+
+/*-------------------------------------*/
+
+.ButtonFrame {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.ButtonFrame span {
+    margin-top: 50px;
+}
+
+.ButtonFrame button {
+    border-radius: 45px;
+    border-width: 1px;
+    border-style: solid;
+    padding: 5px 15px;
+    background-color: transparent;
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.ButtonFrame button:hover {
+    background-color: rgba(255, 167, 38, 1.0);
+    color: white;
+}
+
+/*----------------------------------*/
+
+.TextFrame {
+    margin-top: 70px;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    /*gap: 10px;*/
+}
+
+.TextFrame header {
+    margin-top: 15px;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+}
