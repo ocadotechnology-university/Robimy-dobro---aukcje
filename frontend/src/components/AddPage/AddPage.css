@@ -1,0 +1,58 @@
+.AddPage {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    width: 100%;
+}
+
+.ImageUploadFrame {
+    width: 60%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.ImageUploadTitle {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+    text-align: left;
+    width: 100%;
+}
+
+.ImageUploadBox {
+    width: 200px;
+    height: 120px;
+    border: 2px solid #aaa;
+    border-radius: 8px;
+    background-color: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.ImageUploadBox:hover {
+    background-color: #f0f0f0;
+}
+
+.ImageUploadBox .material-symbols-outlined {
+    font-size: 32px;
+    color: #666;
+}
+
+.TitleFrame {
+    width: 60%;
+    max-width: 800px;
+    margin-top: 50px;
+    font-size: 10px;
+    height: 30px;
+}
