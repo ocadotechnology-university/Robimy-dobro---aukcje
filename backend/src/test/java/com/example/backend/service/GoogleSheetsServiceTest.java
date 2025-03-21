@@ -89,6 +89,20 @@ class GoogleSheetsServiceTest {
     }
 
     @Test
-    void writeToSheet() {
+    void writeToSheet() throws IOException {
+        String range = "Sheet1!A1:B1";
+        List<List<Object>> dataToWrite = Arrays.asList(
+                Arrays.asList("Data1", "Data2")
+        );
+
+        when(spreadsheetsValues.update(anyString(), eq(range), any(ValueRange.class))).thenReturn(mockUpdateRequest);
+        when(mockUpdateRequest.setValueInputOption("RAW")).thenReturn(mockUpdateRequest);
+        when(mockUpdateRequest.execute()).thenReturn(null);
+
+        googleSheetsService.writeToSheet(range, dataToWrite);
+
+        verify(spreadsheetsValues).update(anyString(), eq(range), any(ValueRange.class));
+        verify(mockUpdateRequest).setValueInputOption("RAW");
+        verify(mockUpdateRequest).execute();
     }
 }
