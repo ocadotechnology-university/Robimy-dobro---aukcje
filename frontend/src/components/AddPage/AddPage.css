@@ -2,15 +2,23 @@
     background-color: white;
     display: flex;
     flex-direction: column;
-    align-items: center;
     position: relative;
     z-index: 1;
     height: 100%;
     width: 100%;
 }
 
-.ImageUploadFrame {
+.FormContainer {
     width: 60%;
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.ImageUploadFrame {
+    width: 100%;
     max-width: 800px;
     display: flex;
     flex-direction: column;
@@ -20,9 +28,9 @@
 }
 
 .ImageUploadTitle {
-    font-size: 16px;
-    font-weight: bold;
+    font-size: 15px;
     margin: 0;
+    margin-left: 20px;
     text-align: left;
     width: 100%;
 }
@@ -50,9 +58,159 @@
 }
 
 .TitleFrame {
-    width: 60%;
+    width: 100%;
     max-width: 800px;
     margin-top: 50px;
     font-size: 10px;
-    height: 30px;
+}
+
+.PriceFrame {
+    width: 30%;
+    max-width: 800px;
+    margin-top: 40px;
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    white-space: pre-line;
+}
+
+.PriceUnit {
+    font-size: 15px;
+    margin-top: 10px;
+}
+
+.CityFrame {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.CityCheckbox.Mui-checked {
+    color: #666 !important;
+    background-color: white !important;
+    border-radius: 4px;
+}
+
+.CityCheckboxLabel .MuiFormControlLabel-label {
+    font-size: 15px;
+}
+
+.CitySelect {
+    width: 20%;
+    margin-top: 20px;
+}
+
+.CityInfoIcon {
+    margin-left: 2px;
+    font-size: 16px;
+    vertical-align: middle;
+    cursor: help;
+}
+
+.ModeratorFrame {
+    margin-top: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+}
+
+.ModeratorLabel .MuiFormControlLabel-label {
+    font-size: 15px;
+}
+
+.ModeratorCheckbox.Mui-checked {
+    color: #666 !important;
+    background-color: white !important;
+    border-radius: 4px;
+}
+
+.DateSelectLabel {
+    font-size: 15px;
+    font-weight: 400;
+    margin: 0;
+}
+
+.disabled-label {
+    color: #666;
+    opacity: 0.6;
+}
+
+.DateToggleGroup {
+    display: flex;
+    gap: 10px;
+}
+
+.DateToggle {
+    background-color: transparent;
+    border: 1px solid #bbb;
+    border-radius: 16px;
+    padding: 4px 8px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #333;
+    transition: 0.2s ease;
+}
+
+.DateToggle .material-symbols-outlined {
+    font-size: 18px;
+    margin-right: 4px;
+}
+
+.DateToggle.selected {
+    background-color: #ddd;
+    font-weight: bold;
+    border-color: #999;
+}
+
+.DateToggle:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.FormButtons {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 60px;
+}
+
+.BackButton {
+    margin-left: 5px;
+    border: 1px solid black;
+    border-radius: 45px;
+    background-color: white;
+    color: black;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.BackButton:hover {
+    background-color: #f0f0f0;
+}
+
+.SubmitButton {
+    margin-right: 5px;
+    border: none;
+    border-radius: 45px;
+    background-color: rgba(236, 142, 6, 0.9);
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 5px 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.SubmitButton:hover {
+    background-color: rgba(236, 142, 6, 1);
 }
