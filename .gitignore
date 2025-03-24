@@ -1,0 +1,4 @@
+.idea/
+backend/.mvn/
+backend/src/main/resources/.env
+backend/src/main/resources/credentials.json
