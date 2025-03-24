@@ -6,7 +6,7 @@ import { deepOrange } from '@mui/material/colors';
 export default function LetterAvatars() {
     return (
         <Stack direction="row" spacing={2}>
-            <Avatar sx={{ bgcolor: deepOrange[500] }}>N</Avatar>
+            <Avatar style={{scale: 0.9}} sx={{ bgcolor: deepOrange[500] }}>N</Avatar>
         </Stack>
     );
 }
