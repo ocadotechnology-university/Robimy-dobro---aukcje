@@ -36,59 +36,45 @@ function NavBar() {
         <AppBar position="static" sx={{backgroundColor: "white"}}>
             <Container maxWidth="lg">
                 <Toolbar disableGutters>
-                    {/*Logo*/}
-                    <Box flexGrow={0}>
-                        <Typography fontSize="15px" color="black" fontWeight="bold"
-                                    fontFamily="Inter">
-                            <Stack sx={{cursor: "pointer"}} direction="row" spacing={1} alignItems="center">
-                                <HomeIcon fontSize="large" sx={{color: buttonColor}}/>
-                                <Stack direction="column">
-                                    <Box>Robimy</Box>
-                                    <Box>Dobro</Box>
+                    <Stack flexGrow={1} direction="row" spacing={2}>
+                        {/*Logo*/}
+                        <Box flexGrow={0}>
+                            <Typography fontSize="15px" color="black" fontWeight="bold"
+                                        fontFamily="Inter">
+                                <Stack sx={{cursor: "pointer"}} direction="row" spacing={1} alignItems="center">
+                                    <HomeIcon fontSize="large" sx={{color: buttonColor}}/>
+                                    <Stack direction="column">
+                                        <Box>Robimy</Box>
+                                        <Box>Dobro</Box>
+                                    </Stack>
+                                    <Divider sx={{borderColor: buttonColor}} orientation="vertical" variant="middle"
+                                             flexItem/>
+                                    <Box>2025</Box>
                                 </Stack>
-                                <Divider sx={{borderColor: buttonColor}} orientation="vertical" variant="middle"
-                                         flexItem/>
-                                <Box>2025</Box>
-                            </Stack>
-                        </Typography>
-                    </Box>
+                            </Typography>
+                        </Box>
 
-                    <Box flexGrow={1}></Box>
+                        <Box flexGrow={1}></Box>
 
-                    {/*Przycisk*/}
-                    <Box flexGrow={0}>
-                        <Button variant="contained"
-                            sx={{
-                                borderRadius: "45px",
-                                backgroundColor: buttonColor,
-                                fontWeight: 600,
-                                textTransform: "none"
-                            }}
-                        >
-                            Dodaj aukcję
-                        </Button>
-                    </Box>
+                        {/*Przycisk*/}
+                        <Box>
+                            <Button variant="contained"
+                                    sx={{
+                                        borderRadius: "45px",
+                                        backgroundColor: buttonColor,
+                                        fontWeight: 600,
+                                        textTransform: "none"
+                                    }}
+                            >
+                                Dodaj aukcję
+                            </Button>
+                        </Box>
 
-
-                    {/*<Box mr={2}>
-                        <Button
-                            variant="contained"
-                            sx={{
-                                borderRadius: "45px",
-                                backgroundColor: "rgba(236, 142, 6, 1)",
-                                fontWeight: 600,
-                                textTransform: "none",
-                                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
-                                '&:hover': {backgroundColor: "rgba(236, 142, 6, 1)"}
-                            }}
-                        >
-                            Dodaj aukcję
-                        </Button>
-                    </Box>
-
-                    <Box>
-                        <Avatar/>
-                    </Box>*/}
+                        {/*Konto*/}
+                        <Box>
+                            <Avatar sx={{width: 37, height: 37}}></Avatar>
+                        </Box>
+                    </Stack>
                 </Toolbar>
             </Container>
         </AppBar>
