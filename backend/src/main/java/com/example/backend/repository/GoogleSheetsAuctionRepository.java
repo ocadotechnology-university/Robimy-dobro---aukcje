@@ -16,7 +16,28 @@ public class GoogleSheetsAuctionRepository implements AuctionRepository {
         this.googleSheetsService = googleSheetsService;
     }
 
+    private String makeNotNull(Object value) {
+        return value != null ? value.toString() : "";
+    }
+
     @Override
     public void save(Auction auction) throws IOException {
+        List<Object> row = Arrays.asList(
+                makeNotNull(auction.getId()),
+                makeNotNull(auction.getModeratorName()),
+                makeNotNull(auction.getPreferredAuctionDay()),
+                makeNotNull(auction.getAuctionDay()),
+                makeNotNull(auction.getOwnerName()),
+                makeNotNull(auction.getTitle()),
+                makeNotNull(auction.getDescription()),
+                makeNotNull(auction.getImageUrl()),
+                makeNotNull(auction.getCity()),
+                auction.getStartingPrice(),
+                auction.getCurrentBid(),
+                makeNotNull(auction.getWinner()),
+                makeNotNull(auction.getSlackThreadLink())
+        );
+
+        googleSheetsService.appendRow("Auction", List.of(row));
     }
 }
