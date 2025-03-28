@@ -23,7 +23,7 @@ public class DemoApplication {
 		return args -> {
 			GoogleSheetsService sheetsService = ctx.getBean(GoogleSheetsService.class);
 			try {
-				List<List<Object>> values = sheetsService.readSheet("Arkusz1!A1:A1");
+				List<List<Object>> values = sheetsService.readSheet("Auction!A1:A1");
 				if (values != null && !values.isEmpty() && !values.get(0).isEmpty()) {
 					System.out.println("Value in A1: " + values.get(0).get(0));
 				} else {
@@ -38,7 +38,7 @@ public class DemoApplication {
 					List.of("First cell", "Second cell", "Third cell")
 			);
 			try {
-				sheetsService.writeToSheet("Arkusz1!A4:C4", dataToWrite);
+				sheetsService.writeToSheet("Auction!A4:C4", dataToWrite);
 				System.out.println("Data successfully written to the Google Sheet.");
 			} catch (IOException e) {
 				System.err.println("Error while writing to Google Sheet: " + e.getMessage());
