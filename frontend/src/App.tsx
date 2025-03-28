@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Header from "./components/TopPanel/TopPanel";
+import Header from "./components/NavBar/NavBar";
 import Context from "./components/ContexPanel/ContextPanel";
 import img1 from "./image/image1.jpg"
 import img2 from "./image/image2.jpg"
