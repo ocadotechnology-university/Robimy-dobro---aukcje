@@ -1,6 +1,17 @@
 import "./AddPage.css"
 import React, { useState } from "react";
-import { TextField, Checkbox, FormControlLabel, FormGroup, FormControl, InputLabel, Select, MenuItem, Tooltip, ToggleButton, ToggleButtonGroup} from "@mui/material";
+import CssBaseline from '@mui/material/CssBaseline';
+import Container from "@mui/material/Container";
+import Stack from "@mui/material/Stack";
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import UploadIcon from '@mui/icons-material/Upload';
+
+import { FormContainerStyle } from './AddPage.styles';
+import { ImageUploadStackStyle } from './AddPage.styles';
+import { ImageUploadBoxStyle } from './AddPage.styles';
+
+import {TextField, Checkbox, FormControlLabel, FormGroup, MenuItem} from "@mui/material";
 
 const AddPage: React.FC = () => {
     const [title, setTitle] = useState("");
@@ -11,14 +22,11 @@ const AddPage: React.FC = () => {
     const [selectedDate, setSelectedDate] = useState("");
 
     return (
-        <main className="AddPage">
-            <div className="FormContainer">
-                <label className="ImageUploadFrame">
-                    <header className="ImageUploadTitle">Dodaj zdjęcie</header>
-                    <div className="ImageUploadBox">
-                        <span className="material-symbols-outlined">upload</span>
-                    </div>
-                </label>
+        <React.Fragment>
+            <CssBaseline/>
+            <Container maxWidth="md" sx={FormContainerStyle}>
+
+                <ImageUploadSection />
 
                 <div className="TitleFrame">
                     <TextField
@@ -127,9 +135,21 @@ const AddPage: React.FC = () => {
                     <button className="BackButton">Wróć</button>
                     <button className="SubmitButton">Dodaj</button>
                 </div>
-            </div>
-        </main>
+            </Container>
+        </React.Fragment>
     );
 }
+
+const ImageUploadSection = () => (
+    <Stack spacing={2} sx={ImageUploadStackStyle}>
+        <Typography variant="body1" fontWeight={500}>
+            Dodaj zdjęcie
+        </Typography>
+
+        <Box component="label" sx={ImageUploadBoxStyle}>
+            <UploadIcon fontSize="large" sx={{ color: '#666' }} />
+        </Box>
+    </Stack>
+);
 
 export default AddPage;
