@@ -2,9 +2,7 @@ import { SxProps, Theme } from '@mui/material/styles';
 
 export const FormContainerStyle: SxProps<Theme> = {
     height: '100dvh',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    py: 2,
 };
 
 export const ImageUploadStackStyle: SxProps<Theme> = {
