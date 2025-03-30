@@ -11,6 +11,7 @@ import TextField from '@mui/material/TextField';
 import { FormContainerStyle } from './AddPage.styles';
 import { ImageUploadStackStyle } from './AddPage.styles';
 import { ImageUploadBoxStyle } from './AddPage.styles';
+import { PriceUnitStyle } from './AddPage.styles';
 
 import {Checkbox, FormControlLabel, FormGroup, MenuItem} from "@mui/material";
 
@@ -29,22 +30,7 @@ const AddPage: React.FC = () => {
                 <Stack spacing={4}>
                     <ImageUploadSection />
                     <TitleSection title={title} setTitle={setTitle} />
-
-                    <div className="PriceFrame">
-                        <TextField
-                            label={
-                            <>Cena wywoławcza</>
-                            }
-                            variant="outlined"
-                            fullWidth
-                            size="small"
-                            type="number"
-                            onChange={(e) => setPrice(e.target.value)}
-                            InputLabelProps={{ shrink: true }}
-
-                        />
-                        <span className="PriceUnit">zł</span>
-                    </div>
+                    <PriceSection price={price} setPrice={setPrice} />
 
                     <div className="CityFrame">
                         <FormGroup>
@@ -160,6 +146,29 @@ const TitleSection = ({ title, setTitle }: TitleSectionProps) => (
             InputLabelProps={{ shrink: true }}
         />
     </Box>
+);
+
+type PriceSectionProps = {
+    price: string;
+    setPrice: (value: string) => void;
+};
+
+const PriceSection = ({ price, setPrice }: PriceSectionProps) => (
+    <Stack direction="row" spacing={1} alignItems="center" sx={{ width: '25%' }}>
+        <TextField
+            label={
+                <>Cena wywoławcza</>
+            }
+            variant="outlined"
+            fullWidth
+            size="small"
+            type="number"
+            onChange={(e) => setPrice(e.target.value)}
+            InputLabelProps={{ shrink: true }}
+            inputProps={{ min: 0 }}
+        />
+        <Typography variant="body2" sx={PriceUnitStyle}>zł</Typography>
+    </Stack>
 );
 
 export default AddPage;

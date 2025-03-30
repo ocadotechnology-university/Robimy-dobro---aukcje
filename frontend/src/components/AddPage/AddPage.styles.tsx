@@ -26,3 +26,8 @@ export const ImageUploadBoxStyle: SxProps<Theme> = {
         backgroundColor: '#f0f0f0',
     },
 };
+
+export const PriceUnitStyle: SxProps<Theme> = {
+    mt: '2px',
+    fontSize: '0.95rem',
+};
