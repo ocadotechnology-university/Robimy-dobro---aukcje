@@ -1,5 +1,5 @@
 import "./AddPage.css"
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
@@ -33,6 +33,18 @@ const AddPage: React.FC = () => {
     const [selectedCity, setSelectedCity] = useState("");
     const [wantsToBeModerator, setWantsToBeModerator] = useState(false);
     const [selectedDate, setSelectedDate] = useState("");
+
+    useEffect(() => {
+        if (!wantsToBeModerator && selectedDate !== '') {
+            setSelectedDate('');
+        }
+    }, [wantsToBeModerator]);
+
+    useEffect(() => {
+        if (!pickupOnlyInCity && selectedCity !== '') {
+            setSelectedCity('');
+        }
+    }, [pickupOnlyInCity]);
 
     return (
         <React.Fragment>
