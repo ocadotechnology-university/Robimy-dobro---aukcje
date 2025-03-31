@@ -1,4 +1,14 @@
 import React, { useState, useEffect } from "react";
+import StarterKit from "@tiptap/starter-kit";
+import {
+    MenuButtonBold,
+    MenuButtonItalic,
+    MenuControlsContainer,
+    RichTextEditor,
+    type RichTextEditorRef,
+} from "mui-tiptap";
+import { useRef } from "react";
+
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
@@ -36,6 +46,7 @@ const AddPage: React.FC = () => {
     const [selectedCity, setSelectedCity] = useState("");
     const [wantsToBeModerator, setWantsToBeModerator] = useState(false);
     const [selectedDate, setSelectedDate] = useState("");
+    const rteRef = useRef<RichTextEditorRef>(null);
 
     useEffect(() => {
         if (wantsToBeModerator && selectedDate === '') {
@@ -60,6 +71,7 @@ const AddPage: React.FC = () => {
                 <Stack spacing={4}>
                     <ImageUploadSection />
                     <TitleSection title={title} setTitle={setTitle} />
+                    <DescriptionSection rteRef={rteRef} />
                     <PriceSection price={price} setPrice={setPrice} />
                     <CitySection
                         pickupOnlyInCity={pickupOnlyInCity}
@@ -107,6 +119,26 @@ const TitleSection: React.FC<TitleSectionProps> = ({ title, setTitle }) => (
             size={"small"}
             onChange={(e) => setTitle(e.target.value)}
             InputLabelProps={{ shrink: true }}
+        />
+    </Box>
+);
+
+type DescriptionSectionProps = {
+    rteRef: React.RefObject<RichTextEditorRef | null>;
+};
+
+const DescriptionSection: React.FC<DescriptionSectionProps> = ({ rteRef }) => (
+    <Box sx={{ width: '100%' }}>
+        <RichTextEditor
+            ref={rteRef}
+            extensions={[StarterKit]}
+            content=""
+            renderControls={() => (
+                <MenuControlsContainer>
+                    <MenuButtonBold />
+                    <MenuButtonItalic />
+                </MenuControlsContainer>
+            )}
         />
     </Box>
 );
