@@ -27,7 +27,8 @@ export const HomeButtonStyle = {
     },
     fontWeight: "550",
     borderStyle: "solid",
-    '&:hover': {backgroundColor: "rgba(236, 142, 6, 1)", color: "white"}
+    '&:hover': {backgroundColor: "rgba(236, 142, 6, 1)", color: "white"},
+    textTransform: "none"
 };
 
 
