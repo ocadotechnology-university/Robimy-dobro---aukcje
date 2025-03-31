@@ -32,7 +32,7 @@ export const PriceUnitStyle: SxProps<Theme> = {
     fontSize: '0.95rem',
 };
 
-export const CityCheckboxStyle: SxProps<Theme> = {
+export const CheckboxBaseStyle: SxProps<Theme> = {
     color: '#666',
     backgroundColor: 'white',
     borderRadius: '4px',
@@ -42,7 +42,8 @@ export const CityCheckboxStyle: SxProps<Theme> = {
     },
 };
 
-export const CityLabelStyle: SxProps<Theme> = {
+export const FormControlLabelBaseStyle: SxProps<Theme> = {
+    width: 'fit-content',
     '& .MuiFormControlLabel-label': {
         fontSize: '15px',
     },
@@ -59,3 +60,20 @@ export const CitySelectStyle: SxProps<Theme> = {
     width: '100%',
     maxWidth: 150,
 };
+
+export const DateToggleGroupStyle: SxProps<Theme> = {
+    display: 'flex',
+    gap: 1,
+};
+
+export const DateToggleButtonStyle = (selected: boolean): SxProps<Theme> => ({
+    borderRadius: '16px',
+    textTransform: 'none',
+    fontSize: '13px',
+    fontWeight: selected ? 'bold' : 'normal',
+    display: 'flex',
+    alignItems: 'center',
+    gap: 0.5,
+    px: 1,
+    py: 0.5,
+});

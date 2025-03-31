@@ -11,15 +11,20 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import MenuItem from '@mui/material/MenuItem';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import EventIcon from '@mui/icons-material/Event';
 
 import { FormContainerStyle } from './AddPage.styles';
 import { ImageUploadStackStyle } from './AddPage.styles';
 import { ImageUploadBoxStyle } from './AddPage.styles';
 import { PriceUnitStyle } from './AddPage.styles';
-import { CityCheckboxStyle } from './AddPage.styles';
-import { CityLabelStyle } from './AddPage.styles';
+import { CheckboxBaseStyle } from './AddPage.styles';
+import { FormControlLabelBaseStyle } from './AddPage.styles';
 import { CityLabelIconWrapperStyle } from './AddPage.styles';
 import { CitySelectStyle } from './AddPage.styles';
+import { DateToggleButtonStyle } from './AddPage.styles';
+import { DateToggleGroupStyle } from './AddPage.styles';
 
 const AddPage: React.FC = () => {
     const [title, setTitle] = useState("");
@@ -43,41 +48,12 @@ const AddPage: React.FC = () => {
                         selectedCity={selectedCity}
                         setSelectedCity={setSelectedCity}
                     />
-
-                    <div className="ModeratorFrame">
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={wantsToBeModerator}
-                                    onChange={(e) => setWantsToBeModerator(e.target.checked)}
-                                    className="ModeratorCheckbox"
-                                />
-                            }
-                            label="Chcę być moderatorem"
-                            className="ModeratorLabel"
-                        />
-
-                        <p className={`DateSelectLabel ${!wantsToBeModerator ? "disabled-label" : ""}`}>
-                            Wybierz preferowaną datę licytacji
-                        </p>
-
-                        <div className="DateToggleGroup">
-                            {["21", "22", "23"].map((day) => (
-                                <button
-                                    key={day}
-                                    type="button"
-                                    className={`DateToggle ${
-                                        selectedDate === day ? "selected" : ""
-                                    }`}
-                                    disabled={!wantsToBeModerator}
-                                    onClick={() => setSelectedDate(day)}
-                                >
-                                    <span className="material-symbols-outlined">event</span>
-                                    {` ${day} listopada`}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
+                    <ModeratorSection
+                        wantsToBeModerator={wantsToBeModerator}
+                        setWantsToBeModerator={setWantsToBeModerator}
+                        selectedDate={selectedDate}
+                        setSelectedDate={setSelectedDate}
+                    />
 
                     <div className="FormButtons">
                         <button className="BackButton">Wróć</button>
@@ -162,14 +138,11 @@ const CitySection = ({
                 <Checkbox
                     checked={pickupOnlyInCity}
                     onChange={(e) => setPickupOnlyInCity(e.target.checked)}
-                    sx={CityCheckboxStyle}
+                    sx={CheckboxBaseStyle}
                 />
             }
             label="Odbiór jest możliwy tylko w wybranym mieście"
-            sx={{
-                ...CityLabelStyle,
-                width: 'fit-content',
-            }}
+            sx={FormControlLabelBaseStyle}
         />
 
         <TextField
@@ -196,5 +169,68 @@ const CitySection = ({
         </TextField>
     </Stack>
 );
+
+type ModeratorSectionProps = {
+    wantsToBeModerator: boolean;
+    setWantsToBeModerator: (value: boolean) => void;
+    selectedDate: string;
+    setSelectedDate: (value: string) => void;
+};
+
+const ModeratorSection = ({
+                              wantsToBeModerator,
+                              setWantsToBeModerator,
+                              selectedDate,
+                              setSelectedDate,
+                          }: ModeratorSectionProps) => {
+    const dates = ["21", "22", "23"];
+
+    return (
+        <Stack spacing={2} sx={{ width: '100%' }}>
+            <FormControlLabel
+                control={
+                    <Checkbox
+                        checked={wantsToBeModerator}
+                        onChange={(e) => setWantsToBeModerator(e.target.checked)}
+                        sx={CheckboxBaseStyle}
+                    />
+                }
+                label="Chcę być moderatorem"
+                sx={FormControlLabelBaseStyle}
+            />
+
+            <Typography
+                variant="body2"
+                sx={{ color: wantsToBeModerator ? 'text.primary' : 'text.disabled' }}
+            >
+                Wybierz preferowaną datę licytacji
+            </Typography>
+
+            <ToggleButtonGroup
+                value={selectedDate}
+                exclusive
+                onChange={(event, newDate) => {
+                    if (newDate !== null) {
+                        setSelectedDate(newDate);
+                    }
+                }}
+                size="small"
+                disabled={!wantsToBeModerator}
+                sx={DateToggleGroupStyle}
+            >
+                {['21', '22', '23'].map((day) => (
+                    <ToggleButton
+                        key={day}
+                        value={day}
+                        sx={DateToggleButtonStyle(selectedDate === day)}
+                    >
+                        <EventIcon fontSize="small" />
+                        {`${day} listopada`}
+                    </ToggleButton>
+                ))}
+            </ToggleButtonGroup>
+        </Stack>
+    );
+};
 
 export default AddPage;
