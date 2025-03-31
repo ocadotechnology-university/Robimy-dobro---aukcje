@@ -30,4 +30,14 @@ public class GoogleSheetsService {
                 .setValueInputOption("RAW")
                 .execute();
     }
+
+    public void appendRow(String sheetName, List<List<Object>> values) throws IOException {
+        Sheets sheetsService = GoogleSheetsConnector.getSheetsService();
+        ValueRange body = new ValueRange().setValues(values);
+        sheetsService.spreadsheets().values()
+                .append(SPREADSHEET_ID, sheetName, body)
+                .setValueInputOption("RAW")
+                .setInsertDataOption("INSERT_ROWS")
+                .execute();
+    }
 }
