@@ -7,13 +7,14 @@ import Button from '@mui/material/Button';
 import {Container, Divider, IconButton, Stack, Toolbar} from '@mui/material';
 import HomeIcon from "@mui/icons-material/Home";
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import { shadows } from '@mui/system';
 
 // Change to theme colors
 const buttonColor = "rgba(236, 142, 6, 1.0)";
 
 function NavBar() {
     return (
-        <AppBar position="static" sx={{backgroundColor: "white"}}>
+        <AppBar position="sticky" elevation={4} sx={{backgroundColor: "white"}}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
 
