@@ -38,6 +38,10 @@ const AddPage: React.FC = () => {
     const [selectedDate, setSelectedDate] = useState("");
 
     useEffect(() => {
+        if (wantsToBeModerator && selectedDate === '') {
+            setSelectedDate('21');
+        }
+
         if (!wantsToBeModerator && selectedDate !== '') {
             setSelectedDate('');
         }
@@ -115,14 +119,22 @@ type PriceSectionProps = {
 const PriceSection = ({ price, setPrice }: PriceSectionProps) => (
     <Stack direction="row" spacing={1} alignItems="center" sx={{ width: '25%' }}>
         <TextField
-            label={
-                <>Cena wywoławcza</>
-            }
+            label="Cena wywoławcza"
             variant="outlined"
             fullWidth
             size="small"
             type="number"
+            value={price}
             onChange={(e) => setPrice(e.target.value)}
+            onInput={(e) => {
+                const input = e.target as HTMLInputElement;
+                const value = input.value;
+
+                const parts = value.split(/[.,]/);
+                if (parts[1]?.length > 2) {
+                    input.value = `${parts[0]}.${parts[1].slice(0, 2)}`;
+                }
+            }}
             InputLabelProps={{ shrink: true }}
             inputProps={{ min: 0 }}
         />
