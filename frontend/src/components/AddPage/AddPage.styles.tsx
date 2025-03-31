@@ -31,3 +31,31 @@ export const PriceUnitStyle: SxProps<Theme> = {
     mt: '2px',
     fontSize: '0.95rem',
 };
+
+export const CityCheckboxStyle: SxProps<Theme> = {
+    color: '#666',
+    backgroundColor: 'white',
+    borderRadius: '4px',
+    '&.Mui-checked': {
+        color: '#666',
+        backgroundColor: 'white',
+    },
+};
+
+export const CityLabelStyle: SxProps<Theme> = {
+    '& .MuiFormControlLabel-label': {
+        fontSize: '15px',
+    },
+};
+
+export const CityLabelIconWrapperStyle: SxProps<Theme> = {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 0.5,
+};
+
+
+export const CitySelectStyle: SxProps<Theme> = {
+    width: '100%',
+    maxWidth: 150,
+};

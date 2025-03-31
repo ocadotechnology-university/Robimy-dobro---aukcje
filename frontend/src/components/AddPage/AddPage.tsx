@@ -7,13 +7,19 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import UploadIcon from '@mui/icons-material/Upload';
 import TextField from '@mui/material/TextField';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import MenuItem from '@mui/material/MenuItem';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 import { FormContainerStyle } from './AddPage.styles';
 import { ImageUploadStackStyle } from './AddPage.styles';
 import { ImageUploadBoxStyle } from './AddPage.styles';
 import { PriceUnitStyle } from './AddPage.styles';
-
-import {Checkbox, FormControlLabel, FormGroup, MenuItem} from "@mui/material";
+import { CityCheckboxStyle } from './AddPage.styles';
+import { CityLabelStyle } from './AddPage.styles';
+import { CityLabelIconWrapperStyle } from './AddPage.styles';
+import { CitySelectStyle } from './AddPage.styles';
 
 const AddPage: React.FC = () => {
     const [title, setTitle] = useState("");
@@ -31,46 +37,12 @@ const AddPage: React.FC = () => {
                     <ImageUploadSection />
                     <TitleSection title={title} setTitle={setTitle} />
                     <PriceSection price={price} setPrice={setPrice} />
-
-                    <div className="CityFrame">
-                        <FormGroup>
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        checked={pickupOnlyInCity}
-                                        onChange={(e) => setPickupOnlyInCity(e.target.checked)}
-                                        className="CityCheckbox"
-                                    />
-                                }
-                                label="Odbiór jest możliwy tylko w wybranym mieście"
-                                className="CityCheckboxLabel"
-                            />
-                        </FormGroup>
-
-                        <TextField
-                            select
-                            label={
-                                <>
-                                    Miasto&nbsp;
-                                    <span
-                                        className="material-symbols-outlined CityInfoIcon"
-                                        title="Wybierz miasto, w którym możliwy jest odbiór."
-                                    >
-                                        info
-                                  </span>
-                                </>
-                            }
-                            value={selectedCity}
-                            onChange={(e) => setSelectedCity(e.target.value)}
-                            size="small"
-                            className="CitySelect"
-                            disabled={!pickupOnlyInCity}
-                            InputLabelProps={{ shrink: true }}
-                        >
-                            <MenuItem value="Wrocław">Wrocław</MenuItem>
-                            <MenuItem value="Kraków">Kraków</MenuItem>
-                        </TextField>
-                    </div>
+                    <CitySection
+                        pickupOnlyInCity={pickupOnlyInCity}
+                        setPickupOnlyInCity={setPickupOnlyInCity}
+                        selectedCity={selectedCity}
+                        setSelectedCity={setSelectedCity}
+                    />
 
                     <div className="ModeratorFrame">
                         <FormControlLabel
@@ -168,6 +140,57 @@ const PriceSection = ({ price, setPrice }: PriceSectionProps) => (
             inputProps={{ min: 0 }}
         />
         <Typography variant="body2" sx={PriceUnitStyle}>zł</Typography>
+    </Stack>
+);
+
+type CitySectionProps = {
+    pickupOnlyInCity: boolean;
+    setPickupOnlyInCity: (value: boolean) => void;
+    selectedCity: string;
+    setSelectedCity: (value: string) => void;
+};
+
+const CitySection = ({
+                         pickupOnlyInCity,
+                         setPickupOnlyInCity,
+                         selectedCity,
+                         setSelectedCity,
+                     }: CitySectionProps) => (
+    <Stack spacing={2}>
+        <FormControlLabel
+            control={
+                <Checkbox
+                    checked={pickupOnlyInCity}
+                    onChange={(e) => setPickupOnlyInCity(e.target.checked)}
+                    sx={CityCheckboxStyle}
+                />
+            }
+            label="Odbiór jest możliwy tylko w wybranym mieście"
+            sx={CityLabelStyle}
+        />
+
+        <TextField
+            select
+            label={
+                <Box component="span" sx={CityLabelIconWrapperStyle}>
+                    Miasto
+                    <InfoOutlinedIcon
+                        fontSize="small"
+                        titleAccess="Wybierz miasto, w którym możliwy jest odbiór."
+                        sx={{cursor: 'help' }}
+                    />
+                </Box>
+            }
+            value={selectedCity}
+            onChange={(e) => setSelectedCity(e.target.value)}
+            size="small"
+            disabled={!pickupOnlyInCity}
+            InputLabelProps={{ shrink: true }}
+            sx={CitySelectStyle}
+        >
+            <MenuItem value="Wrocław">Wrocław</MenuItem>
+            <MenuItem value="Kraków">Kraków</MenuItem>
+        </TextField>
     </Stack>
 );
 
