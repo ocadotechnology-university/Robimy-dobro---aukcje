@@ -4,94 +4,97 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import {Container, Divider, IconButton, Stack, Toolbar} from '@mui/material';
+import {Container, Divider, IconButton, Stack, Toolbar, useMediaQuery, useTheme} from '@mui/material';
 import HomeIcon from "@mui/icons-material/Home";
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
-import { shadows } from '@mui/system';
+import {CenteredBoxStyle, ButtonStyle, ButtonColor, AvatarStyle, IconButtonStyle, HomeIconStyle} from "./NavBar.styles";
 
-// Change to theme colors
-const buttonColor = "rgba(236, 142, 6, 1.0)";
+function Account() {
+    return (
+        <Box sx={CenteredBoxStyle}>
+            <Avatar sx={AvatarStyle}></Avatar>
+        </Box>
+    )
+}
+
+function ButtonSmall() {
+    return (
+        <Box sx={CenteredBoxStyle}>
+            <IconButton sx={IconButtonStyle}>
+                <AddOutlinedIcon fontSize="medium" sx={{color: "white"}}/>
+            </IconButton>
+        </Box>
+    )
+}
+
+function LogoSmall() {
+    return (
+        <Box flexGrow={0} sx={CenteredBoxStyle}>
+            <HomeIcon sx={HomeIconStyle}/>
+        </Box>
+    )
+}
+
+function ButtonMedium() {
+    return (
+        <Box sx={CenteredBoxStyle}>
+            <Button variant="contained" sx={ButtonStyle}>
+                Dodaj aukcję
+            </Button>
+        </Box>
+    )
+}
+
+function LogoMedium() {
+    return (
+        <Box flexGrow={0}>
+            <Typography fontSize="15px" color="black" fontWeight="bold" fontFamily="Inter">
+                <Stack sx={{cursor: "pointer"}} direction="row" spacing={1} alignItems="center">
+                    <HomeIcon sx={HomeIconStyle}/>
+                    <Stack direction="column">
+                        <Box>Robimy</Box>
+                        <Box>Dobro</Box>
+                    </Stack>
+                    <Divider sx={{borderColor: ButtonColor}} orientation="vertical" variant="middle" flexItem/>
+                    <Box>2025</Box>
+                </Stack>
+            </Typography>
+        </Box>
+    )
+}
+
+function PlaceHolder() {
+    return (
+        <Box flexGrow={1}></Box>
+    )
+}
 
 function NavBar() {
+    const theme = useTheme();
+    const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+    const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+
+    const getLogo = () =>{
+        if(isSmallScreen) return <LogoSmall/>;
+        if(isMediumScreen) return <LogoMedium/>;
+        return <LogoMedium/>;
+    }
+
+    const getButton = () =>{
+        if(isSmallScreen) return <ButtonSmall/>;
+        if(isMediumScreen) return <ButtonMedium/>;
+        return <ButtonMedium/>;
+    }
+
     return (
         <AppBar position="sticky" elevation={4} sx={{backgroundColor: "white"}}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-
-                    {/*Middle Sizing*/}
-                    <Stack flexGrow={1} direction="row" spacing={2} sx={{display: {xs:"none", sm:"flex", md:"flex"}}}>
-                        {/*Logo*/}
-                        <Box flexGrow={0}>
-                            <Typography fontSize="15px" color="black" fontWeight="bold"
-                                        fontFamily="Inter">
-                                <Stack sx={{cursor: "pointer"}} direction="row" spacing={1} alignItems="center">
-                                    <HomeIcon sx={{
-                                        width: 36.5,
-                                        height: 36.5,
-                                        color: buttonColor}}/>
-                                    <Stack direction="column">
-                                        <Box>Robimy</Box>
-                                        <Box>Dobro</Box>
-                                    </Stack>
-                                    <Divider sx={{borderColor: buttonColor}} orientation="vertical" variant="middle"
-                                             flexItem/>
-                                    <Box>2025</Box>
-                                </Stack>
-                            </Typography>
-                        </Box>
-
-                        <Box flexGrow={1}></Box>
-
-                        {/*Button*/}
-                        <Box sx={{display:'flex', justifyContent: 'center', alignItems: 'center'}}>
-                            <Button variant="contained"
-                                    sx={{
-                                        borderRadius: "45px",
-                                        backgroundColor: buttonColor,
-                                        fontWeight: 600,
-                                        textTransform: "none"
-                                    }}
-                            >
-                                Dodaj aukcję
-                            </Button>
-                        </Box>
-
-                        {/*Account*/}
-                        <Box sx={{display:'flex', justifyContent: 'center', alignItems: 'center'}}>
-                            <Avatar sx={{width: 36.5, height: 36.5}}></Avatar>
-                        </Box>
-                    </Stack>
-
-                    {/*Small Sizing*/}
-                    <Stack flexGrow={1} direction="row" spacing={2} sx={{display: {xs:"flex", sm:"none", md:"none"}}}>
-                        {/*Logo*/}
-                        <Box flexGrow={0} sx={{display:'flex', justifyContent: 'center', alignItems: 'center'}}>
-                                <HomeIcon sx={{width: 36.5, height: 36.5, color: buttonColor, cursor: "pointer"}}/>
-                        </Box>
-
-                        <Box flexGrow={1}></Box>
-
-                        {/*Button*/}
-                        <Box sx={{display:'flex', justifyContent: 'center', alignItems: 'center'}}>
-                            <IconButton
-                                    sx={{
-                                        width: 36.5,
-                                        height: 36.5,
-                                        borderRadius: "45px",
-                                        backgroundColor: buttonColor,
-                                        fontWeight: 600,
-                                        textTransform: "none",
-                                        padding: "none"
-                                    }}
-                            >
-                                <AddOutlinedIcon fontSize="medium" sx={{color:"white"}}/>
-                            </IconButton>
-                        </Box>
-
-                        {/*Account*/}
-                        <Box sx={{display:'flex', justifyContent: 'center', alignItems: 'center'}}>
-                            <Avatar sx={{width: 36.5, height: 36.5}}></Avatar>
-                        </Box>
+                    <Stack flexGrow={1} direction="row" spacing={2} alignItems="center">
+                        {getLogo()}
+                        <PlaceHolder/>
+                        {getButton()}
+                        <Account/>
                     </Stack>
                 </Toolbar>
             </Container>
