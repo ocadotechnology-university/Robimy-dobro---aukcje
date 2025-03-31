@@ -166,7 +166,10 @@ const CitySection = ({
                 />
             }
             label="Odbiór jest możliwy tylko w wybranym mieście"
-            sx={CityLabelStyle}
+            sx={{
+                ...CityLabelStyle,
+                width: 'fit-content',
+            }}
         />
 
         <TextField
