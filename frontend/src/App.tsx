@@ -6,10 +6,12 @@ import img2 from "./image/image4.jpg";
 import Auth from "./components/GoogleLogin/Auth";
 import Home from "./components/HomePage/HomePage";
 import AddAuction from "./components/AddPage/AddPage";
-import {Box, Container, Stack} from "@mui/material";
+import {Box, Container, Stack, useMediaQuery, useTheme} from "@mui/material";
 
 function App() {
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+    const theme = useTheme();
+    const isLarge = useMediaQuery(theme.breakpoints.up('lg'));
 
     useEffect(() => {
         const handleResize = () => {
@@ -26,13 +28,13 @@ function App() {
         <Container disableGutters sx={{minWidth:'100%', height:'100%'}}>
             <Stack direction="row" justifyContent="center" sx={{ height: "100%" }}>
 
-                {windowWidth > 1500 && (
+                {isLarge && (
                     <Box height="100%">
-                        <img src={img2} alt="Left image" style={{height: "100%", objectFit: 'cover'}} />
+                        <img src={img2} alt="Left image" style={{filter: 'blur(4px)', height: "100%", objectFit: 'cover', display: 'block'}}/>
                     </Box>
                 )}
 
-                <Box height="100%" sx={{minWidth: windowWidth > 1500 ? '1500px' : '100%'}}>
+                <Box height="100%" sx={{minWidth: isLarge ? '1200px' : '100%'}}>
                     <BrowserRouter >
                         <Header/>
                         <Routes>
@@ -44,9 +46,9 @@ function App() {
                     </BrowserRouter>
                 </Box>
 
-                {windowWidth > 1500 && (
+                {isLarge && (
                     <Box height="100%">
-                        <img src={img1} alt="Right image" style={{height: "100%", objectFit: 'cover'}}/>
+                        <img src={img1} alt="Right image" style={{filter: 'blur(4px)', height: "100%", objectFit: 'cover', display: 'block'}}/>
                     </Box>
                 )}
             </Stack>
