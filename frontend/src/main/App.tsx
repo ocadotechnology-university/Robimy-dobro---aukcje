@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
-import Header from "./components/NavBar/NavBar";
-import img1 from "./image/image3.jpg";
-import img2 from "./image/image4.jpg";
-import Auth from "./components/GoogleLogin/Auth";
-import Home from "./components/HomePage/HomePage";
-import AddAuction from "./components/AddPage/AddPage";
+import Header from "../components/NavBar/NavBar";
+import img1 from "../image/image3.jpg";
+import img2 from "../image/image4.jpg";
+import Auth from "../components/GoogleLogin/Auth";
+import Home from "../components/HomePage/HomePage";
+import AddAuction from "../components/AddPage/AddPage";
 import {Box, Container, Stack, useMediaQuery, useTheme} from "@mui/material";
 
 function App() {
@@ -30,11 +30,11 @@ function App() {
 
                 {isLarge && (
                     <Box height="100%">
-                        <img src={img2} alt="Left image" style={{filter: 'blur(4px)', height: "100%", objectFit: 'cover', display: 'block'}}/>
+                        <img src={img2} alt="Left image" style={{height: "100%", objectFit: 'cover', display: 'block', overflow: "hidden"}}/>
                     </Box>
                 )}
 
-                <Box height="100%" sx={{minWidth: isLarge ? '1200px' : '100%'}}>
+                <Box height="100%" sx={{minWidth: isLarge ? '1200px' : '100%' }}>
                     <BrowserRouter >
                         <Header/>
                         <Routes>
@@ -47,8 +47,8 @@ function App() {
                 </Box>
 
                 {isLarge && (
-                    <Box height="100%">
-                        <img src={img1} alt="Right image" style={{filter: 'blur(4px)', height: "100%", objectFit: 'cover', display: 'block'}}/>
+                    <Box height="100%" >
+                        <img src={img1} alt="Right image" style={{height: "100%", objectFit: 'cover', display: 'block', overflow: "hidden"}}/>
                     </Box>
                 )}
             </Stack>
