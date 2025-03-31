@@ -15,19 +15,21 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import EventIcon from '@mui/icons-material/Event';
 import Button from '@mui/material/Button';
 
-import { FormContainerStyle } from './AddPage.styles';
-import { ImageUploadStackStyle } from './AddPage.styles';
-import { ImageUploadBoxStyle } from './AddPage.styles';
-import { PriceUnitStyle } from './AddPage.styles';
-import { CheckboxBaseStyle } from './AddPage.styles';
-import { FormControlLabelBaseStyle } from './AddPage.styles';
-import { CityLabelIconWrapperStyle } from './AddPage.styles';
-import { CitySelectStyle } from './AddPage.styles';
-import { DateToggleButtonStyle } from './AddPage.styles';
-import { DateToggleGroupStyle } from './AddPage.styles';
-import { FormButtonsWrapperStyle } from './AddPage.styles';
-import { BackButtonStyle } from './AddPage.styles';
-import { SubmitButtonStyle } from './AddPage.styles';
+import {
+    FormContainerStyle,
+    ImageUploadStackStyle,
+    ImageUploadBoxStyle,
+    PriceUnitStyle,
+    CheckboxBaseStyle,
+    FormControlLabelBaseStyle,
+    CityLabelIconWrapperStyle,
+    CitySelectStyle,
+    DateToggleButtonStyle,
+    DateToggleGroupStyle,
+    FormButtonsWrapperStyle,
+    BackButtonStyle,
+    SubmitButtonStyle
+} from './AddPage.styles';
 
 const AddPage: React.FC = () => {
     const [title, setTitle] = useState("");
@@ -80,7 +82,7 @@ const AddPage: React.FC = () => {
     );
 }
 
-const ImageUploadSection = () => (
+const ImageUploadSection: React.FC = () => (
     <Stack spacing={2} sx={ImageUploadStackStyle}>
         <Typography variant="body1" fontWeight={500}>
             Dodaj zdjęcie
@@ -97,7 +99,7 @@ type TitleSectionProps = {
     setTitle: (value: string) => void;
 };
 
-const TitleSection = ({ title, setTitle }: TitleSectionProps) => (
+const TitleSection: React.FC<TitleSectionProps> = ({ title, setTitle }) => (
     <Box sx={{ width: '100%' }}>
         <TextField
             label="Tytuł"
@@ -116,7 +118,7 @@ type PriceSectionProps = {
     setPrice: (value: string) => void;
 };
 
-const PriceSection = ({ price, setPrice }: PriceSectionProps) => (
+const PriceSection: React.FC<PriceSectionProps> = ({ price, setPrice }) => (
     <Stack direction="row" spacing={1} alignItems="center" sx={{ width: '25%' }}>
         <TextField
             label="Cena wywoławcza"
@@ -149,7 +151,7 @@ type CitySectionProps = {
     setSelectedCity: (value: string) => void;
 };
 
-const CitySection = ({
+const CitySection: React.FC<CitySectionProps> = ({
                          pickupOnlyInCity,
                          setPickupOnlyInCity,
                          selectedCity,
@@ -200,7 +202,7 @@ type ModeratorSectionProps = {
     setSelectedDate: (value: string) => void;
 };
 
-const ModeratorSection = ({
+const ModeratorSection: React.FC<ModeratorSectionProps> = ({
                               wantsToBeModerator,
                               setWantsToBeModerator,
                               selectedDate,
@@ -256,7 +258,7 @@ const ModeratorSection = ({
     );
 };
 
-const FormButtonsSection = () => (
+const FormButtonsSection: React.FC = () => (
     <Stack direction="row" justifyContent="space-between" sx={FormButtonsWrapperStyle}>
         <Button variant="outlined" color="inherit" sx={BackButtonStyle}>
             Wróć
