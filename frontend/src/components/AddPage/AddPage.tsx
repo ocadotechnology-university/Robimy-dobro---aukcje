@@ -1,4 +1,3 @@
-import "./AddPage.css"
 import React, { useState, useEffect } from "react";
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from "@mui/material/Container";
@@ -14,6 +13,7 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import EventIcon from '@mui/icons-material/Event';
+import Button from '@mui/material/Button';
 
 import { FormContainerStyle } from './AddPage.styles';
 import { ImageUploadStackStyle } from './AddPage.styles';
@@ -25,6 +25,9 @@ import { CityLabelIconWrapperStyle } from './AddPage.styles';
 import { CitySelectStyle } from './AddPage.styles';
 import { DateToggleButtonStyle } from './AddPage.styles';
 import { DateToggleGroupStyle } from './AddPage.styles';
+import { FormButtonsWrapperStyle } from './AddPage.styles';
+import { BackButtonStyle } from './AddPage.styles';
+import { SubmitButtonStyle } from './AddPage.styles';
 
 const AddPage: React.FC = () => {
     const [title, setTitle] = useState("");
@@ -66,11 +69,7 @@ const AddPage: React.FC = () => {
                         selectedDate={selectedDate}
                         setSelectedDate={setSelectedDate}
                     />
-
-                    <div className="FormButtons">
-                        <button className="BackButton">Wróć</button>
-                        <button className="SubmitButton">Dodaj</button>
-                    </div>
+                    <FormButtonsSection />
                 </Stack>
             </Container>
         </React.Fragment>
@@ -245,4 +244,15 @@ const ModeratorSection = ({
     );
 };
 
+const FormButtonsSection = () => (
+    <Stack direction="row" justifyContent="space-between" sx={FormButtonsWrapperStyle}>
+        <Button variant="outlined" color="inherit" sx={BackButtonStyle}>
+            Wróć
+        </Button>
+
+        <Button variant="contained" sx={SubmitButtonStyle}>
+            Dodaj
+        </Button>
+    </Stack>
+);
 export default AddPage;
