@@ -2,6 +2,7 @@ import { SxProps, Theme } from '@mui/material/styles';
 
 export const FormContainerStyle: SxProps<Theme> = {
     height: '100dvh',
+    width: '55%',
     py: 2,
 };
 
@@ -36,6 +37,8 @@ export const CheckboxBaseStyle: SxProps<Theme> = {
     color: '#666',
     backgroundColor: 'white',
     borderRadius: '4px',
+    py: 0.1,
+    px: 0.1,
     '&.Mui-checked': {
         color: '#666',
         backgroundColor: 'white',
@@ -58,11 +61,6 @@ export const CityLabelIconWrapperStyle: SxProps<Theme> = {
 export const CitySelectStyle: SxProps<Theme> = {
     width: '100%',
     maxWidth: 150,
-};
-
-export const DateToggleGroupStyle: SxProps<Theme> = {
-    display: 'flex',
-    gap: 1,
 };
 
 export const DateToggleButtonStyle = (selected: boolean): SxProps<Theme> => ({

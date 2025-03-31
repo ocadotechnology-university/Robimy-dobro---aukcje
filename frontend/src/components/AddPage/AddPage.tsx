@@ -11,7 +11,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import MenuItem from '@mui/material/MenuItem';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import EventIcon from '@mui/icons-material/Event';
 import Button from '@mui/material/Button';
 
@@ -25,7 +24,6 @@ import {
     CityLabelIconWrapperStyle,
     CitySelectStyle,
     DateToggleButtonStyle,
-    DateToggleGroupStyle,
     FormButtonsWrapperStyle,
     BackButtonStyle,
     SubmitButtonStyle
@@ -203,11 +201,11 @@ type ModeratorSectionProps = {
 };
 
 const ModeratorSection: React.FC<ModeratorSectionProps> = ({
-                              wantsToBeModerator,
-                              setWantsToBeModerator,
-                              selectedDate,
-                              setSelectedDate,
-                          }: ModeratorSectionProps) => {
+                                                               wantsToBeModerator,
+                                                               setWantsToBeModerator,
+                                                               selectedDate,
+                                                               setSelectedDate,
+                                                           }) => {
     const dates = ["21", "22", "23"];
 
     return (
@@ -226,34 +224,27 @@ const ModeratorSection: React.FC<ModeratorSectionProps> = ({
 
             <Typography
                 variant="body2"
-                sx={{ color: wantsToBeModerator ? 'text.primary' : 'text.disabled' }}
+                sx={{color: wantsToBeModerator ? 'text.primary' : 'text.disabled'}}
             >
                 Wybierz preferowaną datę licytacji
             </Typography>
 
-            <ToggleButtonGroup
-                value={selectedDate}
-                exclusive
-                onChange={(event, newDate) => {
-                    if (newDate !== null) {
-                        setSelectedDate(newDate);
-                    }
-                }}
-                size="small"
-                disabled={!wantsToBeModerator}
-                sx={DateToggleGroupStyle}
-            >
-                {['21', '22', '23'].map((day) => (
+            <Stack direction="row" spacing={1}>
+                {dates.map((day) => (
                     <ToggleButton
                         key={day}
                         value={day}
+                        selected={selectedDate === day}
+                        onChange={() => setSelectedDate(day)}
+                        disabled={!wantsToBeModerator}
+                        size="small"
                         sx={DateToggleButtonStyle(selectedDate === day)}
                     >
                         <EventIcon fontSize="small" />
                         {`${day} listopada`}
                     </ToggleButton>
                 ))}
-            </ToggleButtonGroup>
+            </Stack>
         </Stack>
     );
 };
