@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import StarterKit from "@tiptap/starter-kit";
+import Underline from '@tiptap/extension-underline'
 import {
     MenuButtonBold,
     MenuButtonItalic,
+    MenuButtonUnderline,
     MenuControlsContainer,
     RichTextEditor,
     type RichTextEditorRef,
@@ -131,12 +133,13 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({ rteRef }) => (
     <Box sx={{ width: '100%' }}>
         <RichTextEditor
             ref={rteRef}
-            extensions={[StarterKit]}
+            extensions={[StarterKit, Underline]}
             content=""
             renderControls={() => (
                 <MenuControlsContainer>
                     <MenuButtonBold />
                     <MenuButtonItalic />
+                    <MenuButtonUnderline />
                 </MenuControlsContainer>
             )}
         />
