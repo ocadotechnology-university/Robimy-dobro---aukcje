@@ -1,15 +1,23 @@
 import React, { useState, useEffect } from "react";
+import { useEditor } from "@tiptap/react";
+import { useRef } from "react";
+
 import StarterKit from "@tiptap/starter-kit";
 import Underline from '@tiptap/extension-underline'
+import Link from '@tiptap/extension-link'
+
 import {
     MenuButtonBold,
     MenuButtonItalic,
     MenuButtonUnderline,
     MenuControlsContainer,
     RichTextEditor,
+    LinkBubbleMenu,
+    MenuButtonEditLink,
+    LinkBubbleMenuHandler,
+    RichTextEditorProvider,
     type RichTextEditorRef,
 } from "mui-tiptap";
-import { useRef } from "react";
 
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from "@mui/material/Container";
@@ -129,22 +137,34 @@ type DescriptionSectionProps = {
     rteRef: React.RefObject<RichTextEditorRef | null>;
 };
 
-const DescriptionSection: React.FC<DescriptionSectionProps> = ({ rteRef }) => (
-    <Box sx={{ width: '100%' }}>
-        <RichTextEditor
-            ref={rteRef}
-            extensions={[StarterKit, Underline]}
-            content=""
-            renderControls={() => (
-                <MenuControlsContainer>
-                    <MenuButtonBold />
-                    <MenuButtonItalic />
-                    <MenuButtonUnderline />
-                </MenuControlsContainer>
-            )}
-        />
-    </Box>
-);
+const DescriptionSection: React.FC<DescriptionSectionProps> = ({ rteRef }) => {
+    const extensions = [StarterKit, Underline, Link, LinkBubbleMenuHandler];
+
+    const editor = useEditor({
+        extensions,
+        content: "",
+    });
+
+    return editor ? (
+        <Box sx={{ width: "100%" }}>
+            <RichTextEditorProvider editor={editor}>
+                <RichTextEditor ref={rteRef} extensions={extensions}>
+                    {() => (
+                        <Box>
+                            <MenuControlsContainer>
+                                <MenuButtonBold />
+                                <MenuButtonItalic />
+                                <MenuButtonUnderline />
+                                <MenuButtonEditLink />
+                            </MenuControlsContainer>
+                            <LinkBubbleMenu />
+                        </Box>
+                    )}
+                </RichTextEditor>
+            </RichTextEditorProvider>
+        </Box>
+    ) : null;
+};
 
 type PriceSectionProps = {
     price: string;
