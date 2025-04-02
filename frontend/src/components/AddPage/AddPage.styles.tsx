@@ -28,11 +28,6 @@ export const ImageUploadBoxStyle: SxProps<Theme> = {
     },
 };
 
-export const PriceUnitStyle: SxProps<Theme> = {
-    mt: '2px',
-    fontSize: '0.95rem',
-};
-
 export const CheckboxBaseStyle: SxProps<Theme> = {
     color: '#666',
     backgroundColor: 'white',

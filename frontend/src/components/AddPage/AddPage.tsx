@@ -33,12 +33,12 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import ToggleButton from '@mui/material/ToggleButton';
 import EventIcon from '@mui/icons-material/Event';
 import Button from '@mui/material/Button';
+import InputAdornment from '@mui/material/InputAdornment';
 
 import {
     FormContainerStyle,
     ImageUploadStackStyle,
     ImageUploadBoxStyle,
-    PriceUnitStyle,
     CheckboxBaseStyle,
     FormControlLabelBaseStyle,
     CityLabelIconWrapperStyle,
@@ -203,8 +203,10 @@ const PriceSection: React.FC<PriceSectionProps> = ({ price, setPrice }) => (
             }}
             InputLabelProps={{ shrink: true }}
             inputProps={{ min: 0 }}
+            InputProps={{
+                endAdornment: <InputAdornment position="end">zł</InputAdornment>,
+            }}
         />
-        <Typography variant="body2" sx={PriceUnitStyle}>zł</Typography>
     </Stack>
 );
 
