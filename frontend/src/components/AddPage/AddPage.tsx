@@ -46,7 +46,10 @@ import {
     DateToggleButtonStyle,
     FormButtonsWrapperStyle,
     BackButtonStyle,
-    SubmitButtonStyle
+    SubmitButtonStyle,
+    DescriptionWrapperStyle,
+    DescriptionLabelStyle,
+    EditorContentStyle
 } from './AddPage.styles';
 
 const AddPage: React.FC = () => {
@@ -146,25 +149,33 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({ rteRef }) => {
     });
 
     return editor ? (
-        <Box sx={{ width: "100%" }}>
+        <Box sx={DescriptionWrapperStyle}>
+            <Typography variant="caption" sx={DescriptionLabelStyle}>
+                Opis
+            </Typography>
             <RichTextEditorProvider editor={editor}>
-                <RichTextEditor ref={rteRef} extensions={extensions}>
-                    {() => (
-                        <Box>
-                            <MenuControlsContainer>
-                                <MenuButtonBold />
-                                <MenuButtonItalic />
-                                <MenuButtonUnderline />
-                                <MenuButtonEditLink />
-                            </MenuControlsContainer>
-                            <LinkBubbleMenu />
-                        </Box>
-                    )}
-                </RichTextEditor>
+                <Box sx={EditorContentStyle}>
+                    <RichTextEditor ref={rteRef} extensions={extensions}>
+                        {() => (
+                            <>
+                                <Box sx={{padding: '2px 0 0 0' }}>
+                                    <MenuControlsContainer>
+                                        <MenuButtonBold />
+                                        <MenuButtonItalic />
+                                        <MenuButtonUnderline />
+                                        <MenuButtonEditLink />
+                                    </MenuControlsContainer>
+                                </Box>
+                                <LinkBubbleMenu />
+                            </>
+                        )}
+                    </RichTextEditor>
+                </Box>
             </RichTextEditorProvider>
         </Box>
     ) : null;
 };
+
 
 type PriceSectionProps = {
     price: string;
