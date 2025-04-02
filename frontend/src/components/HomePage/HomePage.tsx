@@ -69,7 +69,7 @@ const HomePage = () => {
     return (
         <React.Fragment>
             <CssBaseline/>
-            <Container maxWidth="md" sx={{height: '100dvh'}}>
+            <Container maxWidth="md" sx={{backgroundColor:'white' }}>
                 <Stack direction="column" alignItems="center">
                     <Image/>
                     <InvitationTextAndButton/>

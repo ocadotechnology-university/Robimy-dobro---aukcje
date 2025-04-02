@@ -68,7 +68,7 @@ const NavBar = () => {
     }
 
     return (
-        <AppBar position="sticky" elevation={4} sx={{backgroundColor: "white"}}>
+        <AppBar position="sticky" elevation={4} sx={{backgroundColor: "white", width: "100%"}}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <Stack flexGrow={1} direction="row" spacing={2} alignItems="center">
