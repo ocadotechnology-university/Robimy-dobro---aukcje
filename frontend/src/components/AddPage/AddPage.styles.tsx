@@ -73,6 +73,7 @@ export const DateToggleButtonStyle = (selected: boolean): SxProps<Theme> => ({
 export const FormButtonsWrapperStyle: SxProps<Theme> = {
     width: '100%',
     mt: 4,
+    pb: 4,
 };
 
 export const BackButtonStyle: SxProps<Theme> = {
@@ -123,5 +124,12 @@ export const EditorContentStyle = {
         minHeight: '5em',
         padding: '4px',
         overflowY: 'auto',
+    },
+};
+
+export const EditorToolbarStyle: SxProps<Theme> = {
+    padding: '2px 0 0 0',
+    '& svg': {
+        fontSize: '18px',
     },
 };

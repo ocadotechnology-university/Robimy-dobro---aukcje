@@ -49,7 +49,8 @@ import {
     SubmitButtonStyle,
     DescriptionWrapperStyle,
     DescriptionLabelStyle,
-    EditorContentStyle
+    EditorContentStyle,
+    EditorToolbarStyle
 } from './AddPage.styles';
 
 const AddPage: React.FC = () => {
@@ -158,7 +159,7 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({ rteRef }) => {
                     <RichTextEditor ref={rteRef} extensions={extensions}>
                         {() => (
                             <>
-                                <Box sx={{padding: '2px 0 0 0' }}>
+                                <Box sx={EditorToolbarStyle}>
                                     <MenuControlsContainer>
                                         <MenuButtonBold />
                                         <MenuButtonItalic />
