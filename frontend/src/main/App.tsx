@@ -6,9 +6,8 @@ import img2 from "../image/image4.jpg";
 import Auth from "../components/GoogleLogin/Auth";
 import Home from "../components/HomePage/HomePage";
 import AddAuction from "../components/AddPage/AddPage";
+import Auctions from "../components/AuctionPage/AuctionPage"
 import {Box, Container, Stack, useMediaQuery, useTheme} from "@mui/material";
-import Typography from "@mui/material/Typography";
-import {HomeHeadersStyle, HomeTextStyle} from "../components/HomePage/HomePage.styles";
 
 const LeftPanel = ({isLarge}: { isLarge: boolean }) => {
     if (!isLarge) return null;
@@ -31,6 +30,7 @@ const MiddlePanel =({isLarge}: { isLarge: boolean }) => {
                     <Route path="/auth" element={<Auth/>}/>
                     <Route path="/home" element={<Home/>}/>
                     <Route path="/add" element={<AddAuction/>}/>
+                    <Route path="/auctions" element={<Auctions/>}/>
                 </Routes>
             </BrowserRouter>
         </Box>
