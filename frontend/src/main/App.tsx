@@ -19,11 +19,11 @@ const LeftPanel = ({isLarge}: { isLarge: boolean }) => {
     );
 }
 
-const MiddlePanel =({isLarge}: { isLarge: boolean }) => {
+const MiddlePanel =({isLarge, isAuthPage}: { isLarge: boolean, isAuthPage: boolean}) => {
     return(
         <Box height="100%" sx={{minWidth: isLarge ? '1200px' : '100%'}}>
             {/*<BrowserRouter>*/}
-                <Header/>
+                {!isAuthPage && <Header/>}
                 <Routes>
                     <Route path="/" element={<Navigate to="/auth"/>}/>
                     <Route path="/auth" element={<Auth/>}/>
@@ -71,7 +71,7 @@ function App() {
         <Container disableGutters sx={{minWidth: '100%', height: '100%'}}>
             <Stack direction="row" justifyContent="center" sx={{height: "100%"}}>
                 {!isAuthPage && <LeftPanel isLarge={isLarge}/>}
-                {!isAuthPage && <MiddlePanel isLarge={isLarge}/>}
+                <MiddlePanel isLarge={isLarge} isAuthPage={isAuthPage}/>
                 {!isAuthPage && <RightPanel isLarge={isLarge}/>}
             </Stack>
         </Container>
