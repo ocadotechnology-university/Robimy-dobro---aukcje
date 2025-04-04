@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
+import {Routes, Route, Navigate, useLocation} from 'react-router-dom';
 import Header from "../components/NavBar/NavBar";
 import img1 from "../image/image3.jpg";
 import img2 from "../image/image4.jpg";
@@ -7,8 +7,6 @@ import Auth from "../components/GoogleLogin/Auth";
 import Home from "../components/HomePage/HomePage";
 import AddAuction from "../components/AddPage/AddPage";
 import {Box, Container, Stack, useMediaQuery, useTheme} from "@mui/material";
-import Typography from "@mui/material/Typography";
-import {HomeHeadersStyle, HomeTextStyle} from "../components/HomePage/HomePage.styles";
 
 const LeftPanel = ({isLarge}: { isLarge: boolean }) => {
     if (!isLarge) return null;
@@ -24,7 +22,7 @@ const LeftPanel = ({isLarge}: { isLarge: boolean }) => {
 const MiddlePanel =({isLarge}: { isLarge: boolean }) => {
     return(
         <Box height="100%" sx={{minWidth: isLarge ? '1200px' : '100%'}}>
-            <BrowserRouter>
+            {/*<BrowserRouter>*/}
                 <Header/>
                 <Routes>
                     <Route path="/" element={<Navigate to="/auth"/>}/>
@@ -32,7 +30,7 @@ const MiddlePanel =({isLarge}: { isLarge: boolean }) => {
                     <Route path="/home" element={<Home/>}/>
                     <Route path="/add" element={<AddAuction/>}/>
                 </Routes>
-            </BrowserRouter>
+            {/*</BrowserRouter>*/}
         </Box>
     );
 }
@@ -53,6 +51,11 @@ function App() {
     const theme = useTheme();
     const isLarge = useMediaQuery(theme.breakpoints.up('lg'));
 
+    const location = useLocation();
+    const isAuthPage = location.pathname === "/auth";
+
+    console.log(location.pathname)
+
     useEffect(() => {
         const handleResize = () => {
             setWindowWidth(window.innerWidth);
@@ -67,9 +70,9 @@ function App() {
     return (
         <Container disableGutters sx={{minWidth: '100%', height: '100%'}}>
             <Stack direction="row" justifyContent="center" sx={{height: "100%"}}>
-                <LeftPanel isLarge={isLarge}/>
-                <MiddlePanel isLarge={isLarge}/>
-                <RightPanel isLarge={isLarge}/>
+                {!isAuthPage && <LeftPanel isLarge={isLarge}/>}
+                {!isAuthPage && <MiddlePanel isLarge={isLarge}/>}
+                {!isAuthPage && <RightPanel isLarge={isLarge}/>}
             </Stack>
         </Container>
     );
