@@ -54,8 +54,6 @@ function App() {
     const location = useLocation();
     const isAuthPage = location.pathname === "/auth";
 
-    console.log(location.pathname)
-
     useEffect(() => {
         const handleResize = () => {
             setWindowWidth(window.innerWidth);
