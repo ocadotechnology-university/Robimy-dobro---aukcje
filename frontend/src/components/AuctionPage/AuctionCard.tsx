@@ -3,10 +3,17 @@ import {
     Card, Grid, Stack, Box, Typography, IconButton, CardMedia
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import LaunchIcon from '@mui/icons-material/Launch';
+import {
+    CardStyle,
+    ImageWrapperStyle,
+    ImageStyle,
+    EditIconsStyle,
+    FooterStyle,
+} from './AuctionCard.styles';
 
 type AuctionCardProps = {
     title: string;
@@ -32,7 +39,7 @@ const AuctionCard = ({
                          imageUrl,
                      }: AuctionCardProps) => {
     return (
-        <Card>
+        <Card variant="outlined" sx={CardStyle}>
             <Grid container spacing={2}>
                 <ImageSection imageUrl={imageUrl} />
                 <ContentSection
@@ -53,16 +60,18 @@ const AuctionCard = ({
 export default AuctionCard;
 
 const ImageSection = ({ imageUrl }: { imageUrl: string }) => (
-    <Grid size={{ xs: 12, sm: 3 }}>
+    <Grid size={{ xs: 12, sm: 3 }} sx={ImageWrapperStyle}>
         <CardMedia
             component="img"
             image={imageUrl}
             alt="Auction item"
+            sx={ImageStyle}
         />
     </Grid>
 );
 
-const ContentSection = ({title,
+const ContentSection = ({
+                            title,
                             date,
                             city,
                             description,
@@ -83,7 +92,7 @@ const ContentSection = ({title,
 );
 
 const EditIcons = () => (
-    <Box position="absolute" top={0} right={0}>
+    <Box sx={EditIconsStyle}>
         <IconButton size="small">
             <EditIcon />
         </IconButton>
@@ -95,9 +104,11 @@ const AuctionHeader = ({ title, date, city }: { title: string; date: string; cit
         <Typography variant="h6" fontWeight="bold">{title}</Typography>
         <Stack direction="row" spacing={1} alignItems="center">
             <CalendarTodayIcon fontSize="small" />
-            <Typography variant="body2">{date}</Typography>
+            <Typography variant="body2"><b>{date}</b></Typography>
             <LocationOnIcon fontSize="small" />
-            <Typography variant="body2">{city}</Typography>
+            <Typography variant="body2">
+                Odbiór tylko w: <b>{city}</b>
+            </Typography>
         </Stack>
     </>
 );
@@ -114,16 +125,23 @@ const AuctionStatus = ({
                            winner,
                        }: { status: string; supplier: string; winner: string }) => (
     <Typography variant="body2">
-        Status: {status}<br />
-        Supplier: {supplier}<br />
-        Winner: {winner}
+        Status licytacji: <b>{status}</b><br/>
+        Dostawca: <b>{supplier}</b><br/>
+        Zwycięzca: <b>{winner}</b>
     </Typography>
 );
 
 const AuctionFooter = ({ price }: { price: string }) => (
-    <Box display="flex" justifyContent="flex-end" alignItems="center" gap={2}>
+    <Box sx={FooterStyle}>
         <LaunchIcon />
         <FavoriteBorderIcon />
-        <Typography fontWeight="bold">{price} PLN</Typography>
+        <Box display="flex" flexDirection="column" alignItems="flex-end">
+            <Typography variant="body2" fontWeight="bold">
+                Aktualna cena:
+            </Typography>
+            <Typography fontWeight="bold" fontSize="1.7rem">
+                {price} PLN
+            </Typography>
+        </Box>
     </Box>
 );
