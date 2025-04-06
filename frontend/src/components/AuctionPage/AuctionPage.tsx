@@ -11,7 +11,7 @@ const AuctionPage = () => {
         <React.Fragment>
             <CssBaseline />
             <Container maxWidth="md" sx={{ backgroundColor:'white' }}>
-                <Stack direction="row" justifyContent="space-between">
+                <Stack direction="row" justifyContent="space-between" sx={{ p: 2 }}>
                     <Filters />
                     <AuctionsList />
                 </Stack>
