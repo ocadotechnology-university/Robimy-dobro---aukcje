@@ -60,13 +60,15 @@ const AuctionCard = ({
 export default AuctionCard;
 
 const ImageSection = ({ imageUrl }: { imageUrl: string }) => (
-    <Grid size={{ xs: 12, sm: 3 }} sx={ImageWrapperStyle}>
-        <CardMedia
-            component="img"
-            image={imageUrl}
-            alt="Auction item"
-            sx={ImageStyle}
-        />
+    <Grid size={{ xs: 12, md: 3 }} sx={ImageWrapperStyle}>
+        <Box height={'100%'}>
+            <CardMedia
+                component="img"
+                image={imageUrl}
+                alt="Auction item"
+                sx={ImageStyle}
+            />
+        </Box>
     </Grid>
 );
 
@@ -80,13 +82,12 @@ const ContentSection = ({
                             winner,
                             price,
                         }: Omit<AuctionCardProps, 'imageUrl'>) => (
-    <Grid size={{ xs: 12, sm: 9 }}>
+    <Grid size={{ xs: 12, md: 9 }}>
         <Stack spacing={1} height="100%" position="relative">
-            <EditIcons />
             <AuctionHeader title={title} date={date} city={city} />
             <AuctionDescription description={description} />
-            <AuctionStatus status={status} supplier={supplier} winner={winner} />
-            <AuctionFooter price={price} />
+            <Box flexGrow={1} />
+            <AuctionFooter status={status} supplier={supplier} winner={winner} price={price} />
         </Stack>
     </Grid>
 );
@@ -101,7 +102,10 @@ const EditIcons = () => (
 
 const AuctionHeader = ({ title, date, city }: { title: string; date: string; city: string }) => (
     <>
-        <Typography variant="h6" fontWeight="bold">{title}</Typography>
+        <Stack justifyContent={"space-between"} direction="row">
+            <Typography variant="h6" fontWeight="bold">{title}</Typography>
+            <EditIcons/>
+        </Stack>
         <Stack direction="row" spacing={1} alignItems="center">
             <CalendarTodayIcon fontSize="small" />
             <Typography variant="body2"><b>{date}</b></Typography>
@@ -124,17 +128,22 @@ const AuctionStatus = ({
                            supplier,
                            winner,
                        }: { status: string; supplier: string; winner: string }) => (
-    <Typography variant="body2">
-        Status licytacji: <b>{status}</b><br/>
-        Dostawca: <b>{supplier}</b><br/>
-        Zwycięzca: <b>{winner}</b>
-    </Typography>
+    <Box display="flex" flexDirection="column" justifyContent="flex-end" flexGrow={1} paddingBottom={1}>
+        <Typography variant="body2">
+            Status licytacji: <b>{status}</b><br />
+            Dostawca: <b>{supplier}</b><br/>
+            Zwycięzca: <b>{winner}</b>
+        </Typography>
+    </Box>
 );
 
-const AuctionFooter = ({ price }: { price: string }) => (
-    <Box sx={FooterStyle}>
-        <LaunchIcon />
-        <FavoriteBorderIcon />
+const AuctionFooter = ({ status, supplier, winner, price }: { status: string; supplier: string; winner: string; price: string }) => (
+    <Grid container spacing={2} sx={FooterStyle}>
+        <AuctionStatus status={status} supplier={supplier} winner={winner}/>
+        <Box display="flex" flexDirection="row" alignItems="flex-end" gap={1} paddingBottom={1}>
+            <LaunchIcon />
+            <FavoriteBorderIcon />
+        </Box>
         <Box display="flex" flexDirection="column" alignItems="flex-end">
             <Typography variant="body2" fontWeight="bold">
                 Aktualna cena:
@@ -143,5 +152,5 @@ const AuctionFooter = ({ price }: { price: string }) => (
                 {price} PLN
             </Typography>
         </Box>
-    </Box>
+    </Grid>
 );

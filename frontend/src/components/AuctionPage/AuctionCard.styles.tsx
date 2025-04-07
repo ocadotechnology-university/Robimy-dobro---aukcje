@@ -11,17 +11,12 @@ export const ImageWrapperStyle = {
 
 export const ImageStyle = {
     borderRadius: 2,
-    width: '100%',
-    aspectRatio: '1',
-    objectFit: 'cover',
+    height: '100%',
 };
 
 export const EditIconsStyle= {
-    position: 'absolute',
-    top: 0,
-    right: 0,
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     gap: 1,
 };
 
@@ -29,6 +24,6 @@ export const FooterStyle = {
     mt: 'auto',
     display: 'flex',
     justifyContent: 'flex-end',
-    alignItems: 'center',
-    gap: 2,
+    alignItems: 'end',
+    gap: 1,
 };
