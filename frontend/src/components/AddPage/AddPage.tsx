@@ -1,4 +1,24 @@
 import React, { useState, useEffect } from "react";
+import { useEditor } from "@tiptap/react";
+import { useRef } from "react";
+
+import StarterKit from "@tiptap/starter-kit";
+import Underline from '@tiptap/extension-underline'
+import Link from '@tiptap/extension-link'
+
+import {
+    MenuButtonBold,
+    MenuButtonItalic,
+    MenuButtonUnderline,
+    MenuControlsContainer,
+    RichTextEditor,
+    LinkBubbleMenu,
+    MenuButtonEditLink,
+    LinkBubbleMenuHandler,
+    RichTextEditorProvider,
+    type RichTextEditorRef,
+} from "mui-tiptap";
+
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
@@ -13,12 +33,12 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import ToggleButton from '@mui/material/ToggleButton';
 import EventIcon from '@mui/icons-material/Event';
 import Button from '@mui/material/Button';
+import InputAdornment from '@mui/material/InputAdornment';
 
 import {
     FormContainerStyle,
     ImageUploadStackStyle,
     ImageUploadBoxStyle,
-    PriceUnitStyle,
     CheckboxBaseStyle,
     FormControlLabelBaseStyle,
     CityLabelIconWrapperStyle,
@@ -26,7 +46,11 @@ import {
     DateToggleButtonStyle,
     FormButtonsWrapperStyle,
     BackButtonStyle,
-    SubmitButtonStyle
+    SubmitButtonStyle,
+    DescriptionWrapperStyle,
+    DescriptionLabelStyle,
+    EditorContentStyle,
+    EditorToolbarStyle
 } from './AddPage.styles';
 
 const AddPage: React.FC = () => {
@@ -36,6 +60,7 @@ const AddPage: React.FC = () => {
     const [selectedCity, setSelectedCity] = useState("");
     const [wantsToBeModerator, setWantsToBeModerator] = useState(false);
     const [selectedDate, setSelectedDate] = useState("");
+    const rteRef = useRef<RichTextEditorRef>(null);
 
     useEffect(() => {
         if (wantsToBeModerator && selectedDate === '') {
@@ -60,6 +85,7 @@ const AddPage: React.FC = () => {
                 <Stack spacing={4}>
                     <ImageUploadSection />
                     <TitleSection title={title} setTitle={setTitle} />
+                    <DescriptionSection rteRef={rteRef} />
                     <PriceSection price={price} setPrice={setPrice} />
                     <CitySection
                         pickupOnlyInCity={pickupOnlyInCity}
@@ -111,6 +137,47 @@ const TitleSection: React.FC<TitleSectionProps> = ({ title, setTitle }) => (
     </Box>
 );
 
+type DescriptionSectionProps = {
+    rteRef: React.RefObject<RichTextEditorRef | null>;
+};
+
+const DescriptionSection: React.FC<DescriptionSectionProps> = ({ rteRef }) => {
+    const extensions = [StarterKit, Underline, Link, LinkBubbleMenuHandler];
+
+    const editor = useEditor({
+        extensions,
+        content: "",
+    });
+
+    return editor ? (
+        <Box sx={DescriptionWrapperStyle}>
+            <Typography variant="caption" sx={DescriptionLabelStyle}>
+                Opis
+            </Typography>
+            <RichTextEditorProvider editor={editor}>
+                <Box sx={EditorContentStyle}>
+                    <RichTextEditor ref={rteRef} extensions={extensions}>
+                        {() => (
+                            <>
+                                <Box sx={EditorToolbarStyle}>
+                                    <MenuControlsContainer>
+                                        <MenuButtonBold />
+                                        <MenuButtonItalic />
+                                        <MenuButtonUnderline />
+                                        <MenuButtonEditLink />
+                                    </MenuControlsContainer>
+                                </Box>
+                                <LinkBubbleMenu />
+                            </>
+                        )}
+                    </RichTextEditor>
+                </Box>
+            </RichTextEditorProvider>
+        </Box>
+    ) : null;
+};
+
+
 type PriceSectionProps = {
     price: string;
     setPrice: (value: string) => void;
@@ -137,8 +204,10 @@ const PriceSection: React.FC<PriceSectionProps> = ({ price, setPrice }) => (
             }}
             InputLabelProps={{ shrink: true }}
             inputProps={{ min: 0 }}
+            InputProps={{
+                endAdornment: <InputAdornment position="end">zł</InputAdornment>,
+            }}
         />
-        <Typography variant="body2" sx={PriceUnitStyle}>zł</Typography>
     </Stack>
 );
 

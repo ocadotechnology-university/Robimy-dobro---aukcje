@@ -28,11 +28,6 @@ export const ImageUploadBoxStyle: SxProps<Theme> = {
     },
 };
 
-export const PriceUnitStyle: SxProps<Theme> = {
-    mt: '2px',
-    fontSize: '0.95rem',
-};
-
 export const CheckboxBaseStyle: SxProps<Theme> = {
     color: '#666',
     backgroundColor: 'white',
@@ -78,6 +73,7 @@ export const DateToggleButtonStyle = (selected: boolean): SxProps<Theme> => ({
 export const FormButtonsWrapperStyle: SxProps<Theme> = {
     width: '100%',
     mt: 4,
+    pb: 4,
 };
 
 export const BackButtonStyle: SxProps<Theme> = {
@@ -99,5 +95,41 @@ export const SubmitButtonStyle: SxProps<Theme> = {
     py: 0.5,
     '&:hover': {
         backgroundColor: 'rgba(236, 142, 6, 1)',
+    },
+};
+
+
+export const DescriptionWrapperStyle: SxProps<Theme> = {
+    position: 'relative',
+    width: '100%',
+    border: '1px solid',
+    borderColor: 'grey.400',
+    borderRadius: 1,
+    px: 1,
+    pt: 1,
+};
+
+export const DescriptionLabelStyle: SxProps<Theme> = {
+    position: 'absolute',
+    top: '-10px',
+    left: '12px',
+    backgroundColor: 'white',
+    px: 0.5,
+    fontSize: '0.75rem',
+    color: 'text.secondary',
+};
+
+export const EditorContentStyle = {
+    '& .ProseMirror': {
+        minHeight: '5em',
+        padding: '4px',
+        overflowY: 'auto',
+    },
+};
+
+export const EditorToolbarStyle: SxProps<Theme> = {
+    padding: '2px 0 0 0',
+    '& svg': {
+        fontSize: '18px',
     },
 };
