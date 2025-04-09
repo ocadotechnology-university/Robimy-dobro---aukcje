@@ -2,7 +2,6 @@ import {useState} from "react";
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import Typography from "@mui/material/Typography";
-import Button from '@mui/material/Button';
 import ShieldIcon from '@mui/icons-material/Shield';
 import Chip from '@mui/material/Chip';
 import Box from '@mui/material/Box';
@@ -15,40 +14,72 @@ import {
     ClearAllTypographyStyle,
 } from './Filters.styles';
 
+const statusOptions = ["Bez daty", "Niekompletne", "Zatwierdzone"];
+const selectedOptions = ["Moje aukcje", "Ulubione"];
+const dateOptions = ["21 listopada", "22 listopada", "23 listopada"];
+
 const Filters = () => {
-    const [selected, setSelected] = useState(false);
+    const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
+    const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
+    const [selectedDates, setSelectedDates] = useState<string[]>([]);
+
+    const isAnySelected =
+        selectedStatuses.length > 0 ||
+        selectedTypes.length > 0 ||
+        selectedDates.length > 0;
+
+    const handleClearAll = () => {
+        setSelectedStatuses([]);
+        setSelectedTypes([]);
+        setSelectedDates([]);
+    };
+
     return (
         <Paper elevation={0} variant={"outlined"} sx={FiltersPaperStyle}>
                 <Stack spacing={2}>
-                    <FiltersHeader />
+                    <FiltersHeader showClear={isAnySelected} onClearAll={handleClearAll} />
+
                     <FilterSection
                         title="Status aukcji"
                         icon={<ShieldIcon fontSize="small" sx={{ color: '#fbc02d' }} />}
-                        options={['Bez daty', 'Niekompletne', 'Zatwierdzone']}
+                        options={statusOptions}
+                        selectedOptions={selectedStatuses}
+                        setSelectedOptions={setSelectedStatuses}
                     />
 
                     <FilterSection
                         title="Wybrane aukcje"
-                        options={['Moje aukcje', 'Ulubione']}
+                        options={selectedOptions}
+                        selectedOptions={selectedTypes}
+                        setSelectedOptions={setSelectedTypes}
                     />
 
                     <FilterSection
                         title="Dzień"
-                        options={['21 listopada', '22 listopada', '23 listopada']}
+                        options={dateOptions}
+                        selectedOptions={selectedDates}
+                        setSelectedOptions={setSelectedDates}
                     />
                 </Stack>
             </Paper>
     );
-}
+};
 
-const FiltersHeader = () => (
+type FiltersHeaderProps = {
+    showClear: boolean;
+    onClearAll: () => void;
+};
+
+const FiltersHeader = ({ showClear, onClearAll }: FiltersHeaderProps) => (
     <Stack direction="row" justifyContent="space-between">
         <Typography variant="h5" fontWeight={700}>
             Filtry
         </Typography>
-        <Typography variant="body1" sx={ClearAllTypographyStyle}>
-            Odznacz wszystkie
-        </Typography>
+        {showClear && (
+            <Typography variant="body1" sx={ClearAllTypographyStyle} onClick={onClearAll}>
+                Odznacz wszystkie
+            </Typography>
+        )}
     </Stack>
 );
 
@@ -56,11 +87,17 @@ type FilterSectionProps = {
     title: string;
     icon?: React.ReactNode;
     options: string[];
+    selectedOptions: string[];
+    setSelectedOptions: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
-const FilterSection = ({ title, icon, options }: FilterSectionProps) => {
-    const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
-
+const FilterSection: React.FC<FilterSectionProps> = ({
+         title,
+         icon,
+         options,
+         selectedOptions,
+         setSelectedOptions,
+     }) => {
     const toggleOption = (label: string) => {
         setSelectedOptions((prev) =>
             prev.includes(label)
