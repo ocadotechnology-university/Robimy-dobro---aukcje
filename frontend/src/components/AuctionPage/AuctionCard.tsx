@@ -4,6 +4,7 @@ import {
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import {
@@ -26,6 +27,7 @@ type AuctionCardProps = {
     winner: string;
     price: string;
     imageUrl: string;
+    isFollowed: boolean
 };
 
 const AuctionCard = ({
@@ -38,6 +40,7 @@ const AuctionCard = ({
                          winner,
                          price,
                          imageUrl,
+                         isFollowed,
                      }: AuctionCardProps) => {
     return (
         <Card variant="outlined" sx={CardStyle}>
@@ -52,6 +55,7 @@ const AuctionCard = ({
                     supplier={supplier}
                     winner={winner}
                     price={price}
+                    isFollowed={isFollowed}
                 />
             </Grid>
         </Card>
@@ -82,13 +86,14 @@ const ContentSection = ({
                             supplier,
                             winner,
                             price,
+                            isFollowed,
                         }: Omit<AuctionCardProps, 'imageUrl'>) => (
     <Grid size={{ xs: 12, md: 9 }}>
         <Stack spacing={1} height="100%" position="relative">
             <AuctionHeader title={title} date={date} city={city} />
             <AuctionDescription description={description} />
             <Box flexGrow={1} />
-            <AuctionFooter status={status} supplier={supplier} winner={winner} price={price} />
+            <AuctionFooter status={status} supplier={supplier} winner={winner} price={price} isFollowed={isFollowed} />
         </Stack>
     </Grid>
 );
@@ -138,12 +143,14 @@ const AuctionStatus = ({
     </Box>
 );
 
-const AuctionFooter = ({ status, supplier, winner, price }: { status: string; supplier: string; winner: string; price: string }) => (
+const AuctionFooter = ({ status, supplier, winner, price, isFollowed }: { status: string; supplier: string; winner: string; price: string; isFollowed: boolean }) => (
     <Grid container spacing={2} sx={FooterStyle}>
         <AuctionStatus status={status} supplier={supplier} winner={winner}/>
         <Box display="flex" flexDirection="row" alignItems="flex-end" gap={1} paddingBottom={1}>
             <SlackIcon style={{ fontSize: '32px', cursor: 'pointer' }}/>
-            <FavoriteBorderIcon fontSize="large" style={{ cursor: 'pointer' }}/>
+            {isFollowed
+                ? <FavoriteIcon fontSize="large" color="primary" sx={{ cursor: 'pointer' }} />
+                : <FavoriteBorderIcon fontSize="large" color="primary" style={{ cursor: 'pointer' }} />}
         </Box>
         <Box display="flex" flexDirection="column" alignItems="flex-end">
             <Typography variant="body2" fontWeight="bold">
