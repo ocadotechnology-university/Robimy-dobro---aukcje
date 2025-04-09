@@ -28,6 +28,7 @@ type AuctionCardProps = {
     price: string;
     imageUrl: string;
     isFollowed: boolean
+    slackUrl: string;
 };
 
 const AuctionCard = ({
@@ -41,6 +42,7 @@ const AuctionCard = ({
                          price,
                          imageUrl,
                          isFollowed,
+                         slackUrl
                      }: AuctionCardProps) => {
     return (
         <Card variant="outlined" sx={CardStyle}>
@@ -56,6 +58,7 @@ const AuctionCard = ({
                     winner={winner}
                     price={price}
                     isFollowed={isFollowed}
+                    slackUrl={slackUrl}
                 />
             </Grid>
         </Card>
@@ -87,13 +90,14 @@ const ContentSection = ({
                             winner,
                             price,
                             isFollowed,
+                            slackUrl
                         }: Omit<AuctionCardProps, 'imageUrl'>) => (
     <Grid size={{ xs: 12, md: 9 }}>
         <Stack spacing={1} height="100%" position="relative">
             <AuctionHeader title={title} date={date} city={city} />
             <AuctionDescription description={description} />
             <Box flexGrow={1} />
-            <AuctionFooter status={status} supplier={supplier} winner={winner} price={price} isFollowed={isFollowed} />
+            <AuctionFooter status={status} supplier={supplier} winner={winner} price={price} isFollowed={isFollowed} slackUrl={slackUrl}/>
         </Stack>
     </Grid>
 );
@@ -143,14 +147,31 @@ const AuctionStatus = ({
     </Box>
 );
 
-const AuctionFooter = ({ status, supplier, winner, price, isFollowed }: { status: string; supplier: string; winner: string; price: string; isFollowed: boolean }) => (
+const AuctionFooter = ({
+                           status,
+                           supplier,
+                           winner,
+                           price,
+                           isFollowed,
+                           slackUrl
+                       }: {
+    status: string;
+    supplier: string;
+    winner: string;
+    price: string;
+    isFollowed: boolean;
+    slackUrl: string;
+}) => (
     <Grid container spacing={2} sx={FooterStyle}>
-        <AuctionStatus status={status} supplier={supplier} winner={winner}/>
+        <AuctionStatus status={status} supplier={supplier} winner={winner} />
         <Box display="flex" flexDirection="row" alignItems="flex-end" gap={1} paddingBottom={1}>
-            <SlackIcon style={{ fontSize: '32px', cursor: 'pointer' }}/>
+            <SlackIcon
+                onClick={() => window.open(slackUrl, '_blank', 'noopener,noreferrer')}
+                style={{ fontSize: '32px', cursor: 'pointer' }}
+            />
             {isFollowed
                 ? <FavoriteIcon fontSize="large" color="primary" sx={{ cursor: 'pointer' }} />
-                : <FavoriteBorderIcon fontSize="large" color="primary" style={{ cursor: 'pointer' }} />}
+                : <FavoriteBorderIcon fontSize="large" color="primary" sx={{ cursor: 'pointer' }} />}
         </Box>
         <Box display="flex" flexDirection="column" alignItems="flex-end">
             <Typography variant="body2" fontWeight="bold">
