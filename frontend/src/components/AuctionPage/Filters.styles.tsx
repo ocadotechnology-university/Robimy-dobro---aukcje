@@ -34,3 +34,11 @@ export const StatusChipsContainerStyle: SxProps<Theme> = {
     flexWrap: 'wrap',
     gap: 1,
 };
+
+export const MenuPaperStyle: SxProps<Theme> = {
+    border: '1px solid #ccc',
+    borderTop: 0,
+    borderRadius: '0 0 8px 8px',
+    boxShadow: 0,
+    mt: '-1px',
+};

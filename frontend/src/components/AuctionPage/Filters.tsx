@@ -5,6 +5,8 @@ import Typography from "@mui/material/Typography";
 import ShieldIcon from '@mui/icons-material/Shield';
 import Chip from '@mui/material/Chip';
 import Box from '@mui/material/Box';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
 import {
     FiltersPaperStyle,
@@ -12,16 +14,19 @@ import {
     FilterChipStyle,
     StatusChipsContainerStyle,
     ClearAllTypographyStyle,
+    MenuPaperStyle,
 } from './Filters.styles';
 
 const statusOptions = ["Bez daty", "Niekompletne", "Zatwierdzone"];
 const selectedOptions = ["Moje aukcje", "Ulubione"];
 const dateOptions = ["21 listopada", "22 listopada", "23 listopada"];
+const sortOptions = ["Domyślne", "Cena: od najniższej", "Cena: od najwyższej"];
 
 const Filters = () => {
     const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
     const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
     const [selectedDates, setSelectedDates] = useState<string[]>([]);
+    const [sort, setSort] = useState<string>("Domyślne");
 
     const isAnySelected =
         selectedStatuses.length > 0 ||
@@ -60,6 +65,8 @@ const Filters = () => {
                         selectedOptions={selectedDates}
                         setSelectedOptions={setSelectedDates}
                     />
+
+                    <SortSection sort={sort} setSort={setSort} />
                 </Stack>
             </Paper>
     );
@@ -139,6 +146,42 @@ const FilterSection: React.FC<FilterSectionProps> = ({
                     />
                 ))}
             </Box>
+        </Stack>
+    );
+};
+
+type SortSectionProps = {
+    sort: string;
+    setSort: (value: string) => void;
+};
+
+const SortSection: React.FC<SortSectionProps> = ({ sort, setSort }) => {
+    const [open, setOpen] = useState(false);
+    return (
+        <Stack spacing={0.5}>
+            <Typography variant="subtitle1" fontWeight={600}>
+                Sortowanie
+            </Typography>
+
+            <Select
+                open={open}
+                onOpen={() => setOpen(true)}
+                onClose={() => setOpen(false)}
+                value={sort}
+                onChange={(e) => setSort(e.target.value)}
+                size="small"
+                sx={{ borderRadius: open ? '8px 8px 0 0' : '8px',fontSize: '0.8rem' }}
+                MenuProps={{
+                    PaperProps: { sx: MenuPaperStyle },
+                    MenuListProps: { sx: {py: 0} },
+                }}
+            >
+                {sortOptions.map((option) => (
+                    <MenuItem key={option} value={option} sx={{fontSize: '0.8rem',}}>
+                        {option}
+                    </MenuItem>
+                ))}
+            </Select>
         </Stack>
     );
 };
