@@ -6,7 +6,6 @@ import EditIcon from '@mui/icons-material/Edit';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import LaunchIcon from '@mui/icons-material/Launch';
 import {
     CardStyle,
     ImageWrapperStyle,
@@ -14,6 +13,8 @@ import {
     EditIconsStyle,
     FooterStyle,
 } from './AuctionCard.styles';
+import {SiSlack} from "react-icons/si";
+const SlackIcon = SiSlack as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
 
 type AuctionCardProps = {
     title: string;
@@ -141,8 +142,8 @@ const AuctionFooter = ({ status, supplier, winner, price }: { status: string; su
     <Grid container spacing={2} sx={FooterStyle}>
         <AuctionStatus status={status} supplier={supplier} winner={winner}/>
         <Box display="flex" flexDirection="row" alignItems="flex-end" gap={1} paddingBottom={1}>
-            <LaunchIcon />
-            <FavoriteBorderIcon />
+            <SlackIcon style={{ fontSize: '32px', cursor: 'pointer' }}/>
+            <FavoriteBorderIcon fontSize="large" style={{ cursor: 'pointer' }}/>
         </Box>
         <Box display="flex" flexDirection="column" alignItems="flex-end">
             <Typography variant="body2" fontWeight="bold">
