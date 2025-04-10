@@ -5,17 +5,19 @@ import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Filters from './Filters';
 import AuctionsList from "./AuctionsList";
+import {useGetAuctions} from '../../hooks/useGetAuctions';
 
 const AuctionPage = () => {
+    const { auctions, error } = useGetAuctions();
+
     return (
         <React.Fragment>
             <CssBaseline />
-            <Container maxWidth="md" sx={{ backgroundColor:'white' }}>
-                <Stack direction="row" justifyContent="space-between">
+            <Container sx={{ backgroundColor:'white' }}>
+                <Stack direction="row" justifyContent="space-between" gap={3} mt={3}>
                     <Filters />
-                    <AuctionsList />
+                    <AuctionsList auctions={auctions} />
                 </Stack>
-
             </Container>
         </React.Fragment>
     );

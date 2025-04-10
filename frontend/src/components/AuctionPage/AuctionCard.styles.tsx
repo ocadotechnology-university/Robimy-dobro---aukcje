@@ -26,4 +26,5 @@ export const FooterStyle = {
     justifyContent: 'flex-end',
     alignItems: 'end',
     gap: 1,
+    width: '100%',
 };
