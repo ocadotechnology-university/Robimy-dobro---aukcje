@@ -4,7 +4,6 @@ import Paper from '@mui/material/Paper';
 import Typography from "@mui/material/Typography";
 import ShieldIcon from '@mui/icons-material/Shield';
 import Chip from '@mui/material/Chip';
-import Box from '@mui/material/Box';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 
@@ -12,9 +11,9 @@ import {
     FiltersPaperStyle,
     SectionActionTypographyStyle,
     FilterChipStyle,
-    StatusChipsContainerStyle,
     ClearAllTypographyStyle,
     MenuPaperStyle,
+    MenuItemStyle,
 } from './Filters.styles';
 
 const statusOptions = ["Bez daty", "Niekompletne", "Zatwierdzone"];
@@ -41,7 +40,7 @@ const Filters = () => {
 
     return (
         <Paper elevation={0} variant={"outlined"} sx={FiltersPaperStyle}>
-                <Stack spacing={2}>
+                <Stack spacing={1}>
                     <FiltersHeader showClear={isAnySelected} onClearAll={handleClearAll} />
 
                     <FilterSection
@@ -78,15 +77,20 @@ type FiltersHeaderProps = {
 };
 
 const FiltersHeader = ({ showClear, onClearAll }: FiltersHeaderProps) => (
-    <Stack direction="row" justifyContent="space-between">
+    <Stack direction="column" spacing={0.5}>
         <Typography variant="h5" fontWeight={700}>
             Filtry
         </Typography>
-        {showClear && (
-            <Typography variant="body1" sx={ClearAllTypographyStyle} onClick={onClearAll}>
-                Odznacz wszystkie
-            </Typography>
-        )}
+        <Typography
+            variant="body1"
+            sx={{
+                ...ClearAllTypographyStyle,
+                visibility: showClear ? 'visible' : 'hidden',
+            }}
+            onClick={onClearAll}
+        >
+            Odznacz wszystkie
+        </Typography>
     </Stack>
 );
 
@@ -133,7 +137,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
                 {hasAnySelected ? 'Odznacz wszystkie' : 'Zaznacz wszystkie'}
             </Typography>
 
-            <Box sx={StatusChipsContainerStyle}>
+            <Stack direction="column" alignItems="flex-start" spacing={1}>
                 {options.map((label) => (
                     <Chip
                         key={label}
@@ -145,7 +149,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
                         sx={FilterChipStyle}
                     />
                 ))}
-            </Box>
+            </Stack>
         </Stack>
     );
 };
@@ -177,7 +181,7 @@ const SortSection: React.FC<SortSectionProps> = ({ sort, setSort }) => {
                 }}
             >
                 {sortOptions.map((option) => (
-                    <MenuItem key={option} value={option} sx={{fontSize: '0.8rem',}}>
+                    <MenuItem key={option} value={option} sx={ MenuItemStyle }>
                         {option}
                     </MenuItem>
                 ))}

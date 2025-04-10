@@ -2,7 +2,7 @@ import { SxProps, Theme } from '@mui/material/styles';
 
 export const FiltersPaperStyle: SxProps<Theme> = {
     p: 2,
-    minWidth: { xs: '50%', sm: 250 },
+    minWidth: '18%',
     borderRadius: 4,
     alignSelf: 'flex-start',
 };
@@ -29,16 +29,15 @@ export const FilterChipStyle: SxProps<Theme> = {
     textTransform: 'none',
 };
 
-export const StatusChipsContainerStyle: SxProps<Theme> = {
-    display: 'flex',
-    flexWrap: 'wrap',
-    gap: 1,
-};
-
 export const MenuPaperStyle: SxProps<Theme> = {
     border: '1px solid #ccc',
     borderTop: 0,
     borderRadius: '0 0 8px 8px',
     boxShadow: 0,
     mt: '-1px',
+};
+
+export const MenuItemStyle: SxProps<Theme> = {
+    fontSize: '0.8rem',
+    py: 0.5,
 };
