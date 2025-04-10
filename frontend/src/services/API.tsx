@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {Auction} from '../AuctionPage/Auction'
+import {Auction} from '../components/AuctionPage/Auction'
 
 const API = axios.create({
     baseURL: '/api',

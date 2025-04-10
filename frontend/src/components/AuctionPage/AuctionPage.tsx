@@ -5,7 +5,7 @@ import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Filters from './Filters';
 import AuctionsList from "./AuctionsList";
-import {useGetAuctions} from '../RestOperations/useGetAuctions';
+import {useGetAuctions} from '../../hooks/useGetAuctions';
 
 const AuctionPage = () => {
     const { auctions, error } = useGetAuctions();

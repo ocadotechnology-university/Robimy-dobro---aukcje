@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { auctionsAPI } from '../API/API';
-import {Auction} from '../AuctionPage/Auction'
+import { auctionsAPI } from '../services/API';
+import {Auction} from '../components/AuctionPage/Auction'
 
 
 export const useGetAuctions = () => {
