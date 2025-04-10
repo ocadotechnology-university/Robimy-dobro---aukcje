@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useEditor } from "@tiptap/react";
 import { useRef } from "react";
+import { useNavigate } from 'react-router-dom';
 
 import StarterKit from "@tiptap/starter-kit";
 import Underline from '@tiptap/extension-underline'
@@ -318,15 +319,23 @@ const ModeratorSection: React.FC<ModeratorSectionProps> = ({
     );
 };
 
-const FormButtonsSection: React.FC = () => (
-    <Stack direction="row" justifyContent="space-between" sx={FormButtonsWrapperStyle}>
-        <Button variant="outlined" color="inherit" sx={BackButtonStyle}>
-            Wróć
-        </Button>
+const FormButtonsSection: React.FC = () => {
+    const navigate = useNavigate();
 
-        <Button variant="contained" sx={SubmitButtonStyle}>
-            Dodaj
-        </Button>
-    </Stack>
-);
+    const handleSubmit = () => {
+        navigate('/auctions');
+    };
+
+    return (
+        <Stack direction="row" justifyContent="space-between" sx={FormButtonsWrapperStyle}>
+            <Button variant="outlined" color="inherit" sx={BackButtonStyle} onClick={() => navigate(-1)}>
+                Wróć
+            </Button>
+
+            <Button variant="contained" sx={SubmitButtonStyle} onClick={handleSubmit}>
+                Dodaj
+            </Button>
+        </Stack>
+    );
+};
 export default AddPage;
