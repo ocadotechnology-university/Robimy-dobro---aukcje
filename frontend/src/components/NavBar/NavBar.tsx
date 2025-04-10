@@ -3,7 +3,7 @@ import {AppBar, Avatar, Box, Button, Container, Divider, IconButton, Stack, Tool
 import HomeIcon from "@mui/icons-material/Home";
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { Link } from 'react-router-dom';
-import { ButtonStyle, ButtonColor, AvatarStyle } from "./NavBar.styles";
+import { ButtonStyle, AvatarStyle } from "./NavBar.styles";
 import {CenteredBox, HomeIconComponent, IconButtonComponent} from "./NavBar.styles";
 
 const Account = () => (
@@ -44,7 +44,7 @@ const LogoMedium = () => (
                     <Box>Robimy</Box>
                     <Box>Dobro</Box>
                 </Stack>
-                <Divider sx={{ borderColor: ButtonColor }} orientation="vertical" variant="middle" flexItem />
+                <Divider sx={{ borderColor: "primary" }} orientation="vertical" variant="middle" flexItem />
                 <Box>2025</Box>
             </Stack>
         </Typography>

@@ -4,7 +4,6 @@ import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import { LinkProps } from 'react-router-dom';
 import HomeIcon from "@mui/icons-material/Home";
 
-export const ButtonColor = "rgba(236, 142, 6, 1.0)";
 type IconButtonLinkProps = IconButtonProps & LinkProps;
 
 export const CenteredBox = styled(Box)({
@@ -13,22 +12,22 @@ export const CenteredBox = styled(Box)({
     alignItems: 'center',
 });
 
-export const HomeIconComponent = styled(HomeIcon)({
+export const HomeIconComponent = styled(HomeIcon)(({ theme }) => ({
     width: 36.5,
     height: 36.5,
-    color: ButtonColor,
+    color: theme.palette.primary.main,
     cursor: "pointer"
-});
+}));
 
-export const IconButtonComponent = styled(IconButton)<IconButtonLinkProps>({
+export const IconButtonComponent = styled(IconButton)<IconButtonLinkProps>(({ theme }) => ({
     width: 36.5,
     height: 36.5,
     borderRadius: "45px",
-    backgroundColor: ButtonColor,
+    backgroundColor: theme.palette.primary.main,
     fontWeight: 600,
     textTransform: "none",
     padding: "none"
-});
+}));
 
 export const AvatarStyle = {
     width: 36.5,
@@ -37,7 +36,7 @@ export const AvatarStyle = {
 
 export const ButtonStyle = {
     borderRadius: "45px",
-    backgroundColor: ButtonColor,
+    backgroundColor: "primary",
     fontWeight: 600,
     textTransform: "none"
 }
