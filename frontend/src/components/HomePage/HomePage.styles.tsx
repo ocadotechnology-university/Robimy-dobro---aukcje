@@ -1,3 +1,9 @@
+import { styled } from "@mui/material";
+import Button, { ButtonProps } from '@mui/material/Button';
+import { LinkProps } from 'react-router-dom';
+
+type ButtonLinkProps = ButtonProps & LinkProps;
+
 export const HomeImageStyle = {
     width: {
         xs: '30%',
@@ -13,24 +19,33 @@ export const HomeImageStyle = {
     }
 };
 
-export const HomeButtonStyle = {
+export const HomeButton = styled(Button)<ButtonLinkProps>(({ theme }) => ({
     borderRadius: "45px",
     borderColor: "black",
     color: "black",
     borderWidth: "1px",
     padding: "4px 15px",
-    fontSize: {
-        xs: '9px',
-        sm: '11px',
-        md: '13px',
-        lg: '17px',
-    },
-    fontWeight: "550",
+    fontWeight: 550,
     borderStyle: "solid",
-    '&:hover': {backgroundColor: "rgba(236, 142, 6, 1)", color: "white"},
-    textTransform: "none"
-};
-
+    textTransform: "none",
+    '&:hover': {
+        backgroundColor: theme.palette.primary.main,
+        color: "white",
+    },
+    fontSize: '9px',
+    [theme.breakpoints.up('xs')]: {
+        fontSize: '9px',
+    },
+    [theme.breakpoints.up('sm')]: {
+        fontSize: '11px',
+    },
+    [theme.breakpoints.up('md')]: {
+        fontSize: '13px',
+    },
+    [theme.breakpoints.up('lg')]: {
+        fontSize: '17px',
+    },
+}));
 
 export const HomeTextStyle = {
     marginBottom: "2vmin",

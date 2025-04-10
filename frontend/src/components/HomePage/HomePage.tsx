@@ -6,13 +6,14 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import {
-    HomeButtonStyle,
     HomeTextStyle,
     HomeTextStyleSmallerMargin,
     HomeHeadersStyle,
     HomeImageStyle
 } from './HomePage.styles';
 import homeImage from "../../image/homeImage.svg"
+import { Link } from "react-router-dom";
+import { HomeButton } from "./HomePage.styles";
 
 const Image = () => {
     return (
@@ -26,9 +27,9 @@ const InvitationTextAndButton = () => {
             <Typography sx={ HomeTextStyleSmallerMargin }>
                 Sprawdź, co możesz wylicytować na aukcjach:
             </Typography>
-            <Button variant="outlined" sx={ HomeButtonStyle }>
+            <HomeButton component={Link} to="/auctions" variant="outlined">
                 Zobacz aukcje
-            </Button>
+            </HomeButton>
         </Stack>
     );
 }
