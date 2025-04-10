@@ -41,7 +41,7 @@ const AuctionsList = ({auctions}: AuctionsList) => {
     auctions = testAuctions;
 
     return (
-        <Stack width="100%" gap={3}>
+        <Stack width="100%" gap={1}>
             {auctions.map((auction) => (
                 <AuctionCard
                     key={auction.title}
