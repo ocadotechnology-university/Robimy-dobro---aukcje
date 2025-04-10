@@ -3,17 +3,11 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import {
-    HomeTextStyle,
-    HomeTextStyleSmallerMargin,
-    HomeHeadersStyle,
-    HomeImageStyle
-} from './HomePage.styles';
+import { HomeImageStyle } from './HomePage.styles';
 import homeImage from "../../image/homeImage.svg"
 import { Link } from "react-router-dom";
-import { HomeButton } from "./HomePage.styles";
+import { HomeButton, HomeText, HomeTextSmallerMargin, HomeHeader } from "./HomePage.styles";
 
 const Image = () => {
     return (
@@ -24,9 +18,9 @@ const Image = () => {
 const InvitationTextAndButton = () => {
     return(
         <Stack direction="column" alignItems="center" mt="5vmin">
-            <Typography sx={ HomeTextStyleSmallerMargin }>
+            <HomeTextSmallerMargin>
                 Sprawdź, co możesz wylicytować na aukcjach:
-            </Typography>
+            </HomeTextSmallerMargin>
             <HomeButton component={Link} to="/auctions" variant="outlined">
                 Zobacz aukcje
             </HomeButton>
@@ -36,31 +30,31 @@ const InvitationTextAndButton = () => {
 
 const DescribingText = () => {
     return(
-        <><Typography variant="h5" gutterBottom sx={HomeHeadersStyle}>
+        <><HomeHeader variant="h5" gutterBottom>
             Licytuj i pomagaj!
-        </Typography><Typography sx={HomeTextStyleSmallerMargin}>
+        </HomeHeader><HomeTextSmallerMargin>
             Dołącz do naszej wyjątkowej inicjatywy, w której każda aukcja to szansa na wsparcie
             potrzebujących. Licytuj unikalne przedmioty i przeżycia, a cały dochód trafia na szczytny
             cel. <b>Razem możemy więcej!</b>
-        </Typography><Typography sx={HomeTextStyle}>
+        </HomeTextSmallerMargin><HomeText>
             Od 2019 roku rozświetliliśmy serca rodzin ze Szlachetnej Paczki oraz wielu potrzebujących
             dzieci. W zeszłym roku zebraliśmy imponujące <b>40.000 PLN</b>, co dowodzi, że razem
             jesteśmy w stanie zdziałać wielkie rzeczy!
-        </Typography></>
+        </HomeText></>
     );
 }
 
 const InformationText = () => {
     return(
-        <><Typography variant="h5" sx={HomeHeadersStyle}>
+        <><HomeHeader variant="h5">
             Informacje ogólne
-        </Typography><Typography sx={HomeTextStyle}>
+        </HomeHeader><HomeText>
             Licytacje aukcji odbędą się na <b>Slacku</b> <b><span
             style={{color: 'red'}}>#licytacje-robimy-dobro-2025</span></b> w dniach <b>21-23
             listopada</b> w godzinach <b>10:00-15:00</b>.
-        </Typography><Typography variant="h5" sx={HomeHeadersStyle}>
+        </HomeText><HomeHeader variant="h5">
             Do zobaczenia!
-        </Typography></>
+        </HomeHeader></>
     );
 }
 
