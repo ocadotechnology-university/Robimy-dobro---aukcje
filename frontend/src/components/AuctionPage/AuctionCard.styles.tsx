@@ -1,3 +1,5 @@
+import {Grid, styled} from "@mui/material";
+
 export const CardStyle = {
     borderRadius: 4,
     p: 2,
@@ -20,11 +22,11 @@ export const EditIconsStyle= {
     gap: 1,
 };
 
-export const FooterStyle = {
+export const AuctionCardFooter = styled(Grid)({
     mt: 'auto',
     display: 'flex',
     justifyContent: 'flex-end',
     alignItems: 'end',
     gap: 1,
     width: '100%',
-};
+});
