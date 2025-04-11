@@ -23,7 +23,7 @@ export const IconBox = styled(Box)({
     gap: 1,
 });
 
-export const AuctionCardFooter = styled(Grid)({
+export const AuctionCardFooterGrid = styled(Grid)({
     mt: 'auto',
     display: 'flex',
     justifyContent: 'flex-end',

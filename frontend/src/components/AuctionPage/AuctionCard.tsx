@@ -12,7 +12,7 @@ import {
     CardStyle,
     ImageWrapperStyle,
     ImageStyle,
-    AuctionCardFooter, IconBox,
+    AuctionCardFooterGrid, IconBox,
 } from './AuctionCard.styles';
 import {SiSlack} from "react-icons/si";
 const SlackIcon = SiSlack as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
@@ -159,7 +159,7 @@ const AuctionFooter = ({
     isFollowed: boolean;
     slackUrl: string;
 }) => (
-    <AuctionCardFooter container spacing={2}>
+    <AuctionCardFooterGrid container spacing={2}>
         <AuctionStatus status={status} supplier={supplier} winner={winner} />
         <Box display="flex" flexDirection="row" alignItems="flex-end" gap={1} paddingBottom={1}>
             <SlackIcon
@@ -180,5 +180,5 @@ const AuctionFooter = ({
                 </IconButton>
             </IconBox>
         </Box>
-    </AuctionCardFooter>
+    </AuctionCardFooterGrid>
 );
