@@ -1,8 +1,10 @@
 package com.example.backend.controller;
 
+import com.example.backend.constants.CustomExeption;
 import com.example.backend.service.GoogleAuthService;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +25,12 @@ public class AuthController {
 
         String googleToken = body.get("credentials");
 
-        return ResponseEntity.ok(googleToken);
+        try{
+            GoogleIdToken.Payload verifiedToken = googleAuthService.verifyGoogleToken(googleToken);
+            return ResponseEntity.ok(googleToken);
+        } catch (CustomExeption e){
+            return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }
+
     }
 }
