@@ -1,15 +1,14 @@
 package com.example.backend.controller;
 
 import com.example.backend.constants.CustomExeption;
+import com.example.backend.security.JwtTokenProvider;
 import com.example.backend.service.GoogleAuthService;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import io.jsonwebtoken.Jwt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -30,9 +29,9 @@ public class AuthController {
 
         try{
             GoogleIdToken.Payload verifiedToken = googleAuthService.verifyGoogleToken(googleToken);
-
             if(verifiedToken.getEmail().split("@")[1].contains(COMPANY_NAME)){
-                return ResponseEntity.ok(verifiedToken);
+                String accessToken = JwtTokenProvider.generateAccessToken(verifiedToken);
+                return ResponseEntity.ok(accessToken);
             }else{
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(WRONG_EMAIL);
             }
@@ -40,6 +39,23 @@ public class AuthController {
         } catch (CustomExeption e){
             return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
+    }
 
+    @PostMapping("/test")
+    public ResponseEntity<?> protectedRoute(@RequestHeader("Authorization") String authorizationHeader) {
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authorization token is missing or invalid");
+        }
+
+        String token = authorizationHeader.substring(7);
+
+        try {
+            if(!JwtTokenProvider.verifyToken(token)){
+                return ResponseEntity.ok().body("Verification Successful");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }
+        return null;
     }
 }
