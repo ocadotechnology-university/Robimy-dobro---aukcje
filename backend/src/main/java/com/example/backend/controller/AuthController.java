@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
+import static com.example.backend.constants.ErrorMessages.WRONG_EMAIL;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+    static final String COMPANY_NAME = "pwr.edu";
 
     @Autowired
     GoogleAuthService googleAuthService;
@@ -27,7 +30,13 @@ public class AuthController {
 
         try{
             GoogleIdToken.Payload verifiedToken = googleAuthService.verifyGoogleToken(googleToken);
-            return ResponseEntity.ok(googleToken);
+
+            if(verifiedToken.getEmail().split("@")[1].contains(COMPANY_NAME)){
+                return ResponseEntity.ok(verifiedToken);
+            }else{
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(WRONG_EMAIL);
+            }
+
         } catch (CustomExeption e){
             return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
