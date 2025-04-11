@@ -1,4 +1,5 @@
 import {Grid, styled} from "@mui/material";
+import Box from "@mui/material/Box";
 
 export const CardStyle = {
     borderRadius: 4,
@@ -16,11 +17,11 @@ export const ImageStyle = {
     height: '100%',
 };
 
-export const EditIconsStyle= {
+export const IconBox = styled(Box)({
     display: 'flex',
     alignItems: 'flex-start',
     gap: 1,
-};
+});
 
 export const AuctionCardFooter = styled(Grid)({
     mt: 'auto',

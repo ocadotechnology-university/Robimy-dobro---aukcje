@@ -3,6 +3,7 @@ import {
     Card, Grid, Stack, Box, Typography, IconButton, CardMedia
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
@@ -11,8 +12,7 @@ import {
     CardStyle,
     ImageWrapperStyle,
     ImageStyle,
-    EditIconsStyle,
-    AuctionCardFooter,
+    AuctionCardFooter, IconBox,
 } from './AuctionCard.styles';
 import {SiSlack} from "react-icons/si";
 const SlackIcon = SiSlack as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
@@ -102,14 +102,6 @@ const ContentSection = ({
     </Grid>
 );
 
-const EditIcons = () => (
-    <Box sx={EditIconsStyle}>
-        <IconButton size="small">
-            <EditIcon/>
-        </IconButton>
-    </Box>
-);
-
 const AuctionHeader = ({ title, date, city, price }: { title: string; date: string; city: string, price: string }) => (
         <Stack justifyContent={"space-between"} direction="row" alignItems="flex-start" sx={{ width: "100%" }}>
             <Box>
@@ -177,7 +169,16 @@ const AuctionFooter = ({
             {isFollowed
                 ? <FavoriteIcon fontSize="large" color="primary" sx={{ cursor: 'pointer' }} />
                 : <FavoriteBorderIcon fontSize="large" color="primary" sx={{ cursor: 'pointer' }} />}
-            <EditIcons/>
+            <IconBox>
+                <IconButton size="small">
+                    <EditIcon/>
+                </IconButton>
+            </IconBox>
+            <IconBox>
+                <IconButton size="small">
+                    <DeleteIcon/>
+                </IconButton>
+            </IconBox>
         </Box>
     </AuctionCardFooter>
 );
