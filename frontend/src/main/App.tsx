@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
+import {Routes, Route, Navigate, useLocation} from 'react-router-dom';
 import Header from "../components/NavBar/NavBar";
 import img1 from "../image/image3.jpg";
 import img2 from "../image/image4.jpg";
@@ -20,11 +20,11 @@ const LeftPanel = ({isLarge}: { isLarge: boolean }) => {
     );
 }
 
-const MiddlePanel =({isLarge}: { isLarge: boolean }) => {
+const MiddlePanel =({isLarge, isAuthPage}: { isLarge: boolean, isAuthPage: boolean}) => {
     return(
         <Box height="100%" sx={{minWidth: isLarge ? '1200px' : '100%'}}>
-            <BrowserRouter>
-                <Header/>
+            {/*<BrowserRouter>*/}
+                {!isAuthPage && <Header/>}
                 <Routes>
                     <Route path="/" element={<Navigate to="/auth"/>}/>
                     <Route path="/auth" element={<Auth/>}/>
@@ -32,7 +32,7 @@ const MiddlePanel =({isLarge}: { isLarge: boolean }) => {
                     <Route path="/add" element={<AddAuction/>}/>
                     <Route path="/auctions" element={<Auctions/>}/>
                 </Routes>
-            </BrowserRouter>
+            {/*</BrowserRouter>*/}
         </Box>
     );
 }
@@ -53,6 +53,9 @@ function App() {
     const theme = useTheme();
     const isLarge = useMediaQuery(theme.breakpoints.up('lg'));
 
+    const location = useLocation();
+    const isAuthPage = location.pathname === "/auth";
+
     useEffect(() => {
         const handleResize = () => {
             setWindowWidth(window.innerWidth);
@@ -67,9 +70,9 @@ function App() {
     return (
         <Container disableGutters sx={{minWidth: '100%', height: '100%'}}>
             <Stack direction="row" justifyContent="center" sx={{height: "100%"}}>
-                <LeftPanel isLarge={isLarge}/>
-                <MiddlePanel isLarge={isLarge}/>
-                <RightPanel isLarge={isLarge}/>
+                {!isAuthPage && <LeftPanel isLarge={isLarge}/>}
+                <MiddlePanel isLarge={isLarge} isAuthPage={isAuthPage}/>
+                {!isAuthPage && <RightPanel isLarge={isLarge}/>}
             </Stack>
         </Container>
     );
