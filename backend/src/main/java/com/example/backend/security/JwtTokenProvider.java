@@ -2,10 +2,7 @@ package com.example.backend.security;
 
 import com.example.backend.util.Role;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 
 import java.security.Key;
@@ -41,6 +38,19 @@ public class JwtTokenProvider {
             Date expirationDate = claims.getExpiration();
             return expirationDate.before(new Date());
         } catch (ExpiredJwtException e){
+            throw new Exception("Token expired", e);
+        } catch (Exception e) {
+            throw new Exception("Token invalid", e);
+        }
+    }
+
+    public static Jws<Claims> parseToken(String token) throws Exception {
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(secretKey)
+                    .build()
+                    .parseClaimsJws(token);
+        } catch (ExpiredJwtException e) {
             throw new Exception("Token expired", e);
         } catch (Exception e) {
             throw new Exception("Token invalid", e);
