@@ -3,6 +3,7 @@ import {
     Card, Grid, Stack, Box, Typography, IconButton, CardMedia
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
@@ -11,8 +12,7 @@ import {
     CardStyle,
     ImageWrapperStyle,
     ImageStyle,
-    EditIconsStyle,
-    FooterStyle,
+    AuctionCardFooterGrid, IconBox,
 } from './AuctionCard.styles';
 import {SiSlack} from "react-icons/si";
 const SlackIcon = SiSlack as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
@@ -94,37 +94,36 @@ const ContentSection = ({
                         }: Omit<AuctionCardProps, 'imageUrl'>) => (
     <Grid size={{ xs: 12, md: 9 }}>
         <Stack spacing={1} height="100%" position="relative">
-            <AuctionHeader title={title} date={date} city={city} />
+            <AuctionHeader title={title} date={date} city={city} price={price} />
             <AuctionDescription description={description} />
             <Box flexGrow={1} />
-            <AuctionFooter status={status} supplier={supplier} winner={winner} price={price} isFollowed={isFollowed} slackUrl={slackUrl}/>
+            <AuctionFooter status={status} supplier={supplier} winner={winner} isFollowed={isFollowed} slackUrl={slackUrl}/>
         </Stack>
     </Grid>
 );
 
-const EditIcons = () => (
-    <Box sx={EditIconsStyle}>
-        <IconButton size="small">
-            <EditIcon />
-        </IconButton>
-    </Box>
-);
-
-const AuctionHeader = ({ title, date, city }: { title: string; date: string; city: string }) => (
-    <>
-        <Stack justifyContent={"space-between"} direction="row">
-            <Typography variant="h6" fontWeight="bold">{title}</Typography>
-            <EditIcons/>
+const AuctionHeader = ({ title, date, city, price }: { title: string; date: string; city: string, price: string }) => (
+        <Stack justifyContent={"space-between"} direction="row" alignItems="flex-start" sx={{ width: "100%" }}>
+            <Box>
+                <Typography variant="h6" fontWeight="bold">{title}</Typography>
+                <Stack direction="row" spacing={1} alignItems="center">
+                    <CalendarTodayIcon fontSize="small" />
+                    <Typography variant="body2"><b>{date}</b></Typography>
+                    <LocationOnIcon fontSize="small" />
+                    <Typography variant="body2">
+                        Odbiór tylko w: <b>{city}</b>
+                    </Typography>
+                </Stack>
+            </Box>
+            <Box display="flex" flexDirection="column" alignItems="flex-end">
+                <Typography variant="body2" fontWeight="bold">
+                    Aktualna cena:
+                </Typography>
+                <Typography fontWeight="bold" fontSize="1.7rem">
+                    {price} PLN
+                </Typography>
+            </Box>
         </Stack>
-        <Stack direction="row" spacing={1} alignItems="center">
-            <CalendarTodayIcon fontSize="small" />
-            <Typography variant="body2"><b>{date}</b></Typography>
-            <LocationOnIcon fontSize="small" />
-            <Typography variant="body2">
-                Odbiór tylko w: <b>{city}</b>
-            </Typography>
-        </Stack>
-    </>
 );
 
 const AuctionDescription = ({ description }: { description: string }) => (
@@ -151,35 +150,35 @@ const AuctionFooter = ({
                            status,
                            supplier,
                            winner,
-                           price,
                            isFollowed,
                            slackUrl
                        }: {
     status: string;
     supplier: string;
     winner: string;
-    price: string;
     isFollowed: boolean;
     slackUrl: string;
 }) => (
-    <Grid container spacing={2} sx={FooterStyle}>
+    <AuctionCardFooterGrid container spacing={2}>
         <AuctionStatus status={status} supplier={supplier} winner={winner} />
         <Box display="flex" flexDirection="row" alignItems="flex-end" gap={1} paddingBottom={1}>
             <SlackIcon
                 onClick={() => window.open(slackUrl, '_blank', 'noopener,noreferrer')}
-                style={{ fontSize: '32px', cursor: 'pointer' }}
+                style={{ fontSize: '28px', cursor: 'pointer', margin: '5px' }}
             />
             {isFollowed
                 ? <FavoriteIcon fontSize="large" color="primary" sx={{ cursor: 'pointer' }} />
                 : <FavoriteBorderIcon fontSize="large" color="primary" sx={{ cursor: 'pointer' }} />}
+            <IconBox>
+                <IconButton size="small">
+                    <EditIcon/>
+                </IconButton>
+            </IconBox>
+            <IconBox>
+                <IconButton size="small">
+                    <DeleteIcon/>
+                </IconButton>
+            </IconBox>
         </Box>
-        <Box display="flex" flexDirection="column" alignItems="flex-end">
-            <Typography variant="body2" fontWeight="bold">
-                Aktualna cena:
-            </Typography>
-            <Typography fontWeight="bold" fontSize="1.7rem">
-                {price} PLN
-            </Typography>
-        </Box>
-    </Grid>
+    </AuctionCardFooterGrid>
 );
