@@ -1,24 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useEditor } from "@tiptap/react";
 import { useRef } from "react";
 import { useNavigate } from 'react-router-dom';
-
-import StarterKit from "@tiptap/starter-kit";
-import Underline from '@tiptap/extension-underline'
-import Link from '@tiptap/extension-link'
-
-import {
-    MenuButtonBold,
-    MenuButtonItalic,
-    MenuButtonUnderline,
-    MenuControlsContainer,
-    RichTextEditor,
-    LinkBubbleMenu,
-    MenuButtonEditLink,
-    LinkBubbleMenuHandler,
-    RichTextEditorProvider,
-    type RichTextEditorRef,
-} from "mui-tiptap";
 
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from "@mui/material/Container";
@@ -47,14 +29,12 @@ import {
     FormButtonsWrapperStyle,
     BackButtonStyle,
     SubmitButtonStyle,
-    DescriptionWrapperStyle,
-    DescriptionLabelStyle,
-    EditorContentStyle,
-    EditorToolbarStyle
 } from './AddPage.styles';
 
 import TitleTextField from "../../common/TitleTextField";
 import PriceTextField from "../../common/PriceTextField";
+import DescriptionEditor from "../../common/DescriptionEditor/DescriptionEditor";
+import {RichTextEditorRef} from "mui-tiptap";
 
 const AddPage: React.FC = () => {
     const [title, setTitle] = useState("");
@@ -88,7 +68,7 @@ const AddPage: React.FC = () => {
                 <Stack spacing={4}>
                     <ImageUploadSection />
                     <TitleSection title={title} setTitle={setTitle} />
-                    <DescriptionSection rteRef={rteRef} />
+                    <DescriptionEditor rteRef={rteRef} />
                     <PriceSection price={price} setPrice={setPrice} />
                     <CitySection
                         pickupOnlyInCity={pickupOnlyInCity}
@@ -132,55 +112,15 @@ const TitleSection: React.FC<TitleSectionProps> = ({ title, setTitle }) => (
     </Box>
 );
 
-type DescriptionSectionProps = {
-    rteRef: React.RefObject<RichTextEditorRef | null>;
-};
-
-const DescriptionSection: React.FC<DescriptionSectionProps> = ({ rteRef }) => {
-    const extensions = [StarterKit, Underline, Link, LinkBubbleMenuHandler];
-
-    const editor = useEditor({
-        extensions,
-        content: "",
-    });
-
-    return editor ? (
-        <Box sx={DescriptionWrapperStyle}>
-            <Typography variant="caption" sx={DescriptionLabelStyle}>
-                Opis
-            </Typography>
-            <RichTextEditorProvider editor={editor}>
-                <Box sx={EditorContentStyle}>
-                    <RichTextEditor ref={rteRef} extensions={extensions}>
-                        {() => (
-                            <>
-                                <Box sx={EditorToolbarStyle}>
-                                    <MenuControlsContainer>
-                                        <MenuButtonBold />
-                                        <MenuButtonItalic />
-                                        <MenuButtonUnderline />
-                                        <MenuButtonEditLink />
-                                    </MenuControlsContainer>
-                                </Box>
-                                <LinkBubbleMenu />
-                            </>
-                        )}
-                    </RichTextEditor>
-                </Box>
-            </RichTextEditorProvider>
-        </Box>
-    ) : null;
-};
-
 type PriceSectionProps = {
     price: string;
     setPrice: (value: string) => void;
 };
 
 const PriceSection: React.FC<PriceSectionProps> = ({ price, setPrice }) => (
-    <Stack direction="row" spacing={1} alignItems="center" sx={{ width: '25%' }}>
+    <Box sx={{ width: '25%' }}>
         <PriceTextField price={price} setPrice={setPrice} />
-    </Stack>
+    </Box>
 );
 
 type CitySectionProps = {
