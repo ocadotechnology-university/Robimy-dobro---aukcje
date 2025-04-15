@@ -4,7 +4,6 @@ import axios from "axios";
 interface AuthContextType {
     accessToken: string | null;
     loginWithGoogle: (googleToken: string) => Promise<void>;
-    logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -35,12 +34,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         }
     };
 
-    const logout = () => {
-        setAccessToken(null);
-    };
-
     return (
-        <AuthContext.Provider value={{ accessToken, loginWithGoogle, logout }}>
+        <AuthContext.Provider value={{ accessToken, loginWithGoogle}}>
             {children}
         </AuthContext.Provider>
     );
