@@ -11,25 +11,6 @@ export const ImageUploadStackStyle: SxProps<Theme> = {
     marginTop: 2,
 };
 
-export const CheckboxBaseStyle: SxProps<Theme> = {
-    color: '#666',
-    backgroundColor: 'white',
-    borderRadius: '4px',
-    py: 0.1,
-    px: 0.1,
-    '&.Mui-checked': {
-        color: '#666',
-        backgroundColor: 'white',
-    },
-};
-
-export const FormControlLabelBaseStyle: SxProps<Theme> = {
-    width: 'fit-content',
-    '& .MuiFormControlLabel-label': {
-        fontSize: '15px',
-    },
-};
-
 export const CityLabelIconWrapperStyle: SxProps<Theme> = {
     display: 'flex',
     alignItems: 'center',

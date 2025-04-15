@@ -8,8 +8,6 @@ import Stack from "@mui/material/Stack";
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import MenuItem from '@mui/material/MenuItem';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import ToggleButton from '@mui/material/ToggleButton';
@@ -19,8 +17,6 @@ import Button from '@mui/material/Button';
 import {
     FormContainerStyle,
     ImageUploadStackStyle,
-    CheckboxBaseStyle,
-    FormControlLabelBaseStyle,
     CityLabelIconWrapperStyle,
     CitySelectStyle,
     DateToggleButtonStyle,
@@ -33,6 +29,7 @@ import TitleTextField from "../../common/TitleTextField";
 import PriceTextField from "../../common/PriceTextField";
 import DescriptionEditor from "../../common/DescriptionEditor/DescriptionEditor";
 import ImageUploadBox from "../../common/ImageUploadBox";
+import ControlledCheckbox from "../../common/ControlledCheckbox";
 import {RichTextEditorRef} from "mui-tiptap";
 
 const AddPage: React.FC = () => {
@@ -134,16 +131,10 @@ const CitySection: React.FC<CitySectionProps> = ({
                          setSelectedCity,
                      }: CitySectionProps) => (
     <Stack spacing={2}>
-        <FormControlLabel
-            control={
-                <Checkbox
-                    checked={pickupOnlyInCity}
-                    onChange={(e) => setPickupOnlyInCity(e.target.checked)}
-                    sx={CheckboxBaseStyle}
-                />
-            }
+        <ControlledCheckbox
+            checked={pickupOnlyInCity}
+            onChange={setPickupOnlyInCity}
             label="Odbiór jest możliwy tylko w wybranym mieście"
-            sx={FormControlLabelBaseStyle}
         />
 
         <TextField
@@ -188,16 +179,10 @@ const ModeratorSection: React.FC<ModeratorSectionProps> = ({
 
     return (
         <Stack spacing={2} sx={{ width: '100%' }}>
-            <FormControlLabel
-                control={
-                    <Checkbox
-                        checked={wantsToBeModerator}
-                        onChange={(e) => setWantsToBeModerator(e.target.checked)}
-                        sx={CheckboxBaseStyle}
-                    />
-                }
+            <ControlledCheckbox
+                checked={wantsToBeModerator}
+                onChange={setWantsToBeModerator}
                 label="Chcę być moderatorem"
-                sx={FormControlLabelBaseStyle}
             />
 
             <Typography
