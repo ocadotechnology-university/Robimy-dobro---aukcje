@@ -7,7 +7,6 @@ import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import UploadIcon from '@mui/icons-material/Upload';
 import TextField from '@mui/material/TextField';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -20,7 +19,6 @@ import Button from '@mui/material/Button';
 import {
     FormContainerStyle,
     ImageUploadStackStyle,
-    ImageUploadBoxStyle,
     CheckboxBaseStyle,
     FormControlLabelBaseStyle,
     CityLabelIconWrapperStyle,
@@ -34,6 +32,7 @@ import {
 import TitleTextField from "../../common/TitleTextField";
 import PriceTextField from "../../common/PriceTextField";
 import DescriptionEditor from "../../common/DescriptionEditor/DescriptionEditor";
+import ImageUploadBox from "../../common/ImageUploadBox";
 import {RichTextEditorRef} from "mui-tiptap";
 
 const AddPage: React.FC = () => {
@@ -95,9 +94,7 @@ const ImageUploadSection: React.FC = () => (
             Dodaj zdjęcie
         </Typography>
 
-        <Box component="label" sx={ImageUploadBoxStyle}>
-            <UploadIcon fontSize="large" sx={{ color: '#666' }} />
-        </Box>
+        <ImageUploadBox />
     </Stack>
 );
 
