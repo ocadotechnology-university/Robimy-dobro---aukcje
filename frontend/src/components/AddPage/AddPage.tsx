@@ -34,7 +34,6 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import ToggleButton from '@mui/material/ToggleButton';
 import EventIcon from '@mui/icons-material/Event';
 import Button from '@mui/material/Button';
-import InputAdornment from '@mui/material/InputAdornment';
 
 import {
     FormContainerStyle,
@@ -55,6 +54,7 @@ import {
 } from './AddPage.styles';
 
 import TitleTextField from "../../common/TitleTextField";
+import PriceTextField from "../../common/PriceTextField";
 
 const AddPage: React.FC = () => {
     const [title, setTitle] = useState("");
@@ -172,7 +172,6 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({ rteRef }) => {
     ) : null;
 };
 
-
 type PriceSectionProps = {
     price: string;
     setPrice: (value: string) => void;
@@ -180,29 +179,7 @@ type PriceSectionProps = {
 
 const PriceSection: React.FC<PriceSectionProps> = ({ price, setPrice }) => (
     <Stack direction="row" spacing={1} alignItems="center" sx={{ width: '25%' }}>
-        <TextField
-            label="Cena wywoławcza"
-            variant="outlined"
-            fullWidth
-            size="small"
-            type="number"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            onInput={(e) => {
-                const input = e.target as HTMLInputElement;
-                const value = input.value;
-
-                const parts = value.split(/[.,]/);
-                if (parts[1]?.length > 2) {
-                    input.value = `${parts[0]}.${parts[1].slice(0, 2)}`;
-                }
-            }}
-            InputLabelProps={{ shrink: true }}
-            inputProps={{ min: 0 }}
-            InputProps={{
-                endAdornment: <InputAdornment position="end">zł</InputAdornment>,
-            }}
-        />
+        <PriceTextField price={price} setPrice={setPrice} />
     </Stack>
 );
 
