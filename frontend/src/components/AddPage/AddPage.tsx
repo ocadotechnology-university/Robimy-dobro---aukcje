@@ -54,6 +54,8 @@ import {
     EditorToolbarStyle
 } from './AddPage.styles';
 
+import TitleTextField from "../../common/TitleTextField";
+
 const AddPage: React.FC = () => {
     const [title, setTitle] = useState("");
     const [price, setPrice] = useState("");
@@ -126,15 +128,7 @@ type TitleSectionProps = {
 
 const TitleSection: React.FC<TitleSectionProps> = ({ title, setTitle }) => (
     <Box sx={{ width: '100%' }}>
-        <TextField
-            label="Tytuł"
-            variant="outlined"
-            fullWidth
-            value={title}
-            size={"small"}
-            onChange={(e) => setTitle(e.target.value)}
-            InputLabelProps={{ shrink: true }}
-        />
+        <TitleTextField title={title} setTitle={setTitle} />
     </Box>
 );
 
