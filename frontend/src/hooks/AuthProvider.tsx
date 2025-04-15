@@ -22,7 +22,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const loginWithGoogle = async (googleToken: string) => {
         try {
-            const response = await axios.post("/api/auth/google", { token: googleToken });
+            const response = await axios.post(
+                "http://localhost:8080/api/auth/google/signup",
+                { credentials: googleToken },
+                {withCredentials: true}
+            );
             setAccessToken(response.data.accessToken);
         } catch (error) {
             console.error("Google login failed:", error);
