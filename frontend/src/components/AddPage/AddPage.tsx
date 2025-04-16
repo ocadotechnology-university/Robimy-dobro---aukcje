@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { useRef } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
 
 import CssBaseline from '@mui/material/CssBaseline';
@@ -34,21 +33,15 @@ const AddPage = () => {
     const [selectedDate, setSelectedDate] = useState("");
     const rteRef = useRef<RichTextEditorRef>(null);
 
-    useEffect(() => {
-        if (wantsToBeModerator && selectedDate === '') {
-            setSelectedDate('21 listopada');
-        }
+    const handlePickup = (value: boolean) => {
+        setPickupOnlyInCity(value);
+        if (!value) setSelectedCity('');
+    };
 
-        if (!wantsToBeModerator && selectedDate !== '') {
-            setSelectedDate('');
-        }
-    }, [wantsToBeModerator]);
-
-    useEffect(() => {
-        if (!pickupOnlyInCity && selectedCity !== '') {
-            setSelectedCity('');
-        }
-    }, [pickupOnlyInCity]);
+    const handleModerator = (value: boolean) => {
+        setWantsToBeModerator(value);
+        setSelectedDate(value ? '21 listopada' : '');
+    };
 
     return (
         <React.Fragment>
@@ -61,15 +54,15 @@ const AddPage = () => {
                     <PriceSection price={price} setPrice={setPrice} />
                     <CitySection
                         pickupOnlyInCity={pickupOnlyInCity}
-                        setPickupOnlyInCity={setPickupOnlyInCity}
                         selectedCity={selectedCity}
                         setSelectedCity={setSelectedCity}
+                        handlePickup={handlePickup}
                     />
                     <ModeratorSection
                         wantsToBeModerator={wantsToBeModerator}
-                        setWantsToBeModerator={setWantsToBeModerator}
                         selectedDate={selectedDate}
                         setSelectedDate={setSelectedDate}
+                        handleModerator={handleModerator}
                     />
                     <FormButtonsSection />
                 </Stack>
@@ -112,21 +105,21 @@ const PriceSection = ({ price, setPrice }: PriceSectionProps) => (
 
 type CitySectionProps = {
     pickupOnlyInCity: boolean;
-    setPickupOnlyInCity: (value: boolean) => void;
     selectedCity: string;
     setSelectedCity: (value: string) => void;
+    handlePickup: (checked: boolean) => void;
 };
 
 const CitySection = ({
                          pickupOnlyInCity,
-                         setPickupOnlyInCity,
                          selectedCity,
                          setSelectedCity,
+                         handlePickup,
                      }: CitySectionProps) => (
     <Stack spacing={2}>
         <ControlledCheckbox
             checked={pickupOnlyInCity}
-            onChange={setPickupOnlyInCity}
+            onChange={handlePickup}
             label="Odbiór jest możliwy tylko w wybranym mieście"
         />
 
@@ -141,16 +134,16 @@ const CitySection = ({
 
 type ModeratorSectionProps = {
     wantsToBeModerator: boolean;
-    setWantsToBeModerator: (value: boolean) => void;
     selectedDate: string;
     setSelectedDate: (value: string) => void;
+    handleModerator: (checked: boolean) => void;
 };
 
 const ModeratorSection = ({
                               wantsToBeModerator,
-                              setWantsToBeModerator,
                               selectedDate,
                               setSelectedDate,
+                              handleModerator,
                           }: ModeratorSectionProps) => {
     const dates = ['21 listopada', '22 listopada', '23 listopada'];
 
@@ -158,7 +151,7 @@ const ModeratorSection = ({
         <Stack spacing={2} sx={{ width: '100%' }}>
             <ControlledCheckbox
                 checked={wantsToBeModerator}
-                onChange={setWantsToBeModerator}
+                onChange={handleModerator}
                 label="Chcę być moderatorem"
             />
 
