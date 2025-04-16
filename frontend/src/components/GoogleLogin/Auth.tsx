@@ -17,8 +17,8 @@ export default function Auth() {
                         onSuccess={async (credentialResponse) =>{
 
                             //Temporary setup to see if it works
-                           /* console.log(credentialResponse);
-                            navigate("/home");*/
+                            // console.log(credentialResponse);
+                            // navigate("/home");
 
                             //This will send the google accessToken to the backend, comment the try catch and uncomment above to see it working
                             try {

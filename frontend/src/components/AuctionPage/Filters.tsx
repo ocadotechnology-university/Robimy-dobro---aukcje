@@ -6,6 +6,8 @@ import ShieldIcon from '@mui/icons-material/Shield';
 import Chip from '@mui/material/Chip';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import {AuctionFilters} from "../../services/fetchAuctions";
+import { useEffect } from "react";
 
 import {
     FiltersPaperStyle,
@@ -16,16 +18,43 @@ import {
     MenuItemStyle,
 } from './Filters.styles';
 
+interface FiltersProps {
+    aucfilters: AuctionFilters;
+    setAucFilters: React.Dispatch<React.SetStateAction<AuctionFilters>>;
+}
+
 const statusOptions = ["Bez daty", "Niekompletne", "Zatwierdzone"];
 const selectedOptions = ["Moje aukcje", "Ulubione"];
 const dateOptions = ["21 listopada", "22 listopada", "23 listopada"];
 const sortOptions = ["Domyślne", "Cena: od najniższej", "Cena: od najwyższej"];
 
-const Filters = () => {
+const Filters = ({ aucfilters, setAucFilters } : FiltersProps ) => {
     const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
     const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
     const [selectedDates, setSelectedDates] = useState<string[]>([]);
     const [sort, setSort] = useState<string>("Domyślne");
+
+    useEffect(() => {
+        setAucFilters(prev => ({
+            ...prev,
+            statuses: selectedStatuses,
+        }));
+    }, [selectedStatuses]);
+
+    useEffect(() => {
+        setAucFilters(prev => ({
+            ...prev,
+            myAuctions: selectedTypes.includes("Moje aukcje"),
+            followed: selectedTypes.includes("Ulubione"),
+        }));
+    }, [selectedTypes]);
+
+    useEffect(() => {
+        setAucFilters(prev => ({
+            ...prev,
+            dates: selectedDates,
+        }));
+    }, [selectedDates]);
 
     const isAnySelected =
         selectedStatuses.length > 0 ||
@@ -40,34 +69,34 @@ const Filters = () => {
 
     return (
         <Paper elevation={0} variant={"outlined"} sx={FiltersPaperStyle}>
-                <Stack spacing={1}>
-                    <FiltersHeader showClear={isAnySelected} onClearAll={handleClearAll} />
+            <Stack spacing={1}>
+                <FiltersHeader showClear={isAnySelected} onClearAll={handleClearAll} />
 
-                    <FilterSection
-                        title="Status aukcji"
-                        icon={<ShieldIcon fontSize="small" sx={{ color: '#fbc02d' }} />}
-                        options={statusOptions}
-                        selectedOptions={selectedStatuses}
-                        setSelectedOptions={setSelectedStatuses}
-                    />
+                <FilterSection
+                    title="Status aukcji"
+                    icon={<ShieldIcon fontSize="small" sx={{ color: '#fbc02d' }} />}
+                    options={statusOptions}
+                    selectedOptions={selectedStatuses}
+                    setSelectedOptions={setSelectedStatuses}
+                />
 
-                    <FilterSection
-                        title="Wybrane aukcje"
-                        options={selectedOptions}
-                        selectedOptions={selectedTypes}
-                        setSelectedOptions={setSelectedTypes}
-                    />
+                <FilterSection
+                    title="Wybrane aukcje"
+                    options={selectedOptions}
+                    selectedOptions={selectedTypes}
+                    setSelectedOptions={setSelectedTypes}
+                />
 
-                    <FilterSection
-                        title="Dzień"
-                        options={dateOptions}
-                        selectedOptions={selectedDates}
-                        setSelectedOptions={setSelectedDates}
-                    />
+                <FilterSection
+                    title="Dzień"
+                    options={dateOptions}
+                    selectedOptions={selectedDates}
+                    setSelectedOptions={setSelectedDates}
+                />
 
-                    <SortSection sort={sort} setSort={setSort} />
-                </Stack>
-            </Paper>
+                <SortSection sort={sort} setSort={setSort} />
+            </Stack>
+        </Paper>
     );
 };
 
@@ -103,12 +132,12 @@ type FilterSectionProps = {
 };
 
 const FilterSection: React.FC<FilterSectionProps> = ({
-         title,
-         icon,
-         options,
-         selectedOptions,
-         setSelectedOptions,
-     }) => {
+                                                         title,
+                                                         icon,
+                                                         options,
+                                                         selectedOptions,
+                                                         setSelectedOptions,
+                                                     }) => {
     const toggleOption = (label: string) => {
         setSelectedOptions((prev) =>
             prev.includes(label)
