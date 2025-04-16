@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    Card, Grid, Stack, Box, Typography, IconButton, CardMedia
+    Card, Grid2, Stack, Box, Typography, IconButton, CardMedia
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -46,7 +46,7 @@ const AuctionCard = ({
                      }: AuctionCardProps) => {
     return (
         <Card variant="outlined" sx={CardStyle}>
-            <Grid container spacing={2}>
+            <Grid2 container spacing={2}>
                 <ImageSection imageUrl={imageUrl} />
                 <ContentSection
                     title={title}
@@ -60,7 +60,7 @@ const AuctionCard = ({
                     isFollowed={isFollowed}
                     slackUrl={slackUrl}
                 />
-            </Grid>
+            </Grid2>
         </Card>
     );
 };
@@ -68,7 +68,7 @@ const AuctionCard = ({
 export default AuctionCard;
 
 const ImageSection = ({ imageUrl }: { imageUrl: string }) => (
-    <Grid size={{ xs: 12, md: 3 }} sx={ImageWrapperStyle}>
+    <Grid2 size={{ xs: 12, md: 3 }} sx={ImageWrapperStyle}>
         <Box height={'100%'}>
             <CardMedia
                 component="img"
@@ -77,7 +77,7 @@ const ImageSection = ({ imageUrl }: { imageUrl: string }) => (
                 sx={ImageStyle}
             />
         </Box>
-    </Grid>
+    </Grid2>
 );
 
 const ContentSection = ({
@@ -92,14 +92,14 @@ const ContentSection = ({
                             isFollowed,
                             slackUrl
                         }: Omit<AuctionCardProps, 'imageUrl'>) => (
-    <Grid size={{ xs: 12, md: 9 }}>
+    <Grid2 size={{ xs: 12, md: 9 }}>
         <Stack spacing={1} height="100%" position="relative">
             <AuctionHeader title={title} date={date} city={city} price={price} />
             <AuctionDescription description={description} />
             <Box flexGrow={1} />
             <AuctionFooter status={status} supplier={supplier} winner={winner} isFollowed={isFollowed} slackUrl={slackUrl}/>
         </Stack>
-    </Grid>
+    </Grid2>
 );
 
 const AuctionHeader = ({ title, date, city, price }: { title: string; date: string; city: string, price: string }) => (

@@ -1,4 +1,4 @@
-import {Grid, styled} from "@mui/material";
+import {Grid2, styled} from "@mui/material";
 import Box from "@mui/material/Box";
 
 export const CardStyle = {
@@ -23,7 +23,7 @@ export const IconBox = styled(Box)({
     gap: 1,
 });
 
-export const AuctionCardFooterGrid = styled(Grid)({
+export const AuctionCardFooterGrid = styled(Grid2)({
     mt: 'auto',
     display: 'flex',
     justifyContent: 'flex-end',
