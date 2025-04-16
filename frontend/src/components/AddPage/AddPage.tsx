@@ -7,14 +7,11 @@ import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import ToggleButton from '@mui/material/ToggleButton';
-import EventIcon from '@mui/icons-material/Event';
 import Button from '@mui/material/Button';
 
 import {
     FormContainerStyle,
     ImageUploadStackStyle,
-    DateToggleButtonStyle,
     FormButtonsWrapperStyle,
     BackButtonStyle,
     SubmitButtonStyle,
@@ -26,6 +23,7 @@ import DescriptionEditor from "../common/DescriptionEditor/DescriptionEditor";
 import ImageUploadBox from "../common/ImageUploadBox";
 import ControlledCheckbox from "../common/ControlledCheckbox";
 import CitySelectField from "../common/CitySelectField";
+import DateToggleGroup from "../common/DateToggleGroup";
 import {RichTextEditorRef} from "mui-tiptap";
 
 const AddPage = () => {
@@ -39,7 +37,7 @@ const AddPage = () => {
 
     useEffect(() => {
         if (wantsToBeModerator && selectedDate === '') {
-            setSelectedDate('21');
+            setSelectedDate('21 listopada');
         }
 
         if (!wantsToBeModerator && selectedDate !== '') {
@@ -155,7 +153,7 @@ const ModeratorSection = ({
                               selectedDate,
                               setSelectedDate,
                           }: ModeratorSectionProps) => {
-    const dates = ["21", "22", "23"];
+    const dates = ['21 listopada', '22 listopada', '23 listopada'];
 
     return (
         <Stack spacing={2} sx={{ width: '100%' }}>
@@ -172,22 +170,12 @@ const ModeratorSection = ({
                 Wybierz preferowaną datę licytacji
             </Typography>
 
-            <Stack direction="row" spacing={1}>
-                {dates.map((day) => (
-                    <ToggleButton
-                        key={day}
-                        value={day}
-                        selected={selectedDate === day}
-                        onChange={() => setSelectedDate(day)}
-                        disabled={!wantsToBeModerator}
-                        size="small"
-                        sx={DateToggleButtonStyle(selectedDate === day)}
-                    >
-                        <EventIcon fontSize="small" />
-                        {`${day} listopada`}
-                    </ToggleButton>
-                ))}
-            </Stack>
+            <DateToggleGroup
+                selectedDate={selectedDate}
+                setSelectedDate={setSelectedDate}
+                disabled={!wantsToBeModerator}
+                dates={dates}
+            />
         </Stack>
     );
 };

@@ -9,18 +9,6 @@ export const ImageUploadStackStyle = {
     marginTop: 2,
 };
 
-export const DateToggleButtonStyle = (selected: boolean) => ({
-    borderRadius: '16px',
-    textTransform: 'none',
-    fontSize: '13px',
-    fontWeight: selected ? 'bold' : 'normal',
-    display: 'flex',
-    alignItems: 'center',
-    gap: 0.5,
-    px: 1,
-    py: 0.5,
-});
-
 export const FormButtonsWrapperStyle = {
     width: '100%',
     mt: 4,
