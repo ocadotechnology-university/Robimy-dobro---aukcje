@@ -1,4 +1,4 @@
-import {createContext, ReactNode, useCallback, useContext, useState} from "react";
+import {createContext, ReactNode, useCallback, useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 
@@ -38,6 +38,41 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setAccessToken(null);
         navigate('/auth', { replace: true });
     }, [navigate]);
+
+    useEffect(() => {
+        const requestInterceptor = axios.interceptors.request.use(
+            async (config) => {
+                if (accessToken) {
+                    // Verify token before each request
+                    const isValid = await validateToken(accessToken);
+                    if (!isValid) {
+                        logout();
+                        return Promise.reject(new Error('Token expired'));
+                    }
+
+                    config.headers.Authorization = `Bearer ${accessToken}`;
+                }
+                return config;
+            },
+            (error) => Promise.reject(error)
+        );
+
+        return () => axios.interceptors.request.eject(requestInterceptor);
+    }, [accessToken, validateToken, logout]);
+
+    useEffect(() => {
+        const responseInterceptor = axios.interceptors.response.use(
+            (response) => response,
+            (error) => {
+                if (error.response?.status === 401) {
+                    logout();
+                }
+                return Promise.reject(error);
+            }
+        );
+
+        return () => axios.interceptors.response.eject(responseInterceptor);
+    }, [logout]);
 
     const loginWithGoogle = async (googleToken: string) => {
         try {
