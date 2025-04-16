@@ -1,5 +1,6 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import {createContext, ReactNode, useCallback, useContext, useState} from "react";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 interface AuthContextType {
     accessToken: string | null;
@@ -18,6 +19,25 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [accessToken, setAccessToken] = useState<string | null>(null);
+    const navigate = useNavigate();
+
+    const validateToken = useCallback(async (token: string): Promise<boolean> => {
+        try {
+            const response = await axios.get("http://localhost:8080/api/auth/test", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            return response.status === 200;
+        } catch (error) {
+            return false;
+        }
+    }, []);
+
+    const logout = useCallback(() => {
+        setAccessToken(null);
+        navigate('/auth', { replace: true });
+    }, [navigate]);
 
     const loginWithGoogle = async (googleToken: string) => {
         try {
