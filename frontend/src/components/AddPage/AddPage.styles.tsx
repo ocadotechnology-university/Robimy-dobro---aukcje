@@ -14,25 +14,3 @@ export const FormButtonsWrapperStyle = {
     mt: 4,
     pb: 4,
 };
-
-export const BackButtonStyle = {
-    borderRadius: '45px',
-    fontWeight: 600,
-    textTransform: 'none',
-    px: 1,
-    py: 0.5,
-};
-
-export const SubmitButtonStyle = {
-    borderRadius: '45px',
-    fontWeight: 600,
-    textTransform: 'none',
-    backgroundColor: 'rgba(236, 142, 6, 0.9)',
-    color: 'white',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)',
-    px: 2,
-    py: 0.5,
-    '&:hover': {
-        backgroundColor: 'rgba(236, 142, 6, 1)',
-    },
-};

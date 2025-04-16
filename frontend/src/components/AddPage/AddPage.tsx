@@ -7,14 +7,11 @@ import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 
 import {
     FormContainerStyle,
     ImageUploadStackStyle,
     FormButtonsWrapperStyle,
-    BackButtonStyle,
-    SubmitButtonStyle,
 } from './AddPage.styles';
 
 import TitleTextField from "../common/TitleTextField";
@@ -24,6 +21,8 @@ import ImageUploadBox from "../common/ImageUploadBox";
 import ControlledCheckbox from "../common/ControlledCheckbox";
 import CitySelectField from "../common/CitySelectField";
 import DateToggleGroup from "../common/DateToggleGroup";
+import OutlinedActionButton from "../common/OutlinedActionButton";
+import PrimaryActionButton from "../common/PrimaryActionButton";
 import {RichTextEditorRef} from "mui-tiptap";
 
 const AddPage = () => {
@@ -189,13 +188,15 @@ const FormButtonsSection = () => {
 
     return (
         <Stack direction="row" justifyContent="space-between" sx={FormButtonsWrapperStyle}>
-            <Button variant="outlined" color="inherit" sx={BackButtonStyle} onClick={() => navigate(-1)}>
-                Wróć
-            </Button>
+            <OutlinedActionButton
+                label="Wróć"
+                onClick={() => navigate(-1)}
+            />
 
-            <Button variant="contained" sx={SubmitButtonStyle} onClick={handleSubmit}>
-                Dodaj
-            </Button>
+            <PrimaryActionButton
+                label="Dodaj"
+                onClick={handleSubmit}
+            />
         </Stack>
     );
 };
