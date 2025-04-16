@@ -1,8 +1,8 @@
 import React from 'react';
-import { Box, SxProps, Theme } from '@mui/material';
+import Box from '@mui/material/Box';
 import UploadIcon from '@mui/icons-material/Upload';
 
-const boxStyle: SxProps<Theme> = {
+const boxStyle = {
     alignSelf: 'center',
     width: 200,
     height: 120,

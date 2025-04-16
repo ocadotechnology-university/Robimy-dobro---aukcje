@@ -7,7 +7,7 @@ type PriceTextFieldProps = {
     setPrice: (value: string) => void;
 };
 
-const PriceTextField: React.FC<PriceTextFieldProps> = ({ price, setPrice }) => {
+const PriceTextField = ({ price, setPrice }: PriceTextFieldProps) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPrice(e.target.value);
     };

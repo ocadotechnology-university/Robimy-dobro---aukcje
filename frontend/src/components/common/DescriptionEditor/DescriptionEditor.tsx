@@ -30,7 +30,7 @@ type DescriptionEditorProps = {
     rteRef: React.RefObject<RichTextEditorRef | null>;
 };
 
-const DescriptionEditor: React.FC<DescriptionEditorProps> = ({ rteRef }) => {
+const DescriptionEditor = ({ rteRef }: DescriptionEditorProps) => {
     const extensions = [StarterKit, Underline, Link, LinkBubbleMenuHandler];
     const editor = useEditor({ extensions, content: '' });
 

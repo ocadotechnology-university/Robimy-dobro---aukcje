@@ -1,6 +1,4 @@
-import { SxProps, Theme } from '@mui/material/styles';
-
-export const WrapperStyle: SxProps<Theme> = {
+export const WrapperStyle = {
     position: 'relative',
     width: '100%',
     border: '1px solid',
@@ -10,7 +8,7 @@ export const WrapperStyle: SxProps<Theme> = {
     pt: 1,
 };
 
-export const LabelStyle: SxProps<Theme> = {
+export const LabelStyle = {
     position: 'absolute',
     top: '-10px',
     left: '12px',
@@ -28,7 +26,7 @@ export const ContentStyle = {
     },
 };
 
-export const ToolbarStyle: SxProps<Theme> = {
+export const ToolbarStyle = {
     padding: '2px 0 0 0',
     '& svg': {
         fontSize: '18px',

@@ -7,9 +7,6 @@ import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import ToggleButton from '@mui/material/ToggleButton';
 import EventIcon from '@mui/icons-material/Event';
 import Button from '@mui/material/Button';
@@ -17,22 +14,21 @@ import Button from '@mui/material/Button';
 import {
     FormContainerStyle,
     ImageUploadStackStyle,
-    CityLabelIconWrapperStyle,
-    CitySelectStyle,
     DateToggleButtonStyle,
     FormButtonsWrapperStyle,
     BackButtonStyle,
     SubmitButtonStyle,
 } from './AddPage.styles';
 
-import TitleTextField from "../../common/TitleTextField";
-import PriceTextField from "../../common/PriceTextField";
-import DescriptionEditor from "../../common/DescriptionEditor/DescriptionEditor";
-import ImageUploadBox from "../../common/ImageUploadBox";
-import ControlledCheckbox from "../../common/ControlledCheckbox";
+import TitleTextField from "../common/TitleTextField";
+import PriceTextField from "../common/PriceTextField";
+import DescriptionEditor from "../common/DescriptionEditor/DescriptionEditor";
+import ImageUploadBox from "../common/ImageUploadBox";
+import ControlledCheckbox from "../common/ControlledCheckbox";
+import CitySelectField from "../common/CitySelectField";
 import {RichTextEditorRef} from "mui-tiptap";
 
-const AddPage: React.FC = () => {
+const AddPage = () => {
     const [title, setTitle] = useState("");
     const [price, setPrice] = useState("");
     const [pickupOnlyInCity, setPickupOnlyInCity] = useState(false);
@@ -85,7 +81,7 @@ const AddPage: React.FC = () => {
     );
 }
 
-const ImageUploadSection: React.FC = () => (
+const ImageUploadSection = () => (
     <Stack spacing={2} sx={ImageUploadStackStyle}>
         <Typography variant="body1" fontWeight={500}>
             Dodaj zdjęcie
@@ -100,7 +96,7 @@ type TitleSectionProps = {
     setTitle: (value: string) => void;
 };
 
-const TitleSection: React.FC<TitleSectionProps> = ({ title, setTitle }) => (
+const TitleSection = ({ title, setTitle }: TitleSectionProps) => (
     <Box sx={{ width: '100%' }}>
         <TitleTextField title={title} setTitle={setTitle} />
     </Box>
@@ -111,7 +107,7 @@ type PriceSectionProps = {
     setPrice: (value: string) => void;
 };
 
-const PriceSection: React.FC<PriceSectionProps> = ({ price, setPrice }) => (
+const PriceSection = ({ price, setPrice }: PriceSectionProps) => (
     <Box sx={{ width: '25%' }}>
         <PriceTextField price={price} setPrice={setPrice} />
     </Box>
@@ -124,7 +120,7 @@ type CitySectionProps = {
     setSelectedCity: (value: string) => void;
 };
 
-const CitySection: React.FC<CitySectionProps> = ({
+const CitySection = ({
                          pickupOnlyInCity,
                          setPickupOnlyInCity,
                          selectedCity,
@@ -137,28 +133,12 @@ const CitySection: React.FC<CitySectionProps> = ({
             label="Odbiór jest możliwy tylko w wybranym mieście"
         />
 
-        <TextField
-            select
-            label={
-                <Box component="span" sx={CityLabelIconWrapperStyle}>
-                    Miasto
-                    <InfoOutlinedIcon
-                        fontSize="small"
-                        titleAccess="Wybierz miasto, w którym możliwy jest odbiór."
-                        sx={{cursor: 'help' }}
-                    />
-                </Box>
-            }
-            value={selectedCity}
-            onChange={(e) => setSelectedCity(e.target.value)}
-            size="small"
+        <CitySelectField
+            selectedCity={selectedCity}
+            setSelectedCity={setSelectedCity}
             disabled={!pickupOnlyInCity}
-            InputLabelProps={{ shrink: true }}
-            sx={CitySelectStyle}
-        >
-            <MenuItem value="Wrocław">Wrocław</MenuItem>
-            <MenuItem value="Kraków">Kraków</MenuItem>
-        </TextField>
+            options={["Wrocław", "Kraków"]}
+        />
     </Stack>
 );
 
@@ -169,12 +149,12 @@ type ModeratorSectionProps = {
     setSelectedDate: (value: string) => void;
 };
 
-const ModeratorSection: React.FC<ModeratorSectionProps> = ({
-                                                               wantsToBeModerator,
-                                                               setWantsToBeModerator,
-                                                               selectedDate,
-                                                               setSelectedDate,
-                                                           }) => {
+const ModeratorSection = ({
+                              wantsToBeModerator,
+                              setWantsToBeModerator,
+                              selectedDate,
+                              setSelectedDate,
+                          }: ModeratorSectionProps) => {
     const dates = ["21", "22", "23"];
 
     return (
@@ -212,7 +192,7 @@ const ModeratorSection: React.FC<ModeratorSectionProps> = ({
     );
 };
 
-const FormButtonsSection: React.FC = () => {
+const FormButtonsSection = () => {
     const navigate = useNavigate();
 
     const handleSubmit = () => {
