@@ -7,6 +7,7 @@ import Auth from "../components/GoogleLogin/Auth";
 import Home from "../components/HomePage/HomePage";
 import AddAuction from "../components/AddPage/AddPage";
 import Auctions from "../components/AuctionPage/AuctionPage"
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import {Box, Container, Stack, useMediaQuery, useTheme} from "@mui/material";
 
 const LeftPanel = ({isLarge}: { isLarge: boolean }) => {
@@ -49,6 +50,7 @@ const RightPanel = ({isLarge}: { isLarge: boolean }) => {
 }
 
 function App() {
+    const queryClient = new QueryClient();
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const theme = useTheme();
     const isLarge = useMediaQuery(theme.breakpoints.up('lg'));
@@ -68,13 +70,15 @@ function App() {
     }, []);
 
     return (
-        <Container disableGutters sx={{minWidth: '100%', height: '100%'}}>
-            <Stack direction="row" justifyContent="center" sx={{height: "100%"}}>
-                {!isAuthPage && <LeftPanel isLarge={isLarge}/>}
-                <MiddlePanel isLarge={isLarge} isAuthPage={isAuthPage}/>
-                {!isAuthPage && <RightPanel isLarge={isLarge}/>}
-            </Stack>
-        </Container>
+        <QueryClientProvider client={queryClient}>
+            <Container disableGutters sx={{minWidth: '100%', height: '100%'}}>
+                <Stack direction="row" justifyContent="center" sx={{height: "100%"}}>
+                    {!isAuthPage && <LeftPanel isLarge={isLarge}/>}
+                    <MiddlePanel isLarge={isLarge} isAuthPage={isAuthPage}/>
+                    {!isAuthPage && <RightPanel isLarge={isLarge}/>}
+                </Stack>
+            </Container>
+        </QueryClientProvider>
     );
 }
 
