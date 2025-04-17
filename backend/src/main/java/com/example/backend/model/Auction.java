@@ -15,11 +15,11 @@ public class Auction {
     private UUID id;
 
     // Moderator
-    private String moderatorName;
+    private String moderatorEmail;
 
     // Owner
-    private String ownerName;
-    private String ownerEmail;
+    private String supplierName;
+    private String supplierEmail;
 
     // Dates
     private LocalDate preferredAuctionDay;
