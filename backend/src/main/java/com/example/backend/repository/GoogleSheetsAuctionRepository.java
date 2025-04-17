@@ -1,5 +1,6 @@
 package com.example.backend.repository;
 
+import com.example.backend.dto.AuctionFiltersDto;
 import com.example.backend.model.Auction;
 import com.example.backend.service.GoogleSheetsService;
 import org.springframework.stereotype.Repository;
@@ -24,10 +25,11 @@ public class GoogleSheetsAuctionRepository implements AuctionRepository {
     public void save(Auction auction) throws IOException {
         List<Object> row = Arrays.asList(
                 makeNotNull(auction.getId()),
-                makeNotNull(auction.getModeratorName()),
+                makeNotNull(auction.getModeratorEmail()),
                 makeNotNull(auction.getPreferredAuctionDay()),
                 makeNotNull(auction.getAuctionDay()),
-                makeNotNull(auction.getOwnerName()),
+                makeNotNull(auction.getSupplierName()),
+                makeNotNull(auction.getSupplierEmail()),
                 makeNotNull(auction.getTitle()),
                 makeNotNull(auction.getDescription()),
                 makeNotNull(auction.getImageUrl()),
@@ -39,5 +41,11 @@ public class GoogleSheetsAuctionRepository implements AuctionRepository {
         );
 
         googleSheetsService.appendRow("Auction", List.of(row));
+    }
+
+    @Override
+    public List<Auction> findAllByFiltersAndUser(AuctionFiltersDto auctionFiltersDto) {
+        // To be implemented
+        return List.of();
     }
 }
