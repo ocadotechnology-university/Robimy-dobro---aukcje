@@ -28,6 +28,18 @@ const selectedOptions = ["Moje aukcje", "Ulubione"];
 const dateOptions = ["21 listopada", "22 listopada", "23 listopada"];
 const sortOptions = ["Domyślne", "Cena: od najniższej", "Cena: od najwyższej"];
 
+const statusValueMap: Record<string, string> = {
+    "Bez daty": "No date",
+    "Niekompletne": "Incomplete",
+    "Zatwierdzone": "Approved",
+};
+
+const dateValueMap: Record<string, string> = {
+    "21 listopada": "2025-11-21",
+    "22 listopada": "2025-11-22",
+    "23 listopada": "2025-11-23",
+};
+
 const Filters = ({ aucfilters, setAucFilters } : FiltersProps ) => {
     const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
     const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
@@ -37,7 +49,7 @@ const Filters = ({ aucfilters, setAucFilters } : FiltersProps ) => {
     useEffect(() => {
         setAucFilters(prev => ({
             ...prev,
-            statuses: selectedStatuses,
+            statuses: selectedStatuses.map(element => statusValueMap[element]),
         }));
     }, [selectedStatuses]);
 
@@ -52,7 +64,7 @@ const Filters = ({ aucfilters, setAucFilters } : FiltersProps ) => {
     useEffect(() => {
         setAucFilters(prev => ({
             ...prev,
-            dates: selectedDates,
+            dates: selectedDates.map(element => dateValueMap[element]),
         }));
     }, [selectedDates]);
 

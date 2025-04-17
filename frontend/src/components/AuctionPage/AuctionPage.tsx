@@ -18,6 +18,8 @@ const AuctionPage = () => {
 
     const { data:  auctions = [] } = useGetAuctions(auctionFilters);
 
+    console.log(auctionFilters);
+
     return (
         <React.Fragment>
             <CssBaseline />
