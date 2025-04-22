@@ -26,7 +26,7 @@ const AuctionsList = ({auctions}: AuctionsList) => {
         },
         {
             title: "Aukcja 2",
-            date: "2025-04-10",
+            date: "",
             city: "Kraków",
             description: "Opis aukcji 2",
             status: "NOT_STARTED",
