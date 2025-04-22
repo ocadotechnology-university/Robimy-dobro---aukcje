@@ -79,8 +79,6 @@ function App() {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'flex-start',
-                p: 0,
-                m: 0,
                 overflow: 'hidden',
             }}
         >
@@ -90,7 +88,7 @@ function App() {
                     position: 'fixed',
                     top: 0,
                     left: '50%',
-                    width: '2000px', // wide enough to handle large screens
+                    width: '100vw',
                     height: '100%',
                     transform: 'translateX(-50%)',
                     backgroundImage: `url(${template})`,
@@ -98,7 +96,7 @@ function App() {
                     backgroundPosition: 'center',
                     backgroundSize: 'auto',
                     zIndex: -1,
-                    pointerEvents: 'none', // so it doesn't block interactions
+                    pointerEvents: 'none',
                 }}
             />
 
@@ -107,10 +105,6 @@ function App() {
                 maxWidth="md"
                 sx={{
                     bgcolor: 'white',
-                    borderRadius: 2,
-                    boxShadow: 3,
-                    p: 4,
-                    mt: 4,
                 }}
             >
                 <Typography variant="h4" gutterBottom>
