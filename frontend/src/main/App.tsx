@@ -101,18 +101,15 @@ function App() {
             />
 
             {/* Foreground Content */}
-            <Container
-                maxWidth="md"
-                sx={{
-                    bgcolor: 'white',
-                }}
-            >
-                <Typography variant="h4" gutterBottom>
-                    Centered Content with Centered Background Pattern
-                </Typography>
-                {[...Array(25)].map((_, i) => (
-                    <Typography key={i}>Line {i + 1}</Typography>
-                ))}
+            <Container maxWidth="lg" sx={{ bgcolor: 'white', minHeight: '100vh' }}>
+                {!isAuthPage && <Header/>}
+                <Routes>
+                    <Route path="/" element={<Navigate to="/auth"/>}/>
+                    <Route path="/auth" element={<Auth/>}/>
+                    <Route path="/home" element={<Home/>}/>
+                    <Route path="/add" element={<AddAuction/>}/>
+                    <Route path="/auctions" element={<Auctions/>}/>
+                </Routes>
             </Container>
         </Box>
     );
