@@ -101,7 +101,7 @@ function App() {
             />
 
             {/* Foreground Content */}
-            <Container maxWidth="lg" sx={{ bgcolor: 'white', minHeight: '100vh' }}>
+            <Container maxWidth="lg" disableGutters sx={{ bgcolor: 'white', minHeight: '100vh'}}>
                 {!isAuthPage && <Header/>}
                 <Routes>
                     <Route path="/" element={<Navigate to="/auth"/>}/>
