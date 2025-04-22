@@ -51,6 +51,25 @@ const RightPanel = ({isLarge}: { isLarge: boolean }) => {
     );
 }
 
+const Background = () => {
+    return <Box
+        sx={{
+            position: 'fixed',
+            top: 0,
+            left: '50%',
+            width: '100vw',
+            height: '100%',
+            transform: 'translateX(-50%)',
+            backgroundImage: `url(${template})`,
+            backgroundRepeat: 'repeat',
+            backgroundPosition: 'center',
+            backgroundSize: 'auto',
+            zIndex: -1,
+            pointerEvents: 'none',
+        }}
+    />
+}
+
 function App() {
     const queryClient = new QueryClient();
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -82,25 +101,8 @@ function App() {
                 overflow: 'hidden',
             }}
         >
-            {/* Background Pattern Layer */}
-            <Box
-                sx={{
-                    position: 'fixed',
-                    top: 0,
-                    left: '50%',
-                    width: '100vw',
-                    height: '100%',
-                    transform: 'translateX(-50%)',
-                    backgroundImage: `url(${template})`,
-                    backgroundRepeat: 'repeat',
-                    backgroundPosition: 'center',
-                    backgroundSize: 'auto',
-                    zIndex: -1,
-                    pointerEvents: 'none',
-                }}
-            />
-
-            {/* Foreground Content */}
+            <Background/>
+            {/*Main content goes inside the container*/}
             <Container maxWidth="lg" disableGutters sx={{ bgcolor: 'white', minHeight: '100vh'}}>
                 {!isAuthPage && <Header/>}
                 <Routes>
