@@ -13,13 +13,13 @@ const AuctionsList = ({auctions}: AuctionsList) => {
         {
             title: "Aukcja 1",
             date: "2025-04-09",
-            city: "Warszawa",
+            city: "",
             description: "Opis aukcji 1",
             status: "IN_PROGRESS",
             hasBids: false,
             supplier: "Dostawca 1",
             winner: "Zwycięzca 1",
-            price: "1000 PLN",
+            price: "1000",
             imageUrl: "https://picsum.photos/200?random=1",
             isFollowed: false,
             slackUrl: "http://slack.com/auction1"
@@ -33,7 +33,7 @@ const AuctionsList = ({auctions}: AuctionsList) => {
             hasBids: false,
             supplier: "Dostawca 2",
             winner: "Zwycięzca 2",
-            price: "2000 PLN",
+            price: "2000",
             imageUrl: "https://picsum.photos/200?random=2",
             isFollowed: true,
             slackUrl: "http://slack.com/auction2"

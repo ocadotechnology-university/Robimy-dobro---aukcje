@@ -23,10 +23,14 @@ const AuctionHeader = ({title, date, city, price, status, hasBids}: Props) => {
                 <Stack direction="row" spacing={1} alignItems="center">
                     <CalendarTodayIcon fontSize="small"/>
                     <Typography variant="body2"><b>{date}</b></Typography>
-                    <LocationOnIcon fontSize="small"/>
-                    <Typography variant="body2">
-                        Odbiór tylko w: <b>{city}</b>
-                    </Typography>
+                    {city && (
+                        <>
+                            <Typography variant="body2" display="flex" alignItems="center" gap={0.5}>
+                                <LocationOnIcon fontSize="small" />
+                                Odbiór tylko w: <b>{city}</b>
+                            </Typography>
+                        </>
+                    )}
                 </Stack>
             </Box>
             <Box display="flex" flexDirection="column" alignItems="flex-end">
