@@ -3,12 +3,14 @@ import {Routes, Route, Navigate, useLocation} from 'react-router-dom';
 import Header from "../components/NavBar/NavBar";
 import img1 from "../image/image3.jpg";
 import img2 from "../image/image4.jpg";
+import template from '../image/template.png';
 import Auth from "../components/GoogleLogin/Auth";
 import Home from "../components/HomePage/HomePage";
 import AddAuction from "../components/AddPage/AddPage";
 import Auctions from "../components/AuctionPage/AuctionPage"
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import {Box, Container, Stack, useMediaQuery, useTheme} from "@mui/material";
+import Typography from "@mui/material/Typography";
 
 const LeftPanel = ({isLarge}: { isLarge: boolean }) => {
     if (!isLarge) return null;
@@ -70,15 +72,55 @@ function App() {
     }, []);
 
     return (
-        <QueryClientProvider client={queryClient}>
-            <Container disableGutters sx={{minWidth: '100%', height: '100%'}}>
-                <Stack direction="row" justifyContent="center" sx={{height: "100%"}}>
-                    {!isAuthPage && <LeftPanel isLarge={isLarge}/>}
-                    <MiddlePanel isLarge={isLarge} isAuthPage={isAuthPage}/>
-                    {!isAuthPage && <RightPanel isLarge={isLarge}/>}
-                </Stack>
+        <Box
+            sx={{
+                position: 'relative',
+                minHeight: '100vh',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'flex-start',
+                p: 0,
+                m: 0,
+                overflow: 'hidden',
+            }}
+        >
+            {/* Background Pattern Layer */}
+            <Box
+                sx={{
+                    position: 'fixed',
+                    top: 0,
+                    left: '50%',
+                    width: '2000px', // wide enough to handle large screens
+                    height: '100%',
+                    transform: 'translateX(-50%)',
+                    backgroundImage: `url(${template})`,
+                    backgroundRepeat: 'repeat',
+                    backgroundPosition: 'center',
+                    backgroundSize: 'auto',
+                    zIndex: -1,
+                    pointerEvents: 'none', // so it doesn't block interactions
+                }}
+            />
+
+            {/* Foreground Content */}
+            <Container
+                maxWidth="md"
+                sx={{
+                    bgcolor: 'white',
+                    borderRadius: 2,
+                    boxShadow: 3,
+                    p: 4,
+                    mt: 4,
+                }}
+            >
+                <Typography variant="h4" gutterBottom>
+                    Centered Content with Centered Background Pattern
+                </Typography>
+                {[...Array(25)].map((_, i) => (
+                    <Typography key={i}>Line {i + 1}</Typography>
+                ))}
             </Container>
-        </QueryClientProvider>
+        </Box>
     );
 }
 
