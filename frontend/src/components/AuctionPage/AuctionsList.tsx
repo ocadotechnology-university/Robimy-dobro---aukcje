@@ -20,7 +20,7 @@ const AuctionsList = ({auctions}: AuctionsList) => {
             supplier: "Dostawca 1",
             winner: "Zwycięzca 1",
             price: "1000 PLN",
-            imageUrl: "http://example.com/image1.jpg",
+            imageUrl: "https://picsum.photos/200?random=1",
             isFollowed: false,
             slackUrl: "http://slack.com/auction1"
         },
@@ -34,7 +34,7 @@ const AuctionsList = ({auctions}: AuctionsList) => {
             supplier: "Dostawca 2",
             winner: "Zwycięzca 2",
             price: "2000 PLN",
-            imageUrl: "http://example.com/image2.jpg",
+            imageUrl: "https://picsum.photos/200?random=2",
             isFollowed: true,
             slackUrl: "http://slack.com/auction2"
         }
