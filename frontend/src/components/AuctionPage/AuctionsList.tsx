@@ -15,7 +15,8 @@ const AuctionsList = ({auctions}: AuctionsList) => {
             date: "2025-04-09",
             city: "Warszawa",
             description: "Opis aukcji 1",
-            status: "active",
+            status: "IN_PROGRESS",
+            hasBids: false,
             supplier: "Dostawca 1",
             winner: "Zwycięzca 1",
             price: "1000 PLN",
@@ -28,7 +29,8 @@ const AuctionsList = ({auctions}: AuctionsList) => {
             date: "2025-04-10",
             city: "Kraków",
             description: "Opis aukcji 2",
-            status: "inactive",
+            status: "NOT_STARTED",
+            hasBids: false,
             supplier: "Dostawca 2",
             winner: "Zwycięzca 2",
             price: "2000 PLN",
@@ -50,6 +52,7 @@ const AuctionsList = ({auctions}: AuctionsList) => {
                     city={auction.city}
                     description={auction.description}
                     status={auction.status}
+                    hasBids={auction.hasBids}
                     supplier={auction.supplier}
                     winner={auction.winner}
                     price={auction.price}
@@ -57,7 +60,7 @@ const AuctionsList = ({auctions}: AuctionsList) => {
                     isFollowed={auction.isFollowed}
                     slackUrl={auction.slackUrl}
                 />
-                ))}
+            ))}
         </Stack>
     );
 }
