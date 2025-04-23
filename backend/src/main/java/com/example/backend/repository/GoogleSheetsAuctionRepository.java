@@ -2,6 +2,7 @@ package com.example.backend.repository;
 
 import com.example.backend.model.Auction;
 import com.example.backend.service.GoogleSheetsService;
+import com.example.backend.util.GvizResponseParser;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
@@ -12,9 +13,11 @@ import java.util.List;
 @Repository
 public class GoogleSheetsAuctionRepository implements AuctionRepository {
     private final GoogleSheetsService googleSheetsService;
+    private final GvizResponseParser gvizResponseParser;
 
-    public GoogleSheetsAuctionRepository(GoogleSheetsService googleSheetsService) {
+    public GoogleSheetsAuctionRepository(GoogleSheetsService googleSheetsService, GvizResponseParser gvizResponseParser) {
         this.googleSheetsService = googleSheetsService;
+        this.gvizResponseParser = gvizResponseParser;
     }
 
     private String makeNotNull(Object value) {
@@ -45,6 +48,7 @@ public class GoogleSheetsAuctionRepository implements AuctionRepository {
 
     @Override
     public List<Auction> findAllByFiltersAndUser(ArrayList<String> statuses, boolean myAuctions, boolean followed, ArrayList<String> dates, String userEmail) throws IOException {
-        return List.of();
+        String response = googleSheetsService.queryWithGviz("SELECT A, B, C, D, E, F, G, H, I, J, K, L, M"); // TODO: Build query dynamically based on provided filters
+        return gvizResponseParser.parse(response);
     }
 }
