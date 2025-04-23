@@ -1,5 +1,6 @@
 package com.example.backend.dto;
 
+import com.example.backend.model.AuctionStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,12 +11,12 @@ public class AuctionGetDto {
     private String date;
     private String city;
     private String description;
-    private String status;
+    private AuctionStatus status;
     private String supplier;
     private String winner;
     private String price;
     private String imageUrl;
-    private boolean isFollowed;
+    private Boolean isFollowed;
     private String slackUrl;
-    private boolean isSupplier;
+    private Boolean isSupplier;
 }

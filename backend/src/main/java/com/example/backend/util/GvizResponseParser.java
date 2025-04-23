@@ -34,11 +34,14 @@ public class GvizResponseParser {
             auction.setSupplierEmail(getRaw(cells, 5));
             auction.setTitle(getRaw(cells, 6));
             auction.setDescription(getRaw(cells, 7));
-            auction.setSlackThreadLink(getRaw(cells, 8));
-            auction.setImageUrl(getRaw(cells, 9));
-            auction.setCity(getRaw(cells, 10));
-            auction.setStartingPrice(parseDouble(getRaw(cells, 11)));
-            auction.setFollowers(parseFollowers(getRaw(cells, 12)));
+            auction.setImageUrl(getRaw(cells, 8));
+            auction.setCity(getRaw(cells, 9));
+            auction.setStartingPrice(parseDouble(getRaw(cells, 10)));
+            auction.setFollowers(parseFollowers(getRaw(cells, 11)));
+            auction.setFollowersCount(Integer.parseInt(Objects.requireNonNull(getRaw(cells, 12))));
+            auction.setSlackThreadLink(getRaw(cells, 13));
+            auction.setCurrentBid(parseDouble(getRaw(cells, 14)));
+            auction.setWinner(getRaw(cells, 15));
 
             auctions.add(auction);
         }
