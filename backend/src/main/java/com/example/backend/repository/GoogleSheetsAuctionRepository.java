@@ -1,20 +1,23 @@
 package com.example.backend.repository;
 
-import com.example.backend.dto.AuctionFiltersDto;
 import com.example.backend.model.Auction;
 import com.example.backend.service.GoogleSheetsService;
+import com.example.backend.util.GvizResponseParser;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @Repository
 public class GoogleSheetsAuctionRepository implements AuctionRepository {
     private final GoogleSheetsService googleSheetsService;
+    private final GvizResponseParser gvizResponseParser;
 
-    public GoogleSheetsAuctionRepository(GoogleSheetsService googleSheetsService) {
+    public GoogleSheetsAuctionRepository(GoogleSheetsService googleSheetsService, GvizResponseParser gvizResponseParser) {
         this.googleSheetsService = googleSheetsService;
+        this.gvizResponseParser = gvizResponseParser;
     }
 
     private String makeNotNull(Object value) {
@@ -26,8 +29,8 @@ public class GoogleSheetsAuctionRepository implements AuctionRepository {
         List<Object> row = Arrays.asList(
                 makeNotNull(auction.getId()),
                 makeNotNull(auction.getModeratorEmail()),
-                makeNotNull(auction.getPreferredAuctionDay()),
-                makeNotNull(auction.getAuctionDay()),
+                makeNotNull(auction.getPreferredAuctionDate()),
+                makeNotNull(auction.getAuctionDate()),
                 makeNotNull(auction.getSupplierName()),
                 makeNotNull(auction.getSupplierEmail()),
                 makeNotNull(auction.getTitle()),
@@ -44,8 +47,8 @@ public class GoogleSheetsAuctionRepository implements AuctionRepository {
     }
 
     @Override
-    public List<Auction> findAllByFiltersAndUser(AuctionFiltersDto auctionFiltersDto) {
-        // To be implemented
-        return List.of();
+    public List<Auction> findAllByFiltersAndUser(ArrayList<String> statuses, boolean myAuctions, boolean followed, ArrayList<String> dates, String userEmail) throws IOException {
+        String response = googleSheetsService.queryWithGviz("SELECT A, B, C, D, E, F, G, H, I, J, K, L, M"); // TODO: Build query dynamically based on provided filters
+        return gvizResponseParser.parse(response);
     }
 }
