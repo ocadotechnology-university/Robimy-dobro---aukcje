@@ -28,7 +28,8 @@ public class AuctionController {
     }
 
     @GetMapping("/get")
-    public ResponseEntity<?> findAllFilteredAuctions(@RequestParam ArrayList<String> statuses, @RequestParam boolean myAuctions, @RequestParam boolean followed, @RequestParam ArrayList<String> dates) throws IOException {
+
+    public ResponseEntity<?> findAllFilteredAuctions(@RequestParam ArrayList<String> statuses, @RequestParam Boolean myAuctions, @RequestParam Boolean followed, @RequestParam ArrayList<String> dates) throws IOException {
         try {
             String userEmail = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
             return ResponseEntity.ok(auctionService.getFilteredAuctions(statuses, myAuctions, followed, dates, userEmail));

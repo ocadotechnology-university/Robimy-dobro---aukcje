@@ -38,7 +38,7 @@ public class GvizResponseParser {
             auction.setCity(getRaw(cells, 9));
             auction.setStartingPrice(parseDouble(getRaw(cells, 10)));
             auction.setFollowers(parseFollowers(getRaw(cells, 11)));
-            auction.setFollowersCount(Integer.parseInt(Objects.requireNonNull(getRaw(cells, 12))));
+            auction.setFollowersCount((int)Double.parseDouble(Objects.requireNonNull(getRaw(cells, 12))));
             auction.setSlackThreadLink(getRaw(cells, 13));
             auction.setCurrentBid(parseDouble(getRaw(cells, 14)));
             auction.setWinner(getRaw(cells, 15));

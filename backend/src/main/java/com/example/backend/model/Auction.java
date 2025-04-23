@@ -44,4 +44,26 @@ public class Auction {
         this.followers = new ArrayList<>();
         this.followersCount = 0;
     }
+
+    @Override
+    public String toString() {
+        return "Auction{" +
+                "id=" + id +
+                ", moderatorEmail='" + moderatorEmail + '\'' +
+                ", supplierName='" + supplierName + '\'' +
+                ", supplierEmail='" + supplierEmail + '\'' +
+                ", preferredAuctionDate=" + preferredAuctionDate +
+                ", auctionDate=" + auctionDate +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", city='" + city + '\'' +
+                ", startingPrice=" + startingPrice +
+                ", currentBid=" + currentBid +
+                ", winner='" + winner + '\'' +
+                ", slackThreadLink='" + slackThreadLink + '\'' +
+                ", followers=" + followers +
+                ", followersCount=" + followersCount +
+                '}';
+    }
 }
