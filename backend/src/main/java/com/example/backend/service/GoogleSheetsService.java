@@ -47,7 +47,7 @@ public class GoogleSheetsService {
     public String queryWithGviz(String gvizQuery) throws IOException {
         String encodedQuery = URLEncoder.encode(gvizQuery, StandardCharsets.UTF_8);
         String url = "https://docs.google.com/spreadsheets/d/" + SPREADSHEET_ID + "/gviz/tq?tq=" + encodedQuery;
-        url = url.replace("%2C", ",").replace("%3D", "=");
+        url = url.replace("%2C", ",").replace("%3D", "=").replace("%27", "'");
 
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(url, String.class);
