@@ -1,11 +1,11 @@
 package com.example.backend.repository;
 
-import com.example.backend.dto.AuctionFiltersDto;
 import com.example.backend.model.Auction;
 import com.example.backend.service.GoogleSheetsService;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,8 +26,8 @@ public class GoogleSheetsAuctionRepository implements AuctionRepository {
         List<Object> row = Arrays.asList(
                 makeNotNull(auction.getId()),
                 makeNotNull(auction.getModeratorEmail()),
-                makeNotNull(auction.getPreferredAuctionDay()),
-                makeNotNull(auction.getAuctionDay()),
+                makeNotNull(auction.getPreferredAuctionDate()),
+                makeNotNull(auction.getAuctionDate()),
                 makeNotNull(auction.getSupplierName()),
                 makeNotNull(auction.getSupplierEmail()),
                 makeNotNull(auction.getTitle()),
@@ -44,8 +44,7 @@ public class GoogleSheetsAuctionRepository implements AuctionRepository {
     }
 
     @Override
-    public List<Auction> findAllByFiltersAndUser(AuctionFiltersDto auctionFiltersDto) {
-        // To be implemented
+    public List<Auction> findAllByFiltersAndUser(ArrayList<String> statuses, boolean myAuctions, boolean followed, ArrayList<String> dates, String userEmail) throws IOException {
         return List.of();
     }
 }
