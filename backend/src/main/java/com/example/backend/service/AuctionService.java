@@ -5,7 +5,6 @@ import com.example.backend.dto.AuctionGetDto;
 import com.example.backend.mapper.AuctionMapper;
 import com.example.backend.model.Auction;
 import com.example.backend.repository.AuctionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -23,18 +22,8 @@ public class AuctionService {
         this.auctionMapper = auctionMapper;
     }
 
-    public void save(AuctionCreateDto auctionCreateDto) throws IOException {
-        Auction auction = new Auction();
-
-        auction.setTitle(auctionCreateDto.getTitle());
-        auction.setDescription(auctionCreateDto.getDescription());
-        auction.setImageUrl(auctionCreateDto.getImageUrl());
-        auction.setCity(auctionCreateDto.getCity());
-        auction.setStartingPrice(auctionCreateDto.getStartingPrice());
-        auction.setCurrentBid(auctionCreateDto.getStartingPrice());
-        auction.setPreferredAuctionDate(auctionCreateDto.getPreferredAuctionDate());
-
-        auctionRepository.save(auction);
+    public void save(AuctionCreateDto auctionCreateDto, String userEmail, String userName) throws IOException {
+        auctionRepository.save(auctionMapper.mapFromCreateDtoToAuction(auctionCreateDto, userEmail, userName));
     }
 
     public List<AuctionGetDto> getFilteredAuctions(ArrayList<String> statuses, boolean myAuctions, boolean followed, ArrayList<String> dates, String userEmail) throws IOException {

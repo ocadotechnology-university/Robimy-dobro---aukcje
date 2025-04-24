@@ -1,9 +1,13 @@
 package com.example.backend.mapper;
 
+import com.example.backend.dto.AuctionCreateDto;
 import com.example.backend.dto.AuctionGetDto;
 import com.example.backend.model.Auction;
 import com.example.backend.model.AuctionStatus;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.UUID;
 
 @Component
 public class AuctionMapper {
@@ -29,5 +33,21 @@ public class AuctionMapper {
 
     private AuctionStatus determineStatus(Auction auction) {
         return AuctionStatus.NOT_STARTED; // TODO: Implement logic to determine auction status
+    }
+
+    public Auction mapFromCreateDtoToAuction(AuctionCreateDto auctionCreateDto, String userEmail, String userName) {
+        Auction auction = new Auction();
+
+        auction.setSupplierEmail(userEmail);
+        auction.setSupplierName(userName);
+        auction.setTitle(auctionCreateDto.getTitle());
+        auction.setDescription(auctionCreateDto.getDescription());
+        auction.setImageUrl(auctionCreateDto.getImageUrl());
+        auction.setCity(auctionCreateDto.getCity());
+        auction.setStartingPrice(auctionCreateDto.getStartingPrice());
+        auction.setCurrentBid(auctionCreateDto.getStartingPrice());
+        auction.setPreferredAuctionDate(auctionCreateDto.getPreferredAuctionDate());
+
+        return auction;
     }
 }
