@@ -1,8 +1,9 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import UploadIcon from '@mui/icons-material/Upload';
-import { useState, useCallback } from 'react'
+import { useState } from 'react'
 import Cropper from 'react-easy-crop'
+import Stack from "@mui/material/Stack";
 
 const boxStyle = {
     alignSelf: 'center',
@@ -21,18 +22,23 @@ const boxStyle = {
     },
 };
 
-const ImageUploadBox = () => {
-    const [imageSrc, setImageSrc] = useState<string | null>(null);
+interface ImageUploadBoxProps {
+    setCroppedImage: (img: string | null) => void;
+}
+
+const ImageUploadBox = ({setCroppedImage}:ImageUploadBoxProps) => {
+    const [imageSrc, setImageSrc] = useState<string | null>(null)
     const [crop, setCrop] = useState({x: 0, y: 0})
     const [zoom, setZoom] = useState(1)
+    const [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
 
     const onCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
-        console.log(croppedArea, croppedAreaPixels)
+        setCroppedAreaPixels(croppedAreaPixels)
     }
 
     const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+        const file = e.target.files?.[0]
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp']
 
         if (file && !allowedTypes.includes(file.type)) {
             alert("Niepoprawne rozszerzenie wybranego pliku");
@@ -47,7 +53,7 @@ const ImageUploadBox = () => {
     };
 
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <Stack flexDirection="column" gap={2}>
             <Box component="label" sx={boxStyle}>
                 <input
                     accept="image/*"
@@ -60,19 +66,19 @@ const ImageUploadBox = () => {
             </Box>
 
             {imageSrc && (
-                <Box sx={{ width: '100%', height: 300, position: 'relative' }}>
+                <Box sx={{ width: '100%', height: 200, position: 'relative' }}>
                     <Cropper
                         image={imageSrc}
                         crop={crop}
                         zoom={zoom}
-                        aspect={4 / 3}
+                        aspect={1}
                         onCropChange={setCrop}
                         onCropComplete={onCropComplete}
                         onZoomChange={setZoom}
                     />
                 </Box>
             )}
-        </Box>
+        </Stack>
     );
 };
 export default ImageUploadBox;

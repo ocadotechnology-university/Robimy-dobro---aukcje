@@ -23,6 +23,7 @@ import DateToggleGroup from "../common/DateToggleGroup";
 import OutlinedActionButton from "../common/OutlinedActionButton";
 import PrimaryActionButton from "../common/PrimaryActionButton";
 import {RichTextEditorRef} from "mui-tiptap";
+import {AuctionFilters} from "../../services/fetchAuctions";
 
 const AddPage = () => {
     const [title, setTitle] = useState("");
@@ -32,6 +33,7 @@ const AddPage = () => {
     const [wantsToBeModerator, setWantsToBeModerator] = useState(false);
     const [selectedDate, setSelectedDate] = useState("");
     const rteRef = useRef<RichTextEditorRef>(null);
+    const [croppedImage, setCroppedImage] = useState<string | null>(null);
 
     const handlePickup = (value: boolean) => {
         setPickupOnlyInCity(value);
@@ -48,7 +50,7 @@ const AddPage = () => {
             <CssBaseline/>
             <Container maxWidth="md" sx={FormContainerStyle}>
                 <Stack spacing={4}>
-                    <ImageUploadSection />
+                    <ImageUploadSection setCroppedImage={setCroppedImage}/>
                     <TitleSection title={title} setTitle={setTitle} />
                     <DescriptionEditor rteRef={rteRef} />
                     <PriceSection price={price} setPrice={setPrice} />
@@ -71,13 +73,17 @@ const AddPage = () => {
     );
 }
 
-const ImageUploadSection = () => (
+interface ImageUploadSectionProps {
+    setCroppedImage: (img: string | null) => void;
+}
+
+const ImageUploadSection = ({setCroppedImage}:ImageUploadSectionProps) => (
     <Stack spacing={2} sx={ImageUploadStackStyle}>
         <Typography variant="body1" fontWeight={500}>
             Dodaj zdjęcie
         </Typography>
 
-        <ImageUploadBox />
+        <ImageUploadBox setCroppedImage={setCroppedImage}/>
     </Stack>
 );
 
