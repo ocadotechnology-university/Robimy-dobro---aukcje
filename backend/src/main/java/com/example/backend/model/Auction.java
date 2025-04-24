@@ -29,12 +29,12 @@ public class Auction {
     private String description;
     private String imageUrl;
     private String city;
-    private double startingPrice;
-    private double currentBid;
+    private Double startingPrice;
+    private Double currentBid;
     private String winner;
     private String slackThreadLink;
 
     // Follows
     private List<String> followers;
-    private int followersCount;
+    private Integer followersCount;
 }
