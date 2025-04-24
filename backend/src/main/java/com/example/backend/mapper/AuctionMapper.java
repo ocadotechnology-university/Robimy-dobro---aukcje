@@ -36,18 +36,19 @@ public class AuctionMapper {
     }
 
     public Auction mapFromCreateDtoToAuction(AuctionCreateDto auctionCreateDto, String userEmail, String userName) {
-        Auction auction = new Auction();
-
-        auction.setSupplierEmail(userEmail);
-        auction.setSupplierName(userName);
-        auction.setTitle(auctionCreateDto.getTitle());
-        auction.setDescription(auctionCreateDto.getDescription());
-        auction.setImageUrl(auctionCreateDto.getImageUrl());
-        auction.setCity(auctionCreateDto.getCity());
-        auction.setStartingPrice(auctionCreateDto.getStartingPrice());
-        auction.setCurrentBid(auctionCreateDto.getStartingPrice());
-        auction.setPreferredAuctionDate(auctionCreateDto.getPreferredAuctionDate());
-
-        return auction;
+        return Auction.builder()
+                .id(UUID.randomUUID())
+                .supplierEmail(userEmail)
+                .supplierName(userName)
+                .title(auctionCreateDto.getTitle())
+                .description(auctionCreateDto.getDescription())
+                .imageUrl(auctionCreateDto.getImageUrl())
+                .city(auctionCreateDto.getCity())
+                .startingPrice(auctionCreateDto.getStartingPrice())
+                .currentBid(auctionCreateDto.getStartingPrice())
+                .preferredAuctionDate(auctionCreateDto.getPreferredAuctionDate())
+                .followers(new ArrayList<>())
+                .followersCount(0)
+                .build();
     }
 }

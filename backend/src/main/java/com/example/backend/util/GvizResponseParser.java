@@ -24,24 +24,24 @@ public class GvizResponseParser {
         List<Auction> auctions = new ArrayList<>();
         for (Response.Row row : response.getTable().getRows()) {
             List<Response.Cell> cells = row.getC();
-            Auction auction = new Auction();
-
-            auction.setId(UUID.fromString(getRaw(cells, 0)));
-            auction.setModeratorEmail(getRaw(cells, 1));
-            auction.setPreferredAuctionDate(parseDate(getRaw(cells, 2))); // Date(YYYY,MM,DD)
-            auction.setAuctionDate(parseDate(getRaw(cells, 3)));
-            auction.setSupplierName(getRaw(cells, 4));
-            auction.setSupplierEmail(getRaw(cells, 5));
-            auction.setTitle(getRaw(cells, 6));
-            auction.setDescription(getRaw(cells, 7));
-            auction.setImageUrl(getRaw(cells, 8));
-            auction.setCity(getRaw(cells, 9));
-            auction.setStartingPrice(parseDouble(getRaw(cells, 10)));
-            auction.setFollowers(parseFollowers(getRaw(cells, 11)));
-            auction.setFollowersCount((int)Double.parseDouble(Objects.requireNonNull(getRaw(cells, 12))));
-            auction.setSlackThreadLink(getRaw(cells, 13));
-            auction.setCurrentBid(parseDouble(getRaw(cells, 14)));
-            auction.setWinner(getRaw(cells, 15));
+            Auction auction = Auction.builder()
+                    .id(UUID.fromString(getRaw(cells, 0)))
+                    .moderatorEmail(getRaw(cells, 1))
+                    .preferredAuctionDate(parseDate(getRaw(cells, 2)))
+                    .auctionDate(parseDate(getRaw(cells, 3)))
+                    .supplierName(getRaw(cells, 4))
+                    .supplierEmail(getRaw(cells, 5))
+                    .title(getRaw(cells, 6))
+                    .description(getRaw(cells, 7))
+                    .imageUrl(getRaw(cells, 8))
+                    .city(getRaw(cells, 9))
+                    .startingPrice(parseDouble(getRaw(cells, 10)))
+                    .followers(parseFollowers(getRaw(cells, 11)))
+                    .followersCount((int) Double.parseDouble(Objects.requireNonNull(getRaw(cells, 12))))
+                    .slackThreadLink(getRaw(cells, 13))
+                    .currentBid(parseDouble(getRaw(cells, 14)))
+                    .winner(getRaw(cells, 15))
+                    .build();
 
             auctions.add(auction);
         }
