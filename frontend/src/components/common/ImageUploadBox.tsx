@@ -23,14 +23,14 @@ const boxStyle = {
 };
 
 interface ImageUploadBoxProps {
-    setCroppedImage: (img: string | null) => void;
+    setSrcImage: (img: string | null) => void;
+    setCroppedAreaPixels: (area: any) => void;
 }
 
-const ImageUploadBox = ({setCroppedImage}:ImageUploadBoxProps) => {
+const ImageUploadBox = ({setSrcImage, setCroppedAreaPixels}:ImageUploadBoxProps) => {
     const [imageSrc, setImageSrc] = useState<string | null>(null)
     const [crop, setCrop] = useState({x: 0, y: 0})
     const [zoom, setZoom] = useState(1)
-    const [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
 
     const onCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
         setCroppedAreaPixels(croppedAreaPixels)

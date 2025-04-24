@@ -34,6 +34,8 @@ const AddPage = () => {
     const [selectedDate, setSelectedDate] = useState("");
     const rteRef = useRef<RichTextEditorRef>(null);
     const [croppedImage, setCroppedImage] = useState<string | null>(null);
+    const [srcImage, setSrcImage] = useState<string | null>(null);
+    const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null)
 
     const handlePickup = (value: boolean) => {
         setPickupOnlyInCity(value);
@@ -50,7 +52,7 @@ const AddPage = () => {
             <CssBaseline/>
             <Container maxWidth="md" sx={FormContainerStyle}>
                 <Stack spacing={4}>
-                    <ImageUploadSection setCroppedImage={setCroppedImage}/>
+                    <ImageUploadSection setSrcImage={setSrcImage} setCroppedAreaPixels={setCroppedAreaPixels}/>
                     <TitleSection title={title} setTitle={setTitle} />
                     <DescriptionEditor rteRef={rteRef} />
                     <PriceSection price={price} setPrice={setPrice} />
@@ -74,16 +76,17 @@ const AddPage = () => {
 }
 
 interface ImageUploadSectionProps {
-    setCroppedImage: (img: string | null) => void;
+    setSrcImage: (img: string | null) => void;
+    setCroppedAreaPixels: (area: any) => void;
 }
 
-const ImageUploadSection = ({setCroppedImage}:ImageUploadSectionProps) => (
+const ImageUploadSection = ({setSrcImage, setCroppedAreaPixels}:ImageUploadSectionProps) => (
     <Stack spacing={2} sx={ImageUploadStackStyle}>
         <Typography variant="body1" fontWeight={500}>
             Dodaj zdjęcie
         </Typography>
 
-        <ImageUploadBox setCroppedImage={setCroppedImage}/>
+        <ImageUploadBox setSrcImage={setSrcImage} setCroppedAreaPixels={setCroppedAreaPixels}/>
     </Stack>
 );
 
