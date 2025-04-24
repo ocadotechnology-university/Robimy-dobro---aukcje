@@ -24,6 +24,7 @@ import OutlinedActionButton from "../common/OutlinedActionButton";
 import PrimaryActionButton from "../common/PrimaryActionButton";
 import {RichTextEditorRef} from "mui-tiptap";
 import {AuctionFilters} from "../../services/fetchAuctions";
+import {getCroppedImage} from "../common/Services/CropImage"
 
 const AddPage = () => {
     const [title, setTitle] = useState("");
@@ -33,7 +34,6 @@ const AddPage = () => {
     const [wantsToBeModerator, setWantsToBeModerator] = useState(false);
     const [selectedDate, setSelectedDate] = useState("");
     const rteRef = useRef<RichTextEditorRef>(null);
-    const [croppedImage, setCroppedImage] = useState<string | null>(null);
     const [srcImage, setSrcImage] = useState<string | null>(null);
     const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null)
 
@@ -68,7 +68,7 @@ const AddPage = () => {
                         setSelectedDate={setSelectedDate}
                         handleModerator={handleModerator}
                     />
-                    <FormButtonsSection />
+                    <FormButtonsSection srcImage={srcImage} croppedAreaPixels={croppedAreaPixels}/>
                 </Stack>
             </Container>
         </React.Fragment>
@@ -181,10 +181,35 @@ const ModeratorSection = ({
     );
 };
 
-const FormButtonsSection = () => {
+interface FormButtonsSectionProps {
+    srcImage: string | null;
+    croppedAreaPixels: any;
+}
+
+const FormButtonsSection = ({srcImage, croppedAreaPixels}:FormButtonsSectionProps) => {
+    // const [croppedImage, setCroppedImage] = useState<string | null>(null);
+
     const navigate = useNavigate();
 
-    const handleSubmit = () => {
+    // const handleSubmit = () => {
+    //     navigate('/auctions');
+    // };
+
+    const handleSubmit = async () => {
+
+        if (srcImage && croppedAreaPixels) {
+            const croppedImage = await getCroppedImage(srcImage, croppedAreaPixels);
+
+            //Testing whether cropping is working properly
+            /*const url = URL.createObjectURL(croppedImage);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "file.png";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url); */
+        }
         navigate('/auctions');
     };
 

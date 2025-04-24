@@ -49,6 +49,7 @@ const ImageUploadBox = ({setSrcImage, setCroppedAreaPixels}:ImageUploadBoxProps)
         if (file) {
             const url = URL.createObjectURL(file);
             setImageSrc(url);
+            setSrcImage(url);
         }
     };
 
