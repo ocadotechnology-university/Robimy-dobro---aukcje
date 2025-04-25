@@ -5,6 +5,7 @@ export interface Auction {
     city: string,
     description: string,
     status: string,
+    hasBids: boolean,
     supplier: string,
     winner: string,
     price: string,

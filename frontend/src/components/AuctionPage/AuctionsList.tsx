@@ -1,5 +1,5 @@
 import Stack from '@mui/material/Stack';
-import AuctionCard from "./AuctionCard/AuctionCard";
+import AuctionCard from './AuctionCard/AuctionCard';
 import React from "react";
 import {Auction} from './Auction'
 
@@ -13,26 +13,28 @@ const AuctionsList = ({auctions}: AuctionsList) => {
         {
             title: "Aukcja 1",
             date: "2025-04-09",
-            city: "Warszawa",
+            city: "",
             description: "Opis aukcji 1",
-            status: "active",
+            status: "IN_PROGRESS",
+            hasBids: false,
             supplier: "Dostawca 1",
             winner: "Zwycięzca 1",
-            price: "1000 PLN",
-            imageUrl: "http://example.com/image1.jpg",
+            price: "1000",
+            imageUrl: "https://picsum.photos/200?random=1",
             isFollowed: false,
             slackUrl: "http://slack.com/auction1"
         },
         {
             title: "Aukcja 2",
-            date: "2025-04-10",
+            date: "",
             city: "Kraków",
             description: "Opis aukcji 2",
-            status: "inactive",
+            status: "NOT_STARTED",
+            hasBids: false,
             supplier: "Dostawca 2",
             winner: "Zwycięzca 2",
-            price: "2000 PLN",
-            imageUrl: "http://example.com/image2.jpg",
+            price: "2000",
+            imageUrl: "https://picsum.photos/200?random=2",
             isFollowed: true,
             slackUrl: "http://slack.com/auction2"
         }
@@ -50,6 +52,7 @@ const AuctionsList = ({auctions}: AuctionsList) => {
                     city={auction.city}
                     description={auction.description}
                     status={auction.status}
+                    hasBids={auction.hasBids}
                     supplier={auction.supplier}
                     winner={auction.winner}
                     price={auction.price}
@@ -57,7 +60,7 @@ const AuctionsList = ({auctions}: AuctionsList) => {
                     isFollowed={auction.isFollowed}
                     slackUrl={auction.slackUrl}
                 />
-                ))}
+            ))}
         </Stack>
     );
 }

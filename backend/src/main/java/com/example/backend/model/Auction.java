@@ -1,47 +1,40 @@
 package com.example.backend.model;
 
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Getter
-@Setter
+@Builder
 public class Auction {
 
     private UUID id;
 
     // Moderator
-    private String moderatorName;
+    private String moderatorEmail;
 
     // Owner
-    private String ownerName;
-    private String ownerEmail;
+    private String supplierName;
+    private String supplierEmail;
 
     // Dates
-    private LocalDate preferredAuctionDay;
-    private LocalDate auctionDay;
+    private LocalDate preferredAuctionDate;
+    private LocalDate auctionDate;
 
     // Details
     private String title;
     private String description;
     private String imageUrl;
     private String city;
-    private double startingPrice;
-    private double currentBid;
+    private Double startingPrice;
+    private Double currentBid;
     private String winner;
     private String slackThreadLink;
 
     // Follows
     private List<String> followers;
-    private int followersCount;
-
-    public Auction() {
-        this.id = UUID.randomUUID();
-        this.followers = new ArrayList<>();
-        this.followersCount = 0;
-    }
+    private Integer followersCount;
 }
