@@ -14,8 +14,9 @@ interface ImageUploadBoxProps {
 
 const ImageUploadBox = ({setSrcImage, setCroppedAreaPixels}:ImageUploadBoxProps) => {
     const [imageSrc, setImageSrc] = useState<string | null>(null)
-    const [crop, setCrop] = useState({x: 0, y: 0})
+    const [crop, setCrop] = useState({x: 0, y: 0 })
     const [zoom, setZoom] = useState(1)
+    const cropSize = { width: 200, height: 200 }
 
     const onCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
         setCroppedAreaPixels(croppedAreaPixels)
@@ -38,6 +39,7 @@ const ImageUploadBox = ({setSrcImage, setCroppedAreaPixels}:ImageUploadBoxProps)
         }
     };
 
+
     return (
         <Stack flexDirection="column" gap={2}>
             <Box component="label" sx={ !imageSrc ? boxStyleBeforeUpload : boxStyleAfterUpload }>
@@ -54,17 +56,22 @@ const ImageUploadBox = ({setSrcImage, setCroppedAreaPixels}:ImageUploadBoxProps)
             </Box>
 
             {imageSrc && (
-                <Box sx={{ width: '100%', height: 200, position: 'relative' }}>
+                <Stack alignItems="center">
+                <Box sx={{ width: '80%', height: 200, position: 'relative' }}>
                     <Cropper
                         image={imageSrc}
                         crop={crop}
                         zoom={zoom}
                         aspect={1}
+                        cropSize={cropSize}
                         onCropChange={setCrop}
                         onCropComplete={onCropComplete}
                         onZoomChange={setZoom}
+                        // restrictPosition={false}
+
                     />
                 </Box>
+                </Stack>
             )}
         </Stack>
     );
