@@ -4,23 +4,8 @@ import UploadIcon from '@mui/icons-material/Upload';
 import { useState } from 'react'
 import Cropper from 'react-easy-crop'
 import Stack from "@mui/material/Stack";
-
-const boxStyle = {
-    alignSelf: 'center',
-    width: 200,
-    height: 120,
-    border: '2px solid #aaa',
-    borderRadius: 2,
-    backgroundColor: '#ddd',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s ease',
-    '&:hover': {
-        backgroundColor: '#f0f0f0',
-    },
-};
+import Typography from '@mui/material/Typography';
+import {boxStyleBeforeUpload, boxStyleAfterUpload} from './ImageUploadBox.styles'
 
 interface ImageUploadBoxProps {
     setSrcImage: (img: string | null) => void;
@@ -55,7 +40,7 @@ const ImageUploadBox = ({setSrcImage, setCroppedAreaPixels}:ImageUploadBoxProps)
 
     return (
         <Stack flexDirection="column" gap={2}>
-            <Box component="label" sx={boxStyle}>
+            <Box component="label" sx={ !imageSrc ? boxStyleBeforeUpload : boxStyleAfterUpload }>
                 <input
                     accept="image/*"
                     style={{ display: 'none' }}
@@ -63,7 +48,9 @@ const ImageUploadBox = ({setSrcImage, setCroppedAreaPixels}:ImageUploadBoxProps)
                     type="file"
                     onChange={onFileChange}
                 />
+                {!imageSrc ?
                 <UploadIcon fontSize="large" sx={{ color: '#666' }} />
+                    : <Typography variant="body2" fontWeight={400}>Zmień zdjęcie</Typography>}
             </Box>
 
             {imageSrc && (
