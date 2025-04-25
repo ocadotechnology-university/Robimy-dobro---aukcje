@@ -27,23 +27,6 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public static boolean verifyToken(String token) throws Exception{
-        try{
-            Claims claims = Jwts.parserBuilder()
-                    .setSigningKey(secretKey)
-                    .build()
-                    .parseClaimsJws(token)
-                    .getBody();
-
-            Date expirationDate = claims.getExpiration();
-            return expirationDate.before(new Date());
-        } catch (ExpiredJwtException e){
-            throw new Exception("Token expired", e);
-        } catch (Exception e) {
-            throw new Exception("Token invalid", e);
-        }
-    }
-
     public static Jws<Claims> parseToken(String token) throws Exception {
         try {
             return Jwts.parserBuilder()
