@@ -1,5 +1,5 @@
 package com.example.backend.service;
-import com.example.backend.util.GoogleSheetsConnector;
+import com.example.backend.util.GoogleApiConnector;
 
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.ValueRange;
@@ -41,18 +41,18 @@ class GoogleSheetsServiceTest {
 
     @InjectMocks
     private GoogleSheetsService googleSheetsService;
-    private static MockedStatic<GoogleSheetsConnector> mockedGoogleSheetsConnector;
+    private static MockedStatic<GoogleApiConnector> mockedGoogleSheetsConnector;
 
     @BeforeAll
     static void init() {
         // Initialize static mocking once before all tests
-        mockedGoogleSheetsConnector = mockStatic(GoogleSheetsConnector.class);
+        mockedGoogleSheetsConnector = mockStatic(GoogleApiConnector.class);
     }
 
     @BeforeEach
     void setUp() throws IOException {
         // Mock the static method
-        mockedGoogleSheetsConnector.when(GoogleSheetsConnector::getSheetsService).thenReturn(sheetsService);
+        mockedGoogleSheetsConnector.when(GoogleApiConnector::getSheetsService).thenReturn(sheetsService);
 
         // Using lenient after normal when returned "unnecessaryStubbingException"
         lenient().when(sheetsService.spreadsheets()).thenReturn(spreadsheets);
