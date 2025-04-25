@@ -45,21 +45,4 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/test")
-    public ResponseEntity<?> protectedRoute(@RequestHeader("Authorization") String authorizationHeader) {
-        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authorization token is missing or invalid");
-        }
-
-        String token = authorizationHeader.substring(7);
-
-        try {
-            if(!JwtTokenProvider.verifyToken(token)){
-                return ResponseEntity.ok().body("Verification Successful");
-            }
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
-        }
-        return null;
-    }
 }
