@@ -7,7 +7,7 @@ type PriceTextFieldProps = {
     setPrice: (value: string) => void;
 };
 
-const PriceTextField = ({ price, setPrice }: PriceTextFieldProps) => {
+const PriceTextField = ({price, setPrice}: PriceTextFieldProps) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         let value = e.target.value.replace(',', '.');
 
@@ -25,8 +25,8 @@ const PriceTextField = ({ price, setPrice }: PriceTextFieldProps) => {
             type="text"
             value={price}
             onChange={handleChange}
-            InputLabelProps={{ shrink: true }}
-            inputProps={{ min: 0 }}
+            InputLabelProps={{shrink: true}}
+            inputProps={{min: 0}}
             InputProps={{
                 endAdornment: <InputAdornment position="end">zł</InputAdornment>,
             }}

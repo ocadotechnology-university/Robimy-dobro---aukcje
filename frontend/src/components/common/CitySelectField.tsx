@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField, MenuItem, Box } from '@mui/material';
+import {TextField, MenuItem, Box} from '@mui/material';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 type CitySelectFieldProps = {
@@ -35,7 +35,7 @@ const CitySelectField = ({
                     <InfoOutlinedIcon
                         fontSize="small"
                         titleAccess="Wybierz miasto, w którym możliwy jest odbiór."
-                        sx={{ cursor: 'help' }}
+                        sx={{cursor: 'help'}}
                     />
                 </Box>
             }
@@ -43,7 +43,7 @@ const CitySelectField = ({
             onChange={(e) => setSelectedCity(e.target.value)}
             size="small"
             disabled={disabled}
-            InputLabelProps={{ shrink: true }}
+            InputLabelProps={{shrink: true}}
             sx={selectFieldStyle}
         >
             {options.map((city) => (

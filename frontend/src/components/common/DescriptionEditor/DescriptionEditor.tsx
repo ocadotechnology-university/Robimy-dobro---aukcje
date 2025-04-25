@@ -1,5 +1,5 @@
 import React from 'react';
-import { useEditor } from '@tiptap/react';
+import {useEditor} from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import Link from '@tiptap/extension-link';
@@ -17,7 +17,7 @@ import {
     type RichTextEditorRef,
 } from 'mui-tiptap';
 
-import { Box, Typography } from '@mui/material';
+import {Box, Typography} from '@mui/material';
 
 import {
     WrapperStyle,
@@ -30,9 +30,9 @@ type DescriptionEditorProps = {
     rteRef: React.RefObject<RichTextEditorRef | null>;
 };
 
-const DescriptionEditor = ({ rteRef }: DescriptionEditorProps) => {
+const DescriptionEditor = ({rteRef}: DescriptionEditorProps) => {
     const extensions = [StarterKit, Underline, Link, LinkBubbleMenuHandler];
-    const editor = useEditor({ extensions, content: '' });
+    const editor = useEditor({extensions, content: ''});
 
     if (!editor) return null;
 
@@ -48,13 +48,13 @@ const DescriptionEditor = ({ rteRef }: DescriptionEditorProps) => {
                             <>
                                 <Box sx={ToolbarStyle}>
                                     <MenuControlsContainer>
-                                        <MenuButtonBold />
-                                        <MenuButtonItalic />
-                                        <MenuButtonUnderline />
-                                        <MenuButtonEditLink />
+                                        <MenuButtonBold/>
+                                        <MenuButtonItalic/>
+                                        <MenuButtonUnderline/>
+                                        <MenuButtonEditLink/>
                                     </MenuControlsContainer>
                                 </Box>
-                                <LinkBubbleMenu />
+                                <LinkBubbleMenu/>
                             </>
                         )}
                     </RichTextEditor>

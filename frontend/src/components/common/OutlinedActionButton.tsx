@@ -17,7 +17,7 @@ const buttonStyle = {
     },
 };
 
-const OutlinedActionButton = ({ label, onClick }: OutlinedActionButtonProps) => {
+const OutlinedActionButton = ({label, onClick}: OutlinedActionButtonProps) => {
     return (
         <Button
             variant="outlined"
