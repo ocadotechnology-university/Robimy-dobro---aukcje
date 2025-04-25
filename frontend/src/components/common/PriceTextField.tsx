@@ -9,21 +9,12 @@ type PriceTextFieldProps = {
 
 const PriceTextField = ({ price, setPrice }: PriceTextFieldProps) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setPrice(e.target.value);
-    };
+        let value = e.target.value.replace(',', '.');
 
-    const handleInput = (e: React.FormEvent<HTMLInputElement>) => {
-        const input = e.currentTarget;
-        const value = input.value;
-
-        if (!value) return;
-
-        const parts = value.split(/[.,]/);
-        if (parts[1]?.length > 2) {
-            input.value = `${parts[0]}.${parts[1].slice(0, 2)}`;
+        if (/^\d*\.?\d{0,2}$/.test(value) || value === '') {
+            setPrice(value);
         }
     };
-
 
     return (
         <TextField
@@ -31,10 +22,9 @@ const PriceTextField = ({ price, setPrice }: PriceTextFieldProps) => {
             variant="outlined"
             fullWidth
             size="small"
-            type="number"
+            type="text"
             value={price}
             onChange={handleChange}
-            onInput={handleInput}
             InputLabelProps={{ shrink: true }}
             inputProps={{ min: 0 }}
             InputProps={{
