@@ -17,7 +17,7 @@ public class AuctionController {
     @Autowired
     private AuctionService auctionService;
 
-    @PostMapping("/save")
+    @PostMapping
     public ResponseEntity<?> saveAuction(@RequestBody AuctionCreateDto auctionCreateDto) throws IOException {
         try {
             String userEmail = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
@@ -29,7 +29,7 @@ public class AuctionController {
         }
     }
 
-    @GetMapping("/get")
+    @GetMapping
     public ResponseEntity<?> findAllFilteredAuctions(@RequestParam ArrayList<String> statuses, @RequestParam Boolean myAuctions, @RequestParam Boolean followed, @RequestParam ArrayList<String> dates) throws IOException {
         try {
             String userEmail = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();

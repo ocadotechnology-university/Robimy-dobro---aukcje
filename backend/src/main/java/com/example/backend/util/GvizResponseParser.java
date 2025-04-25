@@ -1,6 +1,7 @@
 package com.example.backend.util;
 
 import com.example.backend.model.Auction;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
 
@@ -100,6 +101,10 @@ public class GvizResponseParser {
 
     private List<String> parseFollowers(String raw) {
         if (raw == null || raw.isBlank()) return new ArrayList<>();
-        return Arrays.stream(raw.split(",")).map(String::trim).toList();
+        try {
+            return new ObjectMapper().readValue(raw, new TypeReference<List<String>>() {});
+        } catch (IOException e) {
+            return new ArrayList<>();
+        }
     }
 }
