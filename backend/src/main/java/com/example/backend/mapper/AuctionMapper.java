@@ -17,13 +17,13 @@ public class AuctionMapper {
 
         auctionGetDto.setTitle(auction.getTitle());
         auctionGetDto.setCity(auction.getCity());
-        auctionGetDto.setDate(auction.getAuctionDate().toString());
+        auctionGetDto.setDate(auction.getAuctionDate() == null ? null : auction.getAuctionDate().toString());
         auctionGetDto.setDescription(auction.getDescription());
         auctionGetDto.setImageUrl(auction.getImageUrl());
         auctionGetDto.setSlackUrl(auction.getSlackThreadLink());
         auctionGetDto.setSupplier(auction.getSupplierName());
         auctionGetDto.setWinner(auction.getWinner());
-        auctionGetDto.setPrice(auction.getCurrentBid().toString());
+        auctionGetDto.setPrice(auction.getCurrentBid() == null ? null : auction.getCurrentBid().toString());
         auctionGetDto.setIsFollowed(auction.getFollowers() != null && auction.getFollowers().contains(userEmail));
         auctionGetDto.setIsSupplier(userEmail != null && userEmail.equals(auction.getSupplierEmail()));
         auctionGetDto.setStatus(determineStatus(auction));
