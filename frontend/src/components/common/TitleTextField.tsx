@@ -14,7 +14,7 @@ const TitleTextField = ({ title, setTitle }: TitleTextFieldProps) => (
         value={title}
         size="small"
         onChange={(e) => setTitle(e.target.value)}
-        InputLabelProps={{ shrink: true }}
+        InputLabelProps={{shrink: true}}
     />
 );
 

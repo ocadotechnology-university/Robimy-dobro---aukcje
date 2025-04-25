@@ -21,7 +21,7 @@ const boxStyle = {
 
 const ImageUploadBox = () => (
     <Box component="label" sx={boxStyle}>
-        <UploadIcon fontSize="large" sx={{ color: '#666' }} />
+        <UploadIcon fontSize="large" sx={{color: '#666'}}/>
     </Box>
 );
 

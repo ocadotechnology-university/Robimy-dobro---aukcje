@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '@mui/material/Button';
-import { useTheme, Theme } from '@mui/material/styles';
+import {useTheme, Theme} from '@mui/material/styles';
 
 type PrimaryActionButtonProps = {
     label: string;
@@ -21,7 +21,7 @@ const primaryButtonStyle = (theme: Theme) => ({
     },
 });
 
-const PrimaryActionButton = ({ label, onClick }: PrimaryActionButtonProps) => {
+const PrimaryActionButton = ({label, onClick}: PrimaryActionButtonProps) => {
     const theme = useTheme();
 
     return (
