@@ -1,11 +1,11 @@
-import {Routes, Route, Navigate, useLocation} from 'react-router-dom';
-import Header from "./components/NavBar/NavBar";
+import {Routes, Route, Navigate} from 'react-router-dom';
 import template from './image/template.png';
 import Auth from "./components/GoogleLogin/Auth";
 import Home from "./components/HomePage/HomePage";
 import AddAuction from "./components/AddPage/AddPage";
 import Auctions from "./components/AuctionPage/AuctionPage"
-import {Box, Container} from "@mui/material";
+import {Box} from "@mui/material";
+import Root from "./Root";
 
 const Background = () => {
     return <Box
@@ -27,9 +27,6 @@ const Background = () => {
 }
 
 function App() {
-    const location = useLocation();
-    const isAuthPage = location.pathname === "/auth";
-
     return (
         <Box
             sx={{
@@ -42,17 +39,15 @@ function App() {
             }}
         >
             <Background/>
-            {/*Main content goes inside the container*/}
-            <Container maxWidth="lg" disableGutters sx={{bgcolor: 'white', minHeight: '100vh'}}>
-                {!isAuthPage && <Header/>}
-                <Routes>
-                    <Route path="/" element={<Navigate to="/auth"/>}/>
-                    <Route path="/auth" element={<Auth/>}/>
-                    <Route path="/home" element={<Home/>}/>
-                    <Route path="/add" element={<AddAuction/>}/>
-                    <Route path="/auctions" element={<Auctions/>}/>
-                </Routes>
-            </Container>
+            <Routes>
+                <Route path="/auth" element={<Auth/>} />
+                <Route element={<Root/>}>
+                    <Route path="/" element={<Navigate to="/auth" />} />
+                    <Route path="/home" element={<Home/>} />
+                    <Route path="/add" element={<AddAuction/>} />
+                    <Route path="/auctions" element={<Auctions/>} />
+                </Route>
+            </Routes>
         </Box>
     );
 }
