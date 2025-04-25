@@ -1,10 +1,10 @@
 import {Routes, Route, Navigate, useLocation} from 'react-router-dom';
-import Header from "../components/NavBar/NavBar";
-import template from '../image/template.png';
-import Auth from "../components/GoogleLogin/Auth";
-import Home from "../components/HomePage/HomePage";
-import AddAuction from "../components/AddPage/AddPage";
-import Auctions from "../components/AuctionPage/AuctionPage"
+import Header from "./components/NavBar/NavBar";
+import template from './image/template.png';
+import Auth from "./components/GoogleLogin/Auth";
+import Home from "./components/HomePage/HomePage";
+import AddAuction from "./components/AddPage/AddPage";
+import Auctions from "./components/AuctionPage/AuctionPage"
 import {Box, Container} from "@mui/material";
 
 const Background = () => {
