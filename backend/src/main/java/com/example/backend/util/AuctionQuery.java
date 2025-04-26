@@ -79,7 +79,7 @@ public class AuctionQuery {
 
         if (dates != null && !dates.isEmpty()) {
             for (String date : dates) {
-                dateQuery.append(" AND ")
+                dateQuery.append(" OR ")
                         .append(filters.get("dates"))
                         .append(" = date '")
                         .append(date)
