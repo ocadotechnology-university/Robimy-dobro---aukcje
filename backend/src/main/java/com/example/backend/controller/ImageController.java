@@ -20,8 +20,8 @@ public class ImageController {
     }
 
     @GetMapping("/{fileId}")
-    public ResponseEntity<byte[]> getImage(@PathVariable String fieldId) {
-        if(!imageCacheService.contains(fieldId)) return ResponseEntity.status(204).body(null);
-        else return ResponseEntity.ok().header("Content-Type", "image/jpeg").body(imageCacheService.get(fieldId));
+    public ResponseEntity<byte[]> getImage(@PathVariable String fileId) {
+        if(!imageCacheService.contains(fileId)) return ResponseEntity.status(204).body(null);
+        else return ResponseEntity.ok().header("Content-Type", "image/jpeg").body(imageCacheService.get(fileId));
     }
 }
