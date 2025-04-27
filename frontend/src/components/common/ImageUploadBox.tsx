@@ -3,13 +3,12 @@ import Box from '@mui/material/Box';
 import UploadIcon from '@mui/icons-material/Upload';
 import {useState} from 'react'
 import Stack from "@mui/material/Stack";
-import Typography from '@mui/material/Typography';
 import {
     boxStyleBeforeUpload,
-    boxStyleAfterUpload,
     modalStyle,
     imageInModalStyle,
-    imageInFormStyle
+    imageInFormStyle,
+    imageButtonsStyle
 } from './ImageUploadBox.styles'
 import {Modal} from '@mui/material';
 import ReactCrop, {centerCrop, type Crop, makeAspectCrop} from 'react-image-crop'
@@ -95,20 +94,32 @@ const ImageUploadBox = ({setCroppedImage}: ImageUploadBoxProps) => {
     }
 
     return (
-        <Stack flexDirection="column" gap={2} alignItems='center'>
-            <Box onClick={handleOpen} component="label" sx={!isUpload ? boxStyleBeforeUpload : boxStyleAfterUpload}>
-                <input
-                    accept="image/*"
-                    style={{display: 'none'}}
-                    id="input-image-button"
-                    type="file"
-                    onChange={onFileChange}
-                    key={imageSrc ? imageSrc : 'input-image-button'}
-                />
-                {!isUpload ?
+        <Stack flexDirection="column" gap={0.5} alignItems='center'>
+
+            {!isUpload ?
+                <Box onClick={handleOpen} component="label" sx={boxStyleBeforeUpload}>
+                    <input
+                        accept="image/*"
+                        style={{display: 'none'}}
+                        id="input-image-button"
+                        type="file"
+                        onChange={onFileChange}
+                        key={imageSrc ? imageSrc : 'input-image-button'}
+                    />
+
                     <UploadIcon fontSize="large" sx={{color: '#666'}}/>
-                    : <Typography variant="body2" fontWeight={400}>Zmień zdjęcie</Typography>}
-            </Box>
+                </Box>
+                : <Button component="label" onClick={handleOpen} sx={imageButtonsStyle}>
+                    <input
+                        accept="image/*"
+                        style={{display: 'none'}}
+                        id="input-image-button"
+                        type="file"
+                        onChange={onFileChange}
+                        key={imageSrc ? imageSrc : 'input-image-button'}
+                    />
+                    Zmień zdjęcie
+                </Button>}
 
             {imageSrc && (
                 <Modal
@@ -143,7 +154,7 @@ const ImageUploadBox = ({setCroppedImage}: ImageUploadBoxProps) => {
             {displayCroppedImage && (
                 <>
                     <img src={displayCroppedImage} style={imageInFormStyle}/>
-                    <Button onClick={handleEditOpen}>Edytuj</Button>
+                    <Button onClick={handleEditOpen} sx={imageButtonsStyle}>Edytuj</Button>
 
                 </>
             )}
