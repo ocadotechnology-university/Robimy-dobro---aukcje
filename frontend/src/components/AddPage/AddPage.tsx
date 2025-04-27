@@ -24,7 +24,6 @@ import OutlinedActionButton from "../common/OutlinedActionButton";
 import PrimaryActionButton from "../common/PrimaryActionButton";
 import {RichTextEditorRef} from "mui-tiptap";
 import {AuctionFilters} from "../../services/fetchAuctions";
-import {getCroppedImage} from "../common/Services/CropImage"
 
 const AddPage = () => {
     const [title, setTitle] = useState("");
@@ -34,8 +33,7 @@ const AddPage = () => {
     const [wantsToBeModerator, setWantsToBeModerator] = useState(false);
     const [selectedDate, setSelectedDate] = useState("");
     const rteRef = useRef<RichTextEditorRef>(null);
-    const [srcImage, setSrcImage] = useState<string | null>(null);
-    const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null)
+    const [croppedImage, setCroppedImage] = useState<any | null>(null);
 
     const handlePickup = (value: boolean) => {
         setPickupOnlyInCity(value);
@@ -52,7 +50,7 @@ const AddPage = () => {
             <CssBaseline/>
             <Container maxWidth="md" sx={FormContainerStyle}>
                 <Stack spacing={4}>
-                    <ImageUploadSection setSrcImage={setSrcImage} setCroppedAreaPixels={setCroppedAreaPixels}/>
+                    <ImageUploadSection setCroppedImage={setCroppedImage}/>
                     <TitleSection title={title} setTitle={setTitle} />
                     <DescriptionEditor rteRef={rteRef} />
                     <PriceSection price={price} setPrice={setPrice} />
@@ -68,7 +66,7 @@ const AddPage = () => {
                         setSelectedDate={setSelectedDate}
                         handleModerator={handleModerator}
                     />
-                    <FormButtonsSection srcImage={srcImage} croppedAreaPixels={croppedAreaPixels}/>
+                    <FormButtonsSection croppedImage={croppedImage}/>
                 </Stack>
             </Container>
         </React.Fragment>
@@ -76,17 +74,16 @@ const AddPage = () => {
 }
 
 interface ImageUploadSectionProps {
-    setSrcImage: (img: string | null) => void;
-    setCroppedAreaPixels: (area: any) => void;
+    setCroppedImage: (img: any | null) => void;
 }
 
-const ImageUploadSection = ({setSrcImage, setCroppedAreaPixels}:ImageUploadSectionProps) => (
+const ImageUploadSection = ({setCroppedImage}: ImageUploadSectionProps) => (
     <Stack spacing={2} sx={ImageUploadStackStyle}>
         <Typography variant="body1" fontWeight={500}>
             Dodaj zdjęcie
         </Typography>
 
-        <ImageUploadBox setSrcImage={setSrcImage} setCroppedAreaPixels={setCroppedAreaPixels}/>
+        <ImageUploadBox setCroppedImage={setCroppedImage}/>
     </Stack>
 );
 
@@ -182,18 +179,15 @@ const ModeratorSection = ({
 };
 
 interface FormButtonsSectionProps {
-    srcImage: string | null;
-    croppedAreaPixels: any;
+    croppedImage: any | null;
 }
 
-const FormButtonsSection = ({srcImage, croppedAreaPixels}:FormButtonsSectionProps) => {
+const FormButtonsSection = ({croppedImage}:FormButtonsSectionProps) => {
 
     const navigate = useNavigate();
 
     const handleSubmit = async () => {
-        if (srcImage && croppedAreaPixels) {
-            const croppedImage = await getCroppedImage(srcImage, croppedAreaPixels);
-
+        if (croppedImage) {
             //Testing whether cropping is working properly
             const url = URL.createObjectURL(croppedImage);
             const a = document.createElement("a");

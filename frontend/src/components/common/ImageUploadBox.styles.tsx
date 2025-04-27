@@ -31,3 +31,22 @@ export const boxStyleAfterUpload = {
         backgroundColor: '#f0f0f0',
     },
 };
+
+export const modalStyle = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backdropFilter: 'blur(10px)'
+};
+
+export const imageInModalStyle: React.CSSProperties = {
+    objectFit: 'contain',
+    maxWidth: '90vw',
+    maxHeight: '80vh',
+    objectPosition: 'center',
+};
+
+export const imageInFormStyle: React.CSSProperties = {
+    boxShadow: '0 0 3px 3px rgb(205, 205, 205)',
+    maxWidth: '250px',
+};

@@ -4,34 +4,30 @@ import UploadIcon from '@mui/icons-material/Upload';
 import {useState} from 'react'
 import Stack from "@mui/material/Stack";
 import Typography from '@mui/material/Typography';
-import {boxStyleBeforeUpload, boxStyleAfterUpload} from './ImageUploadBox.styles'
+import {boxStyleBeforeUpload, boxStyleAfterUpload, modalStyle, imageInModalStyle, imageInFormStyle} from './ImageUploadBox.styles'
 import {Modal} from '@mui/material';
-import ReactCrop, {centerCrop, type Crop, makeAspectCrop, PercentCrop, PixelCrop} from 'react-image-crop'
+import ReactCrop, {centerCrop, type Crop, makeAspectCrop} from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css'
 import Button from "@mui/material/Button";
 import theme from "../../theme/theme";
 import {getCroppedImage} from "./Services/CropImage";
+import CropConfirmButton from "./CropConfirmButton"
 
 interface ImageUploadBoxProps {
-    setSrcImage: (img: string | null) => void;
-    setCroppedAreaPixels: (area: any) => void;
+    setCroppedImage: (img: any | null) => void;
 }
 
 const MIN_DIMENSION = 100
 const MAX_DIMENSION = 700
 const ASPECT_RATIO = 1
 
-const ImageUploadBox = ({setSrcImage, setCroppedAreaPixels}: ImageUploadBoxProps) => {
+const ImageUploadBox = ({setCroppedImage}: ImageUploadBoxProps) => {
     const [imageSrc, setImageSrc] = useState<string | null>(null)
     const [isUpload, setIsUpload] = useState(false)
     const [crop, setCrop] = useState<Crop>()
     const [croppedAreaPercent, setCroppedAreaPercent] = useState<any>(null)
-    const [croppedImage, setCroppedImage] = useState<any>(null)
     const [displayCroppedImage, setDisplayCroppedImage] = useState<any>(null)
-
-    const onCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
-        setCroppedAreaPixels(croppedAreaPixels)
-    }
+    const [open, setOpen] = React.useState(false);
 
     const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0]
@@ -46,18 +42,15 @@ const ImageUploadBox = ({setSrcImage, setCroppedAreaPixels}: ImageUploadBoxProps
         if (file) {
             const url = URL.createObjectURL(file);
             setImageSrc(url);
-            setSrcImage(url);
             setIsUpload(true);
         }
     };
 
-    const [open, setOpen] = React.useState(false);
     const handleOpen = () => {
         setImageSrc(null);
         setCrop(undefined);
         setOpen(true);
     }
-    const handleClose = () => setOpen(false);
 
     const onImageLoad = (e: any) => {
         const {width, height} = e.currentTarget;
@@ -105,7 +98,7 @@ const ImageUploadBox = ({setSrcImage, setCroppedAreaPixels}: ImageUploadBoxProps
             {imageSrc && (
                 <Modal
                     open={open}
-                    sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', backdropFilter: 'blur(10px)'}}
+                    sx={{modalStyle}}
                 >
                     <Stack alignItems="center" justifyContent="center" maxWidth='100%' maxHeight='100%' gap={3}>
                         <ReactCrop
@@ -118,46 +111,22 @@ const ImageUploadBox = ({setSrcImage, setCroppedAreaPixels}: ImageUploadBoxProps
                             maxHeight={MAX_DIMENSION}
                             onChange={(pixelCrop, percentageCrop) => {
                                 setCrop(percentageCrop)
-                                // setCroppedAreaPixels(percentageCrop)
-                                // setCroppedAreaPercent(percentageCrop)
                             }}
                             onComplete={(pixelCrop, percentageCrop)=> {
                                 setCrop(percentageCrop)
-                                setCroppedAreaPixels(percentageCrop)
                                 setCroppedAreaPercent(percentageCrop)
                             }}
                         >
-                            <img src={imageSrc} onLoad={onImageLoad} style={{
-                                objectFit: 'contain',
-                                maxWidth: '90vw',
-                                maxHeight: '80vh',
-                                objectPosition: 'center',
-                            }}/>
+                            <img src={imageSrc} onLoad={onImageLoad} style={imageInModalStyle}/>
                         </ReactCrop>
-                        <Button onClick={onApproveImage} variant="outlined"
-                                color="inherit" sx={{[theme.breakpoints.up('xs')]: {
-                                fontSize: '10px',
-                            },
-                            [theme.breakpoints.up('sm')]: {
-                                fontSize: '11px',
-                            },
-                            [theme.breakpoints.up('md')]: {
-                                fontSize: '14px',
-                            },
-                            [theme.breakpoints.up('lg')]: {
-                                fontSize: '18px',
-                            }, fontWeight: 600,
-                            borderRadius: 5, backgroundColor: theme.palette.primary.main, color: "white",
-                        }}>Zatwierdź</Button>
+
+                        <CropConfirmButton onClick={onApproveImage}/>
                     </Stack>
                 </Modal>
             )}
 
             {displayCroppedImage && (
-                <img src={displayCroppedImage} style={{
-                    boxShadow: '0 0 3px 3px rgb(205, 205, 205)',
-                    maxWidth: '250px',
-                }}/>
+                <img src={displayCroppedImage} style={imageInFormStyle}/>
             )}
         </Stack>
     );
