@@ -10,6 +10,7 @@ import ReactCrop, {centerCrop, type Crop, makeAspectCrop, PercentCrop, PixelCrop
 import 'react-image-crop/dist/ReactCrop.css'
 import Button from "@mui/material/Button";
 import theme from "../../theme/theme";
+import {getCroppedImage} from "./Services/CropImage";
 
 interface ImageUploadBoxProps {
     setSrcImage: (img: string | null) => void;
@@ -17,13 +18,16 @@ interface ImageUploadBoxProps {
 }
 
 const MIN_DIMENSION = 100
-const MAX_DIMENSION = 500
+const MAX_DIMENSION = 700
 const ASPECT_RATIO = 1
 
 const ImageUploadBox = ({setSrcImage, setCroppedAreaPixels}: ImageUploadBoxProps) => {
     const [imageSrc, setImageSrc] = useState<string | null>(null)
     const [isUpload, setIsUpload] = useState(false)
     const [crop, setCrop] = useState<Crop>()
+    const [croppedAreaPercent, setCroppedAreaPercent] = useState<any>(null)
+    const [croppedImage, setCroppedImage] = useState<any>(null)
+    const [displayCroppedImage, setDisplayCroppedImage] = useState<any>(null)
 
     const onCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
         setCroppedAreaPixels(croppedAreaPixels)
@@ -68,8 +72,22 @@ const ImageUploadBox = ({setSrcImage, setCroppedAreaPixels}: ImageUploadBoxProps
         setCrop(centeredCrop);
     }
 
+    const onApproveImage = async () => {
+        setOpen(false)
+        console.log(imageSrc);
+        console.log(croppedAreaPercent);
+
+        if (imageSrc && croppedAreaPercent) {
+            const croppedImage = await getCroppedImage(imageSrc, croppedAreaPercent);
+            setCroppedImage(croppedImage);
+
+            const objectURL = URL.createObjectURL(croppedImage);
+            setDisplayCroppedImage(objectURL);
+        }
+    }
+
     return (
-        <Stack flexDirection="column" gap={2}>
+        <Stack flexDirection="column" gap={2} alignItems='center'>
             <Box onClick={handleOpen} component="label" sx={!isUpload ? boxStyleBeforeUpload : boxStyleAfterUpload}>
                 <input
                     accept="image/*"
@@ -98,7 +116,16 @@ const ImageUploadBox = ({setSrcImage, setCroppedAreaPixels}: ImageUploadBoxProps
                             maxWidth={MAX_DIMENSION}
                             minHeight={MIN_DIMENSION}
                             maxHeight={MAX_DIMENSION}
-                            onChange={(pixelCrop, percentageCrop) => setCrop(percentageCrop)}
+                            onChange={(pixelCrop, percentageCrop) => {
+                                setCrop(percentageCrop)
+                                // setCroppedAreaPixels(percentageCrop)
+                                // setCroppedAreaPercent(percentageCrop)
+                            }}
+                            onComplete={(pixelCrop, percentageCrop)=> {
+                                setCrop(percentageCrop)
+                                setCroppedAreaPixels(percentageCrop)
+                                setCroppedAreaPercent(percentageCrop)
+                            }}
                         >
                             <img src={imageSrc} onLoad={onImageLoad} style={{
                                 objectFit: 'contain',
@@ -107,7 +134,7 @@ const ImageUploadBox = ({setSrcImage, setCroppedAreaPixels}: ImageUploadBoxProps
                                 objectPosition: 'center',
                             }}/>
                         </ReactCrop>
-                        <Button onClick={handleClose} variant="outlined"
+                        <Button onClick={onApproveImage} variant="outlined"
                                 color="inherit" sx={{[theme.breakpoints.up('xs')]: {
                                 fontSize: '10px',
                             },
@@ -120,13 +147,17 @@ const ImageUploadBox = ({setSrcImage, setCroppedAreaPixels}: ImageUploadBoxProps
                             [theme.breakpoints.up('lg')]: {
                                 fontSize: '18px',
                             }, fontWeight: 600,
-                            '&:hover': {
-                                backgroundColor: theme.palette.primary.main,
-                                color: "white",
-                            }, borderRadius: 5
+                            borderRadius: 5, backgroundColor: theme.palette.primary.main, color: "white",
                         }}>Zatwierdź</Button>
                     </Stack>
                 </Modal>
+            )}
+
+            {displayCroppedImage && (
+                <img src={displayCroppedImage} style={{
+                    boxShadow: '0 0 3px 3px rgb(205, 205, 205)',
+                    maxWidth: '250px',
+                }}/>
             )}
         </Stack>
     );
