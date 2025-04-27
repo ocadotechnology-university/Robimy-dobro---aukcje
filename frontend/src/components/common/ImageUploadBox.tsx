@@ -1,13 +1,15 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import UploadIcon from '@mui/icons-material/Upload';
-import { useState } from 'react'
+import {useState} from 'react'
 import Stack from "@mui/material/Stack";
 import Typography from '@mui/material/Typography';
 import {boxStyleBeforeUpload, boxStyleAfterUpload} from './ImageUploadBox.styles'
-import { Modal } from '@mui/material';
+import {Modal} from '@mui/material';
 import ReactCrop, {centerCrop, type Crop, makeAspectCrop, PercentCrop, PixelCrop} from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css'
+import Button from "@mui/material/Button";
+import theme from "../../theme/theme";
 
 interface ImageUploadBoxProps {
     setSrcImage: (img: string | null) => void;
@@ -21,10 +23,7 @@ const ASPECT_RATIO = 1
 const ImageUploadBox = ({setSrcImage, setCroppedAreaPixels}: ImageUploadBoxProps) => {
     const [imageSrc, setImageSrc] = useState<string | null>(null)
     const [isUpload, setIsUpload] = useState(false)
-    // const [crop, setCrop] = useState({x: 0, y: 0 })
     const [crop, setCrop] = useState<Crop>()
-    const [zoom, setZoom] = useState(1)
-    const cropSize = {width: 200, height: 200}
 
     const onCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
         setCroppedAreaPixels(croppedAreaPixels)
@@ -78,6 +77,7 @@ const ImageUploadBox = ({setSrcImage, setCroppedAreaPixels}: ImageUploadBoxProps
                     id="input-image-button"
                     type="file"
                     onChange={onFileChange}
+                    key={imageSrc ? imageSrc : 'input-image-button'}
                 />
                 {!isUpload ?
                     <UploadIcon fontSize="large" sx={{color: '#666'}}/>
@@ -87,10 +87,9 @@ const ImageUploadBox = ({setSrcImage, setCroppedAreaPixels}: ImageUploadBoxProps
             {imageSrc && (
                 <Modal
                     open={open}
-                    onClose={handleClose}
-                    sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', backdropFilter: 'blur(10px)' }}
+                    sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', backdropFilter: 'blur(10px)'}}
                 >
-                    <Stack alignItems="center" justifyContent="center" maxWidth='100%' maxHeight='100%'>
+                    <Stack alignItems="center" justifyContent="center" maxWidth='100%' maxHeight='100%' gap={3}>
                         <ReactCrop
                             crop={crop}
                             keepSelection
@@ -100,16 +99,34 @@ const ImageUploadBox = ({setSrcImage, setCroppedAreaPixels}: ImageUploadBoxProps
                             minHeight={MIN_DIMENSION}
                             maxHeight={MAX_DIMENSION}
                             onChange={(pixelCrop, percentageCrop) => setCrop(percentageCrop)}
-                            >
-                        <img src={imageSrc} onLoad={onImageLoad} style={{
-                            objectFit: 'contain',
-                            maxWidth: '90vw',
-                            maxHeight: '90vh',
-                            objectPosition: 'center',
-                        }}/>
-                    </ReactCrop>
-                </Stack>
-            </Modal>
+                        >
+                            <img src={imageSrc} onLoad={onImageLoad} style={{
+                                objectFit: 'contain',
+                                maxWidth: '90vw',
+                                maxHeight: '80vh',
+                                objectPosition: 'center',
+                            }}/>
+                        </ReactCrop>
+                        <Button onClick={handleClose} variant="outlined"
+                                color="inherit" sx={{[theme.breakpoints.up('xs')]: {
+                                fontSize: '10px',
+                            },
+                            [theme.breakpoints.up('sm')]: {
+                                fontSize: '11px',
+                            },
+                            [theme.breakpoints.up('md')]: {
+                                fontSize: '14px',
+                            },
+                            [theme.breakpoints.up('lg')]: {
+                                fontSize: '18px',
+                            }, fontWeight: 600,
+                            '&:hover': {
+                                backgroundColor: theme.palette.primary.main,
+                                color: "white",
+                            }, borderRadius: 5
+                        }}>Zatwierdź</Button>
+                    </Stack>
+                </Modal>
             )}
         </Stack>
     );
