@@ -11,7 +11,7 @@ const ImageSection = ({imageUrl}: Props) => (
         <Box height="100%">
             <CardMedia
                 component="img"
-                image={imageUrl}
+                image={`http://localhost:8080/images/${imageUrl}`}
                 alt="Auction item"
                 sx={ImageStyle}
             />
