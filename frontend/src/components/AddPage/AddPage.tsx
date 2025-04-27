@@ -188,15 +188,16 @@ const FormButtonsSection = ({croppedImage}:FormButtonsSectionProps) => {
 
     const handleSubmit = async () => {
         if (croppedImage) {
+
             //Testing whether cropping is working properly
-            const url = URL.createObjectURL(croppedImage);
+            /* const url = URL.createObjectURL(croppedImage);
             const a = document.createElement("a");
             a.href = url;
             a.download = "file.png";
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
-            URL.revokeObjectURL(url);
+            URL.revokeObjectURL(url); */
         }
         navigate('/auctions');
     };
