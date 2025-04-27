@@ -35,4 +35,12 @@ public class GoogleDriveService {
 
         return "https://drive.google.com/uc?export=view&id=" + uploadedFile.getId();
     }
+
+    public byte[] downloadFile(String fileId) throws IOException {
+        Drive driveService = GoogleApiConnector.getDriveService();
+
+        return driveService.files().get(fileId)
+                .executeMediaAsInputStream()
+                .readAllBytes();
+    }
 }
