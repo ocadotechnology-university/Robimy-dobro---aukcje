@@ -187,13 +187,8 @@ interface FormButtonsSectionProps {
 }
 
 const FormButtonsSection = ({srcImage, croppedAreaPixels}:FormButtonsSectionProps) => {
-    // const [croppedImage, setCroppedImage] = useState<string | null>(null);
 
     const navigate = useNavigate();
-
-    // const handleSubmit = () => {
-    //     navigate('/auctions');
-    // };
 
     const handleSubmit = async () => {
 
