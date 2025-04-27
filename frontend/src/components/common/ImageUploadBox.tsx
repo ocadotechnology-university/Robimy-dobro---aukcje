@@ -4,12 +4,17 @@ import UploadIcon from '@mui/icons-material/Upload';
 import {useState} from 'react'
 import Stack from "@mui/material/Stack";
 import Typography from '@mui/material/Typography';
-import {boxStyleBeforeUpload, boxStyleAfterUpload, modalStyle, imageInModalStyle, imageInFormStyle} from './ImageUploadBox.styles'
+import {
+    boxStyleBeforeUpload,
+    boxStyleAfterUpload,
+    modalStyle,
+    imageInModalStyle,
+    imageInFormStyle
+} from './ImageUploadBox.styles'
 import {Modal} from '@mui/material';
 import ReactCrop, {centerCrop, type Crop, makeAspectCrop} from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css'
 import Button from "@mui/material/Button";
-import theme from "../../theme/theme";
 import {getCroppedImage} from "./Services/CropImage";
 import CropConfirmButton from "./CropConfirmButton"
 
@@ -28,6 +33,7 @@ const ImageUploadBox = ({setCroppedImage}: ImageUploadBoxProps) => {
     const [croppedAreaPercent, setCroppedAreaPercent] = useState<any>(null)
     const [displayCroppedImage, setDisplayCroppedImage] = useState<any>(null)
     const [open, setOpen] = React.useState(false);
+    const [savedCrop, setSavedCrop] = useState<Crop>();
 
     const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0]
@@ -50,9 +56,20 @@ const ImageUploadBox = ({setCroppedImage}: ImageUploadBoxProps) => {
         setImageSrc(null);
         setCrop(undefined);
         setOpen(true);
+        setSavedCrop(undefined)
+    }
+
+    const handleEditOpen = () => {
+        setOpen(true);
+        setCrop(savedCrop)
     }
 
     const onImageLoad = (e: any) => {
+        if (savedCrop) {
+            setCrop(savedCrop);
+            return;
+        }
+
         const {width, height} = e.currentTarget;
         const crop = makeAspectCrop(
             {
@@ -67,8 +84,6 @@ const ImageUploadBox = ({setCroppedImage}: ImageUploadBoxProps) => {
 
     const onApproveImage = async () => {
         setOpen(false)
-        console.log(imageSrc);
-        console.log(croppedAreaPercent);
 
         if (imageSrc && croppedAreaPercent) {
             const croppedImage = await getCroppedImage(imageSrc, croppedAreaPercent);
@@ -98,7 +113,7 @@ const ImageUploadBox = ({setCroppedImage}: ImageUploadBoxProps) => {
             {imageSrc && (
                 <Modal
                     open={open}
-                    sx={{modalStyle}}
+                    sx={modalStyle}
                 >
                     <Stack alignItems="center" justifyContent="center" maxWidth='100%' maxHeight='100%' gap={3}>
                         <ReactCrop
@@ -112,9 +127,9 @@ const ImageUploadBox = ({setCroppedImage}: ImageUploadBoxProps) => {
                             onChange={(pixelCrop, percentageCrop) => {
                                 setCrop(percentageCrop)
                             }}
-                            onComplete={(pixelCrop, percentageCrop)=> {
-                                setCrop(percentageCrop)
+                            onComplete={(pixelCrop, percentageCrop) => {
                                 setCroppedAreaPercent(percentageCrop)
+                                setSavedCrop(percentageCrop)
                             }}
                         >
                             <img src={imageSrc} onLoad={onImageLoad} style={imageInModalStyle}/>
@@ -126,7 +141,11 @@ const ImageUploadBox = ({setCroppedImage}: ImageUploadBoxProps) => {
             )}
 
             {displayCroppedImage && (
-                <img src={displayCroppedImage} style={imageInFormStyle}/>
+                <>
+                    <img src={displayCroppedImage} style={imageInFormStyle}/>
+                    <Button onClick={handleEditOpen}>Edytuj</Button>
+
+                </>
             )}
         </Stack>
     );
