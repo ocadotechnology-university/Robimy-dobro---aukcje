@@ -10,6 +10,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class GoogleDriveService {
@@ -42,5 +45,27 @@ public class GoogleDriveService {
         return driveService.files().get(fileId)
                 .executeMediaAsInputStream()
                 .readAllBytes();
+    }
+
+    public Map<String, byte[]> downloadAllFiles() throws IOException {
+        Drive driveService = GoogleApiConnector.getDriveService();
+
+        List<com.google.api.services.drive.model.File> files = driveService.files().list()
+                .setQ("'" + FOLDER_ID + "' in parents and trashed=false")
+                .setFields("files(id)")
+                .execute()
+                .getFiles();
+
+        Map<String, byte[]> fileContents = new HashMap<>();
+
+        for (com.google.api.services.drive.model.File file : files) {
+            byte[] content = driveService.files().get(file.getId())
+                    .executeMediaAsInputStream()
+                    .readAllBytes();
+
+            fileContents.put(file.getId(), content);
+        }
+
+        return fileContents;
     }
 }
