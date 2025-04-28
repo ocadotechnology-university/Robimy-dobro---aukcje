@@ -23,6 +23,7 @@ import DateToggleGroup from "../common/DateToggleGroup";
 import OutlinedActionButton from "../common/OutlinedActionButton";
 import PrimaryActionButton from "../common/PrimaryActionButton";
 import {RichTextEditorRef} from "mui-tiptap";
+import {AuctionFilters} from "../../services/fetchAuctions";
 
 const AddPage = () => {
     const [title, setTitle] = useState("");
@@ -32,6 +33,7 @@ const AddPage = () => {
     const [wantsToBeModerator, setWantsToBeModerator] = useState(false);
     const [selectedDate, setSelectedDate] = useState("");
     const rteRef = useRef<RichTextEditorRef>(null);
+    const [croppedImage, setCroppedImage] = useState<any | null>(null);
 
     const handlePickup = (value: boolean) => {
         setPickupOnlyInCity(value);
@@ -48,10 +50,10 @@ const AddPage = () => {
             <CssBaseline/>
             <Container maxWidth="md" sx={FormContainerStyle}>
                 <Stack spacing={4}>
-                    <ImageUploadSection/>
-                    <TitleSection title={title} setTitle={setTitle}/>
-                    <DescriptionEditor rteRef={rteRef}/>
-                    <PriceSection price={price} setPrice={setPrice}/>
+                    <ImageUploadSection setCroppedImage={setCroppedImage}/>
+                    <TitleSection title={title} setTitle={setTitle} />
+                    <DescriptionEditor rteRef={rteRef} />
+                    <PriceSection price={price} setPrice={setPrice} />
                     <CitySection
                         pickupOnlyInCity={pickupOnlyInCity}
                         selectedCity={selectedCity}
@@ -64,20 +66,24 @@ const AddPage = () => {
                         setSelectedDate={setSelectedDate}
                         handleModerator={handleModerator}
                     />
-                    <FormButtonsSection/>
+                    <FormButtonsSection croppedImage={croppedImage}/>
                 </Stack>
             </Container>
         </React.Fragment>
     );
 }
 
-const ImageUploadSection = () => (
+interface ImageUploadSectionProps {
+    setCroppedImage: (img: any | null) => void;
+}
+
+const ImageUploadSection = ({setCroppedImage}: ImageUploadSectionProps) => (
     <Stack spacing={2} sx={ImageUploadStackStyle}>
         <Typography variant="body1" fontWeight={500}>
             Dodaj zdjęcie
         </Typography>
 
-        <ImageUploadBox/>
+        <ImageUploadBox setCroppedImage={setCroppedImage}/>
     </Stack>
 );
 
@@ -172,10 +178,27 @@ const ModeratorSection = ({
     );
 };
 
-const FormButtonsSection = () => {
+interface FormButtonsSectionProps {
+    croppedImage: any | null;
+}
+
+const FormButtonsSection = ({croppedImage}:FormButtonsSectionProps) => {
+
     const navigate = useNavigate();
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
+        if (croppedImage) {
+
+            //Testing whether cropping is working properly
+            /* const url = URL.createObjectURL(croppedImage);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "file.png";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url); */
+        }
         navigate('/auctions');
     };
 
