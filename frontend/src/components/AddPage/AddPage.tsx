@@ -1,5 +1,5 @@
-import React, { useState, useRef } from "react";
-import { useNavigate } from 'react-router-dom';
+import React, {useState, useRef} from "react";
+import {useNavigate} from 'react-router-dom';
 
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from "@mui/material/Container";
@@ -92,9 +92,9 @@ type TitleSectionProps = {
     setTitle: (value: string) => void;
 };
 
-const TitleSection = ({ title, setTitle }: TitleSectionProps) => (
-    <Box sx={{ width: '100%' }}>
-        <TitleTextField title={title} setTitle={setTitle} />
+const TitleSection = ({title, setTitle}: TitleSectionProps) => (
+    <Box sx={{width: '100%'}}>
+        <TitleTextField title={title} setTitle={setTitle}/>
     </Box>
 );
 
@@ -103,9 +103,9 @@ type PriceSectionProps = {
     setPrice: (value: string) => void;
 };
 
-const PriceSection = ({ price, setPrice }: PriceSectionProps) => (
-    <Box sx={{ width: '25%' }}>
-        <PriceTextField price={price} setPrice={setPrice} />
+const PriceSection = ({price, setPrice}: PriceSectionProps) => (
+    <Box sx={{width: '25%'}}>
+        <PriceTextField price={price} setPrice={setPrice}/>
     </Box>
 );
 
@@ -154,7 +154,7 @@ const ModeratorSection = ({
     const dates = ['21 listopada', '22 listopada', '23 listopada'];
 
     return (
-        <Stack spacing={2} sx={{ width: '100%' }}>
+        <Stack spacing={2} sx={{width: '100%'}}>
             <ControlledCheckbox
                 checked={wantsToBeModerator}
                 onChange={handleModerator}

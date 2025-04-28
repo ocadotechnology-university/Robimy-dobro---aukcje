@@ -12,7 +12,16 @@ public class Response {
     @Data
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Table {
+        private List<Column> cols;
         private List<Row> rows;
+    }
+
+    @Data
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class Column {
+        private String id;
+        private String label;
+        private String type;
     }
 
     @Data

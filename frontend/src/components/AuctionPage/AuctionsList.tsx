@@ -1,7 +1,7 @@
 import Stack from '@mui/material/Stack';
 import AuctionCard from './AuctionCard/AuctionCard';
 import React from "react";
-import {Auction} from '../AuctionPage/Auction'
+import {Auction} from './Auction'
 
 interface AuctionsList {
     auctions: Auction[];
@@ -40,7 +40,7 @@ const AuctionsList = ({auctions}: AuctionsList) => {
         }
     ];
 
-    auctions = testAuctions;
+    // auctions = testAuctions;
 
     return (
         <Stack width="100%" gap={1}>

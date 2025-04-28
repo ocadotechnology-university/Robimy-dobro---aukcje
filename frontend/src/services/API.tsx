@@ -1,9 +1,12 @@
 import axios from 'axios';
 import {Auction} from '../components/AuctionPage/Auction'
 import {AuctionFilters} from "./fetchAuctions"
+import qs from 'qs';
 
 const API = axios.create({
-    baseURL: '/api',
+    baseURL: 'http://localhost:8080',
+    paramsSerializer: params => qs.stringify(params, { arrayFormat: 'repeat' }),
 });
 
-export const auctionsAPI = (filters?: AuctionFilters) => API.get<Auction[]>('/auction', { params: filters });
+export const auctionsAPI = (filters?: AuctionFilters) => API.get<Auction[]>('/auctions', { params: filters });
+export default API;

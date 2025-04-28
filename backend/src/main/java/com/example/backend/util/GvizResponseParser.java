@@ -1,6 +1,7 @@
 package com.example.backend.util;
 
 import com.example.backend.model.Auction;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
 
@@ -12,41 +13,58 @@ import java.util.*;
 public class GvizResponseParser {
 
     public List<Auction> parse(String gvizJson) throws IOException {
-        String cleanedJson = gvizJson
+        String cleanedJson = cleanGvizJson(gvizJson);
+        Response response = new ObjectMapper().readValue(cleanedJson, Response.class);
+        Map<String, Integer> headerIndices = mapHeaders(response.getTable().getCols());
+
+        List<Auction> auctions = new ArrayList<>();
+        for (Response.Row row : response.getTable().getRows()) {
+            auctions.add(parseAuctionFromRow(row, headerIndices));
+        }
+        return auctions;
+    }
+
+    private String cleanGvizJson(String gvizJson) {
+        return gvizJson
                 .replace("google.visualization.Query.setResponse(", "")
                 .replace(");", "")
                 .replace("/*O_o*/", "")
                 .trim();
+    }
 
-        ObjectMapper mapper = new ObjectMapper();
-        Response response = mapper.readValue(cleanedJson, Response.class);
-
-        List<Auction> auctions = new ArrayList<>();
-        for (Response.Row row : response.getTable().getRows()) {
-            List<Response.Cell> cells = row.getC();
-            Auction auction = new Auction();
-
-            auction.setId(UUID.fromString(getRaw(cells, 0)));
-            auction.setModeratorEmail(getRaw(cells, 1));
-            auction.setPreferredAuctionDate(parseDate(getRaw(cells, 2))); // Date(YYYY,MM,DD)
-            auction.setAuctionDate(parseDate(getRaw(cells, 3)));
-            auction.setSupplierName(getRaw(cells, 4));
-            auction.setSupplierEmail(getRaw(cells, 5));
-            auction.setTitle(getRaw(cells, 6));
-            auction.setDescription(getRaw(cells, 7));
-            auction.setImageUrl(getRaw(cells, 8));
-            auction.setCity(getRaw(cells, 9));
-            auction.setStartingPrice(parseDouble(getRaw(cells, 10)));
-            auction.setFollowers(parseFollowers(getRaw(cells, 11)));
-            auction.setFollowersCount((int)Double.parseDouble(Objects.requireNonNull(getRaw(cells, 12))));
-            auction.setSlackThreadLink(getRaw(cells, 13));
-            auction.setCurrentBid(parseDouble(getRaw(cells, 14)));
-            auction.setWinner(getRaw(cells, 15));
-
-            auctions.add(auction);
+    private Map<String, Integer> mapHeaders(List<Response.Column> columns) {
+        Map<String, Integer> headerIndices = new HashMap<>();
+        for (int i = 0; i < columns.size(); i++) {
+            headerIndices.put(columns.get(i).getLabel().trim(), i);
         }
+        return headerIndices;
+    }
 
-        return auctions;
+    private Auction parseAuctionFromRow(Response.Row row, Map<String, Integer> headerIndexMap) {
+        List<Response.Cell> cells = row.getC();
+
+        return Auction.builder()
+                .id(UUID.fromString(getRaw(cells, headerIndexMap.get(Column.ID.label))))
+                .moderatorEmail(getRaw(cells, headerIndexMap.get(Column.MODERATOR_EMAIL.label)))
+                .preferredAuctionDate(parseDate(getRaw(cells, headerIndexMap.get(Column.PREFERRED_DATE.label))))
+                .auctionDate(parseDate(getRaw(cells, headerIndexMap.get(Column.AUCTION_DATE.label))))
+                .supplierName(getRaw(cells, headerIndexMap.get(Column.SUPPLIER_NAME.label)))
+                .supplierEmail(getRaw(cells, headerIndexMap.get(Column.SUPPLIER_EMAIL.label)))
+                .title(getRaw(cells, headerIndexMap.get(Column.TITLE.label)))
+                .description(getRaw(cells, headerIndexMap.get(Column.DESCRIPTION.label)))
+                .imageUrl(getRaw(cells, headerIndexMap.get(Column.IMAGE_URL.label)))
+                .city(getRaw(cells, headerIndexMap.get(Column.CITY.label)))
+                .startingPrice(parseDouble(getRaw(cells, headerIndexMap.get(Column.STARTING_PRICE.label))))
+                .followers(parseFollowers(getRaw(cells, headerIndexMap.get(Column.FOLLOWERS.label))))
+                .followersCount(
+                        parseDouble(getRaw(cells, headerIndexMap.get(Column.FOLLOWERS_COUNT.label))) != null
+                                ? parseDouble(getRaw(cells, headerIndexMap.get(Column.FOLLOWERS_COUNT.label))).intValue()
+                                : null
+                )
+                .slackThreadLink(getRaw(cells, headerIndexMap.get(Column.SLACK_THREAD.label)))
+                .currentBid(parseDouble(getRaw(cells, headerIndexMap.get(Column.CURRENT_BID.label))))
+                .winner(getRaw(cells, headerIndexMap.get(Column.WINNER.label)))
+                .build();
     }
 
     private String getRaw(List<Response.Cell> cells, int index) {
@@ -73,16 +91,20 @@ public class GvizResponseParser {
         }
     }
 
-    private double parseDouble(String raw) {
+    private Double parseDouble(String raw) {
         try {
-            return raw != null ? Double.parseDouble(raw) : 0.0;
-        } catch (Exception e) {
-            return 0.0;
+            return (raw != null && !raw.isBlank()) ? Double.parseDouble(raw) : null;
+        } catch (NumberFormatException e) {
+            return null;
         }
     }
 
     private List<String> parseFollowers(String raw) {
         if (raw == null || raw.isBlank()) return new ArrayList<>();
-        return Arrays.stream(raw.split(",")).map(String::trim).toList();
+        try {
+            return new ObjectMapper().readValue(raw, new TypeReference<List<String>>() {});
+        } catch (IOException e) {
+            return new ArrayList<>();
+        }
     }
 }

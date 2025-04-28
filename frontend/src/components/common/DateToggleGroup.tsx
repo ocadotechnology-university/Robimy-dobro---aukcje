@@ -40,7 +40,7 @@ const DateToggleGroup = ({
                     size="small"
                     sx={dateToggleButtonStyle(selectedDate === label)}
                 >
-                    <EventIcon fontSize="small" />
+                    <EventIcon fontSize="small"/>
                     {label}
                 </ToggleButton>
             ))}

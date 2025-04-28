@@ -4,12 +4,12 @@ import com.example.backend.constants.CustomExeption;
 import com.example.backend.security.JwtTokenProvider;
 import com.example.backend.service.GoogleAuthService;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
-import io.jsonwebtoken.Jwt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static com.example.backend.constants.ErrorMessages.WRONG_EMAIL;
@@ -31,7 +31,9 @@ public class AuthController {
             GoogleIdToken.Payload verifiedToken = googleAuthService.verifyGoogleToken(googleToken);
             if(verifiedToken.getEmail().split("@")[1].contains(COMPANY_NAME)){
                 String accessToken = JwtTokenProvider.generateAccessToken(verifiedToken);
-                return ResponseEntity.ok(accessToken);
+                Map<String, String> tokenResponse = new HashMap<>();
+                tokenResponse.put("accessToken", accessToken);
+                return ResponseEntity.ok(tokenResponse);
             }else{
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(WRONG_EMAIL);
             }
@@ -41,21 +43,4 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/test")
-    public ResponseEntity<?> protectedRoute(@RequestHeader("Authorization") String authorizationHeader) {
-        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authorization token is missing or invalid");
-        }
-
-        String token = authorizationHeader.substring(7);
-
-        try {
-            if(!JwtTokenProvider.verifyToken(token)){
-                return ResponseEntity.ok().body("Verification Successful");
-            }
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
-        }
-        return null;
-    }
 }

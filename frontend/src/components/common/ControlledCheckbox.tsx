@@ -1,5 +1,5 @@
 import React from 'react';
-import { Checkbox, FormControlLabel } from '@mui/material';
+import {Checkbox, FormControlLabel} from '@mui/material';
 
 type ControlledCheckboxProps = {
     checked: boolean;
@@ -26,7 +26,7 @@ const formControlLabelStyle = {
     },
 };
 
-const ControlledCheckbox = ({ checked, onChange, label }: ControlledCheckboxProps) => {
+const ControlledCheckbox = ({checked, onChange, label}: ControlledCheckboxProps) => {
     return (
         <FormControlLabel
             control={

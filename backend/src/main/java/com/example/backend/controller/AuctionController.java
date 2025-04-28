@@ -17,18 +17,19 @@ public class AuctionController {
     @Autowired
     private AuctionService auctionService;
 
-    @PostMapping("/save")
+    @PostMapping
     public ResponseEntity<?> saveAuction(@RequestBody AuctionCreateDto auctionCreateDto) throws IOException {
         try {
-            auctionService.save(auctionCreateDto);
+            String userEmail = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+            String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+            auctionService.save(auctionCreateDto, userEmail, userName);
             return ResponseEntity.ok("Auction saved successfully");
         } catch (IOException e) {
             return ResponseEntity.status(500).body("Error while saving auction: " + e.getMessage());
         }
     }
 
-    @GetMapping("/get")
-
+    @GetMapping
     public ResponseEntity<?> findAllFilteredAuctions(@RequestParam ArrayList<String> statuses, @RequestParam Boolean myAuctions, @RequestParam Boolean followed, @RequestParam ArrayList<String> dates) throws IOException {
         try {
             String userEmail = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
