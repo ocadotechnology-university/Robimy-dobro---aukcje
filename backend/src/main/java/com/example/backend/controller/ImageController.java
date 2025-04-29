@@ -3,7 +3,6 @@ package com.example.backend.controller;
 import com.example.backend.model.ImageData;
 import com.example.backend.service.GoogleDriveService;
 import com.example.backend.service.ImageCacheService;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

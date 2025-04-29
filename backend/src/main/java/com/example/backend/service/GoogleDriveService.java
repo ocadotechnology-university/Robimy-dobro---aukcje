@@ -1,6 +1,9 @@
 package com.example.backend.service;
 
+import com.example.backend.model.ImageData;
 import com.example.backend.util.GoogleApiConnector;
+import com.example.backend.util.MimeTypeDetector;
+import com.google.api.client.http.HttpResponse;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.client.http.FileContent;
@@ -39,33 +42,15 @@ public class GoogleDriveService {
         return "https://drive.google.com/uc?export=view&id=" + uploadedFile.getId();
     }
 
-    public byte[] downloadFile(String fileId) throws IOException {
+    public ImageData downloadFile(String fileId) throws IOException {
         Drive driveService = GoogleApiConnector.getDriveService();
 
-        return driveService.files().get(fileId)
-                .executeMediaAsInputStream()
-                .readAllBytes();
+        byte[] image = driveService.files().get(fileId).executeMediaAsInputStream().readAllBytes();
+
+        return new ImageData(
+                image,
+                MimeTypeDetector.detectImageType(image)
+        );
     }
 
-    public Map<String, byte[]> downloadAllFiles() throws IOException {
-        Drive driveService = GoogleApiConnector.getDriveService();
-
-        List<com.google.api.services.drive.model.File> files = driveService.files().list()
-                .setQ("'" + FOLDER_ID + "' in parents and trashed=false")
-                .setFields("files(id)")
-                .execute()
-                .getFiles();
-
-        Map<String, byte[]> fileContents = new HashMap<>();
-
-        for (com.google.api.services.drive.model.File file : files) {
-            byte[] content = driveService.files().get(file.getId())
-                    .executeMediaAsInputStream()
-                    .readAllBytes();
-
-            fileContents.put(file.getId(), content);
-        }
-
-        return fileContents;
-    }
 }
