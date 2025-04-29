@@ -4,9 +4,12 @@ import com.example.backend.model.AuctionStatus;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 public class AuctionGetDto {
+    private UUID id;
     private String title;
     private String date;
     private String city;
@@ -14,7 +17,7 @@ public class AuctionGetDto {
     private AuctionStatus status;
     private String supplier;
     private String winner;
-    private String price;
+    private Double price;
     private String imageUrl;
     private Boolean isFollowed;
     private String slackUrl;

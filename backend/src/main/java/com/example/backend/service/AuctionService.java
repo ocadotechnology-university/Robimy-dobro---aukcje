@@ -8,7 +8,6 @@ import com.example.backend.repository.AuctionRepository;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,7 +25,7 @@ public class AuctionService {
         auctionRepository.save(auctionMapper.mapFromCreateDtoToAuction(auctionCreateDto, userEmail, userName));
     }
 
-    public List<AuctionGetDto> getFilteredAuctions(ArrayList<String> statuses, boolean myAuctions, boolean followed, ArrayList<String> dates, String userEmail) throws IOException {
+    public List<AuctionGetDto> getFilteredAuctions(List<String> statuses, boolean myAuctions, boolean followed, List<String> dates, String userEmail) throws IOException {
         List<Auction> auctions = auctionRepository.findAllByFiltersAndUser(statuses, myAuctions, followed, dates, userEmail);
 
         return auctions.stream().map(auction -> auctionMapper.mapToGetDto(auction, userEmail)).toList();

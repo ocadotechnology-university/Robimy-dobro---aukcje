@@ -3,17 +3,17 @@ package com.example.backend.util;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Getter
 @Setter
 public class AuctionQuery {
-    private String queryWithFilters = "SELECT A, B, C, D, E, F, G, H, I, J, K, L, M WHERE 1=1";
-    private ArrayList<String> statuses;
+    private String queryWithFilters = "SELECT A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q WHERE 1=1";
+    private List<String> statuses;
     private Boolean myAuctions;
     private Boolean followed;
-    private ArrayList<String> dates;
+    private List<String> dates;
     private String userEmail;
 
     private Map<String, String> filters = Map.of(
@@ -24,7 +24,7 @@ public class AuctionQuery {
             "followed", "L"
     );
 
-    public AuctionQuery(ArrayList<String> statuses, Boolean myAuctions, Boolean followed, ArrayList<String> dates, String userEmail) {
+    public AuctionQuery(List<String> statuses, Boolean myAuctions, Boolean followed, List<String> dates, String userEmail) {
         this.statuses = statuses;
         this.myAuctions = myAuctions;
         this.followed = followed;
@@ -50,11 +50,8 @@ public class AuctionQuery {
             statusesQuery += filters.get("stop").charAt(0) + " IS NULL)";
         }
 
-        if(statuses.contains("APPROVED")) {
-            for(char ca = filters.get("start").charAt(0); ca <= filters.get("stop").charAt(0); ca++) {
-                statusesQuery += " AND " + ca + " IS NOT NULL";
-            }
-        }
+        if(statuses.contains("APPROVED"))
+            statusesQuery += " AND " + filters.get("dates") + " IS NOT NULL";
 
         return statusesQuery;
     }
@@ -78,15 +75,19 @@ public class AuctionQuery {
     }
 
     private String getDateQuery() {
-        String dateQuery = "";
+        StringBuilder dateQuery = new StringBuilder();
 
-        if(dates.size() != 0) {
-            for(String date: dates) {
-                dateQuery += " AND " + filters.get("dates") + "=" + date;
+        if (dates != null && !dates.isEmpty()) {
+            for (String date : dates) {
+                dateQuery.append(" OR ")
+                        .append(filters.get("dates"))
+                        .append(" = date '")
+                        .append(date)
+                        .append("'");
             }
         }
 
-        return dateQuery;
+        return dateQuery.toString();
     }
 
     public String getQueryWithFilters() {

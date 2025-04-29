@@ -1,6 +1,7 @@
 package com.example.backend.service;
 
 import com.example.backend.util.GoogleApiConnector;
+import com.example.backend.util.UrlSanitizer;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.ValueRange;
 import io.github.cdimascio.dotenv.Dotenv;
@@ -47,14 +48,7 @@ public class GoogleSheetsService {
     public String queryWithGviz(String gvizQuery) throws IOException {
         String encodedQuery = URLEncoder.encode(gvizQuery, StandardCharsets.UTF_8);
         String url = "https://docs.google.com/spreadsheets/d/" + SPREADSHEET_ID + "/gviz/tq?tq=" + encodedQuery;
-        url = url.replace("%2C", ",")
-                .replace("%3D", "=")
-                .replace("%27", "'")
-                .replace("%28", "(")
-                .replace("%29", ")")
-                .replace("%2E", ".")
-                .replace("%40", "@");
-
+        url = UrlSanitizer.sanitize(url);
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(url, String.class);
     }

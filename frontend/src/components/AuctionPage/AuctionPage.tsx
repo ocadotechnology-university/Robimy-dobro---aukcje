@@ -10,10 +10,10 @@ import {AuctionFilters} from "../../services/fetchAuctions";
 const AuctionPage = () => {
 
     const [auctionFilters, setAuctionFilters] = useState<AuctionFilters>({
-        statuses: ["No date"],
-        myAuctions: true,
+        statuses: ["INCOMPLETE"],
+        myAuctions: false,
         followed: false,
-        dates: ["2025-04-09", "2025-04-10"],
+        dates: ["23-11-2025"],
     });
 
     const { data:  auctions = [] } = useGetAuctions(auctionFilters);
