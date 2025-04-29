@@ -7,3 +7,5 @@ const API = axios.create({
 });
 
 export const auctionsAPI = (filters?: AuctionFilters) => API.get<Auction[]>('/auction', { params: filters });
+
+export const imageAPI = (fileId: string) => API.get(`/images/${fileId}`, { responseType: 'blob' });
