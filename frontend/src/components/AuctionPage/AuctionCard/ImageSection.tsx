@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Box, CardMedia, Grid2} from "@mui/material";
 import {ImageWrapperStyle, ImageStyle} from "./AuctionCard.styles";
 import {useGetImages} from "../../../hooks/useGetImages";
@@ -8,12 +8,21 @@ type Props = {
 };
 
 const ImageSection = ({imageUrl}: Props) => {
-    const { data: blobUrl, isLoading } = useGetImages(imageUrl);
+    const { data: blob } = useGetImages(imageUrl);
+    const [blobUrl, setBlobUrl] = useState<string | null>(null);
+
+    useEffect(() => {
+        if (blob) {
+            const url = URL.createObjectURL(blob);
+            setBlobUrl(url);
+            return () => URL.revokeObjectURL(url);
+        }
+    }, [blob]);
 
     return (
         <Grid2 size={{xs: 12, md: 3}} sx={ImageWrapperStyle}>
             <Box height="100%">
-                {!isLoading && blobUrl && (
+                { blobUrl && (
                     <CardMedia
                         component="img"
                         image={blobUrl}
