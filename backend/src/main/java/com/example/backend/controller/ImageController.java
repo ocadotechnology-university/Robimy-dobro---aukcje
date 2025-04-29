@@ -1,7 +1,9 @@
 package com.example.backend.controller;
 
+import com.example.backend.model.ImageData;
 import com.example.backend.service.GoogleDriveService;
 import com.example.backend.service.ImageCacheService;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,13 +27,18 @@ public class ImageController {
     @GetMapping("/{fileId}")
     public ResponseEntity<byte[]> getImage(@PathVariable String fileId) throws IOException {
         if(!imageCacheService.contains(fileId)){
-            byte[] image = googleDriveService.downloadFile(fileId);
-            if(image == null) return ResponseEntity.status(204).body(null);
-            else{
-                imageCacheService.put(fileId, image);
-                return ResponseEntity.ok().header("Content-Type", "image/jpeg").body(image);
+            ImageData imageData = googleDriveService.downloadFile(fileId);
+
+            if( imageData == null || imageData.content().length == 0 ){
+                return ResponseEntity.notFound().build();
             }
+
+            imageCacheService.put(fileId, imageData);
         }
-        else return ResponseEntity.ok().header("Content-Type", "image/jpeg").body(imageCacheService.get(fileId));
+        ImageData imageData = imageCacheService.get(fileId);
+
+        return ResponseEntity.ok()
+                .contentType(imageData.mediaType())
+                .body(imageData.content());
     }
 }
