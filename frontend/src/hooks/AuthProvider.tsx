@@ -1,6 +1,7 @@
 import {createContext, ReactNode, useCallback, useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import API from "../services/API"
 
 interface AuthContextType {
     accessToken: string | null;
@@ -27,6 +28,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 { credentials: googleToken },
                 {withCredentials: true}
             );
+            console.log(response.data.accessToken);
             setAccessToken(response.data.accessToken);
         } catch (error) {
             console.error("Google login failed:", error);
@@ -34,6 +36,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             throw error;
         }
     };
+
+    useEffect(() => {
+        const requestInterceptor = API.interceptors.request.use(
+            (config) => {
+                if (accessToken) {
+                    config.headers.Authorization = `Bearer ${accessToken}`;
+                    console.log("Added token to request:", config.headers.Authorization);
+                } else {
+                    console.log("No accessToken available.");
+                }
+                return config;
+            },
+            (error) => Promise.reject(error)
+        );
+
+        return () => {
+            API.interceptors.request.eject(requestInterceptor);
+        };
+    }, [accessToken]);
 
     return (
         <AuthContext.Provider value={{ accessToken, loginWithGoogle}}>

@@ -48,7 +48,7 @@ public class GoogleSheetsAuctionRepository implements AuctionRepository {
     }
 
     @Override
-    public List<Auction> findAllByFiltersAndUser(ArrayList<String> statuses, Boolean myAuctions, Boolean followed, ArrayList<String> dates, String userEmail) throws IOException {
+    public List<Auction> findAllByFiltersAndUser(List<String> statuses, Boolean myAuctions, Boolean followed, List<String> dates, String userEmail) throws IOException {
         AuctionQuery auctionQuery = new AuctionQuery(statuses, myAuctions, followed, dates, userEmail);
         String queryWithFilters = auctionQuery.getQueryWithFilters();
         System.out.println(queryWithFilters);
