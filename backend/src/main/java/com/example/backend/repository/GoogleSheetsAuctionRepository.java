@@ -3,13 +3,14 @@ package com.example.backend.repository;
 import com.example.backend.model.Auction;
 import com.example.backend.util.AuctionQuery;
 import com.example.backend.service.GoogleSheetsService;
+import com.example.backend.util.FollowersQuery;
 import com.example.backend.util.GvizResponseParser;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 public class GoogleSheetsAuctionRepository implements AuctionRepository {
@@ -54,5 +55,25 @@ public class GoogleSheetsAuctionRepository implements AuctionRepository {
         System.out.println(queryWithFilters);
         String response = googleSheetsService.queryWithGviz(queryWithFilters);
         return gvizResponseParser.parseAuctionsResponse(response);
+    }
+
+    private List<String> findFollowersByAuctionId(UUID auctionId) throws IOException {
+        FollowersQuery followersQuery = new FollowersQuery(auctionId);
+        String query = followersQuery.getQuery();
+        String response = googleSheetsService.queryWithGviz(query);
+        return gvizResponseParser.parseFollowersResponse(response);
+    }
+
+    private void updateFollowersInAuction(UUID auctionId, List<String> followers) {
+
+    }
+
+    @Override
+    public void follow(UUID auctionId, String userEmail) throws IOException {
+        List<String> followers = findFollowersByAuctionId(auctionId);
+        if (!followers.contains(userEmail)) {
+            followers.add(userEmail);
+            updateFollowersInAuction(auctionId, followers);
+        }
     }
 }
