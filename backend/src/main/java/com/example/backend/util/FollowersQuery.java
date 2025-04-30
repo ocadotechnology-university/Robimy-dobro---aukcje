@@ -9,7 +9,7 @@ import java.util.UUID;
 @Getter
 @Setter
 public class FollowersQuery {
-    private String query = "SELECT L WHERE 1=1";
+    private String query = "SELECT L WHERE ";
     private UUID auctionId;
 
     private static final Map<String, String> columns = Map.of(
