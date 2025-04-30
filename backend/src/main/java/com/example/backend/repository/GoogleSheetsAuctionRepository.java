@@ -5,6 +5,7 @@ import com.example.backend.util.AuctionQuery;
 import com.example.backend.service.GoogleSheetsService;
 import com.example.backend.util.FollowersQuery;
 import com.example.backend.util.GvizResponseParser;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
@@ -65,7 +66,21 @@ public class GoogleSheetsAuctionRepository implements AuctionRepository {
     }
 
     private void updateFollowersInAuction(UUID auctionId, List<String> followers) {
-
+        try {
+            List<List<Object>> rows = googleSheetsService.readSheet("Auction");
+            for (int i = 0; i < rows.size(); i++) {
+                List<Object> row = rows.get(i);
+                if (!row.isEmpty() && auctionId.toString().equals(row.get(0).toString())) {
+                    String json = new ObjectMapper().writeValueAsString(followers);
+                    // TODO: Replace hardcoded column index 11 with dynamic detection of the "followers" column
+                    googleSheetsService.updateCellValue("Auction", i, 11, json);
+                    return;
+                }
+            }
+            throw new RuntimeException("Auction not found: " + auctionId);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to update followers", e);
+        }
     }
 
     @Override
