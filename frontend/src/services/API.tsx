@@ -8,5 +8,6 @@ const API = axios.create({
     paramsSerializer: params => qs.stringify(params, { arrayFormat: 'repeat' }),
 });
 
+export const imageAPI = (fileId: string) => API.get(`/images/${fileId}`, { responseType: 'blob' });
 export const auctionsAPI = (filters?: AuctionFilters) => API.get<Auction[]>('/auctions', { params: filters });
 export default API;

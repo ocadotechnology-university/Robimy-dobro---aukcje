@@ -1,6 +1,9 @@
 package com.example.backend.service;
 
+import com.example.backend.model.ImageData;
 import com.example.backend.util.GoogleApiConnector;
+import com.example.backend.util.MimeTypeDetector;
+import com.google.api.client.http.HttpResponse;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.client.http.FileContent;
@@ -10,6 +13,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class GoogleDriveService {
@@ -35,4 +41,16 @@ public class GoogleDriveService {
 
         return "https://drive.google.com/uc?export=view&id=" + uploadedFile.getId();
     }
+
+    public ImageData downloadFile(String fileId) throws IOException {
+        Drive driveService = GoogleApiConnector.getDriveService();
+
+        byte[] image = driveService.files().get(fileId).executeMediaAsInputStream().readAllBytes();
+
+        return new ImageData(
+                image,
+                MimeTypeDetector.detectImageType(image)
+        );
+    }
+
 }
