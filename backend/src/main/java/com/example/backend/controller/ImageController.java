@@ -1,14 +1,13 @@
 package com.example.backend.controller;
 
 import com.example.backend.model.ImageData;
+import com.example.backend.service.GoogleDriveService;
 import com.example.backend.service.ImageCacheService;
+import com.example.backend.util.MimeTypeDetector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -17,9 +16,23 @@ import java.io.IOException;
 public class ImageController {
     private static final Logger logger = LoggerFactory.getLogger(ImageController.class);
     private final ImageCacheService imageCacheService;
+    private final GoogleDriveService googleDriveService;
 
-    public ImageController(ImageCacheService imageCacheService) {
+    public ImageController(ImageCacheService imageCacheService, GoogleDriveService googleDriveService) {
         this.imageCacheService = imageCacheService;
+        this.googleDriveService = googleDriveService;
+    }
+
+    @PostMapping()
+    public ResponseEntity<?> postImage(@RequestBody byte[] imageBytes){
+        try{
+            ImageData image = new ImageData(imageBytes, MimeTypeDetector.detectImageType(imageBytes));
+            String fileId = googleDriveService.uploadFile(image);
+            return ResponseEntity.ok().body(fileId);
+        }catch (IOException e){
+            logger.error("Internal server error for posting an image");
+            return ResponseEntity.status(500).build();
+        }
     }
 
     @GetMapping("/{fileId}")
@@ -32,7 +45,7 @@ public class ImageController {
             }
             return ResponseEntity.ok().contentType(image.mediaType()).body(image.content());
         }catch (IOException e){
-            logger.error("Internal server error for fileId: {}", fileId);
+            logger.error("Internal server error for getting fileId: {}", fileId);
             return ResponseEntity.status(500).build();
         }
     }
