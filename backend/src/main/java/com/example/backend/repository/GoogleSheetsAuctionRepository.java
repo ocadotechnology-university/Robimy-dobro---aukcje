@@ -53,7 +53,6 @@ public class GoogleSheetsAuctionRepository implements AuctionRepository {
         String queryWithFilters = auctionQuery.getQueryWithFilters();
         System.out.println(queryWithFilters);
         String response = googleSheetsService.queryWithGviz(queryWithFilters);
-        List<Auction> auctions = gvizResponseParser.parse(response);
-        return auctions;
+        return gvizResponseParser.parseAuctionsResponse(response);
     }
 }

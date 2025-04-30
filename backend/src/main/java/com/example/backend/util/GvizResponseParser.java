@@ -12,7 +12,7 @@ import java.util.*;
 @Component
 public class GvizResponseParser {
 
-    public List<Auction> parse(String gvizJson) throws IOException {
+    public List<Auction> parseAuctionsResponse(String gvizJson) throws IOException {
         String cleanedJson = cleanGvizJson(gvizJson);
         Response response = new ObjectMapper().readValue(cleanedJson, Response.class);
         Map<String, Integer> headerIndices = mapHeaders(response.getTable().getCols());
@@ -22,6 +22,29 @@ public class GvizResponseParser {
             auctions.add(parseAuctionFromRow(row, headerIndices));
         }
         return auctions;
+    }
+
+    public List<String> parseFollowersResponse(String gvizJson) throws IOException {
+        String cleanedJson = cleanGvizJson(gvizJson);
+        Response response = new ObjectMapper().readValue(cleanedJson, Response.class);
+
+        if (response.getTable().getRows().isEmpty()) {
+            return List.of();
+        }
+
+        Response.Row row = response.getTable().getRows().get(0);
+        List<Response.Cell> cells = row.getC();
+        if (cells.isEmpty() || cells.get(0) == null || cells.get(0).getV() == null) {
+            return List.of();
+        }
+
+        String followersJson = cells.get(0).getV().toString();
+        if (followersJson.isBlank()) {
+            return List.of();
+        }
+
+        return new ObjectMapper().readValue(followersJson, new TypeReference<>() {
+        });
     }
 
     private String cleanGvizJson(String gvizJson) {
@@ -102,7 +125,8 @@ public class GvizResponseParser {
     private List<String> parseFollowers(String raw) {
         if (raw == null || raw.isBlank()) return new ArrayList<>();
         try {
-            return new ObjectMapper().readValue(raw, new TypeReference<List<String>>() {});
+            return new ObjectMapper().readValue(raw, new TypeReference<>() {
+            });
         } catch (IOException e) {
             return new ArrayList<>();
         }
