@@ -6,6 +6,7 @@ import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import { usePostAuction } from '../../hooks/usePostAuction'
 
 import {
     FormContainerStyle,
@@ -23,7 +24,7 @@ import DateToggleGroup from "../common/DateToggleGroup";
 import OutlinedActionButton from "../common/OutlinedActionButton";
 import PrimaryActionButton from "../common/PrimaryActionButton";
 import {RichTextEditorRef} from "mui-tiptap";
-import {AuctionFilters} from "../../services/fetchAuctions";
+import { AddAuction } from './AddAuction'
 
 const AddPage = () => {
     const [title, setTitle] = useState("");
@@ -34,6 +35,7 @@ const AddPage = () => {
     const [selectedDate, setSelectedDate] = useState("");
     const rteRef = useRef<RichTextEditorRef>(null);
     const [croppedImage, setCroppedImage] = useState<any | null>(null);
+    const fileId = "";
 
     const handlePickup = (value: boolean) => {
         setPickupOnlyInCity(value);
@@ -66,7 +68,7 @@ const AddPage = () => {
                         setSelectedDate={setSelectedDate}
                         handleModerator={handleModerator}
                     />
-                    <FormButtonsSection croppedImage={croppedImage}/>
+                    <FormButtonsSection isModerator={wantsToBeModerator} title={title} descriptionRteRef={rteRef} selectedDate={selectedDate} selectedCity={selectedCity} price={price} fileId={fileId}/>
                 </Stack>
             </Container>
         </React.Fragment>
@@ -179,28 +181,34 @@ const ModeratorSection = ({
 };
 
 interface FormButtonsSectionProps {
-    croppedImage: any | null;
+    isModerator: boolean;
+    title: string;
+    descriptionRteRef: React.RefObject<RichTextEditorRef | null>;
+    fileId: string;
+    selectedDate: string;
+    selectedCity: string;
+    price: string;
 }
 
-const FormButtonsSection = ({croppedImage}:FormButtonsSectionProps) => {
-
+const FormButtonsSection = ({isModerator, title, price, selectedCity, selectedDate, descriptionRteRef, fileId}: FormButtonsSectionProps) => {
     const navigate = useNavigate();
+    const { mutate, isPending, isSuccess, isError } = usePostAuction();
 
     const handleSubmit = async () => {
-        if (croppedImage) {
 
-            //Testing whether cropping is working properly
-            /* const url = URL.createObjectURL(croppedImage);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "file.png";
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url); */
-        }
-        navigate('/auctions');
-    };
+        const newAuction: AddAuction = {
+            moderator: isModerator || undefined,
+            title: title || undefined,
+            description: descriptionRteRef.current?.editor?.getHTML() || undefined,
+            fileId: fileId || undefined,
+            preferredAuctionDate: selectedDate || undefined,
+            cityOnlyPickUp: selectedCity || undefined,
+            price: price || undefined
+        };
+
+        mutate(newAuction);
+        navigate('/auctions')
+    }
 
     return (
         <Stack direction="row" justifyContent="space-between" sx={FormButtonsWrapperStyle}>

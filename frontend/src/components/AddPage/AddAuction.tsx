@@ -1,16 +1,12 @@
-// @ts-ignore
+import React from "react";
+import { type RichTextEditorRef } from 'mui-tiptap';
+
 export interface AddAuction {
-    title: string,
-    date: string,
-    city: string,
-    description: string,
-    status: string,
-    hasBids: boolean,
-    supplier: string,
-    winner: string,
-    price: string,
-    imageUrl: string,
-    isFollowed: boolean,
-    slackUrl: string,
-    // auctions?: Auction[]
+    moderator?: boolean,
+    title?: string,
+    description?: string,
+    fileId?: string,
+    preferredAuctionDate?: string,
+    cityOnlyPickUp?: string,
+    price?: string
 }
