@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class AuctionService {
@@ -29,5 +30,9 @@ public class AuctionService {
         List<Auction> auctions = auctionRepository.findAllByFiltersAndUser(statuses, myAuctions, followed, dates, userEmail);
 
         return auctions.stream().map(auction -> auctionMapper.mapToGetDto(auction, userEmail)).toList();
+    }
+
+    public void followAuction(UUID auctionId, String userEmail) throws IOException {
+        auctionRepository.follow(auctionId, userEmail);
     }
 }

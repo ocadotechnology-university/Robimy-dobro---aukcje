@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/auctions")
@@ -41,6 +42,17 @@ public class AuctionController {
             statuses = Objects.requireNonNullElse(statuses, List.of());
             dates = Objects.requireNonNullElse(dates, List.of());
             return ResponseEntity.ok(auctionService.getFilteredAuctions(statuses, myAuctions, followed, dates, userEmail));
+        } catch (IOException e) {
+            return ResponseEntity.status(500).body("Error while retrieving filtered auctions: " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/{auctionId}")
+    public ResponseEntity<?> followAuction(@RequestParam UUID auctionId) {
+        try {
+            String userEmail = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+            auctionService.followAuction(auctionId, userEmail);
+            return ResponseEntity.ok("Auction followed successfully");
         } catch (IOException e) {
             return ResponseEntity.status(500).body("Error while retrieving filtered auctions: " + e.getMessage());
         }
