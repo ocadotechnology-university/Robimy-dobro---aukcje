@@ -1,7 +1,6 @@
 package com.example.backend.controller;
 
 import com.example.backend.model.ImageData;
-import com.example.backend.service.GoogleDriveService;
 import com.example.backend.service.ImageCacheService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,33 +17,23 @@ import java.io.IOException;
 public class ImageController {
     private static final Logger logger = LoggerFactory.getLogger(ImageController.class);
     private final ImageCacheService imageCacheService;
-    private final GoogleDriveService googleDriveService;
 
-    public ImageController(ImageCacheService imageCacheService, GoogleDriveService googleDriveService) {
+    public ImageController(ImageCacheService imageCacheService) {
         this.imageCacheService = imageCacheService;
-        this.googleDriveService = googleDriveService;
     }
 
     @GetMapping("/{fileId}")
-    public ResponseEntity<byte[]> getImage(@PathVariable String fileId) throws IOException {
-        if(!imageCacheService.contains(fileId)){
-            logger.info("Cache miss for fileId: {}. Fetching from Google Drive.", fileId);
-            ImageData imageData = googleDriveService.downloadFile(fileId);
-
-            if( imageData == null || imageData.content().length == 0 ){
+    public ResponseEntity<byte[]> getImage(@PathVariable String fileId){
+        try{
+            ImageData image = imageCacheService.get(fileId);
+            if (image == null || image.content().length == 0 ){
                 logger.warn("File not found or empty for fileId: {}", fileId);
                 return ResponseEntity.notFound().build();
             }
-
-            imageCacheService.put(fileId, imageData);
-            logger.info("File cached for fileId: {}", fileId);
-        } else {
-            logger.info("Image taken from cache: {}", fileId);
+            return ResponseEntity.ok().contentType(image.mediaType()).body(image.content());
+        }catch (IOException e){
+            logger.error("Internal server error for fileId: {}", fileId);
+            return ResponseEntity.status(500).build();
         }
-        ImageData imageData = imageCacheService.get(fileId);
-
-        return ResponseEntity.ok()
-                .contentType(imageData.mediaType())
-                .body(imageData.content());
     }
 }
