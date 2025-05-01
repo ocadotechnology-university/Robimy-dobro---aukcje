@@ -6,6 +6,7 @@ import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import Alert from '@mui/material/Alert';
 import { usePostAuction } from '../../hooks/usePostAuction'
 
 import {
@@ -192,7 +193,9 @@ interface FormButtonsSectionProps {
 
 const FormButtonsSection = ({isModerator, title, price, selectedCity, selectedDate, descriptionRteRef, fileId}: FormButtonsSectionProps) => {
     const navigate = useNavigate();
-    const { mutate, isPending, isSuccess, isError } = usePostAuction();
+    const { mutate, isSuccess, isError } = usePostAuction();
+    const [successMessage, setSuccessMessage] = useState<String>("");
+    const [errorMessage, setErrorMessage] = useState<String>("");
 
     const handleSubmit = async () => {
 
@@ -206,8 +209,16 @@ const FormButtonsSection = ({isModerator, title, price, selectedCity, selectedDa
             price: price || undefined
         };
 
-        mutate(newAuction);
-        navigate('/auctions')
+        mutate(newAuction, {
+            onSuccess: () => {
+                setSuccessMessage("Pomyślnie dodano aukcję");
+                setTimeout(() => {
+                    navigate("/auctions");
+                }, 1500);
+            },
+            onError: () => {
+                setErrorMessage("Błąd podczas dodawania aukcji");
+        }});
     }
 
     return (
@@ -216,6 +227,9 @@ const FormButtonsSection = ({isModerator, title, price, selectedCity, selectedDa
                 label="Wróć"
                 onClick={() => navigate(-1)}
             />
+
+            {isSuccess && <Alert severity="success">{successMessage}</Alert>}
+            {isError && <Alert severity="error">{errorMessage}</Alert>}
 
             <PrimaryActionButton
                 label="Dodaj"
