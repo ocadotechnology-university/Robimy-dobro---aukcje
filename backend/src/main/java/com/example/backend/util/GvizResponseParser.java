@@ -52,7 +52,7 @@ public class GvizResponseParser {
                 .supplierEmail(getRaw(cells, headerIndexMap.get(Column.SUPPLIER_EMAIL.label)))
                 .title(getRaw(cells, headerIndexMap.get(Column.TITLE.label)))
                 .description(getRaw(cells, headerIndexMap.get(Column.DESCRIPTION.label)))
-                .imageUrl(getRaw(cells, headerIndexMap.get(Column.IMAGE_URL.label)))
+                .fileId(getRaw(cells, headerIndexMap.get(Column.IMAGE_URL.label)))
                 .city(getRaw(cells, headerIndexMap.get(Column.CITY.label)))
                 .startingPrice(parseDouble(getRaw(cells, headerIndexMap.get(Column.STARTING_PRICE.label))))
                 .followers(parseFollowers(getRaw(cells, headerIndexMap.get(Column.FOLLOWERS.label))))

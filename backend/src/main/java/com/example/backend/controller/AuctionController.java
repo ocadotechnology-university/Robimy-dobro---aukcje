@@ -22,8 +22,9 @@ public class AuctionController {
     public ResponseEntity<?> saveAuction(@RequestBody AuctionCreateDto auctionCreateDto) {
         try {
             String userEmail = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-            String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+            String userName = SecurityContextHolder.getContext().getAuthentication().getName().split("@")[0];
             auctionService.save(auctionCreateDto, userEmail, userName);
+
             return ResponseEntity.ok("Auction saved successfully");
         } catch (IOException e) {
             return ResponseEntity.status(500).body("Error while saving auction: " + e.getMessage());

@@ -24,6 +24,9 @@ public class GoogleSheetsAuctionRepository implements AuctionRepository {
     private String makeNotNull(Object value) {
         return value != null ? value.toString() : "";
     }
+    private Object makeNotNullForNumbers(Object value) {
+        return value != null ? value : "";
+    }
 
     @Override
     public void save(Auction auction) throws IOException {
@@ -36,12 +39,14 @@ public class GoogleSheetsAuctionRepository implements AuctionRepository {
                 makeNotNull(auction.getSupplierEmail()),
                 makeNotNull(auction.getTitle()),
                 makeNotNull(auction.getDescription()),
-                makeNotNull(auction.getImageUrl()),
+                makeNotNull(auction.getFileId()),
                 makeNotNull(auction.getCity()),
-                auction.getStartingPrice(),
-                auction.getCurrentBid(),
-                makeNotNull(auction.getWinner()),
-                makeNotNull(auction.getSlackThreadLink())
+                makeNotNullForNumbers(auction.getStartingPrice()),
+                makeNotNull(auction.getFollowers()),
+                makeNotNullForNumbers(auction.getFollowersCount()),
+                makeNotNull(auction.getSlackThreadLink()),
+                makeNotNullForNumbers(auction.getCurrentBid()),
+                makeNotNull(auction.getWinner())
         );
 
         googleSheetsService.appendRow("Auction", List.of(row));
@@ -51,7 +56,6 @@ public class GoogleSheetsAuctionRepository implements AuctionRepository {
     public List<Auction> findAllByFiltersAndUser(List<String> statuses, Boolean myAuctions, Boolean followed, List<String> dates, String userEmail) throws IOException {
         AuctionQuery auctionQuery = new AuctionQuery(statuses, myAuctions, followed, dates, userEmail);
         String queryWithFilters = auctionQuery.getQueryWithFilters();
-        System.out.println(queryWithFilters);
         String response = googleSheetsService.queryWithGviz(queryWithFilters);
         List<Auction> auctions = gvizResponseParser.parse(response);
         return auctions;
