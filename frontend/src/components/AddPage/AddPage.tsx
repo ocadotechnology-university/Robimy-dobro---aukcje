@@ -24,6 +24,7 @@ import OutlinedActionButton from "../common/OutlinedActionButton";
 import PrimaryActionButton from "../common/PrimaryActionButton";
 import {RichTextEditorRef} from "mui-tiptap";
 import {AuctionFilters} from "../../services/fetchAuctions";
+import {usePostImages} from "../../hooks/usePostImage";
 
 const AddPage = () => {
     const [title, setTitle] = useState("");
@@ -185,20 +186,11 @@ interface FormButtonsSectionProps {
 const FormButtonsSection = ({croppedImage}:FormButtonsSectionProps) => {
 
     const navigate = useNavigate();
+    const { mutate } = usePostImages();
 
     const handleSubmit = async () => {
-        if (croppedImage) {
+        mutate(croppedImage);
 
-            //Testing whether cropping is working properly
-            /* const url = URL.createObjectURL(croppedImage);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "file.png";
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url); */
-        }
         navigate('/auctions');
     };
 
