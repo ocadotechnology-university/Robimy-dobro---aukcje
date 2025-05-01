@@ -35,4 +35,8 @@ public class AuctionService {
     public void followAuction(UUID auctionId, String userEmail) throws IOException {
         auctionRepository.follow(auctionId, userEmail);
     }
+
+    public void unfollowAuction(UUID auctionId, String userEmail) throws IOException {
+        auctionRepository.unfollow(auctionId, userEmail);
+    }
 }

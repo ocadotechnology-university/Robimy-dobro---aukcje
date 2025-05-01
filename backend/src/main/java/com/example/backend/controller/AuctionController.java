@@ -47,11 +47,22 @@ public class AuctionController {
         }
     }
 
-    @PutMapping("/{auctionId}")
-    public ResponseEntity<?> followAuction(@RequestParam UUID auctionId) {
+    @PutMapping("/{auctionId}/follow")
+    public ResponseEntity<?> followAuction(@PathVariable UUID auctionId) {
         try {
             String userEmail = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
             auctionService.followAuction(auctionId, userEmail);
+            return ResponseEntity.ok("Auction followed successfully");
+        } catch (IOException e) {
+            return ResponseEntity.status(500).body("Error while retrieving filtered auctions: " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/{auctionId}/unfollow")
+    public ResponseEntity<?> unfollowAuction(@PathVariable UUID auctionId) {
+        try {
+            String userEmail = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+            auctionService.unfollowAuction(auctionId, userEmail);
             return ResponseEntity.ok("Auction followed successfully");
         } catch (IOException e) {
             return ResponseEntity.status(500).body("Error while retrieving filtered auctions: " + e.getMessage());
