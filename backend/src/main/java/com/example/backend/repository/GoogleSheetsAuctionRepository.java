@@ -91,4 +91,13 @@ public class GoogleSheetsAuctionRepository implements AuctionRepository {
             updateFollowersInAuction(auctionId, followers);
         }
     }
+
+    @Override
+    public void unfollow(UUID auctionId, String userEmail) throws IOException {
+        List<String> followers = findFollowersByAuctionId(auctionId);
+        if (followers.contains(userEmail)) {
+            followers.remove(userEmail);
+            updateFollowersInAuction(auctionId, followers);
+        }
+    }
 }
