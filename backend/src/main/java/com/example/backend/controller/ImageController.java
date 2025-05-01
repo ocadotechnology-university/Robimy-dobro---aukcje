@@ -1,9 +1,9 @@
 package com.example.backend.controller;
 
+import com.example.backend.constants.CustomException;
 import com.example.backend.model.ImageData;
 import com.example.backend.service.GoogleDriveService;
 import com.example.backend.service.ImageCacheService;
-import com.example.backend.util.MimeTypeDetector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -28,25 +28,27 @@ public class ImageController {
     public ResponseEntity<?> postImage(@RequestParam("file") MultipartFile multipartFile){
         try{
             String fileId = googleDriveService.uploadFile(multipartFile);
-            return ResponseEntity.ok().body(fileId);
-        }catch (IOException e){
+            return ResponseEntity.status(201).body(fileId);
+        } catch (CustomException e){
+            logger.warn(e.getMessage());
+            return ResponseEntity.status(500).body(e.getMessage());
+        } catch (IOException e){
             logger.error("Internal server error for posting an image");
-            return ResponseEntity.status(500).build();
+            return ResponseEntity.status(500).body("Internal server error.");
         }
     }
 
     @GetMapping("/{fileId}")
-    public ResponseEntity<byte[]> getImage(@PathVariable String fileId){
-        try{
+    public ResponseEntity<?> getImage(@PathVariable String fileId){
+        try {
             ImageData image = imageCacheService.get(fileId);
-            if (image == null || image.content().length == 0 ){
-                logger.warn("File not found or empty for fileId: {}", fileId);
-                return ResponseEntity.notFound().build();
-            }
             return ResponseEntity.ok().contentType(image.mediaType()).body(image.content());
+        }catch (CustomException e){
+            logger.warn("File not found or empty for fileId: {}", fileId);
+            return ResponseEntity.status(404).body("File not found or empty");
         }catch (IOException e){
             logger.error("Internal server error for getting fileId: {}", fileId);
-            return ResponseEntity.status(500).build();
+            return ResponseEntity.status(500).body("Internal server error.");
         }
     }
 }

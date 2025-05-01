@@ -1,6 +1,6 @@
 package com.example.backend.controller;
 
-import com.example.backend.constants.CustomExeption;
+import com.example.backend.constants.CustomException;
 import com.example.backend.security.JwtTokenProvider;
 import com.example.backend.service.GoogleAuthService;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
@@ -38,7 +38,7 @@ public class AuthController {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(WRONG_EMAIL);
             }
 
-        } catch (CustomExeption e){
+        } catch (CustomException e){
             return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
     }

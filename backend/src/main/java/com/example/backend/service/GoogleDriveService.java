@@ -1,9 +1,9 @@
 package com.example.backend.service;
 
+import com.example.backend.constants.CustomException;
 import com.example.backend.model.ImageData;
 import com.example.backend.util.GoogleApiConnector;
 import com.example.backend.util.MimeTypeDetector;
-import com.google.api.client.http.HttpResponse;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.client.http.FileContent;
@@ -13,9 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Service
 public class GoogleDriveService {
@@ -39,6 +36,10 @@ public class GoogleDriveService {
                 .setFields("id")
                 .execute();
 
+        if (uploadedFile.getId() == null){
+            throw new CustomException("GoogleDriveService failed to upload an image");
+        }
+
         return uploadedFile.getId();
     }
 
@@ -46,6 +47,10 @@ public class GoogleDriveService {
         Drive driveService = GoogleApiConnector.getDriveService();
 
         byte[] image = driveService.files().get(fileId).executeMediaAsInputStream().readAllBytes();
+
+        if (image == null) {
+            throw new CustomException("File not found or empty for fileId: " + fileId);
+        }
 
         return new ImageData(
                 image,
