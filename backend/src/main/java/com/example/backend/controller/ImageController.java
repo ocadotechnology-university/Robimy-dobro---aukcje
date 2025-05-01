@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
@@ -24,10 +25,9 @@ public class ImageController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> postImage(@RequestBody byte[] imageBytes){
+    public ResponseEntity<?> postImage(@RequestParam("file") MultipartFile multipartFile){
         try{
-            ImageData image = new ImageData(imageBytes, MimeTypeDetector.detectImageType(imageBytes));
-            String fileId = googleDriveService.uploadFile(image);
+            String fileId = googleDriveService.uploadFile(multipartFile);
             return ResponseEntity.ok().body(fileId);
         }catch (IOException e){
             logger.error("Internal server error for posting an image");

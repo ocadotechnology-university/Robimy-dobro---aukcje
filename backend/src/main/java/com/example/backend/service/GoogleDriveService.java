@@ -39,7 +39,7 @@ public class GoogleDriveService {
                 .setFields("id")
                 .execute();
 
-        return "https://drive.google.com/uc?export=view&id=" + uploadedFile.getId();
+        return uploadedFile.getId();
     }
 
     public ImageData downloadFile(String fileId) throws IOException {
