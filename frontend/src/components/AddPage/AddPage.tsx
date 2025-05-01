@@ -200,13 +200,13 @@ const FormButtonsSection = ({isModerator, title, price, selectedCity, selectedDa
     const handleSubmit = async () => {
 
         const newAuction: AddAuction = {
-            moderator: isModerator || undefined,
+            wantsToBeModerator: isModerator,
             title: title || undefined,
             description: descriptionRteRef.current?.editor?.getHTML() || undefined,
             fileId: fileId || undefined,
             preferredAuctionDate: selectedDate || undefined,
-            cityOnlyPickUp: selectedCity || undefined,
-            price: price || undefined
+            city: selectedCity || undefined,
+            startingPrice: price || undefined
         };
 
         mutate(newAuction, {
@@ -214,7 +214,7 @@ const FormButtonsSection = ({isModerator, title, price, selectedCity, selectedDa
                 setSuccessMessage("Pomyślnie dodano aukcję");
                 setTimeout(() => {
                     navigate("/auctions");
-                }, 1500);
+                }, 80);
             },
             onError: () => {
                 setErrorMessage("Błąd podczas dodawania aukcji");
