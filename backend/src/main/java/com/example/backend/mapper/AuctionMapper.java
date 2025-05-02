@@ -4,19 +4,16 @@ import com.example.backend.dto.AuctionCreateDto;
 import com.example.backend.dto.AuctionGetDto;
 import com.example.backend.model.Auction;
 import com.example.backend.model.AuctionStatus;
+import com.example.backend.util.DateTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.UUID;
 
 @Component
 public class AuctionMapper {
     @Autowired
-    private MonthMapper monthMapper;
+    private DateTransformer dateTransformer;
 
     public AuctionGetDto mapToGetDto(Auction auction, String userEmail) {
         AuctionGetDto auctionGetDto = new AuctionGetDto();
@@ -43,14 +40,7 @@ public class AuctionMapper {
     }
 
     public Auction mapFromCreateDtoToAuction(AuctionCreateDto auctionCreateDto, String userEmail, String userName) {
-        LocalDate date = null;
         String moderatorEmail = null;
-
-        if(auctionCreateDto.getPreferredAuctionDate() != null) {
-            String mappedDate = monthMapper.mapFromPolishMonthToEnglish(auctionCreateDto.getPreferredAuctionDate());
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.ENGLISH);
-            date = LocalDate.parse(mappedDate + " 2025", formatter);
-        }
 
         if(auctionCreateDto.getWantsToBeModerator()) {
             moderatorEmail = userEmail;
@@ -67,7 +57,7 @@ public class AuctionMapper {
                 .city(auctionCreateDto.getCity())
                 .startingPrice(auctionCreateDto.getStartingPrice())
                 .currentBid(auctionCreateDto.getStartingPrice())
-                .preferredAuctionDate(date)
+                .preferredAuctionDate(dateTransformer.transformDate(auctionCreateDto.getPreferredAuctionDate()))
                 .followers(new ArrayList<>())
                 .followersCount(0)
                 .build();
