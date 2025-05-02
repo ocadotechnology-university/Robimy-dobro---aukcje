@@ -24,7 +24,7 @@ public class ImageController {
         this.googleDriveService = googleDriveService;
     }
 
-    @PostMapping()
+    @PostMapping("/")
     public ResponseEntity<?> postImage(@RequestParam("file") MultipartFile multipartFile){
         try{
             String fileId = googleDriveService.uploadFile(multipartFile);
