@@ -15,7 +15,7 @@ const monthsMap: Record<string, string> = {
 
 export function transformDateToDateFormat(dateFromForm: string): string {
 
-    if (dateFromForm == "") return "";
+    if (dateFromForm === "") return "";
 
     const dateParts = dateFromForm.trim().split(" ");
 
