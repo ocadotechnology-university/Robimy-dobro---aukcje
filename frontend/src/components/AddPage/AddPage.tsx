@@ -205,7 +205,7 @@ const FormButtonsSection = ({isModerator, title, price, selectedCity, selectedDa
             title: title || undefined,
             description: descriptionRteRef.current?.editor?.getHTML() || undefined,
             fileId: fileId || undefined,
-            preferredAuctionDate: transformDateToDateFormat(selectedDate) || undefined,
+            AuctionDate: transformDateToDateFormat(selectedDate) || undefined,
             city: selectedCity || undefined,
             startingPrice: price || undefined
         };

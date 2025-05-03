@@ -3,7 +3,7 @@ export interface AddAuction {
     title?: string,
     description?: string,
     fileId?: string,
-    preferredAuctionDate?: string,
+    AuctionDate?: string,
     city?: string,
     startingPrice?: string
 }
