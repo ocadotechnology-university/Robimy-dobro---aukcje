@@ -8,6 +8,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
 import { usePostAuction } from '../../hooks/usePostAuction'
+import { transformDateToDateFormat } from "./Services/DateTransformer";
 
 import {
     FormContainerStyle,
@@ -204,7 +205,7 @@ const FormButtonsSection = ({isModerator, title, price, selectedCity, selectedDa
             title: title || undefined,
             description: descriptionRteRef.current?.editor?.getHTML() || undefined,
             fileId: fileId || undefined,
-            preferredAuctionDate: selectedDate || undefined,
+            preferredAuctionDate: transformDateToDateFormat(selectedDate) || undefined,
             city: selectedCity || undefined,
             startingPrice: price || undefined
         };
