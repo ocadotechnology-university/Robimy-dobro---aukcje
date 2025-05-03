@@ -5,5 +5,5 @@ export interface AddAuction {
     fileId?: string,
     AuctionDate?: string,
     city?: string,
-    startingPrice?: string
+    startingPrice?: number
 }

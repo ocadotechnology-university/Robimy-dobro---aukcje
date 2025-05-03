@@ -207,7 +207,7 @@ const FormButtonsSection = ({isModerator, title, price, selectedCity, selectedDa
             fileId: fileId || undefined,
             AuctionDate: transformDateToDateFormat(selectedDate) || undefined,
             city: selectedCity || undefined,
-            startingPrice: price || undefined
+            startingPrice: parseFloat(price) || undefined
         };
 
         mutate(newAuction, {
