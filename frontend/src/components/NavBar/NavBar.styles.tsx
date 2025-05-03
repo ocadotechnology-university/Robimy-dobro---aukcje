@@ -12,13 +12,6 @@ export const CenteredBox = styled(Box)({
     alignItems: 'center',
 });
 
-export const HomeIconComponent = styled(HomeIcon)(({ theme }) => ({
-    width: 36.5,
-    height: 36.5,
-    color: theme.palette.primary.main,
-    cursor: "pointer"
-}));
-
 export const IconButtonComponent = styled(IconButton)<IconButtonLinkProps>(({ theme }) => ({
     width: 36.5,
     height: 36.5,
