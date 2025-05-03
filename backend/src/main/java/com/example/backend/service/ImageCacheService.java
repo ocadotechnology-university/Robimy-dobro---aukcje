@@ -1,6 +1,5 @@
 package com.example.backend.service;
 
-import com.example.backend.controller.ImageController;
 import com.example.backend.model.ImageData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

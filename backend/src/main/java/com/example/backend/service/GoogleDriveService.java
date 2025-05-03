@@ -52,7 +52,7 @@ public class GoogleDriveService {
 
         byte[] image = driveService.files().get(fileId).executeMediaAsInputStream().readAllBytes();
 
-        if (image == null) {
+        if (image.length == 0) {
             logger.warn("File not found or empty for fileId: {}", fileId);
             throw new CustomException("File not found or empty for fileId: " + fileId);
         }
