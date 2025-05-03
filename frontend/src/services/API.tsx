@@ -12,7 +12,7 @@ export const imageAPI = (fileId: string) => API.get(`/images/${fileId}`, { respo
 export const imagePostAPI = (blob: Blob) => {
     const form = new FormData();
     form.append('file', blob);
-    return API.post(`/images/`, form, { headers: { 'Content-Type':'multipart/form-data' }, responseType: 'text' });
+    return API.post(`/images/`, form, { responseType: 'text' });
 }
 export const auctionsAPI = (filters?: AuctionFilters) => API.get<Auction[]>('/auctions', { params: filters });
 export default API;
