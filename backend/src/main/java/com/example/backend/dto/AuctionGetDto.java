@@ -18,7 +18,7 @@ public class AuctionGetDto {
     private String supplier;
     private String winner;
     private Double price;
-    private String imageUrl;
+    private String fileID;
     private Boolean isFollowed;
     private String slackUrl;
     private Boolean isSupplier;

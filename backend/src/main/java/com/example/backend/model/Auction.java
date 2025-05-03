@@ -21,13 +21,12 @@ public class Auction {
     private String supplierEmail;
 
     // Dates
-    private LocalDate preferredAuctionDate;
     private LocalDate auctionDate;
 
     // Details
     private String title;
     private String description;
-    private String imageUrl;
+    private String fileId;
     private String city;
     private Double startingPrice;
     private Double currentBid;
