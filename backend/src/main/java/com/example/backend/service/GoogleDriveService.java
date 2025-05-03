@@ -2,12 +2,10 @@ package com.example.backend.service;
 
 import com.example.backend.constants.CustomException;
 import com.example.backend.model.ImageData;
-import com.example.backend.util.GoogleApiConnector;
 import com.example.backend.util.MimeTypeDetector;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.client.http.FileContent;
-import io.github.cdimascio.dotenv.Dotenv;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -19,12 +17,15 @@ import java.util.Collections;
 @Service
 public class GoogleDriveService {
     private static final Logger logger = LoggerFactory.getLogger(GoogleDriveService.class);
-    private static final Dotenv dotenv = Dotenv.configure().load();
-    private static final String FOLDER_ID = dotenv.get("GOOGLE_DRIVE_FOLDER_ID");
+    private Drive driveService;
+    private final String FOLDER_ID;
+
+    public GoogleDriveService(Drive driveService, String FOLDER_ID) {
+        this.driveService = driveService;
+        this.FOLDER_ID = FOLDER_ID;
+    }
 
     public String uploadFile(MultipartFile multipartFile) throws IOException {
-        Drive driveService = GoogleApiConnector.getDriveService();
-
         File fileMetadata = new File();
         fileMetadata.setName(multipartFile.getOriginalFilename());
         fileMetadata.setParents(Collections.singletonList(FOLDER_ID));
@@ -48,8 +49,6 @@ public class GoogleDriveService {
     }
 
     public ImageData downloadFile(String fileId) throws IOException {
-        Drive driveService = GoogleApiConnector.getDriveService();
-
         byte[] image = driveService.files().get(fileId).executeMediaAsInputStream().readAllBytes();
 
         if (image.length == 0) {
