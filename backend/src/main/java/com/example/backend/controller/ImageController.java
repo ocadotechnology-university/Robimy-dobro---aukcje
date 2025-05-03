@@ -30,7 +30,6 @@ public class ImageController {
             String fileId = googleDriveService.uploadFile(multipartFile);
             return ResponseEntity.status(201).body(fileId);
         } catch (CustomException e){
-            logger.warn(e.getMessage());
             return ResponseEntity.status(500).body(e.getMessage());
         } catch (IOException e){
             logger.error("Internal server error for posting an image");
@@ -44,7 +43,6 @@ public class ImageController {
             ImageData image = imageCacheService.get(fileId);
             return ResponseEntity.ok().contentType(image.mediaType()).body(image.content());
         }catch (CustomException e){
-            logger.warn("File not found or empty for fileId: {}", fileId);
             return ResponseEntity.status(404).body("File not found or empty");
         }catch (IOException e){
             logger.error("Internal server error for getting fileId: {}", fileId);
