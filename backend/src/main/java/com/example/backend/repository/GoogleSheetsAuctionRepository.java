@@ -74,6 +74,8 @@ public class GoogleSheetsAuctionRepository implements AuctionRepository {
                     String json = new ObjectMapper().writeValueAsString(followers);
                     // TODO: Replace hardcoded column index 11 with dynamic detection of the "followers" column
                     googleSheetsService.updateCellValue("Auction", i, 11, json);
+                    // This should probably be replaced with a single batched request to reduce latency and API usage
+                    googleSheetsService.updateCellValue("Auction", i, 12, makeNotNull(followers.size()));
                     return;
                 }
             }
