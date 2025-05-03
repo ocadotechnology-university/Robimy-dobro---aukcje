@@ -46,7 +46,7 @@ public class GvizResponseParser {
         return Auction.builder()
                 .id(UUID.fromString(getRaw(cells, headerIndexMap.get(Column.ID.label))))
                 .moderatorEmail(getRaw(cells, headerIndexMap.get(Column.MODERATOR_EMAIL.label)))
-                .preferredAuctionDate(parseDate(getRaw(cells, headerIndexMap.get(Column.PREFERRED_DATE.label))))
+                .auctionDate(parseDate(getRaw(cells, headerIndexMap.get(Column.PREFERRED_DATE.label))))
                 .auctionDate(parseDate(getRaw(cells, headerIndexMap.get(Column.AUCTION_DATE.label))))
                 .supplierName(getRaw(cells, headerIndexMap.get(Column.SUPPLIER_NAME.label)))
                 .supplierEmail(getRaw(cells, headerIndexMap.get(Column.SUPPLIER_EMAIL.label)))

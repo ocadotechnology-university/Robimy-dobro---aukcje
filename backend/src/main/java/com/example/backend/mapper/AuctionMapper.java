@@ -57,7 +57,7 @@ public class AuctionMapper {
                 .city(auctionCreateDto.getCity())
                 .startingPrice(auctionCreateDto.getStartingPrice())
                 .currentBid(auctionCreateDto.getStartingPrice())
-                .preferredAuctionDate(dateTransformer.transformDate(auctionCreateDto.getPreferredAuctionDate()))
+                .auctionDate(dateTransformer.transformDate(auctionCreateDto.getPreferredAuctionDate()))
                 .followers(new ArrayList<>())
                 .followersCount(0)
                 .build();

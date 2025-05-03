@@ -33,7 +33,7 @@ public class GoogleSheetsAuctionRepository implements AuctionRepository {
         List<Object> row = Arrays.asList(
                 makeNotNull(auction.getId()),
                 makeNotNull(auction.getModeratorEmail()),
-                makeNotNull(auction.getPreferredAuctionDate()),
+                makeNotNull(auction.getAuctionDate()),
                 makeNotNull(auction.getAuctionDate()),
                 makeNotNull(auction.getSupplierName()),
                 makeNotNull(auction.getSupplierEmail()),

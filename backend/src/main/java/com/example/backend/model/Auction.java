@@ -21,7 +21,6 @@ public class Auction {
     private String supplierEmail;
 
     // Dates
-    private LocalDate preferredAuctionDate;
     private LocalDate auctionDate;
 
     // Details
