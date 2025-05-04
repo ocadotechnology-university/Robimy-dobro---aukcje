@@ -9,7 +9,7 @@ export interface Auction {
     supplier: string,
     winner: string,
     price: string,
-    imageUrl: string,
+    fileId: string,
     isFollowed: boolean,
     slackUrl: string,
     auctions?: Auction[]

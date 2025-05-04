@@ -26,6 +26,8 @@ import DateToggleGroup from "../common/DateToggleGroup";
 import OutlinedActionButton from "../common/OutlinedActionButton";
 import PrimaryActionButton from "../common/PrimaryActionButton";
 import {RichTextEditorRef} from "mui-tiptap";
+import {AuctionFilters} from "../../services/fetchAuctions";
+import {usePostImages} from "../../hooks/usePostImage";
 import { AddAuction } from './AddAuction'
 
 const AddPage = () => {
@@ -70,7 +72,7 @@ const AddPage = () => {
                         setSelectedDate={setSelectedDate}
                         handleModerator={handleModerator}
                     />
-                    <FormButtonsSection isModerator={wantsToBeModerator} title={title} descriptionRteRef={rteRef} selectedDate={selectedDate} selectedCity={selectedCity} price={price} fileId={fileId}/>
+                    <FormButtonsSection croppedImage={croppedImage} isModerator={wantsToBeModerator} title={title} descriptionRteRef={rteRef} selectedDate={selectedDate} selectedCity={selectedCity} price={price}/>
                 </Stack>
             </Container>
         </React.Fragment>
@@ -183,44 +185,50 @@ const ModeratorSection = ({
 };
 
 interface FormButtonsSectionProps {
+    croppedImage: any | null;
     isModerator: boolean;
     title: string;
     descriptionRteRef: React.RefObject<RichTextEditorRef | null>;
-    fileId: string;
     selectedDate: string;
     selectedCity: string;
     price: string;
 }
 
-const FormButtonsSection = ({isModerator, title, price, selectedCity, selectedDate, descriptionRteRef, fileId}: FormButtonsSectionProps) => {
+const FormButtonsSection = ({croppedImage, isModerator, title, price, selectedCity, selectedDate, descriptionRteRef}: FormButtonsSectionProps) => {
     const navigate = useNavigate();
+    const { mutate: postImage, isSuccess: isImageSuccess, isError: isImageError } = usePostImages();
     const { mutate, isSuccess, isError } = usePostAuction();
     const [successMessage, setSuccessMessage] = useState<String>("");
     const [errorMessage, setErrorMessage] = useState<String>("");
 
     const handleSubmit = async () => {
+        postImage(croppedImage, {
+          onSuccess: (fileId: string) => {
+             const newAuction: AddAuction = {
+                wantsToBeModerator: isModerator,
+                title: title || undefined,
+                description: descriptionRteRef.current?.editor?.getHTML() || undefined,
+                fileId: fileId || undefined,
+                AuctionDate: transformDateToDateFormat(selectedDate) || undefined,
+                city: selectedCity || undefined,
+                startingPrice: parseFloat(price) || undefined
+            };
 
-        const newAuction: AddAuction = {
-            wantsToBeModerator: isModerator,
-            title: title || undefined,
-            description: descriptionRteRef.current?.editor?.getHTML() || undefined,
-            fileId: fileId || undefined,
-            AuctionDate: transformDateToDateFormat(selectedDate) || undefined,
-            city: selectedCity || undefined,
-            startingPrice: parseFloat(price) || undefined
-        };
-
-        mutate(newAuction, {
-            onSuccess: () => {
-                setSuccessMessage("Pomyślnie dodano aukcję");
-                setTimeout(() => {
-                    navigate("/auctions");
-                }, 80);
-            },
-            onError: () => {
-                setErrorMessage("Błąd podczas dodawania aukcji");
-        }});
-    }
+            mutate(newAuction, {
+                onSuccess: () => {
+                    setSuccessMessage("Pomyślnie dodano aukcję");
+                    setTimeout(() => {
+                        navigate("/auctions");
+                    }, 80);
+                },
+                onError: () => {
+                    setErrorMessage("Błąd podczas dodawania aukcji");
+            }});
+          },
+          onError: () => {
+            setErrorMessage("Błąd podczas dodawania zdjęcia");
+    }});
+}
 
     return (
         <Stack direction="row" justifyContent="space-between" sx={FormButtonsWrapperStyle}>
