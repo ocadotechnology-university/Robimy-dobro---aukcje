@@ -72,7 +72,7 @@ const AddPage = () => {
                         setSelectedDate={setSelectedDate}
                         handleModerator={handleModerator}
                     />
-                    <FormButtonsSection croppedImage={croppedImage} isModerator={wantsToBeModerator} title={title} descriptionRteRef={rteRef} selectedDate={selectedDate} selectedCity={selectedCity} price={price} fileId={fileId}/>
+                    <FormButtonsSection croppedImage={croppedImage} isModerator={wantsToBeModerator} title={title} descriptionRteRef={rteRef} selectedDate={selectedDate} selectedCity={selectedCity} price={price}/>
                 </Stack>
             </Container>
         </React.Fragment>
@@ -189,13 +189,12 @@ interface FormButtonsSectionProps {
     isModerator: boolean;
     title: string;
     descriptionRteRef: React.RefObject<RichTextEditorRef | null>;
-    fileId: string;
     selectedDate: string;
     selectedCity: string;
     price: string;
 }
 
-const FormButtonsSection = ({croppedImage, isModerator, title, price, selectedCity, selectedDate, descriptionRteRef, fileId}: FormButtonsSectionProps) => {
+const FormButtonsSection = ({croppedImage, isModerator, title, price, selectedCity, selectedDate, descriptionRteRef}: FormButtonsSectionProps) => {
     const navigate = useNavigate();
     const { mutate: postImage, isSuccess: isImageSuccess, isError: isImageError } = usePostImages();
     const { mutate, isSuccess, isError } = usePostAuction();
@@ -204,7 +203,7 @@ const FormButtonsSection = ({croppedImage, isModerator, title, price, selectedCi
 
     const handleSubmit = async () => {
         postImage(croppedImage, {
-          onSuccess: () => {
+          onSuccess: (fileId: string) => {
              const newAuction: AddAuction = {
                 wantsToBeModerator: isModerator,
                 title: title || undefined,
