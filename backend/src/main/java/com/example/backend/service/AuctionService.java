@@ -27,12 +27,18 @@ public class AuctionService {
         auctionRepository.save(auctionMapper.mapFromCreateDtoToAuction(auctionCreateDto, userEmail, userName));
     }
 
-    public void update(UUID auctionId, AuctionUpdateDto auctionUpdateDto, String userEmail, String userName) throws IOException {
-        auctionRepository.update(auctionId, auctionMapper.mapFromUpdateDtoToAuction(getAuctionById(auctionId), auctionUpdateDto, userEmail, userName));
+    public void update(UUID auctionId, AuctionUpdateDto auctionUpdateDto, String userEmail) throws IOException {
+        auctionRepository.update(auctionId, auctionMapper.mapFromUpdateDtoToAuction(getAuctionById(auctionId), auctionUpdateDto, userEmail));
     }
 
     public Auction getAuctionById(UUID auctionId) throws IOException {
         return auctionRepository.findByAuctionId(auctionId);
+    }
+
+    public AuctionUpdateDto getAuctionUpdateDtoById(UUID auctionId, String userEmail) throws IOException {
+        Auction auction = getAuctionById(auctionId);
+
+        return auctionMapper.mapFromAuctionToUpdateDto(auction, userEmail);
     }
 
     public List<AuctionGetDto> getFilteredAuctions(List<String> statuses, boolean myAuctions, boolean followed, List<String> dates, String userEmail) throws IOException {
