@@ -57,7 +57,7 @@ public class GoogleSheetsService {
 
     public void updateRow(String sheetName, int rowIndex, List<Object> values) throws IOException {
         Sheets sheetsService = GoogleApiConnector.getSheetsService();
-        String row = sheetName + "!B" + (rowIndex + 1);
+        String row = sheetName + "!A" + (rowIndex + 1);
         ValueRange body = new ValueRange().setValues(List.of(values));
         sheetsService.spreadsheets().values()
                 .update(SPREADSHEET_ID, row, body)

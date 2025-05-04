@@ -70,8 +70,8 @@ public class AuctionMapper {
         AuctionUpdateDto auctionUpdateDto = new AuctionUpdateDto();
         Boolean wantsToBeModerator = false;
 
-        if(auction.getModeratorEmail() == userEmail) {
-            wantsToBeModerator = Boolean.TRUE;
+        if(auction.getModeratorEmail().equals(userEmail)) {
+            wantsToBeModerator = true;
         }
 
         auctionUpdateDto.setWantsToBeModerator(wantsToBeModerator);
@@ -92,7 +92,7 @@ public class AuctionMapper {
             moderatorEmail = userEmail;
         }
 
-        if(auctionUpdateDto.getAuctionDate() != "") {
+        if(auctionUpdateDto.getAuctionDate() != null) {
             date = dateTransformer.transformDate(auctionUpdateDto.getAuctionDate());
         }
 

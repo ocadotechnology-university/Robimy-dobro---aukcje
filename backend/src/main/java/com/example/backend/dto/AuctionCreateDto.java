@@ -12,7 +12,7 @@ public class AuctionCreateDto {
     private String title;
     private String description;
     private String fileId;
-    private String AuctionDate;
+    private String auctionDate;
     private String city;
     private Double startingPrice;
 }

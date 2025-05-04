@@ -15,12 +15,14 @@ public class UrlSanitizer {
         replacements.put("%29", ")");
         replacements.put("%2E", ".");
         replacements.put("%40", "@");
+        replacements.put("%2D", "-");
     }
 
     public static String sanitize(String url) {
         for (Map.Entry<String, String> entry : replacements.entrySet()) {
             url = url.replace(entry.getKey(), entry.getValue());
         }
+
         return url;
     }
 }
