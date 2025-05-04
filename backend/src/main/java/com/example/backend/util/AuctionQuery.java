@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -15,13 +16,15 @@ public class AuctionQuery {
     private Boolean followed;
     private List<String> dates;
     private String userEmail;
+    private UUID auctionId;
 
     private Map<String, String> filters = Map.of(
             "myAuctions", "F",
             "dates", "D",
             "start", "A",
             "stop", "M",
-            "followed", "L"
+            "followed", "L",
+            "ID", "A"
     );
 
     public AuctionQuery(List<String> statuses, Boolean myAuctions, Boolean followed, List<String> dates, String userEmail) {
@@ -30,6 +33,10 @@ public class AuctionQuery {
         this.followed = followed;
         this.dates = dates;
         this.userEmail = userEmail;
+    }
+
+    public AuctionQuery(UUID auctionId) {
+        this.auctionId = auctionId;
     }
 
     private void injectFilters() {
@@ -92,6 +99,12 @@ public class AuctionQuery {
 
     public String getQueryWithFilters() {
         injectFilters();
+
+        return queryWithFilters;
+    }
+
+    public String getQueryWithAuctionId() {
+        queryWithFilters += " AND " + filters.get("ID") + "=" + "'" + auctionId + "'";
 
         return queryWithFilters;
     }

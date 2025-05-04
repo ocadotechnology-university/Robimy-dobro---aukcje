@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -52,6 +51,14 @@ public class GoogleSheetsAuctionRepository implements AuctionRepository {
         } catch (IOException e) {
             throw new RuntimeException("Failed to update auction", e);
         }
+    }
+
+    @Override
+    public Auction findByAuctionId(UUID auctionId) throws IOException {
+        AuctionQuery auctionQuery = new AuctionQuery(auctionId);
+        String queryWithAuctionId = auctionQuery.getQueryWithAuctionId();
+        String response = googleSheetsService.queryWithGviz(queryWithAuctionId);
+        return gvizResponseParser.parseAuctionsResponse(response).get(0);
     }
 
     @Override

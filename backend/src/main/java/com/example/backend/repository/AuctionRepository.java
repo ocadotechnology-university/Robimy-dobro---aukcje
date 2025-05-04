@@ -11,6 +11,7 @@ import java.util.UUID;
 public interface AuctionRepository {
     void save(Auction auction) throws IOException;
     void update(UUID auctionId, Auction auction) throws IOException;
+    Auction findByAuctionId(UUID auctionId) throws IOException;
     List<Auction> findAllByFiltersAndUser(List<String> statuses, Boolean myAuctions, Boolean followed, List<String> dates, String userEmail) throws IOException;
     void follow(UUID auctionId, String userEmail) throws IOException;
     void unfollow(UUID auctionId, String userEmail) throws IOException;

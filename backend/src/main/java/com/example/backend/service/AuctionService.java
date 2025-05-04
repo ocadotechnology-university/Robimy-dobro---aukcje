@@ -2,6 +2,7 @@ package com.example.backend.service;
 
 import com.example.backend.dto.AuctionCreateDto;
 import com.example.backend.dto.AuctionGetDto;
+import com.example.backend.dto.AuctionUpdateDto;
 import com.example.backend.mapper.AuctionMapper;
 import com.example.backend.model.Auction;
 import com.example.backend.repository.AuctionRepository;
@@ -24,6 +25,14 @@ public class AuctionService {
 
     public void save(AuctionCreateDto auctionCreateDto, String userEmail, String userName) throws IOException {
         auctionRepository.save(auctionMapper.mapFromCreateDtoToAuction(auctionCreateDto, userEmail, userName));
+    }
+
+    public void update(UUID auctionId, AuctionUpdateDto auctionUpdateDto, String userEmail, String userName) throws IOException {
+        auctionRepository.update(auctionId, auctionMapper.mapFromUpdateDtoToAuction(getAuctionById(auctionId), auctionUpdateDto, userEmail, userName));
+    }
+
+    public Auction getAuctionById(UUID auctionId) throws IOException {
+        return auctionRepository.findByAuctionId(auctionId);
     }
 
     public List<AuctionGetDto> getFilteredAuctions(List<String> statuses, boolean myAuctions, boolean followed, List<String> dates, String userEmail) throws IOException {
