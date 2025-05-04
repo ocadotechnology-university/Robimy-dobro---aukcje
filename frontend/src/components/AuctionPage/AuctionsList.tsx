@@ -46,19 +46,7 @@ const AuctionsList = ({auctions}: AuctionsList) => {
         <Stack width="100%" gap={1}>
             {auctions.map((auction) => (
                 <AuctionCard
-                    key={auction.title}
-                    title={auction.title}
-                    date={auction.date}
-                    city={auction.city}
-                    description={auction.description}
-                    status={auction.status}
-                    hasBids={auction.hasBids}
-                    supplier={auction.supplier}
-                    winner={auction.winner}
-                    price={auction.price}
-                    fileId={auction.fileId}
-                    isFollowed={auction.isFollowed}
-                    slackUrl={auction.slackUrl}
+                    {...auction}
                 />
             ))}
         </Stack>

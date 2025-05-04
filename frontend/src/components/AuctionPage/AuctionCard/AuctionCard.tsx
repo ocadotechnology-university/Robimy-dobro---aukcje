@@ -5,6 +5,7 @@ import ImageSection from "./ImageSection";
 import ContentSection from "./ContentSection";
 
 type Props = {
+    id: string;
     title: string;
     date: string;
     city: string | null;

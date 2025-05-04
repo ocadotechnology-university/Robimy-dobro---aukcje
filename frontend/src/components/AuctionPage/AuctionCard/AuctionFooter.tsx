@@ -11,14 +11,15 @@ import {AuctionCardFooterGrid, IconBox} from "./AuctionCard.styles";
 const SlackIcon = SiSlack as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
 
 type Props = {
-    status: string;
-    supplier: string;
-    winner: string;
-    isFollowed: boolean;
-    slackUrl: string;
+    id: string
+    status: string,
+    supplier: string,
+    winner: string,
+    isFollowed: boolean,
+    slackUrl: string
 };
 
-const AuctionFooter = ({status, supplier, winner, isFollowed, slackUrl}: Props) => {
+const AuctionFooter = ({status, supplier, winner, isFollowed, slackUrl, id}: Props) => {
     const [followed, setFollowed] = useState(isFollowed);
 
     const toggleFollow = () => {
