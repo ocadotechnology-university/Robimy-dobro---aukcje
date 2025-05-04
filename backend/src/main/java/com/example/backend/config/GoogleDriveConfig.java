@@ -15,13 +15,13 @@ public class GoogleDriveConfig {
     private static final Logger logger = LoggerFactory.getLogger(GoogleDriveConfig.class);
 
     @Bean
-    public Drive googleDriveService() throws IOException {
+    public Drive googleDrive() throws IOException {
         return GoogleApiConnector.getDriveService();
     }
 
     @Bean
     public String googleDriveFolderId() {
-        String folderId = Dotenv.load().get("GOOGLE_DRIVE_FOLDER");
+        String folderId = Dotenv.load().get("GOOGLE_DRIVE_FOLDER_ID");
         if (folderId == null || folderId.isBlank()) {
             logger.error("GOOGLE_DRIVE_FOLDER_ID id not found in .env file");
             throw new IllegalStateException("GOOGLE_DRIVE_FOLDER_ID not found in .env file");
