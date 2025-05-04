@@ -72,7 +72,7 @@ const AddPage = () => {
                         setSelectedDate={setSelectedDate}
                         handleModerator={handleModerator}
                     />
-                    <FormButtonsSection isModerator={wantsToBeModerator} title={title} descriptionRteRef={rteRef} selectedDate={selectedDate} selectedCity={selectedCity} price={price} fileId={fileId}/>
+                    <FormButtonsSection croppedImage={croppedImage} isModerator={wantsToBeModerator} title={title} descriptionRteRef={rteRef} selectedDate={selectedDate} selectedCity={selectedCity} price={price} fileId={fileId}/>
                 </Stack>
             </Container>
         </React.Fragment>
@@ -185,6 +185,7 @@ const ModeratorSection = ({
 };
 
 interface FormButtonsSectionProps {
+    croppedImage: any | null;
     isModerator: boolean;
     title: string;
     descriptionRteRef: React.RefObject<RichTextEditorRef | null>;
@@ -194,9 +195,9 @@ interface FormButtonsSectionProps {
     price: string;
 }
 
-const FormButtonsSection = ({isModerator, title, price, selectedCity, selectedDate, descriptionRteRef, fileId}: FormButtonsSectionProps) => {
+const FormButtonsSection = ({croppedImage, isModerator, title, price, selectedCity, selectedDate, descriptionRteRef, fileId}: FormButtonsSectionProps) => {
     const navigate = useNavigate();
-    const { postImage } = usePostImages();
+    const { mutate: postImage, isSuccess: isImageSuccess, isError: isImageError } = usePostImages();
     const { mutate, isSuccess, isError } = usePostAuction();
     const [successMessage, setSuccessMessage] = useState<String>("");
     const [errorMessage, setErrorMessage] = useState<String>("");
