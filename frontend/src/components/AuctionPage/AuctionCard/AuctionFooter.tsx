@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useRef, useState} from "react";
 import {Box, IconButton} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -7,6 +7,8 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import {SiSlack} from "react-icons/si";
 import AuctionStatus from "./AuctionStatus";
 import {AuctionCardFooterGrid, IconBox} from "./AuctionCard.styles";
+import {useFollowAuction} from "../../../hooks/useFollowAuction";
+import {useUnfollowAuction} from "../../../hooks/useUnfollowAuction";
 
 const SlackIcon = SiSlack as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
 
@@ -21,9 +23,26 @@ type Props = {
 
 const AuctionFooter = ({status, supplier, winner, isFollowed, slackUrl, id}: Props) => {
     const [followed, setFollowed] = useState(isFollowed);
+    const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
+    const {mutate: followAuction} = useFollowAuction();
+    const {mutate: unfollowAuction} = useUnfollowAuction();
 
     const toggleFollow = () => {
-        setFollowed((prev) => !prev);
+        const nextFollowed = !followed;
+        setFollowed(nextFollowed);
+
+        if (debounceTimeout.current) {
+            clearTimeout(debounceTimeout.current);
+        }
+
+        debounceTimeout.current = setTimeout(() => {
+            const action = nextFollowed ? followAuction : unfollowAuction;
+            action(id, {
+                onError: () => {
+                    setFollowed(!nextFollowed);
+                }
+            });
+        }, 300);
     };
 
     return (
