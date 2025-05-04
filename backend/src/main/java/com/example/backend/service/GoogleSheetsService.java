@@ -55,6 +55,16 @@ public class GoogleSheetsService {
                 .execute();
     }
 
+    public void updateRow(String sheetName, int rowIndex, List<Object> values) throws IOException {
+        Sheets sheetsService = GoogleApiConnector.getSheetsService();
+        String row = sheetName + "!A" + (rowIndex + 1);
+        ValueRange body = new ValueRange().setValues(List.of(values));
+        sheetsService.spreadsheets().values()
+                .update(SPREADSHEET_ID, row, body)
+                .setValueInputOption("RAW")
+                .execute();
+    }
+
     public String queryWithGviz(String gvizQuery) {
         String encodedQuery = URLEncoder.encode(gvizQuery, StandardCharsets.UTF_8);
         String url = "https://docs.google.com/spreadsheets/d/" + SPREADSHEET_ID + "/gviz/tq?tq=" + encodedQuery;
