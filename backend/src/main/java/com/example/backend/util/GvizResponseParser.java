@@ -12,7 +12,7 @@ import java.util.*;
 @Component
 public class GvizResponseParser {
 
-    public List<Auction> parse(String gvizJson) throws IOException {
+    public List<Auction> parseAuctionsResponse(String gvizJson) throws IOException {
         String cleanedJson = cleanGvizJson(gvizJson);
         Response response = new ObjectMapper().readValue(cleanedJson, Response.class);
         Map<String, Integer> headerIndices = mapHeaders(response.getTable().getCols());
@@ -22,6 +22,29 @@ public class GvizResponseParser {
             auctions.add(parseAuctionFromRow(row, headerIndices));
         }
         return auctions;
+    }
+
+    public List<String> parseFollowersResponse(String gvizJson) throws IOException {
+        String cleanedJson = cleanGvizJson(gvizJson);
+        Response response = new ObjectMapper().readValue(cleanedJson, Response.class);
+
+        if (response.getTable().getRows().isEmpty()) {
+            return List.of();
+        }
+
+        Response.Row row = response.getTable().getRows().get(0);
+        List<Response.Cell> cells = row.getC();
+        if (cells.isEmpty() || cells.get(0) == null || cells.get(0).getV() == null) {
+            return List.of();
+        }
+
+        String followersJson = cells.get(0).getV().toString();
+        if (followersJson.isBlank()) {
+            return List.of();
+        }
+
+        return new ObjectMapper().readValue(followersJson, new TypeReference<>() {
+        });
     }
 
     private String cleanGvizJson(String gvizJson) {
@@ -46,13 +69,13 @@ public class GvizResponseParser {
         return Auction.builder()
                 .id(UUID.fromString(getRaw(cells, headerIndexMap.get(Column.ID.label))))
                 .moderatorEmail(getRaw(cells, headerIndexMap.get(Column.MODERATOR_EMAIL.label)))
-                .preferredAuctionDate(parseDate(getRaw(cells, headerIndexMap.get(Column.PREFERRED_DATE.label))))
+                .auctionDate(parseDate(getRaw(cells, headerIndexMap.get(Column.PREFERRED_DATE.label))))
                 .auctionDate(parseDate(getRaw(cells, headerIndexMap.get(Column.AUCTION_DATE.label))))
                 .supplierName(getRaw(cells, headerIndexMap.get(Column.SUPPLIER_NAME.label)))
                 .supplierEmail(getRaw(cells, headerIndexMap.get(Column.SUPPLIER_EMAIL.label)))
                 .title(getRaw(cells, headerIndexMap.get(Column.TITLE.label)))
                 .description(getRaw(cells, headerIndexMap.get(Column.DESCRIPTION.label)))
-                .imageUrl(getRaw(cells, headerIndexMap.get(Column.IMAGE_URL.label)))
+                .fileId(getRaw(cells, headerIndexMap.get(Column.IMAGE_URL.label)))
                 .city(getRaw(cells, headerIndexMap.get(Column.CITY.label)))
                 .startingPrice(parseDouble(getRaw(cells, headerIndexMap.get(Column.STARTING_PRICE.label))))
                 .followers(parseFollowers(getRaw(cells, headerIndexMap.get(Column.FOLLOWERS.label))))
@@ -102,7 +125,8 @@ public class GvizResponseParser {
     private List<String> parseFollowers(String raw) {
         if (raw == null || raw.isBlank()) return new ArrayList<>();
         try {
-            return new ObjectMapper().readValue(raw, new TypeReference<List<String>>() {});
+            return new ObjectMapper().readValue(raw, new TypeReference<>() {
+            });
         } catch (IOException e) {
             return new ArrayList<>();
         }
