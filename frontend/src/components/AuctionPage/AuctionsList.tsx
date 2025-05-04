@@ -56,7 +56,7 @@ const AuctionsList = ({auctions}: AuctionsList) => {
                     supplier={auction.supplier}
                     winner={auction.winner}
                     price={auction.price}
-                    imageUrl={auction.imageUrl}
+                    fileId={auction.fileId}
                     isFollowed={auction.isFollowed}
                     slackUrl={auction.slackUrl}
                 />

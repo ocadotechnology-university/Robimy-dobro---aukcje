@@ -14,7 +14,7 @@ type Props = {
     supplier: string;
     winner: string;
     price: string;
-    imageUrl: string;
+    fileId: string;
     isFollowed: boolean;
     slackUrl: string;
 };
@@ -22,7 +22,7 @@ type Props = {
 const AuctionCard = (props: Props) => (
     <Card variant="outlined" sx={CardStyle}>
         <Grid2 container spacing={2}>
-            <ImageSection imageUrl={props.imageUrl}/>
+            <ImageSection fileId={props.fileId}/>
             <ContentSection {...props} />
         </Grid2>
     </Card>

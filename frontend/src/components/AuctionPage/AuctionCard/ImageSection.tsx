@@ -4,11 +4,11 @@ import {ImageWrapperStyle, ImageStyle} from "./AuctionCard.styles";
 import {useGetImages} from "../../../hooks/useGetImages";
 
 type Props = {
-    imageUrl: string;
+    fileId: string;
 };
 
-const ImageSection = ({imageUrl}: Props) => {
-    const { data: blob, isLoading } = useGetImages(imageUrl);
+const ImageSection = ({fileId}: Props) => {
+    const { data: blob, isLoading } = useGetImages(fileId);
     const [blobUrl, setBlobUrl] = useState<string | null>(null);
 
     useEffect(() => {
