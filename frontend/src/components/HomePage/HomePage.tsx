@@ -48,21 +48,22 @@ const InformationText = () => {
         <><HomeHeader variant="h5">
             Informacje ogólne
         </HomeHeader><HomeText>
-            Licytacje aukcji odbędą się na <b>Slacku</b> <b><span
-            style={{color: 'red'}}>#licytacje-robimy-dobro-2025</span></b> w dniach <b>21-23
-            listopada</b> w godzinach <b>10:00-15:00</b>.
+            Licytacje aukcji odbędą się na <b>Slacku </b>
+            <Box component="span" sx={{color: theme => theme.palette.secondary.dark}}>
+                <b>#licytacje-robimy-dobro-2025 </b>
+            </Box>
+            w dniach <b>21-23 listopada</b> w godzinach <b>10:00-15:00</b>.
         </HomeText><HomeHeader variant="h5">
             Do zobaczenia!
         </HomeHeader></>
     );
 }
 
-
 const HomePage = () => {
     return (
         <React.Fragment>
             <CssBaseline/>
-            <Container maxWidth="md" sx={{backgroundColor: 'white'}}>
+            <Container maxWidth="md" sx={{backgroundColor: theme => theme.palette.background.default}}>
                 <Stack direction="column" alignItems="center">
                     <Image/>
                     <InvitationTextAndButton/>

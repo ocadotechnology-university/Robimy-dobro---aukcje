@@ -1,22 +1,22 @@
-import { styled } from "@mui/material";
-import Button, { ButtonProps } from '@mui/material/Button';
-import { LinkProps } from 'react-router-dom';
+import {styled} from "@mui/material";
+import Button, {ButtonProps} from '@mui/material/Button';
+import {LinkProps} from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 
 type ButtonLinkProps = ButtonProps & LinkProps;
 
-export const HomeButton = styled(Button)<ButtonLinkProps>(({ theme }) => ({
+export const HomeButton = styled(Button)<ButtonLinkProps>(({theme}) => ({
     borderRadius: "45px",
-    borderColor: "black",
-    color: "black",
+    borderColor: theme.palette.common.black,
+    color: theme.palette.common.black,
     borderWidth: "1px",
     padding: "4px 15px",
     fontWeight: 550,
     borderStyle: "solid",
     textTransform: "none",
     '&:hover': {
-        backgroundColor: theme.palette.primary.main,
-        color: "white",
+        backgroundColor: theme.palette.secondary.main,
+        color: theme.palette.common.white,
     },
     [theme.breakpoints.up('xs')]: {
         fontSize: '9px',
@@ -32,7 +32,8 @@ export const HomeButton = styled(Button)<ButtonLinkProps>(({ theme }) => ({
     },
 }));
 
-export const HomeText = styled(Typography)(({ theme }) => ({
+export const HomeText = styled(Typography)(({theme}) => ({
+    color: theme.palette.text.primary,
     marginBottom: "2vmin",
     textAlign: 'left',
     width: "100%",
@@ -50,7 +51,8 @@ export const HomeText = styled(Typography)(({ theme }) => ({
     },
 }));
 
-export const HomeTextSmallerMargin = styled(Typography)(({ theme }) => ({
+export const HomeTextSmallerMargin = styled(Typography)(({theme}) => ({
+    color: theme.palette.text.primary,
     marginBottom: "1vmin",
     textAlign: 'left',
     width: "100%",
@@ -68,7 +70,8 @@ export const HomeTextSmallerMargin = styled(Typography)(({ theme }) => ({
     },
 }));
 
-export const HomeHeader = styled(Typography)(({ theme }) => ({
+export const HomeHeader = styled(Typography)(({theme}) => ({
+    color: theme.palette.text.primary,
     fontWeight: "550",
     marginBottom: "1.5vmin",
     [theme.breakpoints.up('xs')]: {

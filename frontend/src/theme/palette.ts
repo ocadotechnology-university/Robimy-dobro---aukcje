@@ -19,7 +19,11 @@ const palette: PaletteOptions = {
     text: {
         primary: '#000000',
         secondary: '#555555'
-    }
+    },
+    common: {
+        black: '#000000',
+        white: '#ffffff',
+    },
 };
 
 export default palette;
