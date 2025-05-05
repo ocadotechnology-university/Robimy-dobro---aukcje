@@ -16,9 +16,10 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/auctions")
 public class AuctionController {
-
-    @Autowired
     private AuctionService auctionService;
+    public AuctionController(AuctionService auctionService) {
+        this.auctionService = auctionService;
+    }
 
     @PostMapping
     public ResponseEntity<?> saveAuction(@RequestBody AuctionCreateDto auctionCreateDto) {

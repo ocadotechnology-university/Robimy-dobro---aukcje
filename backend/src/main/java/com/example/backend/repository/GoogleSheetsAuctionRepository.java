@@ -18,13 +18,12 @@ import java.util.UUID;
 public class GoogleSheetsAuctionRepository implements AuctionRepository {
     private final GoogleSheetsService googleSheetsService;
     private final GvizResponseParser gvizResponseParser;
-
-    @Autowired
     private CreateRowInGoogleSheets createRowInGoogleSheets;
 
-    public GoogleSheetsAuctionRepository(GoogleSheetsService googleSheetsService, GvizResponseParser gvizResponseParser) {
+    public GoogleSheetsAuctionRepository(GoogleSheetsService googleSheetsService, GvizResponseParser gvizResponseParser, CreateRowInGoogleSheets createRowInGoogleSheets) {
         this.googleSheetsService = googleSheetsService;
         this.gvizResponseParser = gvizResponseParser;
+        this.createRowInGoogleSheets = createRowInGoogleSheets;
     }
 
     @Override

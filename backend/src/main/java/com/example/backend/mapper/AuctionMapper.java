@@ -15,8 +15,10 @@ import java.util.UUID;
 
 @Component
 public class AuctionMapper {
-    @Autowired
     private DateTransformer dateTransformer;
+    public AuctionMapper(DateTransformer dateTransformer) {
+        this.dateTransformer = dateTransformer;
+    }
 
     public AuctionGetDto mapToGetDto(Auction auction, String userEmail) {
         AuctionGetDto auctionGetDto = new AuctionGetDto();
