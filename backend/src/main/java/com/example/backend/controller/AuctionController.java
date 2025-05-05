@@ -73,10 +73,10 @@ public class AuctionController {
     }
 
     @PatchMapping("/{auctionId}/update")
-    public ResponseEntity<?> updateAuction(@RequestBody AuctionUpdateDto auctionUpdateDto, @PathVariable String auctionId) {
+    public ResponseEntity<?> updateAuction(@RequestBody AuctionUpdateDto auctionUpdateDto, @PathVariable UUID auctionId) {
         try {
             String userEmail = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-            auctionService.update(UUID.fromString(auctionId), auctionUpdateDto, userEmail);
+            auctionService.update(auctionId, auctionUpdateDto, userEmail);
             return ResponseEntity.ok("Auction update successfully");
         } catch (IOException e) {
             return ResponseEntity.status(500).body("Error while updating the auction: " + e.getMessage());
