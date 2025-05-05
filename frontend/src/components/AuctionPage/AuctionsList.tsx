@@ -2,6 +2,7 @@ import Stack from '@mui/material/Stack';
 import AuctionCard from './AuctionCard/AuctionCard';
 import React from "react";
 import {Auction} from './Auction'
+import {UUID} from "node:crypto";
 
 interface AuctionsList {
     auctions: Auction[];
@@ -11,7 +12,7 @@ const AuctionsList = ({auctions}: AuctionsList) => {
 
     const testAuctions: Auction[] = [
         {
-            id: "",
+            id: "befa7825-5863-4872-abd9-e607ca35b997",
             title: "Aukcja 1",
             date: "2025-04-09",
             city: "",
@@ -26,7 +27,7 @@ const AuctionsList = ({auctions}: AuctionsList) => {
             slackUrl: "http://slack.com/auction1"
         },
         {
-            id: "",
+            id: "5f3ceb8e-3707-4a57-a1b2-fa5674e7b38c",
             title: "Aukcja 2",
             date: "",
             city: "Kraków",

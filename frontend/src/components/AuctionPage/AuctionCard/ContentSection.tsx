@@ -3,9 +3,10 @@ import {Stack, Box, Grid2} from "@mui/material";
 import AuctionHeader from "./AuctionHeader";
 import AuctionDescription from "./AuctionDescription";
 import AuctionFooter from "./AuctionFooter";
+import {UUID} from "node:crypto";
 
 type Props = {
-    id: string;
+    id: UUID;
     title: string;
     date: string;
     city: string | null;

@@ -3,9 +3,10 @@ import {Card, Grid2} from "@mui/material";
 import {CardStyle} from "./AuctionCard.styles";
 import ImageSection from "./ImageSection";
 import ContentSection from "./ContentSection";
+import {UUID} from "node:crypto";
 
 type Props = {
-    id: string;
+    id: UUID;
     title: string;
     date: string;
     city: string | null;
