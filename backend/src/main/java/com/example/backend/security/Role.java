@@ -1,4 +1,4 @@
-package com.example.backend.util;
+package com.example.backend.security;
 
 public enum Role {
     USER,
