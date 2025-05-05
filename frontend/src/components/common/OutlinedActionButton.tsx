@@ -13,7 +13,7 @@ const buttonStyle = {
     px: 1,
     py: 0.5,
     '&:hover': {
-        backgroundColor: 'rgba(0, 0, 0, 0.1)'
+        backgroundColor: '${alpha(theme.palette.common.black, 0.1)'
     },
 };
 

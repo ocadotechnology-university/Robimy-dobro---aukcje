@@ -169,7 +169,7 @@ const ModeratorSection = ({
 
             <Typography
                 variant="body2"
-                sx={{color: wantsToBeModerator ? 'text.primary' : 'text.disabled'}}
+                sx={{color: (theme) => wantsToBeModerator ? theme.palette.text.primary : theme.palette.text.disabled}}
             >
                 Wybierz preferowaną datę licytacji
             </Typography>

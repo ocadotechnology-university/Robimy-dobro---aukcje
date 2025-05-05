@@ -11,13 +11,13 @@ const primaryButtonStyle = (theme: Theme) => ({
     borderRadius: '45px',
     fontWeight: 600,
     textTransform: 'none',
-    backgroundColor: theme.palette.primary.main,
-    color: 'white',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)',
+    backgroundColor: theme.palette.secondary.main,
+    color: theme.palette.common.white,
+    boxShadow: '0 4px 8px ${alpha(theme.palette.common.black, 0.3)}',
     px: 2,
     py: 0.5,
     '&:hover': {
-        backgroundColor: theme.palette.primary.dark,
+        backgroundColor: theme.palette.secondary.dark,
     },
 });
 
