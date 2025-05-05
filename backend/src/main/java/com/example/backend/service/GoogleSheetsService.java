@@ -3,32 +3,38 @@ package com.example.backend.service;
 import com.example.backend.util.UrlSanitizer;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.ValueRange;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.List;
 
 @Service
 public class GoogleSheetsService {
+    private static final Logger logger = LoggerFactory.getLogger(GoogleSheetsService.class);
     private Sheets sheetsService;
     private final String SPREADSHEET_ID;
 
-    public GoogleSheetsService(Sheets sheetsService, String SPREADSHEET_ID){
+    public GoogleSheetsService(Sheets sheetsService, String SPREADSHEET_ID) {
         this.sheetsService = sheetsService;
         this.SPREADSHEET_ID = SPREADSHEET_ID;
     }
 
     public List<List<Object>> readAll(String sheetName) throws IOException {
+        logger.info("Reading all data from sheet: {}", sheetName);
         ValueRange response = sheetsService.spreadsheets().values()
                 .get(SPREADSHEET_ID, sheetName)
                 .execute();
-        return response.getValues();
+        return response.getValues() != null ? response.getValues() : Collections.emptyList();
     }
 
     public void appendRow(String sheetName, List<List<Object>> values) throws IOException {
+        logger.info("Appending row to sheet: {}", sheetName);
         ValueRange body = new ValueRange().setValues(values);
         sheetsService.spreadsheets().values()
                 .append(SPREADSHEET_ID, sheetName, body)
@@ -38,6 +44,7 @@ public class GoogleSheetsService {
     }
 
     public void updateCellValue(String sheetName, int rowIndex, int columnIndex, String value) throws IOException {
+        logger.info("Updating cell [{},{}] value in sheet: {}", rowIndex, columnIndex, sheetName);
         String cell = sheetName + "!" + (char) ('A' + columnIndex) + (rowIndex + 1);
         ValueRange body = new ValueRange().setValues(List.of(List.of(value)));
         sheetsService.spreadsheets().values()
@@ -47,6 +54,7 @@ public class GoogleSheetsService {
     }
 
     public void updateRow(String sheetName, int rowIndex, List<Object> values) throws IOException {
+        logger.info("Updating row {} in sheet: {}", rowIndex, sheetName);
         String row = sheetName + "!A" + (rowIndex + 1);
         ValueRange body = new ValueRange().setValues(List.of(values));
         sheetsService.spreadsheets().values()
@@ -56,6 +64,7 @@ public class GoogleSheetsService {
     }
 
     public String queryWithGviz(String gvizQuery) {
+        logger.info("Creating query from: {}", gvizQuery);
         String encodedQuery = URLEncoder.encode(gvizQuery, StandardCharsets.UTF_8);
         String url = "https://docs.google.com/spreadsheets/d/" + SPREADSHEET_ID + "/gviz/tq?tq=" + encodedQuery;
         url = UrlSanitizer.sanitize(url);
