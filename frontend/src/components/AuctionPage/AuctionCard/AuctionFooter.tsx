@@ -7,7 +7,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import {SiSlack} from "react-icons/si";
 import AuctionStatus from "./AuctionStatus";
 import {AuctionCardFooterGrid, IconBox} from "./AuctionCard.styles";
-import {AddAuction} from "../../AddPage/AddAuction";
+import {AuctionDto} from "../../AddPage/AuctionDto";
 import {useUpdateAuction} from "../../../hooks/useUpdateAuction";
 import {UUID} from "node:crypto";
 
@@ -32,14 +32,14 @@ const AuctionFooter = ({id, status, supplier, winner, isFollowed, slackUrl}: Pro
     };
 
     const handleUpdate = () => {
-        const updateAuction: AddAuction = {
+        const updateAuction: AuctionDto = {
             wantsToBeModerator: false,
-            title: "Kolejny updatowy tytuł" || undefined,
-            description: "Kolejny przykladowy opis" || undefined,
-            fileId: "" || undefined,
-            auctionDate: "2025-11-11" || undefined,
-            city: "" || undefined,
-            startingPrice: 79.99 || undefined
+            title: "Kolejny updatowy tytuł",
+            description: "Kolejny przykladowy opis",
+            fileId: "",
+            auctionDate: "2025-11-11",
+            city: "",
+            startingPrice: 79.99
         };
 
         mutate({

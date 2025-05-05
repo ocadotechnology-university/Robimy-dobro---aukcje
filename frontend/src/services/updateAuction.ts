@@ -1,9 +1,9 @@
-import { AddAuction } from '../components/AddPage/AddAuction';
+import { AuctionDto } from '../components/AddPage/AuctionDto';
 import { auctionUpdateAPI } from './API';
 
 interface UpdateAuctionParams {
     auctionId: string;
-    updateAuction: AddAuction;
+    updateAuction: AuctionDto;
 };
 
 export const updateAuction = async ({auctionId, updateAuction}: UpdateAuctionParams): Promise<void> => {

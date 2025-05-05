@@ -1,4 +1,4 @@
-export interface AddAuction {
+export interface AuctionDto {
     wantsToBeModerator: boolean,
     title?: string,
     description?: string,
