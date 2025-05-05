@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Box, IconButton} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -9,6 +9,7 @@ import AuctionStatus from "./AuctionStatus";
 import {AuctionCardFooterGrid, IconBox} from "./AuctionCard.styles";
 import {useFollowAuction} from "../../../hooks/useFollowAuction";
 import {useUnfollowAuction} from "../../../hooks/useUnfollowAuction";
+import {useDebounce} from "../../../hooks/useDebounce";
 
 const SlackIcon = SiSlack as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
 
@@ -23,27 +24,20 @@ type Props = {
 
 const AuctionFooter = ({status, supplier, winner, isFollowed, slackUrl, id}: Props) => {
     const [followed, setFollowed] = useState(isFollowed);
-    const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
+    const debouncedFollowed = useDebounce(followed, 300);
     const {mutate: followAuction} = useFollowAuction();
     const {mutate: unfollowAuction} = useUnfollowAuction();
 
-    const toggleFollow = () => {
-        const nextFollowed = !followed;
-        setFollowed(nextFollowed);
-
-        if (debounceTimeout.current) {
-            clearTimeout(debounceTimeout.current);
-        }
-
-        debounceTimeout.current = setTimeout(() => {
-            const action = nextFollowed ? followAuction : unfollowAuction;
+    useEffect(() => {
+        if (debouncedFollowed !== isFollowed) {
+            const action = debouncedFollowed ? followAuction : unfollowAuction;
             action(id, {
                 onError: () => {
-                    setFollowed(!nextFollowed);
+                    setFollowed(!debouncedFollowed);
                 }
             });
-        }, 300);
-    };
+        }
+    }, [debouncedFollowed]);
 
     return (
         <AuctionCardFooterGrid container spacing={2}>
@@ -53,7 +47,8 @@ const AuctionFooter = ({status, supplier, winner, isFollowed, slackUrl, id}: Pro
                     onClick={() => window.open(slackUrl, "_blank", "noopener,noreferrer")}
                     style={{fontSize: "28px", cursor: "pointer", margin: "5px"}}
                 />
-                <Box onClick={toggleFollow} sx={{cursor: "pointer", display: "flex", alignItems: "center"}}>
+                <Box onClick={() => setFollowed((prev) => !prev)}
+                     sx={{cursor: "pointer", display: "flex", alignItems: "center"}}>
                     {followed ? (
                         <FavoriteIcon fontSize="large" color="primary"/>
                     ) : (
