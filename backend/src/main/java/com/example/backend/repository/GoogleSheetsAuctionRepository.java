@@ -7,7 +7,6 @@ import com.example.backend.util.CreateRowInGoogleSheets;
 import com.example.backend.util.FollowersQuery;
 import com.example.backend.util.GvizResponseParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
@@ -38,7 +37,7 @@ public class GoogleSheetsAuctionRepository implements AuctionRepository {
         List<Object> updatedRow = createRowInGoogleSheets.createRow(auction);
 
         try {
-            List<List<Object>> rows = googleSheetsService.readSheet("Auction");
+            List<List<Object>> rows = googleSheetsService.readAll("Auction");
             for (int i = 0; i < rows.size(); i++) {
                 List<Object> searchRow = rows.get(i);
                 if (!searchRow.isEmpty() && auctionId.toString().equals(searchRow.get(0).toString())) {
@@ -77,7 +76,7 @@ public class GoogleSheetsAuctionRepository implements AuctionRepository {
 
     private void updateFollowersInAuction(UUID auctionId, List<String> followers) {
         try {
-            List<List<Object>> rows = googleSheetsService.readSheet("Auction");
+            List<List<Object>> rows = googleSheetsService.readAll("Auction");
             for (int i = 0; i < rows.size(); i++) {
                 List<Object> row = rows.get(i);
                 if (!row.isEmpty() && auctionId.toString().equals(row.get(0).toString())) {

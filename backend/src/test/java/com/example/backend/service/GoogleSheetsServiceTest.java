@@ -70,7 +70,7 @@ class GoogleSheetsServiceTest {
     }
 
     @Test
-    void readSheet() throws IOException {
+    void readAll() throws IOException {
         String range = "Sheet1!A1:B2";
         List<List<Object>> mockData = Arrays.asList(
                 Arrays.asList("Name", "Surname"),
@@ -82,27 +82,10 @@ class GoogleSheetsServiceTest {
         when(spreadsheetsValues.get(anyString(), eq(range))).thenReturn(mockGetRequest);
         when(mockGetRequest.execute()).thenReturn(mockResponse);
 
-        List<List<Object>> result = googleSheetsService.readSheet(range);
+        List<List<Object>> result = googleSheetsService.readAll(range);
 
         assertEquals(mockData, result);
         verify(spreadsheetsValues).get(anyString(), eq(range));
     }
 
-    @Test
-    void writeToSheet() throws IOException {
-        String range = "Sheet1!A1:B1";
-        List<List<Object>> dataToWrite = Arrays.asList(
-                Arrays.asList("Data1", "Data2")
-        );
-
-        when(spreadsheetsValues.update(anyString(), eq(range), any(ValueRange.class))).thenReturn(mockUpdateRequest);
-        when(mockUpdateRequest.setValueInputOption("RAW")).thenReturn(mockUpdateRequest);
-        when(mockUpdateRequest.execute()).thenReturn(null);
-
-        googleSheetsService.writeToSheet(range, dataToWrite);
-
-        verify(spreadsheetsValues).update(anyString(), eq(range), any(ValueRange.class));
-        verify(mockUpdateRequest).setValueInputOption("RAW");
-        verify(mockUpdateRequest).execute();
-    }
 }

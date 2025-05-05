@@ -18,21 +18,12 @@ public class GoogleSheetsService {
     private static final Dotenv dotenv = Dotenv.configure().load();
     private static final String SPREADSHEET_ID = dotenv.get("GOOGLE_SHEET_ID");
 
-    public List<List<Object>> readSheet(String range) throws IOException {
+    public List<List<Object>> readAll(String sheetName) throws IOException {
         Sheets sheetsService = GoogleApiConnector.getSheetsService();
         ValueRange response = sheetsService.spreadsheets().values()
-                .get(SPREADSHEET_ID, range)
+                .get(SPREADSHEET_ID, sheetName)
                 .execute();
         return response.getValues();
-    }
-
-    public void writeToSheet(String range, List<List<Object>> values) throws IOException {
-        Sheets sheetsService = GoogleApiConnector.getSheetsService();
-        ValueRange body = new ValueRange().setValues(values);
-        sheetsService.spreadsheets().values()
-                .update(GoogleSheetsService.SPREADSHEET_ID, range, body)
-                .setValueInputOption("RAW")
-                .execute();
     }
 
     public void appendRow(String sheetName, List<List<Object>> values) throws IOException {
