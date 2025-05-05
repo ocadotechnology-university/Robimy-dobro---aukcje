@@ -107,7 +107,7 @@ const ImageUploadBox = ({setCroppedImage}: ImageUploadBoxProps) => {
                         key={imageSrc ? imageSrc : 'input-image-button'}
                     />
 
-                    <UploadIcon fontSize="large" sx={{color: '#666'}}/>
+                    <UploadIcon fontSize="large" sx={(theme) => ({color: theme.palette.grey[600]})}/>
                 </Box>
                 : <Button component="label" onClick={handleOpen} sx={imageButtonsStyle}>
                     <input
