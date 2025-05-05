@@ -66,30 +66,14 @@ public class AuctionMapper {
                 .build();
     }
 
-    public AuctionUpdateDto mapFromAuctionToUpdateDto(Auction auction, String userEmail) {
-        AuctionUpdateDto auctionUpdateDto = new AuctionUpdateDto();
-        Boolean wantsToBeModerator = false;
-
-        if(auction.getModeratorEmail().equals(userEmail)) {
-            wantsToBeModerator = true;
-        }
-
-        auctionUpdateDto.setWantsToBeModerator(wantsToBeModerator);
-        auctionUpdateDto.setTitle(auction.getTitle());
-        auctionUpdateDto.setDescription(auction.getDescription());
-        auctionUpdateDto.setFileId(auction.getFileId());
-        auctionUpdateDto.setAuctionDate(auction.getAuctionDate() == null ? null : auction.getAuctionDate().toString());
-        auctionUpdateDto.setCity(auction.getCity());
-        auctionUpdateDto.setStartingPrice(auction.getStartingPrice());
-
-        return auctionUpdateDto;
-    }
     public Auction mapFromUpdateDtoToAuction(Auction auction, AuctionUpdateDto auctionUpdateDto, String userEmail) {
         String moderatorEmail = auction.getModeratorEmail();
         LocalDate date = auction.getAuctionDate();
 
         if(auctionUpdateDto.getWantsToBeModerator()) {
             moderatorEmail = userEmail;
+        } else {
+            if(moderatorEmail != null && moderatorEmail.equals(userEmail)) moderatorEmail = "";
         }
 
         if(auctionUpdateDto.getAuctionDate() != null) {

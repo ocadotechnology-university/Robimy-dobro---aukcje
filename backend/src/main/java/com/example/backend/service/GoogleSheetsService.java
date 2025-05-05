@@ -61,7 +61,7 @@ public class GoogleSheetsService {
         ValueRange body = new ValueRange().setValues(List.of(values));
         sheetsService.spreadsheets().values()
                 .update(SPREADSHEET_ID, row, body)
-                .setValueInputOption("RAW")
+                .setValueInputOption("USER_ENTERED")
                 .execute();
     }
 

@@ -71,22 +71,11 @@ public class AuctionController {
         }
     }
 
-    @GetMapping("/{auctionId}/update")
-    public ResponseEntity<?> findAuctionByAuctionId(@PathVariable UUID auctionId) {
-        try {
-            String userEmail = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-
-            return ResponseEntity.ok(auctionService.getAuctionUpdateDtoById(auctionId, userEmail));
-        } catch (IOException e) {
-            return ResponseEntity.status(500).body("Error while retrieving auction by auctionId: " + e.getMessage());
-        }
-    }
-
     @PatchMapping("/{auctionId}/update")
-    public ResponseEntity<?> updateAuction(@RequestBody AuctionUpdateDto auctionUpdateDto, @PathVariable UUID auctionId) {
+    public ResponseEntity<?> updateAuction(@RequestBody AuctionUpdateDto auctionUpdateDto, @PathVariable String auctionId) {
         try {
             String userEmail = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-            auctionService.update(auctionId, auctionUpdateDto, userEmail);
+            auctionService.update(UUID.fromString(auctionId), auctionUpdateDto, userEmail);
             return ResponseEntity.ok("Auction update successfully");
         } catch (IOException e) {
             return ResponseEntity.status(500).body("Error while updating the auction: " + e.getMessage());
