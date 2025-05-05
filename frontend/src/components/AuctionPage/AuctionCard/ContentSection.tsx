@@ -3,8 +3,10 @@ import {Stack, Box, Grid2} from "@mui/material";
 import AuctionHeader from "./AuctionHeader";
 import AuctionDescription from "./AuctionDescription";
 import AuctionFooter from "./AuctionFooter";
+import {UUID} from "node:crypto";
 
 type Props = {
+    id: UUID;
     title: string;
     date: string;
     city: string | null;
@@ -19,6 +21,7 @@ type Props = {
 };
 
 const ContentSection = ({
+                            id,
                             title,
                             date,
                             city,
@@ -36,7 +39,7 @@ const ContentSection = ({
             <AuctionHeader title={title} date={date} city={city} price={price} status={status} hasBids={hasBids}/>
             <AuctionDescription description={description}/>
             <Box flexGrow={1}/>
-            <AuctionFooter status={status} supplier={supplier} winner={winner} isFollowed={isFollowed}
+            <AuctionFooter id={id} status={status} supplier={supplier} winner={winner} isFollowed={isFollowed}
                            slackUrl={slackUrl}/>
         </Stack>
     </Grid2>

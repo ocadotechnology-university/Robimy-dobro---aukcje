@@ -1,5 +1,8 @@
 // @ts-ignore
+import {UUID} from "node:crypto";
+
 export interface Auction {
+    id: UUID,
     title: string,
     date: string,
     city: string,

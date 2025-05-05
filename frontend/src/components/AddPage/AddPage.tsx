@@ -28,7 +28,7 @@ import PrimaryActionButton from "../common/PrimaryActionButton";
 import {RichTextEditorRef} from "mui-tiptap";
 import {AuctionFilters} from "../../services/fetchAuctions";
 import {usePostImages} from "../../hooks/usePostImage";
-import { AddAuction } from './AddAuction'
+import { AuctionDto } from './AuctionDto'
 
 const AddPage = () => {
     const [title, setTitle] = useState("");
@@ -204,12 +204,12 @@ const FormButtonsSection = ({croppedImage, isModerator, title, price, selectedCi
     const handleSubmit = async () => {
         postImage(croppedImage, {
           onSuccess: (fileId: string) => {
-             const newAuction: AddAuction = {
+             const newAuction: AuctionDto = {
                 wantsToBeModerator: isModerator,
                 title: title || undefined,
                 description: descriptionRteRef.current?.editor?.getHTML() || undefined,
                 fileId: fileId || undefined,
-                AuctionDate: transformDateToDateFormat(selectedDate) || undefined,
+                auctionDate: transformDateToDateFormat(selectedDate) || undefined,
                 city: selectedCity || undefined,
                 startingPrice: parseFloat(price) || undefined
             };
