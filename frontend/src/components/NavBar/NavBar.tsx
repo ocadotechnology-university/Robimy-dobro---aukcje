@@ -24,14 +24,18 @@ const Account = () => (
     </CenteredBox>
 );
 
-const ButtonSmall = () => (
-    <CenteredBox>
-        <IconButtonComponent component={Link} to="/add">
-            <AddOutlinedIcon fontSize="medium" sx={{color: "white"}}/>
-        </IconButtonComponent>
+const ButtonSmall = () => {
+    const theme = useTheme();
 
-    </CenteredBox>
-);
+    return (
+        <CenteredBox>
+            <IconButtonComponent component={Link} to="/add">
+                <AddOutlinedIcon fontSize="medium" sx={{color: theme.palette.common.white}}/>
+            </IconButtonComponent>
+
+        </CenteredBox>
+    );
+};
 
 const LogoSmall = () => (
     <CenteredBox flexGrow={0}>
