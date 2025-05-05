@@ -35,9 +35,9 @@ const AuctionFooter = ({status, supplier, winner, isFollowed, slackUrl}: Props) 
                 />
                 <Box onClick={toggleFollow} sx={{cursor: "pointer", display: "flex", alignItems: "center"}}>
                     {followed ? (
-                        <FavoriteIcon fontSize="large" color="primary"/>
+                        <FavoriteIcon fontSize="large" color="secondary"/>
                     ) : (
-                        <FavoriteBorderIcon fontSize="large" color="primary"/>
+                        <FavoriteBorderIcon fontSize="large" color="secondary"/>
                     )}
                 </Box>
                 <IconBox>

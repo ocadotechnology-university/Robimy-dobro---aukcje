@@ -16,17 +16,17 @@ const AuctionPage = () => {
         dates: ["23-11-2025"],
     });
 
-    const { data:  auctions = [] } = useGetAuctions(auctionFilters);
+    const {data: auctions = []} = useGetAuctions(auctionFilters);
 
     console.log(auctionFilters);
 
     return (
         <React.Fragment>
-            <CssBaseline />
-            <Container sx={{ backgroundColor:'white' }}>
+            <CssBaseline/>
+            <Container sx={(theme) => ({backgroundColor: theme.palette.background.default})}>
                 <Stack direction="row" justifyContent="space-between" gap={2} mt={2}>
-                    <Filters aucfilters={auctionFilters} setAucFilters={setAuctionFilters} />
-                    <AuctionsList auctions={ auctions }/>
+                    <Filters aucfilters={auctionFilters} setAucFilters={setAuctionFilters}/>
+                    <AuctionsList auctions={auctions}/>
                 </Stack>
             </Container>
         </React.Fragment>
