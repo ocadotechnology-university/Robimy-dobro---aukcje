@@ -7,16 +7,11 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import {SiSlack} from "react-icons/si";
 import AuctionStatus from "./AuctionStatus";
 import {AuctionCardFooterGrid, IconBox} from "./AuctionCard.styles";
-import { modalStyle } from "./AuctionCard.styles";
-import Stack from "@mui/material/Stack";
-import ReactCrop from "react-image-crop";
-import CropConfirmButton from "../../common/CropConfirmButton";
-import Button from "@mui/material/Button";
-import AddPage from "../../AddPage/AddPage";
 
 const SlackIcon = SiSlack as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
 
 type Props = {
+    id: string;
     status: string;
     supplier: string;
     winner: string;
@@ -24,7 +19,7 @@ type Props = {
     slackUrl: string;
 };
 
-const AuctionFooter = ({status, supplier, winner, isFollowed, slackUrl}: Props) => {
+const AuctionFooter = ({id, status, supplier, winner, isFollowed, slackUrl}: Props) => {
     const [followed, setFollowed] = useState(isFollowed);
 
     const toggleFollow = () => {

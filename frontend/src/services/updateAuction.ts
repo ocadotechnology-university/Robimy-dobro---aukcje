@@ -1,9 +1,8 @@
 import { AddAuction } from '../components/AddPage/AddAuction';
 import { auctionUpdateAPI } from './API';
-import {UUID} from "node:crypto";
 
 interface UpdateAuctionParams {
-    auctionId: UUID;
+    auctionId: string;
     updateAuction: AddAuction;
 };
 

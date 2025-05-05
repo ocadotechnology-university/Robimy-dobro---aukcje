@@ -11,6 +11,7 @@ const AuctionsList = ({auctions}: AuctionsList) => {
 
     const testAuctions: Auction[] = [
         {
+            id: "",
             title: "Aukcja 1",
             date: "2025-04-09",
             city: "",
@@ -25,6 +26,7 @@ const AuctionsList = ({auctions}: AuctionsList) => {
             slackUrl: "http://slack.com/auction1"
         },
         {
+            id: "",
             title: "Aukcja 2",
             date: "",
             city: "Kraków",
@@ -40,28 +42,13 @@ const AuctionsList = ({auctions}: AuctionsList) => {
         }
     ];
 
-    const testAuctions2: Auction = {
-        title: "Aukcja 1",
-        date: "2025-04-09",
-        city: "",
-        description: "Opis aukcji 1",
-        status: "IN_PROGRESS",
-        hasBids: false,
-        supplier: "Dostawca 1",
-        winner: "Zwycięzca 1",
-        price: "1000",
-        fileId: "https://picsum.photos/200?random=1",
-        isFollowed: false,
-        slackUrl: "http://slack.com/auction1"
-    };
-
     auctions = testAuctions;
 
     return (
         <Stack width="100%" gap={1}>
             {auctions.map((auction) => (
                 <AuctionCard
-                    key={auction.title}
+                    id={auction.id}
                     title={auction.title}
                     date={auction.date}
                     city={auction.city}

@@ -1,5 +1,6 @@
 // @ts-ignore
 export interface Auction {
+    id: string,
     title: string,
     date: string,
     city: string,

@@ -31,10 +31,3 @@ export const AuctionCardFooterGrid = styled(Grid2)({
     gap: 1,
     width: '100%',
 });
-
-export const modalStyle = {
-    display: 'flex',
-    justifyContent: 'center',
-    // alignItems: 'center',
-    backdropFilter: 'blur(10px)'
-};
