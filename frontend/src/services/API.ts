@@ -3,6 +3,7 @@ import {Auction} from '../components/AuctionPage/Auction'
 import {AuctionFilters} from "./fetchAuctions"
 import {AddAuction} from '../components/AddPage/AddAuction'
 import qs from 'qs';
+import {UUID} from "node:crypto";
 
 const API = axios.create({
     baseURL: 'http://localhost:8080',
@@ -17,4 +18,5 @@ export const imagePostAPI = (blob: Blob) => {
 }
 export const auctionsAPI = (filters?: AuctionFilters) => API.get<Auction[]>('/auctions', { params: filters });
 export const auctionPostAPI = (newAuction: AddAuction) => API.post('/auctions', newAuction);
+export const auctionUpdateAPI = (auctionId: UUID, updateAuction: AddAuction) => API.patch(`/auctions/${auctionId}/update`, updateAuction);
 export default API;

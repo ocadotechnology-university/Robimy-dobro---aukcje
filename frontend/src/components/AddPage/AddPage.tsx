@@ -209,7 +209,7 @@ const FormButtonsSection = ({croppedImage, isModerator, title, price, selectedCi
                 title: title || undefined,
                 description: descriptionRteRef.current?.editor?.getHTML() || undefined,
                 fileId: fileId || undefined,
-                AuctionDate: transformDateToDateFormat(selectedDate) || undefined,
+                auctionDate: transformDateToDateFormat(selectedDate) || undefined,
                 city: selectedCity || undefined,
                 startingPrice: parseFloat(price) || undefined
             };

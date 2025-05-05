@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Box, IconButton} from "@mui/material";
+import {Box, IconButton, Modal} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -7,6 +7,12 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import {SiSlack} from "react-icons/si";
 import AuctionStatus from "./AuctionStatus";
 import {AuctionCardFooterGrid, IconBox} from "./AuctionCard.styles";
+import { modalStyle } from "./AuctionCard.styles";
+import Stack from "@mui/material/Stack";
+import ReactCrop from "react-image-crop";
+import CropConfirmButton from "../../common/CropConfirmButton";
+import Button from "@mui/material/Button";
+import AddPage from "../../AddPage/AddPage";
 
 const SlackIcon = SiSlack as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
 
