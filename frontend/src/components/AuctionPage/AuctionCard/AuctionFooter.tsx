@@ -8,7 +8,6 @@ import {SiSlack} from "react-icons/si";
 import AuctionStatus from "./AuctionStatus";
 import {AuctionCardFooterGrid, IconBox} from "./AuctionCard.styles";
 import {AddAuction} from "../../AddPage/AddAuction";
-import {usePostAuction} from "../../../hooks/usePostAuction";
 import {useUpdateAuction} from "../../../hooks/useUpdateAuction";
 
 const SlackIcon = SiSlack as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
@@ -33,11 +32,11 @@ const AuctionFooter = ({id, status, supplier, winner, isFollowed, slackUrl}: Pro
 
     const handleUpdate = () => {
         const updateAuction: AddAuction = {
-            wantsToBeModerator: true,
+            wantsToBeModerator: false,
             title: "Updatowy tytuł" || undefined,
             description: "Przykladowy opis" || undefined,
             fileId: "101010" || undefined,
-            auctionDate: "2025-11-11" || undefined,
+            auctionDate: "2025-10-10" || undefined,
             city: "Kraków" || undefined,
             startingPrice: 49.99 || undefined
         };

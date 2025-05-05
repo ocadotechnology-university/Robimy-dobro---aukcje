@@ -42,7 +42,7 @@ const AuctionsList = ({auctions}: AuctionsList) => {
         }
     ];
 
-    auctions = testAuctions;
+    // auctions = testAuctions;
 
     return (
         <Stack width="100%" gap={1}>
