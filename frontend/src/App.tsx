@@ -1,5 +1,5 @@
 import {Routes, Route, Navigate} from 'react-router-dom';
-import template from './image/template.png';
+import background from './image/background.svg';
 import Auth from "./components/GoogleLogin/Auth";
 import Home from "./components/HomePage/HomePage";
 import AddAuction from "./components/AddPage/AddPage";
@@ -16,7 +16,7 @@ const Background = () => {
             width: '100vw',
             height: '100%',
             transform: 'translateX(-50%)',
-            backgroundImage: `url(${template})`,
+            backgroundImage: `url(${background})`,
             backgroundRepeat: 'repeat',
             backgroundPosition: 'center',
             backgroundSize: 'auto',
@@ -40,12 +40,12 @@ function App() {
         >
             <Background/>
             <Routes>
-                <Route path="/auth" element={<Auth/>} />
+                <Route path="/auth" element={<Auth/>}/>
                 <Route element={<Root/>}>
-                    <Route path="/" element={<Navigate to="/auth" />} />
-                    <Route path="/home" element={<Home/>} />
-                    <Route path="/add" element={<AddAuction/>} />
-                    <Route path="/auctions" element={<Auctions/>} />
+                    <Route path="/" element={<Navigate to="/auth"/>}/>
+                    <Route path="/home" element={<Home/>}/>
+                    <Route path="/add" element={<AddAuction/>}/>
+                    <Route path="/auctions" element={<Auctions/>}/>
                 </Route>
             </Routes>
         </Box>

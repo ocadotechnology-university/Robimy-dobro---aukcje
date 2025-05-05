@@ -3,19 +3,19 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
-import { HomeImageStyle } from './HomePage.styles';
-import homeImage from "../../image/homeImageBlue.svg"
-import { Link } from "react-router-dom";
-import { HomeButton, HomeText, HomeTextSmallerMargin, HomeHeader } from "./HomePage.styles";
+import {HomeImageStyle} from './HomePage.styles';
+import homeImage from "../../image/homePageImageRed.svg"
+import {Link} from "react-router-dom";
+import {HomeButton, HomeText, HomeTextSmallerMargin, HomeHeader} from "./HomePage.styles";
 
 const Image = () => {
     return (
-        <Box component="img" src={homeImage} sx={ HomeImageStyle }/>
+        <Box component="img" src={homeImage} sx={HomeImageStyle}/>
     );
 }
 
 const InvitationTextAndButton = () => {
-    return(
+    return (
         <Stack direction="column" alignItems="center" mt="5vmin">
             <HomeTextSmallerMargin>
                 Sprawdź, co możesz wylicytować na aukcjach:
@@ -28,7 +28,7 @@ const InvitationTextAndButton = () => {
 }
 
 const DescribingText = () => {
-    return(
+    return (
         <><HomeHeader variant="h5" gutterBottom>
             Licytuj i pomagaj!
         </HomeHeader><HomeTextSmallerMargin>
@@ -44,7 +44,7 @@ const DescribingText = () => {
 }
 
 const InformationText = () => {
-    return(
+    return (
         <><HomeHeader variant="h5">
             Informacje ogólne
         </HomeHeader><HomeText>
@@ -58,12 +58,11 @@ const InformationText = () => {
 }
 
 
-
 const HomePage = () => {
     return (
         <React.Fragment>
             <CssBaseline/>
-            <Container maxWidth="md" sx={{backgroundColor:'white' }}>
+            <Container maxWidth="md" sx={{backgroundColor: 'white'}}>
                 <Stack direction="column" alignItems="center">
                     <Image/>
                     <InvitationTextAndButton/>
