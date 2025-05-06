@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {Auction} from '../components/AuctionPage/Auction'
 import {AuctionFilters} from "./fetchAuctions"
-import {AddAuction} from '../components/AddPage/AddAuction'
+import {AuctionDto} from '../components/AddPage/AuctionDto'
 import qs from 'qs';
 
 const API = axios.create({
@@ -23,6 +23,9 @@ export const auctionsAPI = (filters?: AuctionFilters) =>
 
 export const auctionPostAPI = (newAuction: AddAuction) =>
     API.post('/auctions', newAuction);
+
+export const auctionUpdateAPI = (auctionId: string, updateAuction: AuctionDto) => 
+    API.patch(`/auctions/${auctionId}/update`, updateAuction);
 
 export const followAuctionAPI = (id: string) =>
     API.post(`/auctions/${id}/follow`);

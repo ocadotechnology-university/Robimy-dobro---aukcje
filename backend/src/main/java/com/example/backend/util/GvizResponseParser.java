@@ -131,4 +131,10 @@ public class GvizResponseParser {
             return new ArrayList<>();
         }
     }
+
+    public boolean hasAnyRows(String gvizJson) throws IOException {
+        String cleanedJson = cleanGvizJson(gvizJson);
+        Response response = new ObjectMapper().readValue(cleanedJson, Response.class);
+        return response.getTable().getRows() != null && !response.getTable().getRows().isEmpty();
+    }
 }
