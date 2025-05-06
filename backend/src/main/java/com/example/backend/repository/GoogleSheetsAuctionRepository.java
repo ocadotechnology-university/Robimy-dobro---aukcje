@@ -63,14 +63,14 @@ public class GoogleSheetsAuctionRepository implements AuctionRepository {
     public List<Auction> findAllByFiltersAndUser(List<String> statuses, Boolean myAuctions, Boolean followed, List<String> dates, String userEmail) throws IOException {
         AuctionQuery auctionQuery = new AuctionQuery(statuses, myAuctions, followed, dates, userEmail);
         String queryWithFilters = auctionQuery.getQueryWithFilters();
-        String response = googleSheetsService.queryWithGviz(queryWithFilters);
+        String response = googleSheetsService.queryWithGviz(queryWithFilters, "Auction");
         return gvizResponseParser.parseAuctionsResponse(response);
     }
 
     private List<String> findFollowersByAuctionId(UUID auctionId) throws IOException {
         FollowersQuery followersQuery = new FollowersQuery(auctionId);
         String query = followersQuery.getQuery();
-        String response = googleSheetsService.queryWithGviz(query);
+        String response = googleSheetsService.queryWithGviz(query, "Auction");
         return gvizResponseParser.parseFollowersResponse(response);
     }
 

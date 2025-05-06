@@ -66,7 +66,11 @@ public class GoogleSheetsService {
     public String queryWithGviz(String gvizQuery) {
         logger.info("Creating query from: {}", gvizQuery);
         String encodedQuery = URLEncoder.encode(gvizQuery, StandardCharsets.UTF_8);
-        String url = "https://docs.google.com/spreadsheets/d/" + SPREADSHEET_ID + "/gviz/tq?tq=" + encodedQuery;
+        String url = "https://docs.google.com/spreadsheets/d/" +
+                SPREADSHEET_ID +
+                "/gviz/tq?tq=" + encodedQuery +
+                "&sheet=" + sheetName;
+
         url = UrlSanitizer.sanitize(url);
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(url, String.class);

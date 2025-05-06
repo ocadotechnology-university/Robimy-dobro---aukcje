@@ -28,7 +28,7 @@ public class AuctionMapper {
         auctionGetDto.setCity(auction.getCity());
         auctionGetDto.setDate(auction.getAuctionDate() == null ? null : auction.getAuctionDate().toString());
         auctionGetDto.setDescription(auction.getDescription());
-        auctionGetDto.setFileID(auction.getFileId());
+        auctionGetDto.setFileId(auction.getFileId());
         auctionGetDto.setSlackUrl(auction.getSlackThreadLink());
         auctionGetDto.setSupplier(auction.getSupplierName());
         auctionGetDto.setWinner(auction.getWinner());

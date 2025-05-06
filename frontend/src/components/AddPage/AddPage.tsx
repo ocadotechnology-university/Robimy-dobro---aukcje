@@ -6,6 +6,9 @@ import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import Alert from '@mui/material/Alert';
+import { usePostAuction } from '../../hooks/usePostAuction'
+import { transformDateToDateFormat } from "./Services/DateTransformer";
 
 import {
     FormContainerStyle,
@@ -24,6 +27,8 @@ import OutlinedActionButton from "../common/OutlinedActionButton";
 import PrimaryActionButton from "../common/PrimaryActionButton";
 import {RichTextEditorRef} from "mui-tiptap";
 import {AuctionFilters} from "../../services/fetchAuctions";
+import {usePostImages} from "../../hooks/usePostImage";
+import { AuctionDto } from './AuctionDto'
 
 const AddPage = () => {
     const [title, setTitle] = useState("");
@@ -34,6 +39,7 @@ const AddPage = () => {
     const [selectedDate, setSelectedDate] = useState("");
     const rteRef = useRef<RichTextEditorRef>(null);
     const [croppedImage, setCroppedImage] = useState<any | null>(null);
+    const fileId = "";
 
     const handlePickup = (value: boolean) => {
         setPickupOnlyInCity(value);
@@ -66,7 +72,7 @@ const AddPage = () => {
                         setSelectedDate={setSelectedDate}
                         handleModerator={handleModerator}
                     />
-                    <FormButtonsSection croppedImage={croppedImage}/>
+                    <FormButtonsSection croppedImage={croppedImage} isModerator={wantsToBeModerator} title={title} descriptionRteRef={rteRef} selectedDate={selectedDate} selectedCity={selectedCity} price={price}/>
                 </Stack>
             </Container>
         </React.Fragment>
@@ -180,27 +186,49 @@ const ModeratorSection = ({
 
 interface FormButtonsSectionProps {
     croppedImage: any | null;
+    isModerator: boolean;
+    title: string;
+    descriptionRteRef: React.RefObject<RichTextEditorRef | null>;
+    selectedDate: string;
+    selectedCity: string;
+    price: string;
 }
 
-const FormButtonsSection = ({croppedImage}:FormButtonsSectionProps) => {
-
+const FormButtonsSection = ({croppedImage, isModerator, title, price, selectedCity, selectedDate, descriptionRteRef}: FormButtonsSectionProps) => {
     const navigate = useNavigate();
+    const { mutate: postImage, isSuccess: isImageSuccess, isError: isImageError } = usePostImages();
+    const { mutate, isSuccess, isError } = usePostAuction();
+    const [successMessage, setSuccessMessage] = useState<String>("");
+    const [errorMessage, setErrorMessage] = useState<String>("");
 
     const handleSubmit = async () => {
-        if (croppedImage) {
+        postImage(croppedImage, {
+          onSuccess: (fileId: string) => {
+             const newAuction: AuctionDto = {
+                wantsToBeModerator: isModerator,
+                title: title || undefined,
+                description: descriptionRteRef.current?.editor?.getHTML() || undefined,
+                fileId: fileId || undefined,
+                auctionDate: transformDateToDateFormat(selectedDate) || undefined,
+                city: selectedCity || undefined,
+                startingPrice: parseFloat(price) || undefined
+            };
 
-            //Testing whether cropping is working properly
-            /* const url = URL.createObjectURL(croppedImage);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "file.png";
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url); */
-        }
-        navigate('/auctions');
-    };
+            mutate(newAuction, {
+                onSuccess: () => {
+                    setSuccessMessage("Pomyślnie dodano aukcję");
+                    setTimeout(() => {
+                        navigate("/auctions");
+                    }, 80);
+                },
+                onError: () => {
+                    setErrorMessage("Błąd podczas dodawania aukcji");
+            }});
+          },
+          onError: () => {
+            setErrorMessage("Błąd podczas dodawania zdjęcia");
+    }});
+}
 
     return (
         <Stack direction="row" justifyContent="space-between" sx={FormButtonsWrapperStyle}>
@@ -208,6 +236,9 @@ const FormButtonsSection = ({croppedImage}:FormButtonsSectionProps) => {
                 label="Wróć"
                 onClick={() => navigate(-1)}
             />
+
+            {isSuccess && <Alert severity="success">{successMessage}</Alert>}
+            {isError && <Alert severity="error">{errorMessage}</Alert>}
 
             <PrimaryActionButton
                 label="Dodaj"
