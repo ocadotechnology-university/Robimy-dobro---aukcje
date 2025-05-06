@@ -29,6 +29,7 @@ import {RichTextEditorRef} from "mui-tiptap";
 import {AuctionFilters} from "../../services/fetchAuctions";
 import {usePostImages} from "../../hooks/usePostImage";
 import { AuctionDto } from './AuctionDto'
+import imageCompression from "browser-image-compression";
 
 const AddPage = () => {
     const [title, setTitle] = useState("");
@@ -201,33 +202,51 @@ const FormButtonsSection = ({croppedImage, isModerator, title, price, selectedCi
     const [successMessage, setSuccessMessage] = useState<String>("");
     const [errorMessage, setErrorMessage] = useState<String>("");
 
-    const handleSubmit = async () => {
-        postImage(croppedImage, {
-          onSuccess: (fileId: string) => {
-             const newAuction: AuctionDto = {
-                wantsToBeModerator: isModerator,
-                title: title || undefined,
-                description: descriptionRteRef.current?.editor?.getHTML() || undefined,
-                fileId: fileId || undefined,
-                auctionDate: transformDateToDateFormat(selectedDate) || undefined,
-                city: selectedCity || undefined,
-                startingPrice: parseFloat(price) || undefined
-            };
+    const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 730,
+        useWebWorker: true,
+    };
 
-            mutate(newAuction, {
-                onSuccess: () => {
-                    setSuccessMessage("Pomyślnie dodano aukcję");
-                    setTimeout(() => {
-                        navigate("/auctions");
-                    }, 80);
+    const handleSubmit = async () => {
+        let compressedCroppedImage = null;
+        try {
+            if(croppedImage) {
+                compressedCroppedImage = await imageCompression(croppedImage, options);
+            } else {
+                compressedCroppedImage = croppedImage;
+            }
+
+            postImage(compressedCroppedImage, {
+                onSuccess: (fileId: string) => {
+                    const newAuction: AuctionDto = {
+                        wantsToBeModerator: isModerator,
+                        title: title || undefined,
+                        description: descriptionRteRef.current?.editor?.getHTML() || undefined,
+                        fileId: fileId || undefined,
+                        auctionDate: transformDateToDateFormat(selectedDate) || undefined,
+                        city: selectedCity || undefined,
+                        startingPrice: parseFloat(price) || undefined
+                    };
+
+                    mutate(newAuction, {
+                        onSuccess: () => {
+                            setSuccessMessage("Pomyślnie dodano aukcję");
+                            setTimeout(() => {
+                                navigate("/auctions");
+                            }, 80);
+                        },
+                        onError: () => {
+                            setErrorMessage("Błąd podczas dodawania aukcji");
+                        }});
                 },
                 onError: () => {
-                    setErrorMessage("Błąd podczas dodawania aukcji");
-            }});
-          },
-          onError: () => {
-            setErrorMessage("Błąd podczas dodawania zdjęcia");
-    }});
+                    setErrorMessage("Błąd podczas dodawania zdjęcia");
+                }});
+
+        } catch (error) {
+            console.error("Błąd kompresji zdjęcia", error);
+        }
 }
 
     return (
