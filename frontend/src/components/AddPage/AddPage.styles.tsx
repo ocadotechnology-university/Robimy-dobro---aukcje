@@ -1,5 +1,5 @@
 export const FormContainerStyle = {
-    height: '100dvh',
+    minHeight: '100dvh',
     width: '55%',
     py: 2,
 };
