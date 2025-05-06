@@ -8,6 +8,7 @@ import com.google.api.services.drive.model.File;
 import com.google.api.client.http.FileContent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,7 +21,7 @@ public class GoogleDriveService {
     private Drive driveService;
     private final String FOLDER_ID;
 
-    public GoogleDriveService(Drive driveService, String FOLDER_ID) {
+    public GoogleDriveService(Drive driveService, @Qualifier("googleDriveFolderId") String FOLDER_ID) {
         this.driveService = driveService;
         this.FOLDER_ID = FOLDER_ID;
     }

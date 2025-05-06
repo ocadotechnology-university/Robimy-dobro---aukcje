@@ -1,6 +1,7 @@
 package com.example.backend.controller;
 
 import com.example.backend.dto.AuctionCreateDto;
+import com.example.backend.dto.AuctionUpdateDto;
 import com.example.backend.service.AuctionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +16,10 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/auctions")
 public class AuctionController {
-
-    @Autowired
     private AuctionService auctionService;
+    public AuctionController(AuctionService auctionService) {
+        this.auctionService = auctionService;
+    }
 
     @PostMapping
     public ResponseEntity<?> saveAuction(@RequestBody AuctionCreateDto auctionCreateDto) {
@@ -69,4 +71,16 @@ public class AuctionController {
             return ResponseEntity.status(500).body("Error while unfollowing the auction: " + e.getMessage());
         }
     }
+
+    @PatchMapping("/{auctionId}/update")
+    public ResponseEntity<?> updateAuction(@RequestBody AuctionUpdateDto auctionUpdateDto, @PathVariable UUID auctionId) {
+        try {
+            String userEmail = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+            auctionService.update(auctionId, auctionUpdateDto, userEmail);
+            return ResponseEntity.ok("Auction update successfully");
+        } catch (IOException e) {
+            return ResponseEntity.status(500).body("Error while updating the auction: " + e.getMessage());
+        }
+    }
+
 }

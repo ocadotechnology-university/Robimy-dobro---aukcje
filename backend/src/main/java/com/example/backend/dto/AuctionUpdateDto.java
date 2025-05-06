@@ -1,18 +1,16 @@
 package com.example.backend.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
-import java.time.LocalDate;
 
 @Getter
 @Setter
-public class AuctionCreateDto {
+public class AuctionUpdateDto {
     private Boolean wantsToBeModerator;
     private String title;
     private String description;
     private String fileId;
-    private String auctionDate;
+    private String AuctionDate;
     private String city;
     private Double startingPrice;
 }
