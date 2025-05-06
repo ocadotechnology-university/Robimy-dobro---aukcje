@@ -55,7 +55,7 @@ public class GoogleSheetsAuctionRepository implements AuctionRepository {
     public Auction findByAuctionId(UUID auctionId) throws IOException {
         AuctionQuery auctionQuery = new AuctionQuery(auctionId);
         String queryWithAuctionId = auctionQuery.getQueryWithAuctionId();
-        String response = googleSheetsService.queryWithGviz(queryWithAuctionId);
+        String response = googleSheetsService.queryWithGviz(queryWithAuctionId, "Auction");
         return gvizResponseParser.parseAuctionsResponse(response).get(0);
     }
 

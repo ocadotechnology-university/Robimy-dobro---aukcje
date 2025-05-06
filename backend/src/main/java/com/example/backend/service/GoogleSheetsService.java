@@ -5,6 +5,7 @@ import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.ValueRange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -20,7 +21,7 @@ public class GoogleSheetsService {
     private Sheets sheetsService;
     private final String SPREADSHEET_ID;
 
-    public GoogleSheetsService(Sheets sheetsService, String SPREADSHEET_ID) {
+    public GoogleSheetsService(Sheets sheetsService, @Qualifier("googleSheetsSpreadsheetId") String SPREADSHEET_ID) {
         this.sheetsService = sheetsService;
         this.SPREADSHEET_ID = SPREADSHEET_ID;
     }
@@ -63,7 +64,7 @@ public class GoogleSheetsService {
                 .execute();
     }
 
-    public String queryWithGviz(String gvizQuery) {
+    public String queryWithGviz(String gvizQuery, String sheetName) {
         logger.info("Creating query from: {}", gvizQuery);
         String encodedQuery = URLEncoder.encode(gvizQuery, StandardCharsets.UTF_8);
         String url = "https://docs.google.com/spreadsheets/d/" +
