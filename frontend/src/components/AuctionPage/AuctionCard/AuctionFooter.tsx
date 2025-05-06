@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Box, IconButton, Modal} from "@mui/material";
+import {Box, IconButton} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -27,7 +27,7 @@ type Props = {
 
 const AuctionFooter = ({status, supplier, winner, isFollowed, slackUrl, id}: Props) => {
     const [followed, setFollowed] = useState(isFollowed);
-    const { mutate, isSuccess, isError } = useUpdateAuction();
+    const {mutate, isSuccess, isError} = useUpdateAuction();
     const debouncedFollowed = useDebounce(followed, 300);
     const {mutate: followAuction} = useFollowAuction();
     const {mutate: unfollowAuction} = useUnfollowAuction();
@@ -63,7 +63,8 @@ const AuctionFooter = ({status, supplier, winner, isFollowed, slackUrl, id}: Pro
             },
             onError: () => {
                 alert("Błąd podczas edytowania aukcji");
-            }});
+            }
+        });
     };
 
     return (
