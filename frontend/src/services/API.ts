@@ -21,7 +21,7 @@ export const imagePostAPI = (blob: Blob) => {
 export const auctionsAPI = (filters?: AuctionFilters) =>
     API.get<Auction[]>('/auctions', {params: filters});
 
-export const auctionPostAPI = (newAuction: AddAuction) =>
+export const auctionPostAPI = (newAuction: AuctionDto) =>
     API.post('/auctions', newAuction);
 
 export const auctionUpdateAPI = (auctionId: string, updateAuction: AuctionDto) => 
