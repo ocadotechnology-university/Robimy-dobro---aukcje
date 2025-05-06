@@ -1,8 +1,8 @@
-import Stack from '@mui/material/Stack';
-import AuctionCard from './AuctionCard/AuctionCard';
 import React from "react";
-import {Auction} from './Auction'
+import Stack from '@mui/material/Stack';
 import {UUID} from "node:crypto";
+import AuctionCard from './AuctionCard/AuctionCard';
+import {Auction} from './Auction'
 
 interface AuctionsList {
     auctions: Auction[];
@@ -49,19 +49,7 @@ const AuctionsList = ({auctions}: AuctionsList) => {
         <Stack width="100%" gap={1}>
             {auctions.map((auction) => (
                 <AuctionCard
-                    id={auction.id}
-                    title={auction.title}
-                    date={auction.date}
-                    city={auction.city}
-                    description={auction.description}
-                    status={auction.status}
-                    hasBids={auction.hasBids}
-                    supplier={auction.supplier}
-                    winner={auction.winner}
-                    price={auction.price}
-                    fileId={auction.fileId}
-                    isFollowed={auction.isFollowed}
-                    slackUrl={auction.slackUrl}
+                    {...auction}
                 />
             ))}
         </Stack>
