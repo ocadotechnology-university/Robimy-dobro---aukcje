@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-
 @RestController
 @RequestMapping("/images")
 public class ImageController {
@@ -25,13 +24,17 @@ public class ImageController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<?> postImage(@RequestParam("file") MultipartFile multipartFile){
-        try{
+    public ResponseEntity<?> postImage(@RequestParam(value = "file", required = false) MultipartFile multipartFile){
+        if (multipartFile == null || multipartFile.isEmpty()) {
+            return ResponseEntity.ok("No image uploaded");
+        }
+
+        try {
             String fileId = googleDriveService.uploadFile(multipartFile);
             return ResponseEntity.status(201).body(fileId);
-        } catch (CustomException e){
+        } catch (CustomException e) {
             return ResponseEntity.status(500).body(e.getMessage());
-        } catch (IOException e){
+        } catch (IOException e) {
             logger.error("Internal server error for posting an image");
             return ResponseEntity.status(500).body("Internal server error.");
         }
