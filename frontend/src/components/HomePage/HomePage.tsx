@@ -4,7 +4,7 @@ import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import {HomeImageStyle} from './HomePage.styles';
-import homeImage from "../../image/homePageImageRed.svg"
+import homeImage from "../../image/homePageImage.svg"
 import {Link} from "react-router-dom";
 import {HomeButton, HomeText, HomeTextSmallerMargin, HomeHeader} from "./HomePage.styles";
 
