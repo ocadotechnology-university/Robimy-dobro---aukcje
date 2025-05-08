@@ -78,9 +78,9 @@ const AuctionFooter = ({status, supplier, winner, isFollowed, slackUrl, id}: Pro
                 <Box onClick={() => setFollowed((prev) => !prev)}
                      sx={{cursor: "pointer", display: "flex", alignItems: "center"}}>
                     {followed ? (
-                        <FavoriteIcon fontSize="large" color="primary"/>
+                        <FavoriteIcon fontSize="large" color="secondary"/>
                     ) : (
-                        <FavoriteBorderIcon fontSize="large" color="primary"/>
+                        <FavoriteBorderIcon fontSize="large" color="secondary"/>
                     )}
                 </Box>
                 <IconBox>

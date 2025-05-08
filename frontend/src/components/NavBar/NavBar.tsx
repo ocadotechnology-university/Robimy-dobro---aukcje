@@ -6,18 +6,17 @@ import {
     Button,
     Container,
     Divider,
-    IconButton,
     Stack,
     Toolbar,
     Typography,
     useMediaQuery,
     useTheme
 } from "@mui/material";
-import HomeIcon from "@mui/icons-material/Home";
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import {Link} from 'react-router-dom';
 import {ButtonStyle, AvatarStyle} from "./NavBar.styles";
-import {CenteredBox, HomeIconComponent, IconButtonComponent} from "./NavBar.styles";
+import {CenteredBox, IconButtonComponent} from "./NavBar.styles";
+import logoImage from "../../image/logo.png";
 
 const Account = () => (
     <CenteredBox>
@@ -25,18 +24,22 @@ const Account = () => (
     </CenteredBox>
 );
 
-const ButtonSmall = () => (
-    <CenteredBox>
-        <IconButtonComponent component={Link} to="/add">
-            <AddOutlinedIcon fontSize="medium" sx={{color: "white"}}/>
-        </IconButtonComponent>
+const ButtonSmall = () => {
+    const theme = useTheme();
 
-    </CenteredBox>
-);
+    return (
+        <CenteredBox>
+            <IconButtonComponent component={Link} to="/add">
+                <AddOutlinedIcon fontSize="medium" sx={{color: theme.palette.common.white}}/>
+            </IconButtonComponent>
+
+        </CenteredBox>
+    );
+};
 
 const LogoSmall = () => (
     <CenteredBox flexGrow={0}>
-        <HomeIconComponent/>
+        <img src={logoImage} alt="logo" style={{height: 50}}/>
     </CenteredBox>
 );
 
@@ -51,7 +54,7 @@ const ButtonMedium = () => (
 const LogoMedium = () => (
     <Box flexGrow={0}>
         <Stack sx={{cursor: "pointer"}} direction="row" spacing={1} alignItems="center">
-            <HomeIconComponent/>
+            <img src={logoImage} alt="logo" style={{height: 50}}/>
             <Stack direction="column">
                 <Typography fontSize="15px" color="black" fontWeight="bold" fontFamily="Inter">Robimy</Typography>
                 <Typography fontSize="15px" color="black" fontWeight="bold" fontFamily="Inter">Dobro</Typography>

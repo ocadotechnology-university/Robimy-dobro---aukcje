@@ -7,7 +7,7 @@ import Chip from '@mui/material/Chip';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import {AuctionFilters} from "../../services/fetchAuctions";
-import { useEffect } from "react";
+import {useEffect} from "react";
 
 import {
     FiltersPaperStyle,
@@ -40,7 +40,7 @@ const dateValueMap: Record<string, string> = {
     "23 listopada": "2025-11-23",
 };
 
-const Filters = ({ aucfilters, setAucFilters } : FiltersProps ) => {
+const Filters = ({aucfilters, setAucFilters}: FiltersProps) => {
     const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
     const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
     const [selectedDates, setSelectedDates] = useState<string[]>([]);
@@ -82,11 +82,11 @@ const Filters = ({ aucfilters, setAucFilters } : FiltersProps ) => {
     return (
         <Paper elevation={0} variant={"outlined"} sx={FiltersPaperStyle}>
             <Stack spacing={1}>
-                <FiltersHeader showClear={isAnySelected} onClearAll={handleClearAll} />
+                <FiltersHeader showClear={isAnySelected} onClearAll={handleClearAll}/>
 
                 <FilterSection
                     title="Status aukcji"
-                    icon={<ShieldIcon fontSize="small" sx={{ color: '#fbc02d' }} />}
+                    icon={<ShieldIcon fontSize="small" sx={{color: '#fbc02d'}}/>}
                     options={statusOptions}
                     selectedOptions={selectedStatuses}
                     setSelectedOptions={setSelectedStatuses}
@@ -106,7 +106,7 @@ const Filters = ({ aucfilters, setAucFilters } : FiltersProps ) => {
                     setSelectedOptions={setSelectedDates}
                 />
 
-                <SortSection sort={sort} setSort={setSort} />
+                <SortSection sort={sort} setSort={setSort}/>
             </Stack>
         </Paper>
     );
@@ -117,17 +117,17 @@ type FiltersHeaderProps = {
     onClearAll: () => void;
 };
 
-const FiltersHeader = ({ showClear, onClearAll }: FiltersHeaderProps) => (
+const FiltersHeader = ({showClear, onClearAll}: FiltersHeaderProps) => (
     <Stack direction="column" spacing={0.5}>
         <Typography variant="h5" fontWeight={700}>
             Filtry
         </Typography>
         <Typography
             variant="body1"
-            sx={{
-                ...ClearAllTypographyStyle,
+            sx={(theme) => ({
+                ...ClearAllTypographyStyle(theme),
                 visibility: showClear ? 'visible' : 'hidden',
-            }}
+            })}
             onClick={onClearAll}
         >
             Odznacz wszystkie
@@ -200,7 +200,7 @@ type SortSectionProps = {
     setSort: (value: string) => void;
 };
 
-const SortSection: React.FC<SortSectionProps> = ({ sort, setSort }) => {
+const SortSection: React.FC<SortSectionProps> = ({sort, setSort}) => {
     const [open, setOpen] = useState(false);
     return (
         <Stack spacing={0.5}>
@@ -215,14 +215,14 @@ const SortSection: React.FC<SortSectionProps> = ({ sort, setSort }) => {
                 value={sort}
                 onChange={(e) => setSort(e.target.value)}
                 size="small"
-                sx={{ borderRadius: open ? '8px 8px 0 0' : '8px',fontSize: '0.8rem' }}
+                sx={{borderRadius: open ? '8px 8px 0 0' : '8px', fontSize: '0.8rem'}}
                 MenuProps={{
-                    PaperProps: { sx: MenuPaperStyle },
-                    MenuListProps: { sx: {py: 0} },
+                    PaperProps: {sx: MenuPaperStyle},
+                    MenuListProps: {sx: {py: 0}},
                 }}
             >
                 {sortOptions.map((option) => (
-                    <MenuItem key={option} value={option} sx={ MenuItemStyle }>
+                    <MenuItem key={option} value={option} sx={MenuItemStyle}>
                         {option}
                     </MenuItem>
                 ))}

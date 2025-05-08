@@ -1,5 +1,6 @@
 import React from 'react';
 import {Checkbox, FormControlLabel} from '@mui/material';
+import {Theme} from '@mui/material/styles';
 
 type ControlledCheckboxProps = {
     checked: boolean;
@@ -7,17 +8,17 @@ type ControlledCheckboxProps = {
     label: string;
 };
 
-const checkboxStyle = {
-    color: '#666',
-    backgroundColor: 'white',
+const checkboxStyle = (theme: Theme) => ({
+    color: theme.palette.grey[600],
+    backgroundColor: theme.palette.common.white,
     borderRadius: '4px',
     py: 0.1,
     px: 0.1,
     '&.Mui-checked': {
-        color: '#666',
-        backgroundColor: 'white',
+        color: theme.palette.grey[600],
+        backgroundColor: theme.palette.common.white,
     },
-};
+});
 
 const formControlLabelStyle = {
     width: 'fit-content',

@@ -1,6 +1,5 @@
 import Button from "@mui/material/Button";
 import React from "react";
-import OutlinedActionButton from "./OutlinedActionButton";
 import theme from "../../theme/theme";
 
 interface CropConfirmButtonProps {
@@ -12,7 +11,6 @@ const CropConfirmButton = ({onClick}: CropConfirmButtonProps) => {
         <Button
             onClick={onClick}
             variant="outlined"
-            color="inherit"
             sx={{
                 [theme.breakpoints.up('xs')]: {
                     fontSize: '10px',
@@ -28,8 +26,8 @@ const CropConfirmButton = ({onClick}: CropConfirmButtonProps) => {
                 },
                 fontWeight: 600,
                 borderRadius: 5,
-                backgroundColor: theme.palette.primary.main,
-                color: "white",
+                backgroundColor: theme.palette.secondary.main,
+                color: theme.palette.common.white,
             }}
         >
             Zatwierdź

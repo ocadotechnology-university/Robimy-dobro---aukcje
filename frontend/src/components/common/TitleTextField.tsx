@@ -6,7 +6,7 @@ type TitleTextFieldProps = {
     setTitle: (value: string) => void;
 };
 
-const TitleTextField = ({ title, setTitle }: TitleTextFieldProps) => (
+const TitleTextField = ({title, setTitle}: TitleTextFieldProps) => (
     <TextField
         label="Tytuł"
         variant="outlined"

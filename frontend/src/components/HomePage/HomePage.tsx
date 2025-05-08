@@ -3,19 +3,19 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
-import { HomeImageStyle } from './HomePage.styles';
-import homeImage from "../../image/homeImage.svg"
-import { Link } from "react-router-dom";
-import { HomeButton, HomeText, HomeTextSmallerMargin, HomeHeader } from "./HomePage.styles";
+import {HomeImageStyle} from './HomePage.styles';
+import homeImage from "../../image/homePageImage.svg"
+import {Link} from "react-router-dom";
+import {HomeButton, HomeText, HomeTextSmallerMargin, HomeHeader} from "./HomePage.styles";
 
 const Image = () => {
     return (
-        <Box component="img" src={homeImage} sx={ HomeImageStyle }/>
+        <Box component="img" src={homeImage} sx={HomeImageStyle}/>
     );
 }
 
 const InvitationTextAndButton = () => {
-    return(
+    return (
         <Stack direction="column" alignItems="center" mt="5vmin">
             <HomeTextSmallerMargin>
                 Sprawdź, co możesz wylicytować na aukcjach:
@@ -28,7 +28,7 @@ const InvitationTextAndButton = () => {
 }
 
 const DescribingText = () => {
-    return(
+    return (
         <><HomeHeader variant="h5" gutterBottom>
             Licytuj i pomagaj!
         </HomeHeader><HomeTextSmallerMargin>
@@ -44,26 +44,26 @@ const DescribingText = () => {
 }
 
 const InformationText = () => {
-    return(
+    return (
         <><HomeHeader variant="h5">
             Informacje ogólne
         </HomeHeader><HomeText>
-            Licytacje aukcji odbędą się na <b>Slacku</b> <b><span
-            style={{color: 'red'}}>#licytacje-robimy-dobro-2025</span></b> w dniach <b>21-23
-            listopada</b> w godzinach <b>10:00-15:00</b>.
+            Licytacje aukcji odbędą się na <b>Slacku </b>
+            <Box component="span" sx={{color: theme => theme.palette.secondary.dark}}>
+                <b>#licytacje-robimy-dobro-2025 </b>
+            </Box>
+            w dniach <b>21-23 listopada</b> w godzinach <b>10:00-15:00</b>.
         </HomeText><HomeHeader variant="h5">
             Do zobaczenia!
         </HomeHeader></>
     );
 }
 
-
-
 const HomePage = () => {
     return (
         <React.Fragment>
             <CssBaseline/>
-            <Container maxWidth="md" sx={{backgroundColor:'white' }}>
+            <Container maxWidth="md" sx={{backgroundColor: theme => theme.palette.background.default}}>
                 <Stack direction="column" alignItems="center">
                     <Image/>
                     <InvitationTextAndButton/>

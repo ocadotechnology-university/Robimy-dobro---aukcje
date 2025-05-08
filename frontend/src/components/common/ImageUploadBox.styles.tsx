@@ -1,23 +1,23 @@
-import Button from "@mui/material/Button";
 import theme from "../../theme/theme";
 import React from "react";
+import {Theme} from '@mui/material/styles';
 
-export const boxStyleBeforeUpload = {
+export const boxStyleBeforeUpload = (theme: Theme) => ({
     alignSelf: 'center',
     width: 200,
     height: 120,
-    border: '2px solid #aaa',
+    border: `2px solid ${theme.palette.grey[400]}`,
     borderRadius: 2,
-    backgroundColor: '#ddd',
+    backgroundColor: theme.palette.grey[300],
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     cursor: 'pointer',
     transition: 'background-color 0.3s ease',
     '&:hover': {
-        backgroundColor: '#f0f0f0',
+        backgroundColor: theme.palette.grey[100],
     },
-};
+});
 
 export const modalStyle = {
     display: 'flex',
@@ -34,7 +34,7 @@ export const imageInModalStyle: React.CSSProperties = {
 };
 
 export const imageInFormStyle: React.CSSProperties = {
-    boxShadow: '0 0 3px 3px rgb(205, 205, 205)',
+    boxShadow: '0 0 3px 3px ${alpha(theme.palette.grey[400], 1)}',
     maxWidth: '250px',
 };
 
