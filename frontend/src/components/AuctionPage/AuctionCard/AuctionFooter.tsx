@@ -28,7 +28,7 @@ type Props = {
 
 const AuctionFooter = ({status, supplier, winner, isFollowed, slackUrl, id, setIsUpdating}: Props) => {
     const [followed, setFollowed] = useState(isFollowed);
-    const {mutate, isSuccess, isError} = useUpdateAuction();
+    // const {mutate, isSuccess, isError} = useUpdateAuction();
     const debouncedFollowed = useDebounce(followed, 300);
     const {mutate: followAuction} = useFollowAuction();
     const {mutate: unfollowAuction} = useUnfollowAuction();

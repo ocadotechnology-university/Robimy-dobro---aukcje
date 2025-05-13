@@ -19,6 +19,7 @@ import CropConfirmButton from "./CropConfirmButton"
 
 interface ImageUploadBoxProps {
     setCroppedImage: (img: any | null) => void;
+    updateBlobImage: Blob | undefined;
     updateBlobImageUrl: string | null;
 }
 
@@ -26,7 +27,7 @@ const MIN_DIMENSION = 100
 const MAX_DIMENSION = 700
 const ASPECT_RATIO = 1
 
-const ImageUploadBox = ({setCroppedImage, updateBlobImageUrl}: ImageUploadBoxProps) => {
+const ImageUploadBox = ({setCroppedImage, updateBlobImage, updateBlobImageUrl}: ImageUploadBoxProps) => {
     const [imageSrc, setImageSrc] = useState<string | null>(null)
     const [isUpload, setIsUpload] = useState(false)
     const [crop, setCrop] = useState<Crop>()
@@ -36,11 +37,11 @@ const ImageUploadBox = ({setCroppedImage, updateBlobImageUrl}: ImageUploadBoxPro
     const [savedCrop, setSavedCrop] = useState<Crop>();
 
     useEffect(() => {
-        if (updateBlobImageUrl !== null) {
+        if (updateBlobImage !== undefined) {
             setImageSrc(updateBlobImageUrl);
             setIsUpload(true);
             setDisplayCroppedImage(updateBlobImageUrl);
-            setCroppedImage(updateBlobImageUrl);
+            setCroppedImage(updateBlobImage);
         }
     }, [updateBlobImageUrl]);
 

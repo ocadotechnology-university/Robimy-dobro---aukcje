@@ -43,7 +43,7 @@ const UpdateImageSection = ({fileId, setFileId, setCroppedImage}: Props) => {
             {/*        />*/}
             {/*    )}*/}
             {/*</Box>*/}
-            <ImageUploadBox setCroppedImage={setCroppedImage} updateBlobImageUrl={blobUrl}/>
+            <ImageUploadBox setCroppedImage={setCroppedImage} updateBlobImage={blob} updateBlobImageUrl={blobUrl}/>
         </Grid2>
     );
 }
