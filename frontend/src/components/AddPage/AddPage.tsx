@@ -90,7 +90,7 @@ const ImageUploadSection = ({setCroppedImage}: ImageUploadSectionProps) => (
             Dodaj zdjęcie
         </Typography>
 
-        <ImageUploadBox setCroppedImage={setCroppedImage}/>
+        <ImageUploadBox setCroppedImage={setCroppedImage} updateBlobImageUrl={null}/>
     </Stack>
 );
 

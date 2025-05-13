@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Box from '@mui/material/Box';
 import UploadIcon from '@mui/icons-material/Upload';
 import {useState} from 'react'
@@ -19,13 +19,14 @@ import CropConfirmButton from "./CropConfirmButton"
 
 interface ImageUploadBoxProps {
     setCroppedImage: (img: any | null) => void;
+    updateBlobImageUrl: string | null;
 }
 
 const MIN_DIMENSION = 100
 const MAX_DIMENSION = 700
 const ASPECT_RATIO = 1
 
-const ImageUploadBox = ({setCroppedImage}: ImageUploadBoxProps) => {
+const ImageUploadBox = ({setCroppedImage, updateBlobImageUrl}: ImageUploadBoxProps) => {
     const [imageSrc, setImageSrc] = useState<string | null>(null)
     const [isUpload, setIsUpload] = useState(false)
     const [crop, setCrop] = useState<Crop>()
@@ -33,6 +34,15 @@ const ImageUploadBox = ({setCroppedImage}: ImageUploadBoxProps) => {
     const [displayCroppedImage, setDisplayCroppedImage] = useState<any>(null)
     const [open, setOpen] = React.useState(false);
     const [savedCrop, setSavedCrop] = useState<Crop>();
+
+    useEffect(() => {
+        if (updateBlobImageUrl !== null) {
+            setImageSrc(updateBlobImageUrl);
+            setIsUpload(true);
+            setDisplayCroppedImage(updateBlobImageUrl);
+            setCroppedImage(updateBlobImageUrl);
+        }
+    }, [updateBlobImageUrl]);
 
     const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0]

@@ -44,9 +44,9 @@ export function transformDateToDateFormat(dateFromForm: string): string {
     return `${actualYear}-${month}-${day}`;
 }
 
-export function transformDateFormatToFormDate(date: string): string {
+export function transformDateFormatToFormDate(date?: string | null): string {
 
-    if (date === "") return "";
+    if (!date || date.trim() === "") return "";
 
     const dateParts = date.trim().split("-");
 

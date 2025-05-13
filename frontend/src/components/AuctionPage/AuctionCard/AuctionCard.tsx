@@ -36,6 +36,7 @@ const AuctionCard = (props: Props) => {
     const transformedDate = transformDateFormatToFormDate(updatedDate);
     const descriptionRteRef = useRef<RichTextEditorRef>(null);
     const [updateFileId, setUpdateFileId] = useState(props.fileId);
+    const [croppedImage, setCroppedImage] = useState<any | null>(null);
 
     return (
         <Card variant="outlined" sx={CardStyle}>
@@ -45,8 +46,8 @@ const AuctionCard = (props: Props) => {
                     <ContentSection {...props} setIsUpdating={setIsUpdating} />
                 </Grid2>
             ) : (
-                <Grid2 container spacing={2}>
-                    <UpdateImageSection fileId={props.fileId} setFileId={setUpdateFileId}/>
+                <Grid2 container spacing={5} marginLeft={3}>
+                    <UpdateImageSection fileId={props.fileId} setFileId={setUpdateFileId} setCroppedImage={setCroppedImage}/>
                     <UpdateContentSection id={props.id} title={updatedTitle} setTitle={setUpdatedTitle} date={transformedDate} setDate={setUpdatedDate} city={updatedCity} setCity={setUpdatedCity} description={updatedDescription} descriptionRteRef={descriptionRteRef} price={updatedPrice} setPrice={setUpdatedPrice}/>
                 </Grid2>
             )
