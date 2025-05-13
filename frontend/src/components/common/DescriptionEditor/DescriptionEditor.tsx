@@ -28,11 +28,12 @@ import {
 
 type DescriptionEditorProps = {
     rteRef: React.RefObject<RichTextEditorRef | null>;
+    initialDescription: string;
 };
 
-const DescriptionEditor = ({rteRef}: DescriptionEditorProps) => {
+const DescriptionEditor = ({rteRef, initialDescription}: DescriptionEditorProps) => {
     const extensions = [StarterKit, Underline, Link, LinkBubbleMenuHandler];
-    const editor = useEditor({extensions, content: ''});
+    const editor = useEditor({extensions, content: initialDescription});
 
     if (!editor) return null;
 

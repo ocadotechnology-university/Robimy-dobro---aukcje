@@ -14,7 +14,7 @@ const AuctionsList = ({auctions}: AuctionsList) => {
         {
             id: "befa7825-5863-4872-abd9-e607ca35b997",
             title: "Aukcja 1",
-            date: "2025-04-09",
+            date: "2025-11-23",
             city: "",
             description: "Opis aukcji 1",
             status: "IN_PROGRESS",

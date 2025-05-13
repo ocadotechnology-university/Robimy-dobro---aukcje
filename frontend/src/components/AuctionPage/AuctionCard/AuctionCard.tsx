@@ -3,6 +3,7 @@ import {Card, Grid2} from "@mui/material";
 import {CardStyle} from "./AuctionCard.styles";
 import ImageSection from "./ImageSection";
 import ContentSection from "./ContentSection";
+import UpdateContentSection from "./UpdateComponents/UpdateContentSection";
 import {UUID} from "node:crypto";
 
 type Props = {
@@ -34,7 +35,7 @@ const AuctionCard = (props: Props) => {
             ) : (
                 <Grid2 container spacing={2}>
                     <ImageSection fileId={props.fileId}/>
-                    {/*<ContentSection {...props} setIsUpdating={setIsUpdating} />*/}
+                    <UpdateContentSection {...props} />
                 </Grid2>
             )
             }
