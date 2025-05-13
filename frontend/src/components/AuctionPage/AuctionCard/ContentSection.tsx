@@ -18,6 +18,7 @@ type Props = {
     price: string;
     isFollowed: boolean;
     slackUrl: string;
+    setIsUpdating: (value: boolean) => void;
 };
 
 const ContentSection = ({
@@ -32,7 +33,8 @@ const ContentSection = ({
                             winner,
                             price,
                             isFollowed,
-                            slackUrl
+                            slackUrl,
+                            setIsUpdating
                         }: Props) => (
     <Grid2 size={{xs: 12, md: 9}}>
         <Stack spacing={1} height="100%" position="relative">
@@ -40,7 +42,7 @@ const ContentSection = ({
             <AuctionDescription description={description}/>
             <Box flexGrow={1}/>
             <AuctionFooter id={id} status={status} supplier={supplier} winner={winner} isFollowed={isFollowed}
-                           slackUrl={slackUrl}/>
+                           slackUrl={slackUrl} setIsUpdating={setIsUpdating}/>
         </Stack>
     </Grid2>
 );

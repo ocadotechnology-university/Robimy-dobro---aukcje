@@ -22,10 +22,11 @@ type Props = {
     supplier: string,
     winner: string,
     isFollowed: boolean,
-    slackUrl: string
+    slackUrl: string,
+    setIsUpdating: (value: boolean) => void
 };
 
-const AuctionFooter = ({status, supplier, winner, isFollowed, slackUrl, id}: Props) => {
+const AuctionFooter = ({status, supplier, winner, isFollowed, slackUrl, id, setIsUpdating}: Props) => {
     const [followed, setFollowed] = useState(isFollowed);
     const {mutate, isSuccess, isError} = useUpdateAuction();
     const debouncedFollowed = useDebounce(followed, 300);
@@ -44,27 +45,28 @@ const AuctionFooter = ({status, supplier, winner, isFollowed, slackUrl, id}: Pro
     }, [debouncedFollowed]);
 
     const handleUpdate = () => {
-        const updateAuction: AuctionDto = {
-            wantsToBeModerator: false,
-            title: "Kolejny updatowy tytuł",
-            description: "Kolejny przykladowy opis",
-            fileId: "",
-            auctionDate: "2025-11-11",
-            city: "",
-            startingPrice: 79.99
-        };
-
-        mutate({
-            auctionId: id,
-            updateAuction: updateAuction
-        }, {
-            onSuccess: () => {
-                alert("Pomyślnie edytowano aukcję");
-            },
-            onError: () => {
-                alert("Błąd podczas edytowania aukcji");
-            }
-        });
+        // const updateAuction: AuctionDto = {
+        //     wantsToBeModerator: false,
+        //     title: "Kolejny updatowy tytuł",
+        //     description: "Kolejny przykladowy opis",
+        //     fileId: "",
+        //     auctionDate: "2025-11-11",
+        //     city: "",
+        //     startingPrice: 79.99
+        // };
+        //
+        // mutate({
+        //     auctionId: id,
+        //     updateAuction: updateAuction
+        // }, {
+        //     onSuccess: () => {
+        //         alert("Pomyślnie edytowano aukcję");
+        //     },
+        //     onError: () => {
+        //         alert("Błąd podczas edytowania aukcji");
+        //     }
+        // });
+        setIsUpdating(true);
     };
 
     return (

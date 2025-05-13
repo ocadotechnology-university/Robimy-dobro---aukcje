@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {Card, Grid2} from "@mui/material";
 import {CardStyle} from "./AuctionCard.styles";
 import ImageSection from "./ImageSection";
@@ -21,13 +21,26 @@ type Props = {
     slackUrl: string;
 };
 
-const AuctionCard = (props: Props) => (
-    <Card variant="outlined" sx={CardStyle}>
-        <Grid2 container spacing={2}>
-            <ImageSection fileId={props.fileId}/>
-            <ContentSection {...props} />
-        </Grid2>
-    </Card>
-);
+const AuctionCard = (props: Props) => {
+    const [isUpdating, setIsUpdating] = useState(false);
+
+    return (
+        <Card variant="outlined" sx={CardStyle}>
+            {!isUpdating ? (
+                <Grid2 container spacing={2}>
+                    <ImageSection fileId={props.fileId}/>
+                    <ContentSection {...props} setIsUpdating={setIsUpdating} />
+                </Grid2>
+            ) : (
+                <Grid2 container spacing={2}>
+                    <ImageSection fileId={props.fileId}/>
+                    {/*<ContentSection {...props} setIsUpdating={setIsUpdating} />*/}
+                </Grid2>
+            )
+            }
+
+        </Card>
+    );
+};
 
 export default AuctionCard;
