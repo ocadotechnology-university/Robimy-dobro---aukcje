@@ -6,32 +6,30 @@ import UpdateAuctionDescription from "./UpdateAuctionDescription";
 import {UUID} from "node:crypto";
 import {transformDateFormatToFormDate} from "../../../AddPage/Services/DateTransformer";
 import {RichTextEditorRef} from "mui-tiptap";
+import Button from "@mui/material/Button";
 
 type Props = {
     id: UUID;
     title: string;
+    setTitle: (value: string) => void;
     date: string;
+    setDate: (value: string) => void;
     city: string | null;
+    setCity: (value: string | null) => void;
     description: string;
     price: string;
+    setPrice: (value: string) => void;
+    descriptionRteRef: React.RefObject<RichTextEditorRef | null>;
 };
 
 const UpdateContentSection = ({
                             id,
-                            title,
-                            date,
-                            city,
-                            description,
-                            price
+                            title, setTitle,
+                            date, setDate,
+                            city, setCity,
+                            description, descriptionRteRef,
+                            price, setPrice,
                         }: Props) => {
-
-    const [updatedTitle, setUpdatedTitle] = useState(title);
-    const [updatedDate, setUpdatedDate] = useState(date);
-    const [updatedCity, setUpdatedCity] = useState(city);
-    const [updatedDescription, setUpdatedDescription] = useState(description);
-    const [updatedPrice, setUpdatedPrice] = useState(price);
-    const transformedDate = transformDateFormatToFormDate(updatedDate);
-    const descriptionRteRef = useRef<RichTextEditorRef>(null);
 
     // useEffect(() => {
     //     if (descriptionRteRef.current?.editor) {
@@ -41,12 +39,12 @@ const UpdateContentSection = ({
 
     return (
         <Grid2 size={{xs: 12, md: 9}}>
-            <Stack spacing={1} height="100%" position="relative">
-                <UpdateAuctionHeader title={updatedTitle} setTitle={setUpdatedTitle} date={transformedDate} setDate={setUpdatedDate} city={updatedCity} setCity={setUpdatedCity} price={updatedPrice} setPrice={setUpdatedPrice}/>
-                <UpdateAuctionDescription description={updatedDescription} descriptionRteRef={descriptionRteRef}/>
-                <Box flexGrow={1}/>
+            <Stack spacing={3} height="100%" position="relative">
+                <UpdateAuctionHeader title={title} setTitle={setTitle} date={date} setDate={setDate} city={city} setCity={setCity} price={price} setPrice={setPrice}/>
+                <UpdateAuctionDescription description={description} descriptionRteRef={descriptionRteRef}/>
                 {/*<AuctionFooter id={id} status={status} supplier={supplier} winner={winner} isFollowed={isFollowed}*/}
                 {/*               slackUrl={slackUrl} setIsUpdating={setIsUpdating}/>*/}
+                <Button>Zapisz</Button>
             </Stack>
         </Grid2>
     );

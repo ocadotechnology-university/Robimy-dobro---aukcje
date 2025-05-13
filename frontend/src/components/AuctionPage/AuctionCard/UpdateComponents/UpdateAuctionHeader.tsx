@@ -39,7 +39,7 @@ const AuctionHeader = ({title, setTitle, date, setDate, city, setCity, price, se
 
     return (
         <Stack justifyContent="space-between" direction="row" alignItems="flex-start" sx={{width: "100%"}}>
-            <Stack flexDirection="column" alignItems="flex-end">
+            <Stack flexDirection="column" alignItems="center" gap={2}>
                 <TitleTextField title={title} setTitle={setTitle}/>
                 <ControlledCheckbox
                     checked={wantsToBeModerator}
@@ -54,7 +54,7 @@ const AuctionHeader = ({title, setTitle, date, setDate, city, setCity, price, se
                     options={["21 listopada", "22 listopada", "23 listopada"]}
                 />
             </Stack>
-            <Stack flexDirection="column" alignItems="flex-end">
+            <Stack flexDirection="column" alignItems="center" gap={2}>
                 <PriceTextField price={price} setPrice={setPrice}/>
                 <ControlledCheckbox
                     checked={pickupOnlyInCity}
