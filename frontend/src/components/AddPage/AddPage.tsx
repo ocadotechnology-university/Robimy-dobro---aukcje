@@ -59,7 +59,7 @@ const AddPage = () => {
                 <Stack spacing={4}>
                     <ImageUploadSection setCroppedImage={setCroppedImage}/>
                     <TitleSection title={title} setTitle={setTitle} />
-                    <DescriptionEditor rteRef={rteRef} />
+                    <DescriptionEditor rteRef={rteRef} initialDescription={""}/>
                     <PriceSection price={price} setPrice={setPrice} />
                     <CitySection
                         pickupOnlyInCity={pickupOnlyInCity}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useEditor} from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
@@ -44,7 +44,7 @@ const DescriptionEditor = ({rteRef, initialDescription}: DescriptionEditorProps)
             </Typography>
             <RichTextEditorProvider editor={editor}>
                 <Box sx={ContentStyle}>
-                    <RichTextEditor ref={rteRef} extensions={extensions}>
+                    <RichTextEditor ref={rteRef} extensions={extensions} content={initialDescription}>
                         {() => (
                             <>
                                 <Box sx={ToolbarStyle}>
