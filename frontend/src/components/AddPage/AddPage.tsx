@@ -26,7 +26,6 @@ import DateToggleGroup from "../common/DateToggleGroup";
 import OutlinedActionButton from "../common/OutlinedActionButton";
 import PrimaryActionButton from "../common/PrimaryActionButton";
 import {RichTextEditorRef} from "mui-tiptap";
-import {AuctionFilters} from "../../services/fetchAuctions";
 import {usePostImages} from "../../hooks/usePostImage";
 import { AuctionDto } from './AuctionDto'
 import imageCompression from "browser-image-compression";

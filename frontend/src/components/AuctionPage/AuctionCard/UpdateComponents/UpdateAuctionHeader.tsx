@@ -22,9 +22,9 @@ type Props = {
 
 const AuctionHeader = ({title, setTitle, date, setDate, city, setCity, price, setPrice}: Props) => {
     const normalizedCity = city ?? "";
-    const pickupOnlyInCityCheck = !(!city);
+    const pickupOnlyInCityCheck = Boolean(city);
     const [pickupOnlyInCity, setPickupOnlyInCity] = useState(pickupOnlyInCityCheck);
-    const wantsToBeModeratorCheck = !(!date);
+    const wantsToBeModeratorCheck = Boolean(date);
     const [wantsToBeModerator, setWantsToBeModerator] = useState(wantsToBeModeratorCheck);
 
     const handleCityPickup = (value: boolean) => {

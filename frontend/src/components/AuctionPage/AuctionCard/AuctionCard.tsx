@@ -35,11 +35,12 @@ const AuctionCard = (props: Props) => {
 
     const [updatedTitle, setUpdatedTitle] = useState(props.title);
     const [updatedDate, setUpdatedDate] = useState(props.date);
+    const [transformedDate, setTransformedDate] = useState(props.date);
     const [updatedCity, setUpdatedCity] = useState(props.city);
     const [updatedDescription, setUpdatedDescription] = useState(props.description);
     const [updatedPrice, setUpdatedPrice] = useState(props.price);
     const [wantsToBeModerator, setWantsToBeModerator] = useState(false);
-    const transformedDate = transformDateFormatToFormDate(updatedDate);
+    // const transformedDate = transformDateFormatToFormDate(updatedDate);
     const descriptionRteRef = useRef<RichTextEditorRef>(null);
     const [updateFileId, setUpdateFileId] = useState(props.fileId);
     const [croppedImage, setCroppedImage] = useState<any | null>(null);
@@ -52,6 +53,10 @@ const AuctionCard = (props: Props) => {
         maxWidthOrHeight: 730,
         useWebWorker: true,
     };
+
+    useEffect(() => {
+        setUpdatedDate(transformDateFormatToFormDate(updatedDate))
+    }, []);
 
     useEffect(() => {
         if (!updatedDate) {
@@ -73,7 +78,6 @@ const AuctionCard = (props: Props) => {
 
         try {
             if (croppedImage) {
-                console.log("croppedImageTest", croppedImage);
                 compressedCroppedImage = await imageCompression(croppedImage, options);
             } else {
                 compressedCroppedImage = croppedImage;
@@ -104,8 +108,10 @@ const AuctionCard = (props: Props) => {
                             alert("Błąd podczas edytowania aukcji");
                         }
                     });
-                }
-            });
+                },
+                onError: (e) => {
+                    alert("Błąd podczas dodawania zdjęcia");
+                }});
 
         } catch (error) {
             console.error("Błąd kompresji zdjęcia", error);
@@ -122,7 +128,7 @@ const AuctionCard = (props: Props) => {
             ) : (
                 <Grid2 container spacing={5} marginLeft={3}>
                     <UpdateImageSection fileId={props.fileId} setFileId={setUpdateFileId} setCroppedImage={setCroppedImage}/>
-                    <UpdateContentSection id={props.id} title={updatedTitle} setTitle={setUpdatedTitle} date={transformedDate}
+                    <UpdateContentSection id={props.id} title={updatedTitle} setTitle={setUpdatedTitle} date={updatedDate}
                                           setDate={setUpdatedDate} city={updatedCity} setCity={setUpdatedCity} description={updatedDescription}
                                           descriptionRteRef={descriptionRteRef} price={updatedPrice} setPrice={setUpdatedPrice}
                                           handleUpdate={handleUpdate}/>

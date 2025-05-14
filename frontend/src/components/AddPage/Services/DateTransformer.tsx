@@ -29,9 +29,10 @@ const reverseMonthsMap: Record<string, string> = {
 };
 
 
-export function transformDateToDateFormat(dateFromForm: string): string {
+export function transformDateToDateFormat(dateFromForm: string): string | undefined {
 
-    if (dateFromForm === "") return "";
+    if (dateFromForm === "") return undefined;
+    if (!dateFromForm) return "";
 
     const dateParts = dateFromForm.trim().split(" ");
 

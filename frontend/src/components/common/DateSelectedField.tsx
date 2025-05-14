@@ -31,10 +31,10 @@ const DateSelectField = ({
             select
             label={
                 <Box component="span" sx={labelWrapperStyle}>
-                    Miasto
+                    Data licytacji
                     <InfoOutlinedIcon
                         fontSize="small"
-                        titleAccess="Wybierz dzień, w którym ma się odbyć licytacja."
+                        titleAccess="Wybierz dzień, w którym ma się odbyć licytacja"
                         sx={{cursor: 'help'}}
                     />
                 </Box>

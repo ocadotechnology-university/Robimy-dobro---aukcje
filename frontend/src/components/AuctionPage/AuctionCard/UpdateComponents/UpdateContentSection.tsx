@@ -30,7 +30,6 @@ const UpdateContentSection = ({
                             price, setPrice,
                             handleUpdate
                         }: Props) => {
-
     return (
         <Grid2 size={{xs: 12, md: 9}}>
             <Stack spacing={3} height="100%" position="relative">
