@@ -7,6 +7,7 @@ import {UUID} from "node:crypto";
 
 type Props = {
     id: UUID;
+    publicId: string;
     title: string;
     date: string;
     city: string | null;
@@ -23,6 +24,7 @@ type Props = {
 
 const ContentSection = ({
                             id,
+                            publicId,
                             title,
                             date,
                             city,
@@ -38,7 +40,7 @@ const ContentSection = ({
                         }: Props) => (
     <Grid2 size={{xs: 12, md: 9}}>
         <Stack spacing={1} height="100%" position="relative">
-            <AuctionHeader title={title} date={date} city={city} price={price} status={status} hasBids={hasBids}/>
+            <AuctionHeader publicId={publicId} title={title} date={date} city={city} price={price} status={status} hasBids={hasBids}/>
             <AuctionDescription description={description}/>
             <Box flexGrow={1}/>
             <AuctionFooter id={id} status={status} supplier={supplier} winner={winner} isFollowed={isFollowed}

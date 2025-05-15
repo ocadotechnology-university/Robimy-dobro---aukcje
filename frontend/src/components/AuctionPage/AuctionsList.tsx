@@ -13,6 +13,7 @@ const AuctionsList = ({auctions}: AuctionsList) => {
     const testAuctions: Auction[] = [
         {
             id: "befa7825-5863-4872-abd9-e607ca35b997",
+            publicId: "1",
             title: "Aukcja 1",
             date: "2025-11-23",
             city: "",
@@ -28,6 +29,7 @@ const AuctionsList = ({auctions}: AuctionsList) => {
         },
         {
             id: "5f3ceb8e-3707-4a57-a1b2-fa5674e7b38c",
+            publicId: "2",
             title: "Aukcja 2",
             date: "",
             city: "Kraków",
