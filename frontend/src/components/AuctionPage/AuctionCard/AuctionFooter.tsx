@@ -45,27 +45,6 @@ const AuctionFooter = ({status, supplier, winner, isFollowed, slackUrl, id, setI
     }, [debouncedFollowed]);
 
     const handleUpdate = () => {
-        // const updateAuction: AuctionDto = {
-        //     wantsToBeModerator: false,
-        //     title: "Kolejny updatowy tytuł",
-        //     description: "Kolejny przykladowy opis",
-        //     fileId: "",
-        //     auctionDate: "2025-11-11",
-        //     city: "",
-        //     startingPrice: 79.99
-        // };
-        //
-        // mutate({
-        //     auctionId: id,
-        //     updateAuction: updateAuction
-        // }, {
-        //     onSuccess: () => {
-        //         alert("Pomyślnie edytowano aukcję");
-        //     },
-        //     onError: () => {
-        //         alert("Błąd podczas edytowania aukcji");
-        //     }
-        // });
         setIsUpdating(true);
     };
 

@@ -35,12 +35,10 @@ const AuctionCard = (props: Props) => {
 
     const [updatedTitle, setUpdatedTitle] = useState(props.title);
     const [updatedDate, setUpdatedDate] = useState(props.date);
-    const [transformedDate, setTransformedDate] = useState(props.date);
     const [updatedCity, setUpdatedCity] = useState(props.city);
     const [updatedDescription, setUpdatedDescription] = useState(props.description);
     const [updatedPrice, setUpdatedPrice] = useState(props.price);
     const [wantsToBeModerator, setWantsToBeModerator] = useState(false);
-    // const transformedDate = transformDateFormatToFormDate(updatedDate);
     const descriptionRteRef = useRef<RichTextEditorRef>(null);
     const [updateFileId, setUpdateFileId] = useState(props.fileId);
     const [croppedImage, setCroppedImage] = useState<any | null>(null);
@@ -118,6 +116,16 @@ const AuctionCard = (props: Props) => {
         }
     };
 
+    const handleCancellation = () => {
+        setIsUpdating(false);
+        setUpdatedDate(transformDateFormatToFormDate(props.date));
+        setUpdatedTitle(props.title);
+        setUpdatedCity(props.city);
+        setUpdatedDescription(props.description);
+        setUpdatedPrice(props.price);
+        setWantsToBeModerator(false);
+    }
+
     return (
         <Card variant="outlined" sx={CardStyle}>
             {!isUpdating ? (
@@ -131,7 +139,7 @@ const AuctionCard = (props: Props) => {
                     <UpdateContentSection id={props.id} title={updatedTitle} setTitle={setUpdatedTitle} date={updatedDate}
                                           setDate={setUpdatedDate} city={updatedCity} setCity={setUpdatedCity} description={updatedDescription}
                                           descriptionRteRef={descriptionRteRef} price={updatedPrice} setPrice={setUpdatedPrice}
-                                          handleUpdate={handleUpdate}/>
+                                          handleUpdate={handleUpdate} handleCancellation={handleCancellation}/>
                 </Grid2>
             )
             }
