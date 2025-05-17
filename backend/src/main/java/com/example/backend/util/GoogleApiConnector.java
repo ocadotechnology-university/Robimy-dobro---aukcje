@@ -11,6 +11,7 @@ import com.google.api.services.drive.Drive;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.GeneralSecurityException;
 import java.util.List;
 
@@ -27,10 +28,9 @@ public class GoogleApiConnector {
         }
     }
 
-    private static final String CREDENTIALS_FILE_PATH = "backend/src/main/resources/credentials.json";
-
     public static Credential getCredential(List<String> scopes) throws IOException {
-        return GoogleCredential.fromStream(new FileInputStream(CREDENTIALS_FILE_PATH))
+        InputStream in = GoogleApiConnector.class.getClassLoader().getResourceAsStream("credentials.json");
+        return GoogleCredential.fromStream(in)
                 .createScoped(scopes);
     }
 
