@@ -13,6 +13,7 @@ import {AuctionDto} from "../../AddPage/AuctionDto";
 import imageCompression from "browser-image-compression";
 import {useNavigate} from "react-router-dom";
 import {usePostImages} from "../../../hooks/usePostImage";
+import Divider from '@mui/material/Divider';
 
 type Props = {
     id: UUID;
@@ -145,7 +146,7 @@ const AuctionCard = (props: Props) => {
                     <ContentSection {...props} setEditingAuctionId={props.setEditingAuctionId}/>
                 </Grid2>
             ) : (
-                <Grid2 container spacing={5} marginLeft={3}>
+                <Grid2 container spacing={1}>
                     <UpdateImageSection fileId={props.fileId} setFileId={setUpdateFileId} setCroppedImage={setCroppedImage}/>
                     <UpdateContentSection id={props.id} title={updatedTitle} setTitle={setUpdatedTitle} date={updatedDate}
                                           setDate={setUpdatedDate} city={updatedCity} setCity={setUpdatedCity} description={updatedDescription}

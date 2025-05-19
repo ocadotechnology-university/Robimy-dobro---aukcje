@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {Box, CardMedia, Grid2, Skeleton} from "@mui/material";
-import {ImageWrapperStyle, ImageStyle} from "../AuctionCard.styles";
+import {UpdateImageWrapperStyle} from "../AuctionCard.styles";
 import {useGetImages} from "../../../../hooks/useGetImages";
 import ImageUploadBox from "../../../common/ImageUploadBox";
+import theme from "../../../../theme/theme";
 
 type Props = {
     fileId: string;
@@ -23,7 +24,7 @@ const UpdateImageSection = ({fileId, setFileId, setCroppedImage}: Props) => {
     }, [blob]);
 
     return (
-        <Grid2 size={{xs: 12, md: 3}} sx={ImageWrapperStyle}>
+        <Grid2 size={{xs: 12, md:4.5, lg: 3.7}} sx={UpdateImageWrapperStyle}>
             <ImageUploadBox setCroppedImage={setCroppedImage} updateBlobImage={blob} updateBlobImageUrl={blobUrl}/>
         </Grid2>
     );

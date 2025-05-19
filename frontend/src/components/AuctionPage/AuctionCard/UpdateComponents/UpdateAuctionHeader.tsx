@@ -40,7 +40,7 @@ const AuctionHeader = ({title, setTitle, date, setDate, city, setCity, price, se
 
     return (
         <Stack width="100%" justifyContent="space-between" direction="row" alignItems="flex-start" marginTop={1}>
-            <Stack width="60%" flexDirection="column" alignItems="flex-start" gap={3} marginLeft={2}>
+            <Stack width="60%" flexDirection="column" alignItems="flex-start" gap={3}>
                 <TitleTextField title={title} setTitle={setTitle}/>
 
                 <Stack width="100%" flexDirection="column" alignItems="flex-start" marginLeft={1} gap={1.5}>
