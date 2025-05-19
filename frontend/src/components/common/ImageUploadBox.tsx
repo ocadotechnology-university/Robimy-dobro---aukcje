@@ -29,16 +29,20 @@ const ASPECT_RATIO = 1
 
 const ImageUploadBox = ({setCroppedImage, updateBlobImage, updateBlobImageUrl}: ImageUploadBoxProps) => {
     const [imageSrc, setImageSrc] = useState<string | null>(null)
+    const [imageSrcBackup, setImageSrcBackup] = useState<string | null>(null)
     const [isUpload, setIsUpload] = useState(false)
     const [crop, setCrop] = useState<Crop>()
     const [croppedAreaPercent, setCroppedAreaPercent] = useState<any>(null)
     const [displayCroppedImage, setDisplayCroppedImage] = useState<any>(null)
     const [open, setOpen] = React.useState(false);
     const [savedCrop, setSavedCrop] = useState<Crop>();
+    const [savedCropBackup, setSavedCropBackup] = useState<Crop>();
+    const [croppedImageTemp, setCroppedImageTemp] = useState<Blob>();
 
     useEffect(() => {
         if (updateBlobImage !== undefined) {
             setImageSrc(updateBlobImageUrl);
+            setImageSrcBackup(updateBlobImageUrl);
             setIsUpload(true);
             setDisplayCroppedImage(updateBlobImageUrl);
             setCroppedImage(updateBlobImage);
@@ -71,11 +75,14 @@ const ImageUploadBox = ({setCroppedImage, updateBlobImage, updateBlobImageUrl}: 
 
     const handleClose = () => {
         setOpen(false);
+        setImageSrc(imageSrcBackup);
+        setSavedCrop(savedCropBackup);
     }
 
     const handleEditOpen = () => {
         setOpen(true);
-        setCrop(savedCrop)
+        setCrop(savedCrop);
+        setImageSrc(imageSrcBackup);
     }
 
     const onImageLoad = (e: any) => {
@@ -85,11 +92,13 @@ const ImageUploadBox = ({setCroppedImage, updateBlobImage, updateBlobImageUrl}: 
         }
 
         const {width, height} = e.currentTarget;
+        const takeByWidth = width >= height;
+
         const crop = makeAspectCrop(
             {
                 unit: '%',
-                width: 25,
-                height: 25
+                width: takeByWidth ? (height/width*100) : 100,
+                height: takeByWidth ? 100 : (width/height*100)
             }, ASPECT_RATIO, width, height
         );
         const centeredCrop = centerCrop(crop, width, height);
@@ -102,6 +111,9 @@ const ImageUploadBox = ({setCroppedImage, updateBlobImage, updateBlobImageUrl}: 
         if (imageSrc && croppedAreaPercent) {
             const croppedImage = await getCroppedImage(imageSrc, croppedAreaPercent);
             setCroppedImage(croppedImage);
+            setCroppedImageTemp(croppedImage);
+            setImageSrcBackup(imageSrc);
+            setSavedCropBackup(savedCrop);
 
             const objectURL = URL.createObjectURL(croppedImage);
             setDisplayCroppedImage(objectURL);
