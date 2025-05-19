@@ -24,25 +24,6 @@ const UpdateImageSection = ({fileId, setFileId, setCroppedImage}: Props) => {
 
     return (
         <Grid2 size={{xs: 12, md: 3}} sx={ImageWrapperStyle}>
-            {/*<Box height="100%">*/}
-            {/*    { isLoading && <Skeleton*/}
-            {/*        variant="rectangular"*/}
-            {/*        sx={{*/}
-            {/*            ...ImageStyle,*/}
-            {/*            width: '100%',*/}
-            {/*            height: '100%'*/}
-            {/*        }}*/}
-            {/*    />*/}
-            {/*    }*/}
-            {/*    { blobUrl && (*/}
-            {/*        <CardMedia*/}
-            {/*            component="img"*/}
-            {/*            image={blobUrl}*/}
-            {/*            alt="Auction item"*/}
-            {/*            sx={ImageStyle}*/}
-            {/*        />*/}
-            {/*    )}*/}
-            {/*</Box>*/}
             <ImageUploadBox setCroppedImage={setCroppedImage} updateBlobImage={blob} updateBlobImageUrl={blobUrl}/>
         </Grid2>
     );

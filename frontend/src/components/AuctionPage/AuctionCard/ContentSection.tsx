@@ -19,10 +19,10 @@ type Props = {
     price: string;
     isFollowed: boolean;
     slackUrl: string;
-    setIsUpdating: (value: boolean) => void;
+    setEditingAuctionId: (value: UUID | null) => void;
 };
 
-const ContentSection = ({
+export const ContentSection = ({
                             id,
                             publicId,
                             title,
@@ -36,7 +36,7 @@ const ContentSection = ({
                             price,
                             isFollowed,
                             slackUrl,
-                            setIsUpdating
+                            setEditingAuctionId
                         }: Props) => (
     <Grid2 size={{xs: 12, md: 9}}>
         <Stack spacing={1} height="100%" position="relative">
@@ -44,9 +44,7 @@ const ContentSection = ({
             <AuctionDescription description={description}/>
             <Box flexGrow={1}/>
             <AuctionFooter id={id} status={status} supplier={supplier} winner={winner} isFollowed={isFollowed}
-                           slackUrl={slackUrl} setIsUpdating={setIsUpdating}/>
+                           slackUrl={slackUrl} setEditingAuctionId={setEditingAuctionId}/>
         </Stack>
     </Grid2>
 );
-
-export default ContentSection;

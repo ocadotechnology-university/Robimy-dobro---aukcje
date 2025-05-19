@@ -1,14 +1,15 @@
-import React from "react";
+import React, {useState} from "react";
 import Stack from '@mui/material/Stack';
 import {UUID} from "node:crypto";
 import AuctionCard from './AuctionCard/AuctionCard';
 import {Auction} from './Auction'
 
-interface AuctionsList {
+interface AuctionsListProps {
     auctions: Auction[];
 }
 
-const AuctionsList = ({auctions}: AuctionsList) => {
+const AuctionsList = ({auctions}: AuctionsListProps) => {
+    const [editingAuctionId, setEditingAuctionId] = useState<UUID | null>(null);
 
     const testAuctions: Auction[] = [
         {
@@ -46,16 +47,15 @@ const AuctionsList = ({auctions}: AuctionsList) => {
     ];
 
     // auctions = testAuctions;
-
     return (
         <Stack width="100%" gap={1}>
             {auctions.map((auction) => (
                 <AuctionCard
-                    {...auction}
+                    {...auction} isUpdating={editingAuctionId === auction.id} setEditingAuctionId={setEditingAuctionId}
                 />
             ))}
         </Stack>
     );
-}
+};
 
 export default AuctionsList;

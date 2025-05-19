@@ -3,7 +3,7 @@ import {Card, Grid2} from "@mui/material";
 import {CardStyle} from "./AuctionCard.styles";
 import ImageSection from "./ImageSection";
 import UpdateImageSection from "./UpdateComponents/UpdateImageSection";
-import ContentSection from "./ContentSection";
+import {ContentSection} from "./ContentSection";
 import UpdateContentSection from "./UpdateComponents/UpdateContentSection";
 import {UUID} from "node:crypto";
 import {transformDateFormatToFormDate, transformDateToDateFormat} from "../../AddPage/Services/DateTransformer";
@@ -16,6 +16,7 @@ import {usePostImages} from "../../../hooks/usePostImage";
 
 type Props = {
     id: UUID;
+    publicId: string;
     title: string;
     date: string;
     city: string | null;
@@ -28,11 +29,11 @@ type Props = {
     fileId: string;
     isFollowed: boolean;
     slackUrl: string;
+    setEditingAuctionId: (value: UUID | null) => void;
+    isUpdating: boolean;
 };
 
 const AuctionCard = (props: Props) => {
-    const [isUpdating, setIsUpdating] = useState(false);
-
     const [updatedTitle, setUpdatedTitle] = useState(props.title);
     const [updatedDate, setUpdatedDate] = useState(props.date);
     const [updatedCity, setUpdatedCity] = useState(props.city);
@@ -51,6 +52,15 @@ const AuctionCard = (props: Props) => {
         maxWidthOrHeight: 730,
         useWebWorker: true,
     };
+
+    useEffect(() => {
+        setUpdatedDate(transformDateFormatToFormDate(props.date));
+        setUpdatedTitle(props.title);
+        setUpdatedCity(props.city);
+        setUpdatedDescription(props.description);
+        setUpdatedPrice(props.price);
+        setWantsToBeModerator(false);
+    }, [props.isUpdating]);
 
     useEffect(() => {
         setUpdatedDate(transformDateFormatToFormDate(updatedDate))
@@ -83,7 +93,8 @@ const AuctionCard = (props: Props) => {
 
             postImage(compressedCroppedImage, {
                 onSuccess: (fileId: string) => {
-                    setIsUpdating(false);
+                    // setIsUpdating(false);
+                    props.setEditingAuctionId(null);
                     const updateAuction: AuctionDto = {
                         wantsToBeModerator: wantsToBeModerator,
                         title: updatedTitle,
@@ -117,21 +128,21 @@ const AuctionCard = (props: Props) => {
     };
 
     const handleCancellation = () => {
-        setIsUpdating(false);
         setUpdatedDate(transformDateFormatToFormDate(props.date));
         setUpdatedTitle(props.title);
         setUpdatedCity(props.city);
         setUpdatedDescription(props.description);
         setUpdatedPrice(props.price);
         setWantsToBeModerator(false);
+        props.setEditingAuctionId(null);
     }
 
     return (
         <Card variant="outlined" sx={CardStyle}>
-            {!isUpdating ? (
+            {!props.isUpdating ? (
                 <Grid2 container spacing={2}>
                     <ImageSection fileId={props.fileId}/>
-                    <ContentSection {...props} setIsUpdating={setIsUpdating} />
+                    <ContentSection {...props} setEditingAuctionId={props.setEditingAuctionId}/>
                 </Grid2>
             ) : (
                 <Grid2 container spacing={5} marginLeft={3}>

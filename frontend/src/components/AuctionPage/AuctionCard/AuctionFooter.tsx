@@ -18,17 +18,16 @@ const SlackIcon = SiSlack as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
 
 type Props = {
     id: UUID;
-    status: string,
-    supplier: string,
-    winner: string,
-    isFollowed: boolean,
-    slackUrl: string,
-    setIsUpdating: (value: boolean) => void
+    status: string;
+    supplier: string;
+    winner: string;
+    isFollowed: boolean;
+    slackUrl: string;
+    setEditingAuctionId: (value: UUID | null) => void;
 };
 
-const AuctionFooter = ({status, supplier, winner, isFollowed, slackUrl, id, setIsUpdating}: Props) => {
+const AuctionFooter = ({status, supplier, winner, isFollowed, slackUrl, id, setEditingAuctionId}: Props) => {
     const [followed, setFollowed] = useState(isFollowed);
-    // const {mutate, isSuccess, isError} = useUpdateAuction();
     const debouncedFollowed = useDebounce(followed, 300);
     const {mutate: followAuction} = useFollowAuction();
     const {mutate: unfollowAuction} = useUnfollowAuction();
@@ -45,7 +44,7 @@ const AuctionFooter = ({status, supplier, winner, isFollowed, slackUrl, id, setI
     }, [debouncedFollowed]);
 
     const handleUpdate = () => {
-        setIsUpdating(true);
+        setEditingAuctionId(id);
     };
 
     return (
