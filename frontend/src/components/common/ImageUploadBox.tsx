@@ -69,6 +69,10 @@ const ImageUploadBox = ({setCroppedImage, updateBlobImage, updateBlobImageUrl}: 
         setSavedCrop(undefined)
     }
 
+    const handleClose = () => {
+        setOpen(false);
+    }
+
     const handleEditOpen = () => {
         setOpen(true);
         setCrop(savedCrop)
@@ -135,6 +139,7 @@ const ImageUploadBox = ({setCroppedImage, updateBlobImage, updateBlobImageUrl}: 
             {imageSrc && (
                 <Modal
                     open={open}
+                    onClose={handleClose}
                     sx={modalStyle}
                 >
                     <Stack alignItems="center" justifyContent="center" maxWidth='100%' maxHeight='100%' gap={3}>

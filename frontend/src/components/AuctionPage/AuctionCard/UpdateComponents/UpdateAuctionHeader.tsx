@@ -8,6 +8,7 @@ import ControlledCheckbox from "../../../common/ControlledCheckbox";
 import CitySelectField from "../../../common/CitySelectField";
 import DateSelectField from "../../../common/DateSelectedField";
 import {transformDateFormatToFormDate} from "../../../AddPage/Services/DateTransformer";
+import Divider from '@mui/material/Divider';
 
 type Props = {
     title: string;
@@ -38,28 +39,33 @@ const AuctionHeader = ({title, setTitle, date, setDate, city, setCity, price, se
     };
 
     return (
-        <Stack justifyContent="space-between" direction="row" alignItems="flex-start" sx={{width: "100%"}}>
-            <Stack flexDirection="column" alignItems="center" gap={2}>
+        <Stack width="100%" justifyContent="space-between" direction="row" alignItems="flex-start" marginTop={1}>
+            <Stack width="60%" flexDirection="column" alignItems="flex-start" gap={3} marginLeft={2}>
                 <TitleTextField title={title} setTitle={setTitle}/>
-                <ControlledCheckbox
-                    checked={wantsToBeModerator}
-                    onChange={handleDatePickup}
-                    label="Chcę być moderatorem"
-                />
+
+                <Stack width="100%" flexDirection="column" alignItems="flex-start" marginLeft={1} gap={1.5}>
+                    <ControlledCheckbox
+                        checked={wantsToBeModerator}
+                        onChange={handleDatePickup}
+                        label="Chcę być moderatorem"
+                    />
+                    <Divider component="div" sx={{width: '100%'}}/>
+
+                    <ControlledCheckbox
+                        checked={pickupOnlyInCity}
+                        onChange={handleCityPickup}
+                        label="Odbiór jest możliwy tylko w wybranym mieście"
+                    />
+                </Stack>
+            </Stack>
+            <Stack width="30%" flexDirection="column" alignItems="center" gap={2}>
+                <PriceTextField price={price} setPrice={setPrice}/>
 
                 <DateSelectField
                     selectedDate={date}
                     setSelectedDate={setDate}
                     disabled={!wantsToBeModerator}
                     options={["21 listopada", "22 listopada", "23 listopada"]}
-                />
-            </Stack>
-            <Stack flexDirection="column" alignItems="center" gap={2}>
-                <PriceTextField price={price} setPrice={setPrice}/>
-                <ControlledCheckbox
-                    checked={pickupOnlyInCity}
-                    onChange={handleCityPickup}
-                    label="Odbiór jest możliwy tylko w wybranym mieście"
                 />
 
                 <CitySelectField
