@@ -18,6 +18,8 @@ type Props = {
     price: string;
     setPrice: (value: string) => void;
     descriptionRteRef: React.RefObject<RichTextEditorRef | null>;
+    wantsToBeModerator: boolean;
+    setWantsToBeModerator: (value: boolean) => void;
     handleUpdate: () => void;
     handleCancellation: () => void;
 };
@@ -29,13 +31,14 @@ const UpdateContentSection = ({
                             city, setCity,
                             description, descriptionRteRef,
                             price, setPrice,
+                            wantsToBeModerator, setWantsToBeModerator,
                             handleUpdate, handleCancellation
                         }: Props) => {
 
     return (
         <Grid2 size={{xs: 12, md:7.5, lg: 8.3}}>
             <Stack spacing={3} height="100%" position="relative" marginLeft={1}>
-                <UpdateAuctionHeader title={title} setTitle={setTitle} date={date} setDate={setDate} city={city} setCity={setCity} price={price} setPrice={setPrice}/>
+                <UpdateAuctionHeader title={title} setTitle={setTitle} date={date} setDate={setDate} city={city} setCity={setCity} price={price} setPrice={setPrice} wantsToBeModerator={wantsToBeModerator} setWantsToBeModerator={setWantsToBeModerator}/>
                 <UpdateAuctionDescription description={description} descriptionRteRef={descriptionRteRef}/>
                 <Stack direction="row" width="100%" alignItems={"center"} justifyContent="space-between">
                     <UpdateActionButtonCancel

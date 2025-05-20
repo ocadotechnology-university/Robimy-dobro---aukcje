@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Box, Stack, Typography} from "@mui/material";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
@@ -19,18 +19,23 @@ type Props = {
     setCity: (value: string | null) => void;
     price: string;
     setPrice: (value: string) => void;
+    wantsToBeModerator: boolean;
+    setWantsToBeModerator: (value: boolean) => void;
 };
 
-const AuctionHeader = ({title, setTitle, date, setDate, city, setCity, price, setPrice}: Props) => {
+const AuctionHeader = ({title, setTitle, date, setDate, city, setCity, price, setPrice, wantsToBeModerator, setWantsToBeModerator}: Props) => {
     const normalizedCity = city ?? "";
-    const pickupOnlyInCityCheck = Boolean(city);
-    const [pickupOnlyInCity, setPickupOnlyInCity] = useState(pickupOnlyInCityCheck);
-    const wantsToBeModeratorCheck = Boolean(date);
-    const [wantsToBeModerator, setWantsToBeModerator] = useState(wantsToBeModeratorCheck);
+    const [pickupOnlyInCity, setPickupOnlyInCity] = useState(Boolean(city));
+
+    useEffect(() => {
+        setPickupOnlyInCity(Boolean(city));
+    }, [city]);
 
     const handleCityPickup = (value: boolean) => {
         setPickupOnlyInCity(value);
-        if (!value) setCity("");
+        if (!value) {
+            setCity("");
+        } else setCity("Wrocław");
     };
 
     const handleDatePickup = (value: boolean) => {

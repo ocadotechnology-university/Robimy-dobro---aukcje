@@ -15,6 +15,7 @@ export interface Auction {
     fileId: string,
     isFollowed: boolean,
     slackUrl: string,
+    wantsToBeModerator: boolean,
     auctions?: Auction[]
 }
 

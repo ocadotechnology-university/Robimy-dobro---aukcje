@@ -13,7 +13,6 @@ import {AuctionDto} from "../../AddPage/AuctionDto";
 import imageCompression from "browser-image-compression";
 import {useNavigate} from "react-router-dom";
 import {usePostImages} from "../../../hooks/usePostImage";
-import Divider from '@mui/material/Divider';
 
 type Props = {
     id: UUID;
@@ -30,6 +29,7 @@ type Props = {
     fileId: string;
     isFollowed: boolean;
     slackUrl: string;
+    wantsToBeModerator: boolean;
     setEditingAuctionId: (value: UUID | null) => void;
     isUpdating: boolean;
 };
@@ -40,7 +40,7 @@ const AuctionCard = (props: Props) => {
     const [updatedCity, setUpdatedCity] = useState(props.city);
     const [updatedDescription, setUpdatedDescription] = useState(props.description);
     const [updatedPrice, setUpdatedPrice] = useState(props.price);
-    const [wantsToBeModerator, setWantsToBeModerator] = useState(false);
+    const [updateWantsToBeModerator, setUpdateWantsToBeModerator] = useState(props.wantsToBeModerator);
     const descriptionRteRef = useRef<RichTextEditorRef>(null);
     const [updateFileId, setUpdateFileId] = useState(props.fileId);
     const [croppedImage, setCroppedImage] = useState<any | null>(null);
@@ -60,20 +60,20 @@ const AuctionCard = (props: Props) => {
         setUpdatedCity(props.city);
         setUpdatedDescription(props.description);
         setUpdatedPrice(props.price);
-        setWantsToBeModerator(false);
+        setUpdateWantsToBeModerator(props.wantsToBeModerator);
     }, [props.isUpdating]);
 
     useEffect(() => {
         setUpdatedDate(transformDateFormatToFormDate(updatedDate))
     }, []);
 
-    useEffect(() => {
-        if (!updatedDate) {
-            setWantsToBeModerator(false);
-        } else {
-            setWantsToBeModerator(true);
-        }
-    }, [updatedDate]);
+    // useEffect(() => {
+    //     if (!updatedDate) {
+    //         setWantsToBeModerator(false);
+    //     } else {
+    //         setWantsToBeModerator(true);
+    //     }
+    // }, [updatedDate]);
 
     const handleUpdate = async () => {
         let correctedUpdatedCity: string | undefined;
@@ -94,10 +94,9 @@ const AuctionCard = (props: Props) => {
 
             postImage(compressedCroppedImage, {
                 onSuccess: (fileId: string) => {
-                    // setIsUpdating(false);
                     props.setEditingAuctionId(null);
                     const updateAuction: AuctionDto = {
-                        wantsToBeModerator: wantsToBeModerator,
+                        wantsToBeModerator: updateWantsToBeModerator,
                         title: updatedTitle,
                         description: descriptionRteRef.current?.editor?.getHTML(),
                         fileId: fileId,
@@ -134,7 +133,7 @@ const AuctionCard = (props: Props) => {
         setUpdatedCity(props.city);
         setUpdatedDescription(props.description);
         setUpdatedPrice(props.price);
-        setWantsToBeModerator(false);
+        setUpdateWantsToBeModerator(props.wantsToBeModerator);
         props.setEditingAuctionId(null);
     }
 
@@ -151,6 +150,7 @@ const AuctionCard = (props: Props) => {
                     <UpdateContentSection id={props.id} title={updatedTitle} setTitle={setUpdatedTitle} date={updatedDate}
                                           setDate={setUpdatedDate} city={updatedCity} setCity={setUpdatedCity} description={updatedDescription}
                                           descriptionRteRef={descriptionRteRef} price={updatedPrice} setPrice={setUpdatedPrice}
+                                          wantsToBeModerator={updateWantsToBeModerator} setWantsToBeModerator={setUpdateWantsToBeModerator}
                                           handleUpdate={handleUpdate} handleCancellation={handleCancellation}/>
                 </Grid2>
             )
