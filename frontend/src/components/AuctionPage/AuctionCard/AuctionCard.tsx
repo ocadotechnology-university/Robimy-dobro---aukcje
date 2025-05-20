@@ -13,6 +13,7 @@ import {AuctionDto} from "../../AddPage/AuctionDto";
 import imageCompression from "browser-image-compression";
 import {useNavigate} from "react-router-dom";
 import {usePostImages} from "../../../hooks/usePostImage";
+import { Snackbar, Alert } from '@mui/material';
 
 type Props = {
     id: UUID;
@@ -48,6 +49,10 @@ const AuctionCard = (props: Props) => {
     const navigate = useNavigate();
     const { mutate: postImage, isSuccess: isImageSuccess, isError: isImageError } = usePostImages();
 
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+    const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">("success");
+
     const options = {
         maxSizeMB: 1,
         maxWidthOrHeight: 730,
@@ -66,14 +71,6 @@ const AuctionCard = (props: Props) => {
     useEffect(() => {
         setUpdatedDate(transformDateFormatToFormDate(updatedDate))
     }, []);
-
-    // useEffect(() => {
-    //     if (!updatedDate) {
-    //         setWantsToBeModerator(false);
-    //     } else {
-    //         setWantsToBeModerator(true);
-    //     }
-    // }, [updatedDate]);
 
     const handleUpdate = async () => {
         let correctedUpdatedCity: string | undefined;
@@ -110,11 +107,15 @@ const AuctionCard = (props: Props) => {
                         updateAuction: updateAuction
                     }, {
                         onSuccess: () => {
-                            alert("Pomyślnie edytowano aukcję");
+                            setSnackbarMessage("Pomyślnie edytowano aukcję");
+                            setSnackbarSeverity("success");
+                            setSnackbarOpen(true);
                             navigate("/auctions");
                         },
                         onError: () => {
-                            alert("Błąd podczas edytowania aukcji");
+                            setSnackbarMessage("Błąd podczas edytowania aukcji");
+                            setSnackbarSeverity("error");
+                            setSnackbarOpen(true);
                         }
                     });
                 },
@@ -155,7 +156,22 @@ const AuctionCard = (props: Props) => {
                 </Grid2>
             )
             }
-
+            <Snackbar
+                anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                open={snackbarOpen}
+                onClose={() => setSnackbarOpen(false)}
+                autoHideDuration={2000}
+                key="top-center"
+            >
+                <Alert
+                    onClose={() => setSnackbarOpen(false)}
+                    severity={snackbarSeverity}
+                    variant="filled"
+                    sx={{ width: "100%" }}
+                >
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
         </Card>
     );
 };
