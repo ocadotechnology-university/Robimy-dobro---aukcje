@@ -36,6 +36,7 @@ public class AuctionMapper {
         auctionGetDto.setIsFollowed(auction.getFollowers() != null && auction.getFollowers().contains(userEmail));
         auctionGetDto.setIsSupplier(userEmail != null && userEmail.equals(auction.getSupplierEmail()));
         auctionGetDto.setStatus(determineStatus(auction));
+        auctionGetDto.setWantsToBeModerator(userEmail.equals(auction.getModeratorEmail()));
 
         return auctionGetDto;
     }
@@ -70,7 +71,8 @@ public class AuctionMapper {
 
     public Auction mapFromUpdateDtoToAuction(Auction auction, AuctionUpdateDto auctionUpdateDto, String userEmail) {
         String moderatorEmail = auction.getModeratorEmail();
-        LocalDate date = auction.getAuctionDate();
+//        LocalDate date = auction.getAuctionDate();
+        LocalDate date = null;
 
         if(auctionUpdateDto.getWantsToBeModerator()) {
             moderatorEmail = userEmail;

@@ -22,4 +22,5 @@ public class AuctionGetDto {
     private Boolean isFollowed;
     private String slackUrl;
     private Boolean isSupplier;
+    private Boolean wantsToBeModerator;
 }
