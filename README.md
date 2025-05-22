@@ -38,6 +38,7 @@
 
 How to clone your project
 
+### For windows users:
 ```bash
 git clone https://github.com/ocadotechnology-university/Robimy-dobro---aukcje.git
 ```
