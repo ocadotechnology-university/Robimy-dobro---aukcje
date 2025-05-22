@@ -1,79 +1,74 @@
-# Robimy-dobro---aukcje
 
-# Docker
-## Backend Server
+<h1 align="center" style="font-weight: bold;">Robimy Dobro Aukcje</h1>
 
-### For windows users:
+<p align="center">
+<a href="#tech">Technologies</a>
+<a href="#started">Getting Started</a>
+<a href="#docker">Running</a>
+<a href="#colab">Collaborators</a>
 
-#### Environment Variables
+</p>
 
----
 
-**`GOOGLE_SHEET_ID`**  
-The **sheet ID** from your Google Sheets URL.  
-Extract the part after `/d/` and before `/edit`.
+<p align="center">Simple description of what your project do or how to use it</p>
 
-Example:  
-`1MGF_IGRmGNrcZZVrwRWbhJsAfHix5PIQXmDs2hXTLAs`
 
----
+<p align="center">
+<a href="https://github.com/ocadotechnology-university/Robimy-dobro---aukcje/">📱 Visit this Project</a>
+</p>
 
-**`GOOGLE_CLIENT_ID`**  
-Your **Google OAuth 2.0 Client ID**.  
-Found in the Google Cloud Console.
+<h2 id="technologies">💻 Technologies</h2>
 
-Example:  
-`1234567890-abc123def456.apps.googleusercontent.com`
+- java
+- nodejs
+- npm
+- maven
+- mockito
+- junit
 
----
+<h2 id="started">🚀 Getting started</h2>
 
-**`GOOGLE_CLIENT_SECRET`**  
-Your **Google OAuth 2.0 Client Secret**.  
-Also found in Google Cloud Console under Credentials.
+<h3>Prerequisites</h3>
 
----
+- [Java](https://www.oracle.com/java/technologies/downloads/)
+- [Docker](https://www.docker.com/)
+- [NodeJs](https://nodejs.org/en/download)
 
-**`GOOGLE_DRIVE_FOLDER_ID`**  
-The **folder ID** from a shared Google Drive folder where files will be accessed or uploaded.  
-It's the string after `/folders/` in the folder's URL.
+<h3>Cloning</h3>
 
-Example:  
-`1A2B3C4D5E6F7G8H9`
-
----
-
-**`path\to\credentials.json`**  
-Path to your local `credentials.json` file (OAuth credentials) that must be mounted into the container.
-
-[Don’t know where to find credentials.json?](#-how-to-get-credentialsjson)
-
----
+How to clone your project
 
 ```bash
-docker run -p 8080:8080 `
-  -e GOOGLE_SHEET_ID="your_sheet_id" `
-  -e GOOGLE_CLIENT_ID="your_client_id" `
-  -e GOOGLE_CLIENT_SECRET="your_client_secret" `
-  -e GOOGLE_DRIVE_FOLDER_ID="your_folder_id" `
-  -v path\to\credentials.json:/app/credentials.json `
-  robimy-dobro
+git clone https://github.com/ocadotechnology-university/Robimy-dobro---aukcje.git
 ```
 
-### For linux users:
+<h2 id="docker">🐳 Docker</h2>
+<h3>Set Up</h3>
+
+We use docker to start the project. Firstly you need to configure variables inside `docker-compose.yml`, as shown below:
 ```bash
-docker run -p 8080:8080 \
-  -e GOOGLE_SHEET_ID="your_sheet_id" \
-  -e GOOGLE_CLIENT_ID="your_client_id" \
-  -e GOOGLE_CLIENT_SECRET="your_client_secret" \
-  -e GOOGLE_DRIVE_FOLDER_ID="your_folder_id" \
-  -v path/to/credentials.json:/app/credentials.json \
-  robimy-dobro
+environment:
+      GOOGLE_SHEET_ID: "your_sheet_id"
+      GOOGLE_CLIENT_ID: "your_client_id"
+      GOOGLE_CLIENT_SECRET: "your_client_secret"
+      GOOGLE_DRIVE_FOLDER_ID: "your_folder_id"
+volumes:
+      - ./path/to/credentials.json:/app/credentials.json:ro
+```
+Don't know what they are and where to get them? Go <a href="#env-setup">here</a>.
+
+<h3>Running the container</h3>
+
+Go to the terminal and pass in:
+```bash
+docker-compose up --build
 ```
 
-### Frontend Server
 
-## 🔑 How to Get `credentials.json`
-
+<h2>Documentations that might help</h2>
+<h3 id="env-setup"> 🔑 How to get variables to start docker environment</h3>
+---
+<h4>Getting `credentials.json`</h4>
 Follow these steps if you're using a Google Cloud **Service Account**:
 
 **1. Open the Service Account**
