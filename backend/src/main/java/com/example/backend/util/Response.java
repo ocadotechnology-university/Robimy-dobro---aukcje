@@ -34,4 +34,9 @@ public class Response {
         private Object v;
         private String f;
     }
-}
+
+    @Data
+    public static class VWrapper {
+        private String v;
+        private String vd;
+    }}

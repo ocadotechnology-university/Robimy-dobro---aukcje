@@ -7,6 +7,7 @@ import {UUID} from "node:crypto";
 
 type Props = {
     id: UUID;
+    publicId: string;
     title: string;
     date: string;
     city: string | null;
@@ -18,10 +19,12 @@ type Props = {
     price: string;
     isFollowed: boolean;
     slackUrl: string;
+    setEditingAuctionId: (value: UUID | null) => void;
 };
 
-const ContentSection = ({
+export const ContentSection = ({
                             id,
+                            publicId,
                             title,
                             date,
                             city,
@@ -32,17 +35,16 @@ const ContentSection = ({
                             winner,
                             price,
                             isFollowed,
-                            slackUrl
+                            slackUrl,
+                            setEditingAuctionId
                         }: Props) => (
     <Grid2 size={{xs: 12, md: 9}}>
         <Stack spacing={1} height="100%" position="relative">
-            <AuctionHeader title={title} date={date} city={city} price={price} status={status} hasBids={hasBids}/>
+            <AuctionHeader publicId={publicId} title={title} date={date} city={city} price={price} status={status} hasBids={hasBids}/>
             <AuctionDescription description={description}/>
             <Box flexGrow={1}/>
             <AuctionFooter id={id} status={status} supplier={supplier} winner={winner} isFollowed={isFollowed}
-                           slackUrl={slackUrl}/>
+                           slackUrl={slackUrl} setEditingAuctionId={setEditingAuctionId}/>
         </Stack>
     </Grid2>
 );
-
-export default ContentSection;

@@ -3,8 +3,8 @@ import {TextField, MenuItem, Box} from '@mui/material';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 type CitySelectFieldProps = {
-    selectedCity: string;
-    setSelectedCity: (value: string) => void;
+    selectedDate: string;
+    setSelectedDate: (value: string) => void;
     disabled?: boolean;
     options: string[];
 };
@@ -20,9 +20,9 @@ const selectFieldStyle = {
     maxWidth: 150,
 };
 
-const CitySelectField = ({
-                             selectedCity,
-                             setSelectedCity,
+const DateSelectField = ({
+                             selectedDate,
+                             setSelectedDate,
                              disabled = false,
                              options,
                          }: CitySelectFieldProps) => {
@@ -31,28 +31,28 @@ const CitySelectField = ({
             select
             label={
                 <Box component="span" sx={labelWrapperStyle}>
-                    Miasto
+                    Data licytacji
                     <InfoOutlinedIcon
                         fontSize="small"
-                        titleAccess="Wybierz miasto, w którym możliwy jest odbiór"
+                        titleAccess="Wybierz dzień, w którym ma się odbyć licytacja"
                         sx={{cursor: 'help'}}
                     />
                 </Box>
             }
-            value={selectedCity}
-            onChange={(e) => setSelectedCity(e.target.value)}
+            value={selectedDate}
+            onChange={(e) => setSelectedDate(e.target.value)}
             size="small"
             disabled={disabled}
             InputLabelProps={{shrink: true}}
             sx={selectFieldStyle}
         >
-            {options.map((city) => (
-                <MenuItem key={city} value={city}>
-                    {city}
+            {options.map((date) => (
+                <MenuItem key={date} value={date}>
+                    {date}
                 </MenuItem>
             ))}
         </TextField>
     );
 };
 
-export default CitySelectField;
+export default DateSelectField;

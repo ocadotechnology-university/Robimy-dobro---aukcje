@@ -26,7 +26,6 @@ import DateToggleGroup from "../common/DateToggleGroup";
 import OutlinedActionButton from "../common/OutlinedActionButton";
 import PrimaryActionButton from "../common/PrimaryActionButton";
 import {RichTextEditorRef} from "mui-tiptap";
-import {AuctionFilters} from "../../services/fetchAuctions";
 import {usePostImages} from "../../hooks/usePostImage";
 import { AuctionDto } from './AuctionDto'
 import imageCompression from "browser-image-compression";
@@ -59,7 +58,7 @@ const AddPage = () => {
                 <Stack spacing={4}>
                     <ImageUploadSection setCroppedImage={setCroppedImage}/>
                     <TitleSection title={title} setTitle={setTitle} />
-                    <DescriptionEditor rteRef={rteRef} />
+                    <DescriptionEditor rteRef={rteRef} initialDescription={""}/>
                     <PriceSection price={price} setPrice={setPrice} />
                     <CitySection
                         pickupOnlyInCity={pickupOnlyInCity}
@@ -90,7 +89,7 @@ const ImageUploadSection = ({setCroppedImage}: ImageUploadSectionProps) => (
             Dodaj zdjęcie
         </Typography>
 
-        <ImageUploadBox setCroppedImage={setCroppedImage}/>
+        <ImageUploadBox setCroppedImage={setCroppedImage} updateBlobImage={undefined} updateBlobImageUrl={null}/>
     </Stack>
 );
 

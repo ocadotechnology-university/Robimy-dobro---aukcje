@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Box from '@mui/material/Box';
 import UploadIcon from '@mui/icons-material/Upload';
 import {useState} from 'react'
@@ -19,20 +19,35 @@ import CropConfirmButton from "./CropConfirmButton"
 
 interface ImageUploadBoxProps {
     setCroppedImage: (img: any | null) => void;
+    updateBlobImage: Blob | undefined;
+    updateBlobImageUrl: string | null;
 }
 
 const MIN_DIMENSION = 100
 const MAX_DIMENSION = 700
 const ASPECT_RATIO = 1
 
-const ImageUploadBox = ({setCroppedImage}: ImageUploadBoxProps) => {
+const ImageUploadBox = ({setCroppedImage, updateBlobImage, updateBlobImageUrl}: ImageUploadBoxProps) => {
     const [imageSrc, setImageSrc] = useState<string | null>(null)
+    const [imageSrcBackup, setImageSrcBackup] = useState<string | null>(null)
     const [isUpload, setIsUpload] = useState(false)
     const [crop, setCrop] = useState<Crop>()
     const [croppedAreaPercent, setCroppedAreaPercent] = useState<any>(null)
     const [displayCroppedImage, setDisplayCroppedImage] = useState<any>(null)
     const [open, setOpen] = React.useState(false);
     const [savedCrop, setSavedCrop] = useState<Crop>();
+    const [savedCropBackup, setSavedCropBackup] = useState<Crop>();
+    const [croppedImageTemp, setCroppedImageTemp] = useState<Blob>();
+
+    useEffect(() => {
+        if (updateBlobImage !== undefined) {
+            setImageSrc(updateBlobImageUrl);
+            setImageSrcBackup(updateBlobImageUrl);
+            setIsUpload(true);
+            setDisplayCroppedImage(updateBlobImageUrl);
+            setCroppedImage(updateBlobImage);
+        }
+    }, [updateBlobImageUrl]);
 
     const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0]
@@ -58,9 +73,16 @@ const ImageUploadBox = ({setCroppedImage}: ImageUploadBoxProps) => {
         setSavedCrop(undefined)
     }
 
+    const handleClose = () => {
+        setOpen(false);
+        setImageSrc(imageSrcBackup);
+        setSavedCrop(savedCropBackup);
+    }
+
     const handleEditOpen = () => {
         setOpen(true);
-        setCrop(savedCrop)
+        setCrop(savedCrop);
+        setImageSrc(imageSrcBackup);
     }
 
     const onImageLoad = (e: any) => {
@@ -70,11 +92,13 @@ const ImageUploadBox = ({setCroppedImage}: ImageUploadBoxProps) => {
         }
 
         const {width, height} = e.currentTarget;
+        const takeByWidth = width >= height;
+
         const crop = makeAspectCrop(
             {
                 unit: '%',
-                width: 25,
-                height: 25
+                width: takeByWidth ? (height/width*100) : 100,
+                height: takeByWidth ? 100 : (width/height*100)
             }, ASPECT_RATIO, width, height
         );
         const centeredCrop = centerCrop(crop, width, height);
@@ -87,6 +111,9 @@ const ImageUploadBox = ({setCroppedImage}: ImageUploadBoxProps) => {
         if (imageSrc && croppedAreaPercent) {
             const croppedImage = await getCroppedImage(imageSrc, croppedAreaPercent);
             setCroppedImage(croppedImage);
+            setCroppedImageTemp(croppedImage);
+            setImageSrcBackup(imageSrc);
+            setSavedCropBackup(savedCrop);
 
             const objectURL = URL.createObjectURL(croppedImage);
             setDisplayCroppedImage(objectURL);
@@ -124,6 +151,7 @@ const ImageUploadBox = ({setCroppedImage}: ImageUploadBoxProps) => {
             {imageSrc && (
                 <Modal
                     open={open}
+                    onClose={handleClose}
                     sx={modalStyle}
                 >
                     <Stack alignItems="center" justifyContent="center" maxWidth='100%' maxHeight='100%' gap={3}>

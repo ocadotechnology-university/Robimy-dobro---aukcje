@@ -12,6 +12,14 @@ export const ImageWrapperStyle = {
     justifyContent: 'center',
 };
 
+export const UpdateImageWrapperStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRight: {md: '1px solid rgba(128,128,128,0.3)', lg: '1px solid rgba(128,128,128,0.3)'},
+    paddingRight: {md: 1.8, lg: 1.8},
+};
+
 export const ImageStyle = {
     borderRadius: 2,
     height: '100%',
