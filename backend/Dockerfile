@@ -1,10 +1,14 @@
-FROM eclipse-temurin:21-jdk
-
+FROM eclipse-temurin:21-jdk AS builder
 WORKDIR /app
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
+RUN ./mvnw dependency:go-offline
+COPY ./src ./src
+RUN ./mvnw clean install
 
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} app.jar
-
+FROM eclipse-temurin:21-jdk AS final
+WORKDIR /app
+EXPOSE 8080
+COPY --from=builder /app/target/*.jar /app/*.jar
 ENV GOOGLE_APPLICATION_CREDENTIALS=/app/credentials.json
-
-ENTRYPOINT ["sh", "-c", "java -jar app.jar"]
+ENTRYPOINT ["java", "-jar", "/app/*.jar"]
