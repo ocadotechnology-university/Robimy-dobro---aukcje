@@ -20,8 +20,10 @@ public class GoogleApiConnector {
     private static final String APPLICATION_NAME = "robimy-dobro";
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     private static HttpTransport HTTP_TRANSPORT;
-    private static final Dotenv dotenv = Dotenv.configure().load();
-    private static final String credentialsPath = dotenv.get("GOOGLE_APPLICATION_CREDENTIALS");
+    static String credentialsPath = Dotenv.configure()
+            .ignoreIfMissing()
+            .load()
+            .get("GOOGLE_APPLICATION_CREDENTIALS", System.getenv("GOOGLE_APPLICATION_CREDENTIALS"));
 
     static {
         try {
