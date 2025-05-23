@@ -20,8 +20,10 @@ import java.util.Collections;
 
 @Service
 public class GoogleAuthService {
-    private static final Dotenv dotenv = Dotenv.configure().load();
-    private static final String CLIENT_ID = dotenv.get("GOOGLE_CLIENT_ID");
+    String CLIENT_ID = Dotenv.configure()
+            .ignoreIfMissing()
+            .load()
+            .get("GOOGLE_CLIENT_ID", System.getenv("GOOGLE_CLIENT_ID"));
     private final GoogleSheetsService googleSheetsService;
     private final GvizResponseParser gvizResponseParser;
 
