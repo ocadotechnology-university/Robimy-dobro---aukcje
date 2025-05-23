@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from "react";
-import {Card, Grid2, LinearProgress} from "@mui/material";
+import {Button, Card, Dialog, DialogActions, DialogContent, DialogTitle, Grid2, LinearProgress} from "@mui/material";
 import {CardStyle} from "./AuctionCard.styles";
 import ImageSection from "./ImageSection";
 import UpdateImageSection from "./UpdateComponents/UpdateImageSection";
@@ -15,6 +15,7 @@ import {useNavigate} from "react-router-dom";
 import {usePostImages} from "../../../hooks/usePostImage";
 import { Snackbar, Alert } from '@mui/material';
 import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
 
 type Props = {
     id: UUID;
@@ -32,8 +33,14 @@ type Props = {
     isFollowed: boolean;
     slackUrl: string;
     wantsToBeModerator: boolean;
+    editingAuctionId: UUID | null;
     setEditingAuctionId: (value: UUID | null) => void;
     isUpdating: boolean;
+    setOpenDialog: (value: boolean) => void;
+    setOneIsUpdating: (value: boolean) => void;
+    newUpdatingAuction: boolean;
+    setNewUpdatingAuction: (value: boolean) => void;
+    setBackupEditingAuctionId: (value: UUID | null) => void;
 };
 
 const AuctionCard = (props: Props) => {
@@ -117,6 +124,8 @@ const AuctionCard = (props: Props) => {
                             setSnackbarOpen(true);
                             setIsLoading(false);
                             navigate("/auctions");
+                            props.setEditingAuctionId(null);
+                            props.setOneIsUpdating(false);
                         },
                         onError: () => {
                             setSnackbarMessage("Błąd podczas edytowania aukcji");
@@ -145,6 +154,7 @@ const AuctionCard = (props: Props) => {
         setUpdatedPrice(props.price);
         setUpdateWantsToBeModerator(props.wantsToBeModerator);
         props.setEditingAuctionId(null);
+        props.setOneIsUpdating(false);
     }
 
     return (
@@ -152,7 +162,8 @@ const AuctionCard = (props: Props) => {
             {!props.isUpdating ? (
                 <Grid2 container spacing={2}>
                     <ImageSection fileId={props.fileId}/>
-                    <ContentSection {...props} setEditingAuctionId={props.setEditingAuctionId}/>
+                    <ContentSection {...props} setEditingAuctionId={props.setEditingAuctionId} setOpenDialog={props.setOpenDialog}
+                                    setOneIsUpdating={props.setOneIsUpdating} editingAuctionId={props.editingAuctionId} setBackupEditingAuctionId={props.setBackupEditingAuctionId}/>
                 </Grid2>
             ) : (
                 <Grid2 container spacing={1}>
