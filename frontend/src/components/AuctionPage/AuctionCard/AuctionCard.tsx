@@ -71,7 +71,7 @@ const AuctionCard = (props: Props) => {
     }, [props.isUpdating]);
 
     useEffect(() => {
-        setUpdatedDate(transformDateFormatToFormDate(updatedDate))
+        setUpdatedDate(transformDateFormatToFormDate(updatedDate));
     }, []);
 
     const handleUpdate = async () => {
@@ -111,6 +111,7 @@ const AuctionCard = (props: Props) => {
                         updateAuction: updateAuction
                     }, {
                         onSuccess: () => {
+                            setUpdatedDescription(updateAuction.description ?? "");
                             setSnackbarMessage("Pomyślnie edytowano aukcję");
                             setSnackbarSeverity("success");
                             setSnackbarOpen(true);
