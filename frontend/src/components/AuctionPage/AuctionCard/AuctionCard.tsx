@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from "react";
-import {Card, CircularProgress, Grid2, LinearProgress} from "@mui/material";
+import {Card, Grid2, LinearProgress} from "@mui/material";
 import {CardStyle} from "./AuctionCard.styles";
 import ImageSection from "./ImageSection";
 import UpdateImageSection from "./UpdateComponents/UpdateImageSection";

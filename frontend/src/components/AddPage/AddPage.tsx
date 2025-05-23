@@ -7,8 +7,8 @@ import Stack from "@mui/material/Stack";
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
-import { usePostAuction } from '../../hooks/usePostAuction'
-import { transformDateToDateFormat } from "./Services/DateTransformer";
+import {usePostAuction} from '../../hooks/usePostAuction'
+import {transformDateToDateFormat} from "./Services/DateTransformer";
 
 import {
     FormContainerStyle,
@@ -27,8 +27,9 @@ import OutlinedActionButton from "../common/OutlinedActionButton";
 import PrimaryActionButton from "../common/PrimaryActionButton";
 import {RichTextEditorRef} from "mui-tiptap";
 import {usePostImages} from "../../hooks/usePostImage";
-import { AuctionDto } from './AuctionDto'
+import {AuctionDto} from './AuctionDto'
 import imageCompression from "browser-image-compression";
+import {CircularProgress, Snackbar} from "@mui/material";
 
 const AddPage = () => {
     const [title, setTitle] = useState("");
@@ -57,9 +58,9 @@ const AddPage = () => {
             <Container maxWidth="md" sx={FormContainerStyle}>
                 <Stack spacing={4}>
                     <ImageUploadSection setCroppedImage={setCroppedImage}/>
-                    <TitleSection title={title} setTitle={setTitle} />
+                    <TitleSection title={title} setTitle={setTitle}/>
                     <DescriptionEditor rteRef={rteRef} initialDescription={""}/>
-                    <PriceSection price={price} setPrice={setPrice} />
+                    <PriceSection price={price} setPrice={setPrice}/>
                     <CitySection
                         pickupOnlyInCity={pickupOnlyInCity}
                         selectedCity={selectedCity}
@@ -72,7 +73,9 @@ const AddPage = () => {
                         setSelectedDate={setSelectedDate}
                         handleModerator={handleModerator}
                     />
-                    <FormButtonsSection croppedImage={croppedImage} isModerator={wantsToBeModerator} title={title} descriptionRteRef={rteRef} selectedDate={selectedDate} selectedCity={selectedCity} price={price}/>
+                    <FormButtonsSection croppedImage={croppedImage} isModerator={wantsToBeModerator} title={title}
+                                        descriptionRteRef={rteRef} selectedDate={selectedDate}
+                                        selectedCity={selectedCity} price={price}/>
                 </Stack>
             </Container>
         </React.Fragment>
@@ -194,12 +197,25 @@ interface FormButtonsSectionProps {
     price: string;
 }
 
-const FormButtonsSection = ({croppedImage, isModerator, title, price, selectedCity, selectedDate, descriptionRteRef}: FormButtonsSectionProps) => {
+const FormButtonsSection = ({
+                                croppedImage,
+                                isModerator,
+                                title,
+                                price,
+                                selectedCity,
+                                selectedDate,
+                                descriptionRteRef
+                            }: FormButtonsSectionProps) => {
     const navigate = useNavigate();
-    const { mutate: postImage, isSuccess: isImageSuccess, isError: isImageError } = usePostImages();
-    const { mutate, isSuccess, isError } = usePostAuction();
+    const {mutate: postImage, isSuccess: isImageSuccess, isError: isImageError} = usePostImages();
+    const {mutate, isSuccess, isError} = usePostAuction();
     const [successMessage, setSuccessMessage] = useState<String>("");
     const [errorMessage, setErrorMessage] = useState<String>("");
+
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+    const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">("success");
+    const [isLoading, setIsLoading] = useState(false);
 
     const options = {
         maxSizeMB: 1,
@@ -209,8 +225,10 @@ const FormButtonsSection = ({croppedImage, isModerator, title, price, selectedCi
 
     const handleSubmit = async () => {
         let compressedCroppedImage = null;
+        setIsLoading(true);
+
         try {
-            if(croppedImage) {
+            if (croppedImage) {
                 compressedCroppedImage = await imageCompression(croppedImage, options);
             } else {
                 compressedCroppedImage = croppedImage;
@@ -231,38 +249,73 @@ const FormButtonsSection = ({croppedImage, isModerator, title, price, selectedCi
                     mutate(newAuction, {
                         onSuccess: () => {
                             setSuccessMessage("Pomyślnie dodano aukcję");
-                            setTimeout(() => {
-                                navigate("/auctions");
-                            }, 80);
+                            setSnackbarMessage("Pomyślnie dodano aukcję");
+                            setSnackbarSeverity("success");
+                            setSnackbarOpen(true);
+                            setIsLoading(false);
+                            navigate("/auctions");
                         },
                         onError: () => {
                             setErrorMessage("Błąd podczas dodawania aukcji");
-                        }});
+                            setSnackbarMessage("Błąd podczas dodawania aukcji");
+                            setSnackbarSeverity("error");
+                            setSnackbarOpen(true);
+                            setIsLoading(false);
+                        }
+                    });
                 },
                 onError: () => {
                     setErrorMessage("Błąd podczas dodawania zdjęcia");
-                }});
+                    setIsLoading(false);
+                }
+            });
 
         } catch (error) {
             console.error("Błąd kompresji zdjęcia", error);
+            setIsLoading(false);
         }
-}
+    }
 
     return (
-        <Stack direction="row" justifyContent="space-between" sx={FormButtonsWrapperStyle}>
-            <OutlinedActionButton
-                label="Wróć"
-                onClick={() => navigate(-1)}
-            />
+        <>
+            <Stack direction="row" justifyContent="space-between" sx={FormButtonsWrapperStyle}>
+                <OutlinedActionButton
+                    label="Wróć"
+                    onClick={() => navigate(-1)}
+                />
 
-            {isSuccess && <Alert severity="success">{successMessage}</Alert>}
-            {isError && <Alert severity="error">{errorMessage}</Alert>}
+                {isSuccess && <Alert severity="success">{successMessage}</Alert>}
+                {isError && <Alert severity="error">{errorMessage}</Alert>}
 
-            <PrimaryActionButton
-                label="Dodaj"
-                onClick={handleSubmit}
-            />
-        </Stack>
+                <PrimaryActionButton
+                    label="Dodaj"
+                    onClick={handleSubmit}
+                />
+            </Stack>
+
+            {isLoading && (
+                <Stack justifyContent="center" alignItems="center" marginTop={3}>
+                    <CircularProgress/>
+                </Stack>
+            )}
+
+            <Snackbar
+                anchorOrigin={{vertical: "top", horizontal: "center"}}
+                open={snackbarOpen}
+                onClose={() => setSnackbarOpen(false)}
+                autoHideDuration={2000}
+                key="top-center"
+            >
+                <Alert
+                    onClose={() => setSnackbarOpen(false)}
+                    severity={snackbarSeverity}
+                    variant="filled"
+                    sx={{width: "100%"}}
+                >
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
+        </>
     );
 };
 export default AddPage;
