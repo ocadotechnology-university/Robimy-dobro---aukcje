@@ -23,7 +23,7 @@ public class GoogleApiConnector {
     static String credentialsPath = Dotenv.configure()
             .ignoreIfMissing()
             .load()
-            .get("GOOGLE_APPLICATION_CREDENTIALS", System.getenv("GOOGLE_APPLICATION_CREDENTIALS"));
+            .get("GOOGLE_APPLICATION_CREDENTIALS", System.getenv("GOOGLE_APPLICATION_CREDENTIALS") != null ? System.getenv("GOOGLE_APPLICATION_CREDENTIALS") : "");
 
     static {
         try {

@@ -23,7 +23,7 @@ public class GoogleAuthService {
     String CLIENT_ID = Dotenv.configure()
             .ignoreIfMissing()
             .load()
-            .get("GOOGLE_CLIENT_ID", System.getenv("GOOGLE_CLIENT_ID"));
+            .get("GOOGLE_CLIENT_ID", System.getenv("GOOGLE_CLIENT_ID") != null ? System.getenv("GOOGLE_CLIENT_ID") : "");
     private final GoogleSheetsService googleSheetsService;
     private final GvizResponseParser gvizResponseParser;
 
