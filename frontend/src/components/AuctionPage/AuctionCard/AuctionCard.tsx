@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from "react";
-import {Card, Grid2} from "@mui/material";
+import {Card, CircularProgress, Grid2, LinearProgress} from "@mui/material";
 import {CardStyle} from "./AuctionCard.styles";
 import ImageSection from "./ImageSection";
 import UpdateImageSection from "./UpdateComponents/UpdateImageSection";
@@ -14,6 +14,7 @@ import imageCompression from "browser-image-compression";
 import {useNavigate} from "react-router-dom";
 import {usePostImages} from "../../../hooks/usePostImage";
 import { Snackbar, Alert } from '@mui/material';
+import Stack from "@mui/material/Stack";
 
 type Props = {
     id: UUID;
@@ -52,6 +53,7 @@ const AuctionCard = (props: Props) => {
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">("success");
+    const [isLoading, setIsLoading] = useState(false);
 
     const options = {
         maxSizeMB: 1,
@@ -75,6 +77,8 @@ const AuctionCard = (props: Props) => {
     const handleUpdate = async () => {
         let correctedUpdatedCity: string | undefined;
         let compressedCroppedImage = null;
+
+        setIsLoading(true);
 
         if (updatedCity !== null) {
             correctedUpdatedCity = updatedCity;
@@ -110,21 +114,25 @@ const AuctionCard = (props: Props) => {
                             setSnackbarMessage("Pomyślnie edytowano aukcję");
                             setSnackbarSeverity("success");
                             setSnackbarOpen(true);
+                            setIsLoading(false);
                             navigate("/auctions");
                         },
                         onError: () => {
                             setSnackbarMessage("Błąd podczas edytowania aukcji");
                             setSnackbarSeverity("error");
                             setSnackbarOpen(true);
+                            setIsLoading(false);
                         }
                     });
                 },
                 onError: (e) => {
                     alert("Błąd podczas dodawania zdjęcia");
+                    setIsLoading(false);
                 }});
 
         } catch (error) {
             console.error("Błąd kompresji zdjęcia", error);
+            setIsLoading(false);
         }
     };
 
@@ -156,6 +164,13 @@ const AuctionCard = (props: Props) => {
                 </Grid2>
             )
             }
+
+            {isLoading && (
+                <Stack sx={{width: "100%"}} marginTop={3}>
+                    <LinearProgress />
+                </Stack>
+            )}
+
             <Snackbar
                 anchorOrigin={{ vertical: "top", horizontal: "center" }}
                 open={snackbarOpen}
