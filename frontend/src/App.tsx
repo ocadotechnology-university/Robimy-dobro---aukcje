@@ -1,6 +1,6 @@
 import {Routes, Route, Navigate} from 'react-router-dom';
 import background from './image/background.svg';
-import Auth from "./components/GoogleLogin/Auth";
+import Auth from "./components/AuthPage/Auth";
 import Home from "./components/HomePage/HomePage";
 import AddAuction from "./components/AddPage/AddPage";
 import Auctions from "./components/AuctionPage/AuctionPage"
