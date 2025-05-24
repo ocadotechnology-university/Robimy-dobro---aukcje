@@ -19,7 +19,13 @@ type Props = {
     price: string;
     isFollowed: boolean;
     slackUrl: string;
+    editingAuctionId: UUID | null;
     setEditingAuctionId: (value: UUID | null) => void;
+    setOpenDialog: (value: boolean) => void;
+    setOneIsUpdating: (value: boolean) => void;
+    newUpdatingAuction: boolean;
+    setNewUpdatingAuction: (value: boolean) => void;
+    setBackupEditingAuctionId: (value: UUID | null) => void;
 };
 
 export const ContentSection = ({
@@ -36,7 +42,13 @@ export const ContentSection = ({
                             price,
                             isFollowed,
                             slackUrl,
-                            setEditingAuctionId
+                            editingAuctionId,
+                            setEditingAuctionId,
+                            setOpenDialog,
+                            setOneIsUpdating,
+                            newUpdatingAuction,
+                            setNewUpdatingAuction,
+                            setBackupEditingAuctionId
                         }: Props) => (
     <Grid2 size={{xs: 12, md: 9}}>
         <Stack spacing={1} height="100%" position="relative">
@@ -44,7 +56,9 @@ export const ContentSection = ({
             <AuctionDescription description={description}/>
             <Box flexGrow={1}/>
             <AuctionFooter id={id} status={status} supplier={supplier} winner={winner} isFollowed={isFollowed}
-                           slackUrl={slackUrl} setEditingAuctionId={setEditingAuctionId}/>
+                           slackUrl={slackUrl} setEditingAuctionId={setEditingAuctionId} setOpenDialog={setOpenDialog}
+                           setOneIsUpdating={setOneIsUpdating} editingAuctionId={editingAuctionId}
+                           newUpdatingAuction={newUpdatingAuction} setNewUpdatingAuction={setNewUpdatingAuction} setBackupEditingAuctionId={setBackupEditingAuctionId}/>
         </Stack>
     </Grid2>
 );

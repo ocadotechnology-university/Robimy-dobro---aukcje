@@ -36,7 +36,7 @@ const UpdateContentSection = ({
                         }: Props) => {
 
     return (
-        <Grid2 size={{xs: 12, md:7.5, lg: 8.3}}>
+        <Grid2 size={{xs: 12, md: 7.5, lg: 8.3}}>
             <Stack spacing={3} height="100%" position="relative" marginLeft={1}>
                 <UpdateAuctionHeader title={title} setTitle={setTitle} date={date} setDate={setDate} city={city} setCity={setCity} price={price} setPrice={setPrice} wantsToBeModerator={wantsToBeModerator} setWantsToBeModerator={setWantsToBeModerator}/>
                 <UpdateAuctionDescription description={description} descriptionRteRef={descriptionRteRef}/>

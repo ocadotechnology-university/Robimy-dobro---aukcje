@@ -24,7 +24,7 @@ const UpdateImageSection = ({fileId, setFileId, setCroppedImage}: Props) => {
     }, [blob]);
 
     return (
-        <Grid2 size={{xs: 12, md:4.5, lg: 3.7}} sx={UpdateImageWrapperStyle}>
+        <Grid2 size={{xs: 12, md: 4.5, lg: 3.7}} sx={UpdateImageWrapperStyle}>
             <ImageUploadBox setCroppedImage={setCroppedImage} updateBlobImage={blob} updateBlobImageUrl={blobUrl}/>
         </Grid2>
     );
