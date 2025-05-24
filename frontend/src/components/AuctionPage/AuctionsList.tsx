@@ -110,15 +110,17 @@ const AuctionsList = ({auctions}: AuctionsListProps) => {
                         </Typography>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={handleCloseDialog} color="primary">
-                            Anuluj
-                        </Button>
-                        <Button onClick={handleBackToPreviousUpdatingAuction} color="primary">
-                            Anuluj i przenieś do rozpoczętej edycji
-                        </Button>
-                        <Button onClick={handleNewUpdate} color="primary" autoFocus>
-                            Rozpocznij nową edycję
-                        </Button>
+                        <Stack direction="row" justifyContent="space-between" spacing={5}>
+                            <Button onClick={handleCloseDialog} color="primary">
+                                Anuluj
+                            </Button>
+                            <Button onClick={handleBackToPreviousUpdatingAuction} color="primary">
+                                Anuluj i przenieś do rozpoczętej edycji
+                            </Button>
+                            <Button onClick={handleNewUpdate} color="primary" autoFocus>
+                                Rozpocznij nową edycję
+                            </Button>
+                        </Stack>
                     </DialogActions>
                 </Dialog>
             )}

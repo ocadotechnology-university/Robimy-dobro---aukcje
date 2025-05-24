@@ -295,7 +295,7 @@ const FormButtonsSection = ({
 
             {isLoading && (
                 <Stack justifyContent="center" alignItems="center" marginTop={3}>
-                    <CircularProgress/>
+                    <CircularProgress color={"primary"}/>
                 </Stack>
             )}
 

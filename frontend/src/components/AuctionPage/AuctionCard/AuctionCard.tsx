@@ -179,7 +179,7 @@ const AuctionCard = (props: Props) => {
 
             {isLoading && (
                 <Stack sx={{width: "100%"}} marginTop={3}>
-                    <LinearProgress />
+                    <LinearProgress color="primary"/>
                 </Stack>
             )}
 
