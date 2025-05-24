@@ -5,7 +5,7 @@ import com.example.backend.constants.CustomException;
 import static com.example.backend.constants.ErrorMessages.GOOGLE_VERIFICATION_FAILED;
 
 import com.example.backend.util.AdminQuery;
-import com.example.backend.util.GvizResponseParser;
+import com.example.backend.gviz.GvizResponseParser;
 import com.example.backend.security.Role;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;

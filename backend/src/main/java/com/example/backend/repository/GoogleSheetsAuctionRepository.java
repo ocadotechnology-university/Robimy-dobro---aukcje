@@ -5,7 +5,7 @@ import com.example.backend.model.Auction;
 import com.example.backend.service.GoogleSheetsHeaderMappingService;
 import com.example.backend.service.GoogleSheetsService;
 import com.example.backend.util.CreateRowInGoogleSheets;
-import com.example.backend.util.GvizResponseParser;
+import com.example.backend.gviz.GvizResponseParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Repository;
 

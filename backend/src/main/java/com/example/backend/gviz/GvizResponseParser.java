@@ -1,6 +1,8 @@
-package com.example.backend.util;
+package com.example.backend.gviz;
 
 import com.example.backend.model.Auction;
+import com.example.backend.util.Column;
+import com.example.backend.util.Response;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
