@@ -1,148 +1,167 @@
+# **Robimy Dobro Aukcje**
 
-<h1 align="center" style="font-weight: bold;">Robimy Dobro Aukcje</h1>
+[📱 Visit this Project](https://github.com/ocadotechnology-university/Robimy-dobro---aukcje/)
 
-<p align="center">
-<a href="#tech">Technologies</a>
-<a href="#started">Getting Started</a>
-<a href="#docker">Running</a>
-<a href="#colab">Collaborators</a>
+**Simple description of what your project does or how to use it.**
 
-</p>
+---
 
+## 🔗 Table of Contents
 
-<p align="center">Simple description of what your project do or how to use it</p>
+* [💻 Technologies](#-technologies)
+* [🚀 Getting Started](#-getting-started)
+* [🐳 Running with Docker](#-running-with-docker)
+* [🤝 Collaborators](#-collaborators)
 
+---
 
-<p align="center">
-<a href="https://github.com/ocadotechnology-university/Robimy-dobro---aukcje/">📱 Visit this Project</a>
-</p>
+## 💻 Technologies
 
-<h2 id="technologies">💻 Technologies</h2>
+* Java
+* Node.js
+* npm
+* Maven
+* Mockito
+* JUnit
 
-- java
-- nodejs
-- npm
-- maven
-- mockito
-- junit
+---
 
-<h2 id="started">🚀 Getting started</h2>
+## 🚀 Getting Started
 
-<h3>Prerequisites</h3>
+### Prerequisites
 
-- [Java](https://www.oracle.com/java/technologies/downloads/)
-- [Docker](https://www.docker.com/)
-- [NodeJs](https://nodejs.org/en/download)
+* [Java](https://www.oracle.com/java/technologies/downloads/)
+* [Docker](https://www.docker.com/)
+* [Node.js](https://nodejs.org/en/download)
 
-<h3>Cloning</h3>
+### Cloning
+
 ```bash
 git clone https://github.com/ocadotechnology-university/Robimy-dobro---aukcje.git
 ```
 
-<h2 id="running">Running the project</h2>
+---
 
-<h3>Set Up</h3>
+## Project Setup
 
-All things below need to be set up to get the service running correctly
+### 1. Google Cloud Console Setup
 
-<h4>1. Google cloud console setup</h4>
+* Go to the [Service Accounts page](https://console.cloud.google.com/iam-admin/serviceaccounts)
+* Select your project
+* Click the service account name to open its details (or click **"Create service account"**)
+* Copy the **email**
 
-Firstly you need to create **google service account** for this follow these steps:
-- Go to the [Service Accounts page](https://console.cloud.google.com/iam-admin/serviceaccounts)
-- Select your project
-- Click the service account name to open its details (if you don't have one create by clicking **"Create service account"**)
-- Copy the **email** to clipboard
+### 2. Google Sheets Setup
 
-**2. Google sheets setup**
-- Go to the [Google sheets page](https://docs.google.com/spreadsheets/u/0/)
-- Select desired sheet or create a new one and open it
-- Click **Share** and put in the copied service account email
-- Set editing rights for this email
+* Go to [Google Sheets](https://docs.google.com/spreadsheets/u/0/)
+* Create or select a spreadsheet
+* Click **Share**, input the service account email, and grant editing rights
 
-**3. Google drive setup**
-- Go to the [Google drive page](https://drive.google.com/drive/u/1/my-drive)
-- Select desired drive or create a new one and open it
-- Click **Manage access** and put in the copied service account email
-- Set editing rights for this email
+### 3. Google Drive Setup
 
-**4. OAuth2.0 google client setup**
-- Go to the [Credentials page](https://console.cloud.google.com/apis/credentials)
-- Select your project in right left corner
-- Click the OAuth 2.0 Client id (if you don't have one create by clicking **"Create credentials -> OAuth Client ID"**)
-- Put frontend server URIs inside **"Authorized JavaScript origins"**
-- Put frontend server redirect URI with `/login/oauth2/code/google` added in the end inside **"Authorized redirect URIs"**
+* Go to [Google Drive](https://drive.google.com/drive/u/1/my-drive)
+* Create or select a folder
+* Click **Manage Access**, input the service account email, and grant editing rights
 
-<h3 id="docker">🐳 Docker</h3>
-<h4>Set Up</h4>
+### 4. OAuth2.0 Google Client Setup
 
-We use docker to start the project. Firstly you need to configure variables inside `docker-compose.yml`, which are shown below:
-```bash
-...
-        args:
-        GOOGLE_SHEET_ID: "your_sheet_id"
-        GOOGLE_CLIENT_ID: "your_client_id"
-        GOOGLE_CLIENT_SECRET: "your_client_secret"
-        GOOGLE_DRIVE_FOLDER_ID: "your_folder_id"
-...
+* Go to the [Credentials page](https://console.cloud.google.com/apis/credentials)
+* Select your project
+* Click the **OAuth 2.0 Client ID** (or create one via **"Create Credentials" → "OAuth Client ID"**)
+* Add frontend server URIs to **Authorized JavaScript origins**
+* Add the frontend redirect URI with `/login/oauth2/code/google` to **Authorized redirect URIs**
+
+---
+
+## 🐳 Running with Docker
+
+### Docker Setup
+
+Edit your `docker-compose.yml`:
+
+```yaml
+args:
+  GOOGLE_SHEET_ID: "your_sheet_id"
+  GOOGLE_CLIENT_ID: "your_client_id"
+  GOOGLE_CLIENT_SECRET: "your_client_secret"
+  GOOGLE_DRIVE_FOLDER_ID: "your_folder_id"
+
 environment:
-      GOOGLE_SHEET_ID: "your_sheet_id"
-      GOOGLE_CLIENT_ID: "your_client_id"
-      GOOGLE_CLIENT_SECRET: "your_client_secret"
-      GOOGLE_DRIVE_FOLDER_ID: "your_folder_id"
+  GOOGLE_SHEET_ID: "your_sheet_id"
+  GOOGLE_CLIENT_ID: "your_client_id"
+  GOOGLE_CLIENT_SECRET: "your_client_secret"
+  GOOGLE_DRIVE_FOLDER_ID: "your_folder_id"
+
 volumes:
-      - ./path/to/credentials.json:/app/credentials.json:ro
+  - ./path/to/credentials.json:/app/credentials.json:ro
 ```
 
-<h4 id="env-setup"> 🔑 How to get variables to start docker environment</h4>
 ---
-<h4>Getting `GOOGLE_SHEET_ID`</h4>
-- Go to the [Google sheets page](https://docs.google.com/spreadsheets/u/0/)
-- Select desired sheet or create a new one and open it
-- Go to the search bar and extract the part between /d/ and /edit
-- For example in link
-  - `https://docs.google.com/spreadsheets/d/1V9CZ4xpPTK62CWPdmU9G-dmbPsBcdp-Uho1Lti1kCLc/edit?gid=0#gid=0`
-  - you would extract `1V9CZ4xpPTK62CWPdmU9G-dmbPsBcdp-Uho1Lti1kCLc`
----
-<h4>Getting `GOOGLE_DRIVE_FOLDER_ID`</h4>
-- Go to the [Google drive page](https://drive.google.com/drive/u/1/my-drive)
-- Select desired folder or create a new one and open it
-- Go to the search bar and extract the part after folder/
-- For example in link
-  - `https://drive.google.com/drive/u/1/folders/1uMOLYx8nVjSZ9188WtY7WbCsnQvPcTYr`
-  - you would extract `1uMOLYx8nVjSZ9188WtY7WbCsnQvPcTYr`
 
----
-<h4>Getting `GOOGLE_CLIENT_ID` and/or `GOOGLE_CLIENT_SECRET`</h4>
-**1. Open the Service Account**
-- Go to the [Credentials page](https://console.cloud.google.com/apis/credentials)
-- Select your project in right left corner
-- Click on desired **"OAuth 2.0 Client IDs"** (if you don't have any then create one)
+### 🔑 Environment Variables Setup
 
-**2. Extract `GOOGLE_CLIENT_ID`**
-- Copy **"Client ID"**
+#### Getting `GOOGLE_SHEET_ID`
 
-**2. Extract `GOOGLE_CLIENT_SECRET`**
-- Copy  **"Client secret"**
+* Go to [Google Sheets](https://docs.google.com/spreadsheets/u/0/)
+* Open your sheet
+* From the URL, copy the part between `/d/` and `/edit`
+
+Example:
+
+```
+https://docs.google.com/spreadsheets/d/1V9CZ4xpPTK62CWPdmU9G-dmbPsBcdp-Uho1Lti1kCLc/edit#gid=0
+```
+
+ID: `1V9CZ4xpPTK62CWPdmU9G-dmbPsBcdp-Uho1Lti1kCLc`
 
 ---
-<h4>Getting `credentials.json`</h4>
-**1. Open the Service Account**
-- Go to the [Service Accounts page](https://console.cloud.google.com/iam-admin/serviceaccounts)
-- Select your project
-- Click the service account name to open its details
 
-**2. Download the Key**
-- Go to the **“Keys”** tab
-- Click **“Add Key” → “Create new key”**
-- Choose **JSON**
-- Click **Create** → your browser will download the `credentials.json` file
-- Mount it in Docker like this (for Linux):
-  ```bash
-  -v path/to/credentials.json:/app/credentials.json
+#### Getting `GOOGLE_DRIVE_FOLDER_ID`
 
-<h3>Running the container</h3>
+* Go to [Google Drive](https://drive.google.com/drive/u/1/my-drive)
+* Open your folder
+* From the URL, copy the ID after `folders/`
 
-Go to the terminal and pass in:
+Example:
+
+```
+https://drive.google.com/drive/u/1/folders/1uMOLYx8nVjSZ9188WtY7WbCsnQvPcTYr
+```
+
+ID: `1uMOLYx8nVjSZ9188WtY7WbCsnQvPcTYr`
+
+---
+
+#### Getting `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`
+
+* Go to the [Credentials page](https://console.cloud.google.com/apis/credentials)
+* Select your project
+* Click your OAuth 2.0 Client ID
+* Copy the **Client ID** and **Client Secret**
+
+---
+
+#### Getting `credentials.json`
+
+* Go to the [Service Accounts page](https://console.cloud.google.com/iam-admin/serviceaccounts)
+* Select your project and service account
+* Go to the **Keys** tab
+* Click **"Add Key" → "Create new key"**
+* Choose **JSON**
+* Click **Create** → This will download `credentials.json`
+
+**Mount it in Docker:**
+
+```bash
+-v path/to/credentials.json:/app/credentials.json
+```
+
+---
+
+### Running the Container
+
+In your terminal, run:
+
 ```bash
 docker-compose up --build
 ```
