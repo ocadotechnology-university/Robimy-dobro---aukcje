@@ -34,7 +34,7 @@ public class GoogleApiConnector {
     }
 
     public static Credential getCredential(List<String> scopes) throws IOException {
-        if (credentialsPath != null) {
+        if (credentialsPath != "") {
             return GoogleCredential.fromStream(new FileInputStream(credentialsPath));
         } else {
             InputStream in = GoogleApiConnector.class.getClassLoader().getResourceAsStream("credentials.json");
