@@ -77,7 +77,16 @@ git clone https://github.com/ocadotechnology-university/Robimy-dobro---aukcje.gi
 
 ### Docker Setup
 
-Edit your `docker-compose.yml`:
+We use multi-stage build for frontend and backend servers and it defaults to production stage for both. 
+If you want frontend server for development put `development` in target as shown below:
+
+```yaml
+  frontend:
+    build:
+      target: development
+```
+
+Edit your environment variables inside `docker-compose.yml`:
 
 ```yaml
 args:
