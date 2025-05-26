@@ -16,6 +16,7 @@ public class AuctionQueryBuilder {
     public AuctionQueryBuilder selectAllColumns() {
         builder.select(
                 Column.ID.label,
+                Column.PUBLIC_ID.label,
                 Column.MODERATOR_EMAIL.label,
                 Column.PREFERRED_DATE.label,
                 Column.AUCTION_DATE.label,

@@ -24,6 +24,7 @@ public class AuctionMapper {
         AuctionGetDto auctionGetDto = new AuctionGetDto();
 
         auctionGetDto.setId(auction.getId());
+        auctionGetDto.setPublicId(auction.getPublicId());
         auctionGetDto.setTitle(auction.getTitle());
         auctionGetDto.setCity(auction.getCity());
         auctionGetDto.setDate(auction.getAuctionDate() == null ? null : auction.getAuctionDate().toString());
@@ -37,7 +38,7 @@ public class AuctionMapper {
         auctionGetDto.setIsSupplier(userEmail != null && userEmail.equals(auction.getSupplierEmail()));
         auctionGetDto.setStatus(determineStatus(auction));
         auctionGetDto.setWantsToBeModerator(userEmail.equals(auction.getModeratorEmail()));
-
+        //System.out.println(auctionGetDto.getPublicId());
         return auctionGetDto;
     }
 
