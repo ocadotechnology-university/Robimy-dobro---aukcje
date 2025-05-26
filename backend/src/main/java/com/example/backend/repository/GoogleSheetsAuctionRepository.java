@@ -99,8 +99,9 @@ public class GoogleSheetsAuctionRepository implements AuctionRepository {
                 List<Object> row = rows.get(i);
                 if (!row.isEmpty() && auctionId.toString().equals(row.get(0).toString())) {
                     String json = new ObjectMapper().writeValueAsString(followers);
-                    int followersIndex = headerMappingService.getColumnIndex("followers");
-                    int followersCountIndex = headerMappingService.getColumnIndex("followersCount");
+                    int followersIndex = headerMappingService.getColumnIndex("Auction", "followers");
+                    int followersCountIndex = headerMappingService.getColumnIndex("Auction", "followersCount");
+
 
                     googleSheetsService.updateCellValue("Auction", i, followersIndex, json);
                     // This should probably be replaced with a single batched request to reduce latency and API usage

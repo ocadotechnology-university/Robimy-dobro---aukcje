@@ -10,7 +10,7 @@ public class AuctionQueryBuilder {
     private final GvizQueryBuilder builder;
 
     public AuctionQueryBuilder(GoogleSheetsHeaderMappingService headerMappingService) {
-        this.builder = new GvizQueryBuilder(headerMappingService.getHeaderLetterMap());
+        this.builder = new GvizQueryBuilder(headerMappingService.getHeaderLetterMap("Auction"));
     }
 
     public AuctionQueryBuilder selectAllColumns() {

@@ -1,7 +1,5 @@
 package com.example.backend.gviz;
 
-import lombok.Getter;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -47,9 +45,9 @@ public class GvizQueryBuilder {
 
         String orCondition = columnNames.stream()
                 .map(columnLetterMap::get)
-                .map(col -> col + " IS NULL")
+                .map(column -> column + " IS NULL")
                 .reduce((a, b) -> a + " OR " + b)
-                .map(cond -> "(" + cond + ")")
+                .map(condition -> "(" + condition + ")")
                 .orElse("");
 
         conditions.add(orCondition);
