@@ -10,6 +10,15 @@ export const typography = {
     body2: {
         fontSize: "0.8rem",
     },
+    subtitle1: {
+        fontSize: "1.3rem",
+    },
+    subtitle2: {
+        fontSize: "1.2rem",
+    },
+    button: {
+        fontSize: '0.9rem'
+    }
 };
 
 export default typography;
