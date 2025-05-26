@@ -47,13 +47,11 @@ public class AuctionQueryBuilder {
 
         if (statuses.contains("INCOMPLETE")) {
             List<String> requiredFields = List.of(
-                    Column.ID.label,
                     Column.TITLE.label,
                     Column.DESCRIPTION.label,
                     Column.AUCTION_DATE.label,
-                    Column.SUPPLIER_EMAIL.label,
                     Column.IMAGE_URL.label,
-                    Column.SLACK_THREAD.label
+                    Column.STARTING_PRICE.label
             );
             builder.whereAnyIsNull(requiredFields);
         }
