@@ -1,29 +1,29 @@
 import React from "react";
-import {Stack} from "@mui/material";
 import StatsCard from "./StatsCard";
-import PeopleIcon from '@mui/icons-material/People';
-import PaidIcon from '@mui/icons-material/Paid';
-import ArticleIcon from '@mui/icons-material/Article';
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import GavelIcon from '@mui/icons-material/Gavel';
+import StatsCardStack from "./StatsCardStack";
 
 const HomePageStats = () => {
     return (
-        <Stack direction="row" alignItems="center" spacing={2.5} mt={3}>
+        <StatsCardStack title="Pomaganie jeszcze nigdy nie było tak łatwe!">
             <StatsCard
-                icon={<PaidIcon fontSize="large"/>}
-                title="90 000+ PLN"
-                description="Zebranych środków z licytacji"
+                icon={<AddBoxIcon fontSize="large"/>}
+                title="Wystaw Przedmiot"
+                description="Masz coś wartościowego? Podziel się tym! Dodanie aukcji zajmuje tylko chwilę"
             />
             <StatsCard
-                icon={<ArticleIcon fontSize="large"/>}
-                title="200+"
-                description="Aukcji"
+                icon={<GavelIcon fontSize="large"/>}
+                title="Licytuj i Wygrywaj"
+                description="Przeglądaj unikalne oferty, podbijaj cenę i zdobądź wymarzone rzeczy"
             />
             <StatsCard
-                icon={<PeopleIcon fontSize="large"/>}
-                title="80+"
-                description="Wystawców aukcji"
+                icon={<FavoriteIcon fontSize="large"/>}
+                title="Realnie Pomagaj"
+                description="Każda złotówka z wylicytowanych przedmiotów trafia na szczytny cel"
             />
-        </Stack>
+        </StatsCardStack>
     );
 };
 

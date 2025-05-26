@@ -23,7 +23,7 @@ export const StatsCardStyle = {
     },
 };
 
-const StatsCard = ({ icon, title, description, link }: StatsCardProps) => {
+const StatsCard = ({icon, title, description, link}: StatsCardProps) => {
     return (
         <Card sx={StatsCardStyle}>
             <CardContent>
@@ -34,13 +34,13 @@ const StatsCard = ({ icon, title, description, link }: StatsCardProps) => {
                     justifyContent="center"
                     spacing={1}
                 >
-                    <Box sx={{color: 'primary.dark', display: 'flex', justifyContent: 'center'}}>
+                    <Box sx={{color: 'secondary.dark', display: 'flex', justifyContent: 'center'}}>
                         {icon}
                     </Box>
                     <Typography variant="h2">
                         {title}
                     </Typography>
-                    <Typography variant="h3">
+                    <Typography variant="h4">
                         {description}
                     </Typography>
                 </Stack>
