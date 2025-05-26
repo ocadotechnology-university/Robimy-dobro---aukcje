@@ -12,6 +12,7 @@ import java.util.UUID;
 public class Auction {
 
     private UUID id;
+    private Long publicId;
 
     // Moderator
     private String moderatorEmail;

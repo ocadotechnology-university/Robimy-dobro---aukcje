@@ -6,7 +6,6 @@ import com.example.backend.dto.AuctionUpdateDto;
 import com.example.backend.model.Auction;
 import com.example.backend.model.AuctionStatus;
 import com.example.backend.util.DateTransformer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -15,7 +14,7 @@ import java.util.UUID;
 
 @Component
 public class AuctionMapper {
-    private DateTransformer dateTransformer;
+    private final DateTransformer dateTransformer;
     public AuctionMapper(DateTransformer dateTransformer) {
         this.dateTransformer = dateTransformer;
     }
@@ -24,6 +23,7 @@ public class AuctionMapper {
         AuctionGetDto auctionGetDto = new AuctionGetDto();
 
         auctionGetDto.setId(auction.getId());
+        auctionGetDto.setPublicId(auction.getPublicId());
         auctionGetDto.setTitle(auction.getTitle());
         auctionGetDto.setCity(auction.getCity());
         auctionGetDto.setDate(auction.getAuctionDate() == null ? null : auction.getAuctionDate().toString());
@@ -36,8 +36,7 @@ public class AuctionMapper {
         auctionGetDto.setIsFollowed(auction.getFollowers() != null && auction.getFollowers().contains(userEmail));
         auctionGetDto.setIsSupplier(userEmail != null && userEmail.equals(auction.getSupplierEmail()));
         auctionGetDto.setStatus(determineStatus(auction));
-        auctionGetDto.setWantsToBeModerator(userEmail.equals(auction.getModeratorEmail()));
-
+        auctionGetDto.setWantsToBeModerator(userEmail != null && userEmail.equals(auction.getModeratorEmail()));
         return auctionGetDto;
     }
 

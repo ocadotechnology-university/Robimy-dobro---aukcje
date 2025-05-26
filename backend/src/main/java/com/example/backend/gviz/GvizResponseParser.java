@@ -1,6 +1,7 @@
-package com.example.backend.util;
+package com.example.backend.gviz;
 
 import com.example.backend.model.Auction;
+import com.example.backend.util.Column;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
@@ -68,6 +69,7 @@ public class GvizResponseParser {
 
         return Auction.builder()
                 .id(UUID.fromString(getRaw(cells, headerIndexMap.get(Column.ID.label))))
+                .publicId(parseLong(getRaw(cells, headerIndexMap.get(Column.PUBLIC_ID.label))))
                 .moderatorEmail(getRaw(cells, headerIndexMap.get(Column.MODERATOR_EMAIL.label)))
                 .auctionDate(parseDate(getRaw(cells, headerIndexMap.get(Column.PREFERRED_DATE.label))))
                 .auctionDate(parseDate(getRaw(cells, headerIndexMap.get(Column.AUCTION_DATE.label))))
@@ -95,6 +97,15 @@ public class GvizResponseParser {
         Response.Cell cell = cells.get(index);
         if (cell == null || cell.getV() == null || cell.getV().toString() == null) return null;
         return cell.getV().toString();
+    }
+
+    private Long parseLong(String raw) {
+        try {
+            if (raw == null || raw.isBlank()) return null;
+            return (long) Double.parseDouble(raw);
+        } catch (NumberFormatException e) {
+            return null;
+        }
     }
 
     private LocalDate parseDate(String raw) {

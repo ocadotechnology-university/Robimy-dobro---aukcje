@@ -2,6 +2,7 @@ package com.example.backend.util;
 
 public enum Column {
     ID("id"),
+    PUBLIC_ID("publicId"),
     MODERATOR_EMAIL("moderatorEmail"),
     PREFERRED_DATE("preferredAuctionDate"),
     AUCTION_DATE("auctionDate"),
