@@ -4,6 +4,14 @@ export const typography = {
         fontSize: "2.5rem",
         fontWeight: 600,
     },
+    h2: {
+        fontSize: "1.4rem",
+        fontWeight: 600,
+    },
+    h3: {
+        fontSize: "0.9rem",
+        fontWeight: 400,
+    },
     body1: {
         fontSize: "1rem",
     },

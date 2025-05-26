@@ -9,8 +9,8 @@ const HomePageInfo = () => {
     return (
         <Stack direction="column" alignItems="center" spacing={2.5} mt={3} textAlign="center">
             <Typography variant="subtitle2">
-                Dołącz do naszej inicjatywy! <br />
-                Wystawiaj przedmioty, licytuj i wspieraj szczytny cel. <br />
+                Dołącz do naszej inicjatywy! <br/>
+                Wystawiaj przedmioty, licytuj i wspieraj szczytny cel. <br/>
                 Razem zmieniamy świat na lepsze!
             </Typography>
 
@@ -23,7 +23,7 @@ const HomePageInfo = () => {
                 variant="text"
                 component={RouterLink}
                 to="/auctions"
-                endIcon={<ArrowRightAltIcon />}
+                endIcon={<ArrowRightAltIcon/>}
                 sx={{textTransform: 'none', fontSize: '0.9rem', color: 'text.primary'}}
             >
                 lub przeglądaj wszystkie aukcje
@@ -31,7 +31,7 @@ const HomePageInfo = () => {
 
             <Typography variant="subtitle1">
                 Zapraszamy na fantastyczne licytacje w dniach <strong>22, 23 i 24 listopada</strong>!
-                <br />
+                <br/>
                 Slack: <strong>#robimydobro-2025-licytacje</strong>
             </Typography>
         </Stack>
