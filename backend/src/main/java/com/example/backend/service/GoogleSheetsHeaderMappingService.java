@@ -51,6 +51,11 @@ public class GoogleSheetsHeaderMappingService {
         return headerLetterMapPerSheet.get(sheetName);
     }
 
+    public Map<String, Integer> getHeaderIndexMap(String sheetName) {
+        ensureHeadersLoaded(sheetName);
+        return headerIndexMapPerSheet.get(sheetName);
+    }
+
     public int getColumnIndex(String sheetName, String headerName) {
         ensureHeadersLoaded(sheetName);
         Map<String, Integer> indexMap = headerIndexMapPerSheet.get(sheetName);

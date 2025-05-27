@@ -34,14 +34,14 @@ public class GoogleSheetsAuctionRepository implements AuctionRepository {
 
     @Override
     public void save(Auction auction) throws IOException {
-        List<Object> row = createRowInGoogleSheets.createRow(auction);
+        List<Object> row = createRowInGoogleSheets.createRowFromAuction(auction, headerMappingService.getHeaderIndexMap("Auction"));
 
         googleSheetsService.appendRow("Auction", List.of(row));
     }
 
     @Override
     public void update(UUID auctionId, Auction auction) throws IOException {
-        List<Object> updatedRow = createRowInGoogleSheets.createRow(auction);
+        List<Object> updatedRow = createRowInGoogleSheets.createRowFromAuction(auction, headerMappingService.getHeaderIndexMap("Auction"));
 
         try {
             List<List<Object>> rows = googleSheetsService.readAll("Auction");
