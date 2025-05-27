@@ -17,7 +17,9 @@ public enum Column {
     FOLLOWERS_COUNT("followersCount"),
     SLACK_THREAD("slackThreadLink"),
     CURRENT_BID("currentBid"),
-    WINNER("winner");
+    WINNER("winner"),
+    START_DATETIME("startDateTime"),
+    END_DATETIME("endDateTime");
 
     public final String label;
 
