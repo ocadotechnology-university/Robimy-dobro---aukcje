@@ -16,6 +16,7 @@ const HomePageAnimatedStats = () => {
                 animate
                 useCounter
                 iconColor="primary"
+                animationVariant="fade"
             />
             <StatsCard
                 icon={<ArticleIcon fontSize="large"/>}
@@ -25,6 +26,7 @@ const HomePageAnimatedStats = () => {
                 animate
                 useCounter
                 iconColor="primary"
+                animationVariant="fade"
             />
             <StatsCard
                 icon={<PeopleIcon fontSize="large"/>}
@@ -34,6 +36,7 @@ const HomePageAnimatedStats = () => {
                 animate
                 useCounter
                 iconColor="primary"
+                animationVariant="fade"
             />
         </StatsCardStack>
     );

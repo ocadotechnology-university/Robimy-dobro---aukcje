@@ -14,11 +14,27 @@ type StatsCardProps = {
     useCounter?: boolean;
     iconColor?: 'primary' | 'secondary';
     link?: string;
+    animationVariant?: 'fade' | 'left' | 'right' | 'zoom';
 };
 
-const cardVariants = {
+const fade = {
     hidden: {opacity: 0, y: 50},
     visible: {opacity: 1, y: 0},
+};
+
+const slideLeft = {
+    hidden: {x: -100, opacity: 0},
+    visible: {x: 0, opacity: 1},
+};
+
+const slideRight = {
+    hidden: {x: 100, opacity: 0},
+    visible: {x: 0, opacity: 1},
+};
+
+const zoomIn = {
+    hidden: {scale: 0.8, opacity: 0},
+    visible: {scale: 1, opacity: 1},
 };
 
 export const StatsCardStyle = {
@@ -46,8 +62,22 @@ const StatsCard = ({
                        animate = false,
                        useCounter = false,
                        iconColor = 'primary',
-                       link
+                       link,
+                       animationVariant = 'fade',
                    }: StatsCardProps) => {
+    const getVariant = () => {
+        switch (animationVariant) {
+            case "left":
+                return slideLeft;
+            case "right":
+                return slideRight;
+            case "zoom":
+                return zoomIn;
+            case "fade":
+                return fade;
+        }
+    };
+
     const card = (
         <Card sx={{
             ...StatsCardStyle,
@@ -88,7 +118,7 @@ const StatsCard = ({
 
     return animate ? (
         <motion.div
-            variants={cardVariants}
+            variants={getVariant()}
             initial="hidden"
             whileInView="visible"
             viewport={{once: true, amount: 0.5}}

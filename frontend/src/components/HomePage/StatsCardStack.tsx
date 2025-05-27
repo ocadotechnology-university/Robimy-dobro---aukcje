@@ -8,7 +8,7 @@ type StatsCardStackProps = {
 
 const StatsCardStack = ({title, children}: StatsCardStackProps) => {
     return (
-        <Stack spacing={2.5} mt={4}>
+        <Stack spacing={3} mt={4}>
             {title && (
                 <Typography variant="h2" align="center">
                     {title}

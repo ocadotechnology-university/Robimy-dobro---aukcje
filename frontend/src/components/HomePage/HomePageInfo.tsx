@@ -7,7 +7,7 @@ import PrimaryActionButton from "../common/PrimaryActionButton";
 const HomePageInfo = () => {
     const navigate = useNavigate();
     return (
-        <Stack direction="column" alignItems="center" spacing={2.5} mt={3} textAlign="center">
+        <Stack direction="column" alignItems="center" spacing={3} mt={3} textAlign="center">
             <Typography variant="subtitle2">
                 Dołącz do naszej inicjatywy! <br/>
                 Wystawiaj przedmioty, licytuj i wspieraj szczytny cel. <br/>
