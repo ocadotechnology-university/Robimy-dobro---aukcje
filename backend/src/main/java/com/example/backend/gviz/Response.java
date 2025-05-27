@@ -1,4 +1,4 @@
-package com.example.backend.util;
+package com.example.backend.gviz;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;

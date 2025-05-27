@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,6 +13,7 @@ import java.util.UUID;
 public class Auction {
 
     private UUID id;
+    private Long publicId;
 
     // Moderator
     private String moderatorEmail;
@@ -22,6 +24,8 @@ public class Auction {
 
     // Dates
     private LocalDate auctionDate;
+    private LocalDateTime auctionStartDateTime;
+    private LocalDateTime auctionEndDateTime;
 
     // Details
     private String title;
