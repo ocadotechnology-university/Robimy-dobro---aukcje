@@ -9,6 +9,7 @@ import com.example.backend.util.DateTransformer;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -36,12 +37,23 @@ public class AuctionMapper {
         auctionGetDto.setIsFollowed(auction.getFollowers() != null && auction.getFollowers().contains(userEmail));
         auctionGetDto.setIsSupplier(userEmail != null && userEmail.equals(auction.getSupplierEmail()));
         auctionGetDto.setStatus(determineStatus(auction));
+        auctionGetDto.setHasBids(auction.getCurrentBid() != null);
         auctionGetDto.setWantsToBeModerator(userEmail != null && userEmail.equals(auction.getModeratorEmail()));
         return auctionGetDto;
     }
 
     private AuctionStatus determineStatus(Auction auction) {
-        return AuctionStatus.NOT_STARTED; // TODO: Implement logic to determine auction status
+        LocalDateTime now = LocalDateTime.now();
+        if (auction.getAuctionStartDateTime() == null || auction.getAuctionEndDateTime() == null) {
+            return AuctionStatus.NOT_STARTED;
+        }
+        if (now.isBefore(auction.getAuctionStartDateTime())) {
+            return AuctionStatus.NOT_STARTED;
+        } else if (now.isAfter(auction.getAuctionEndDateTime())) {
+            return AuctionStatus.FINISHED;
+        } else {
+            return AuctionStatus.IN_PROGRESS;
+        }
     }
 
     public Auction mapFromCreateDtoToAuction(AuctionCreateDto auctionCreateDto, String userEmail, String userName) {

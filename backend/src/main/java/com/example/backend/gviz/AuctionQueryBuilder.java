@@ -31,7 +31,9 @@ public class AuctionQueryBuilder {
                 Column.FOLLOWERS_COUNT.label,
                 Column.SLACK_THREAD.label,
                 Column.CURRENT_BID.label,
-                Column.WINNER.label
+                Column.WINNER.label,
+                Column.START_DATETIME.label,
+                Column.END_DATETIME.label
         );
         return this;
     }

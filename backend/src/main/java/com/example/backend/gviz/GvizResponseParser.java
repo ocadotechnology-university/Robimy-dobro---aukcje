@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Component
@@ -89,6 +90,8 @@ public class GvizResponseParser {
                 .slackThreadLink(getRaw(cells, headerIndexMap.get(Column.SLACK_THREAD.label)))
                 .currentBid(parseDouble(getRaw(cells, headerIndexMap.get(Column.CURRENT_BID.label))))
                 .winner(getRaw(cells, headerIndexMap.get(Column.WINNER.label)))
+                .auctionStartDateTime(parseDateTime(getRaw(cells, headerIndexMap.get(Column.START_DATETIME.label))))
+                .auctionEndDateTime(parseDateTime(getRaw(cells, headerIndexMap.get(Column.END_DATETIME.label))))
                 .build();
     }
 
@@ -97,6 +100,24 @@ public class GvizResponseParser {
         Response.Cell cell = cells.get(index);
         if (cell == null || cell.getV() == null || cell.getV().toString() == null) return null;
         return cell.getV().toString();
+    }
+
+    private LocalDateTime parseDateTime(String raw) {
+        try {
+            if (raw == null || !raw.startsWith("Date(")) return null;
+
+            String[] parts = raw.replace("Date(", "").replace(")", "").split(",");
+            int year = Integer.parseInt(parts[0].trim());
+            int month = Integer.parseInt(parts[1].trim()) + 1;
+            int day = Integer.parseInt(parts[2].trim());
+            int hour = Integer.parseInt(parts[3].trim());
+            int minute = Integer.parseInt(parts[4].trim());
+            int second = Integer.parseInt(parts[5].trim());
+
+            return LocalDateTime.of(year, month, day, hour, minute, second);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     private Long parseLong(String raw) {
