@@ -37,6 +37,7 @@ public class AuctionMapper {
         auctionGetDto.setIsFollowed(auction.getFollowers() != null && auction.getFollowers().contains(userEmail));
         auctionGetDto.setIsSupplier(userEmail != null && userEmail.equals(auction.getSupplierEmail()));
         auctionGetDto.setStatus(determineStatus(auction));
+        auctionGetDto.setHasBids(auction.getCurrentBid() != null);
         auctionGetDto.setWantsToBeModerator(userEmail != null && userEmail.equals(auction.getModeratorEmail()));
         return auctionGetDto;
     }
