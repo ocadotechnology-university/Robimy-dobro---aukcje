@@ -1,9 +1,9 @@
 import React from "react";
-import StatsCard from "./StatsCard";
+import StatsCard from "../statsCard/StatsCard";
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import GavelIcon from '@mui/icons-material/Gavel';
-import StatsCardStack from "./StatsCardStack";
+import StatsCardStack from "../statsCard/StatsCardStack";
 
 const HomePageStats = () => {
     return (

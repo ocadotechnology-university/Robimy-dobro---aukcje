@@ -1,9 +1,9 @@
 import React from "react";
 import Box from "@mui/material/Box";
-import StatsCard from "./StatsCard";
-import StatsCardStack from "./StatsCardStack";
-import SzlachetnaPaczkaLogo from "../../image/szlachetna_paczka.svg";
-import ZobaczMnieLogo from "../../image/zobaczMnieLogo.svg";
+import StatsCard from "../statsCard/StatsCard";
+import StatsCardStack from "../statsCard/StatsCardStack";
+import SzlachetnaPaczkaLogo from "../../../image/szlachetna_paczka.svg";
+import ZobaczMnieLogo from "../../../image/zobaczMnieLogo.svg";
 
 const HomePageAnimatedInfo = () => {
     return (
@@ -14,7 +14,7 @@ const HomePageAnimatedInfo = () => {
                         component="img"
                         src={SzlachetnaPaczkaLogo}
                         alt="Szlachetna Paczka"
-                        sx={{height: 40}}
+                        sx={{height: 60}}
                     />
                 }
                 value={15}
@@ -31,7 +31,7 @@ const HomePageAnimatedInfo = () => {
                         component="img"
                         src={ZobaczMnieLogo}
                         alt="Zobacz mnie"
-                        sx={{height: 50}}
+                        sx={{height: 60}}
                     />
                 }
                 value={10}

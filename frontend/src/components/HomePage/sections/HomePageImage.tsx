@@ -1,6 +1,6 @@
 import React from "react";
 import Box from "@mui/material/Box";
-import homeImage from "../../image/homePageImage.svg";
+import homeImage from "../../../image/homePageImage.svg";
 
 export const HomeImageStyle = {
     width: {

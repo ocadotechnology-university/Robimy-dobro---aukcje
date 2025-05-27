@@ -1,10 +1,10 @@
 import React from "react";
 import {Container, Stack, Typography} from '@mui/material';
-import HomePageImage from "./HomePageImage";
-import HomePageInfo from "./HomePageInfo";
-import HomePageStats from "./HomePageStats";
-import HomePageAnimatedStats from "./HomePageAnimatedStats";
-import HomePageAnimatedInfo from "./HomePageAnimatedInfo";
+import HomePageImage from "./sections/HomePageImage";
+import HomePageInfo from "./sections/HomePageInfo";
+import HomePageStats from "./sections/HomePageStats";
+import HomePageAnimatedStats from "./sections/HomePageAnimatedStats";
+import HomePageAnimatedInfo from "./sections/HomePageAnimatedInfo";
 
 const HomePage = () => {
     return (

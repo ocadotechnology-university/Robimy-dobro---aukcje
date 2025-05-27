@@ -2,7 +2,7 @@ import React from "react";
 import {useNavigate, Link as RouterLink} from 'react-router-dom';
 import {Stack, Typography, Button} from "@mui/material";
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
-import PrimaryActionButton from "../common/PrimaryActionButton";
+import PrimaryActionButton from "../../common/PrimaryActionButton";
 
 const HomePageInfo = () => {
     const navigate = useNavigate();

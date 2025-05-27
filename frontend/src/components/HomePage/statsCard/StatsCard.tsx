@@ -3,55 +3,9 @@ import {Card, CardContent, Box, Typography, Stack} from "@mui/material";
 import {motion} from 'framer-motion';
 import CountUp from 'react-countup';
 import {Link as RouterLink} from 'react-router-dom';
-
-type StatsCardProps = {
-    icon: React.ReactNode;
-    title?: string;
-    value?: number;
-    suffix?: string;
-    description: string;
-    animate?: boolean;
-    useCounter?: boolean;
-    iconColor?: 'primary' | 'secondary';
-    link?: string;
-    animationVariant?: 'fade' | 'left' | 'right' | 'zoom';
-};
-
-const fade = {
-    hidden: {opacity: 0, y: 50},
-    visible: {opacity: 1, y: 0},
-};
-
-const slideLeft = {
-    hidden: {x: -100, opacity: 0},
-    visible: {x: 0, opacity: 1},
-};
-
-const slideRight = {
-    hidden: {x: 100, opacity: 0},
-    visible: {x: 0, opacity: 1},
-};
-
-const zoomIn = {
-    hidden: {scale: 0.8, opacity: 0},
-    visible: {scale: 1, opacity: 1},
-};
-
-export const StatsCardStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 3,
-    boxShadow: 3,
-    p: 0,
-    minWidth: 240,
-    minHeight: 180,
-    transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-    '&:hover': {
-        transform: 'scale(1.03)',
-    },
-    textDecoration: 'none',
-};
+import {StatsCardProps} from "./StatsCardProps";
+import {StatsCardStyle} from "./StatsCardStyle";
+import {getVariant} from "./StatsCardAnimations";
 
 const StatsCard = ({
                        icon,
@@ -65,19 +19,6 @@ const StatsCard = ({
                        link,
                        animationVariant = 'fade',
                    }: StatsCardProps) => {
-    const getVariant = () => {
-        switch (animationVariant) {
-            case "left":
-                return slideLeft;
-            case "right":
-                return slideRight;
-            case "zoom":
-                return zoomIn;
-            case "fade":
-                return fade;
-        }
-    };
-
     const card = (
         <Card sx={{
             ...StatsCardStyle,
@@ -115,10 +56,9 @@ const StatsCard = ({
             </CardContent>
         </Card>
     );
-
     return animate ? (
         <motion.div
-            variants={getVariant()}
+            variants={getVariant(animationVariant)}
             initial="hidden"
             whileInView="visible"
             viewport={{once: true, amount: 0.5}}
