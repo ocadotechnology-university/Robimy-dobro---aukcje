@@ -12,16 +12,21 @@ const HomePageStats = () => {
                 icon={<AddBoxIcon fontSize="large"/>}
                 title="Wystaw Przedmiot"
                 description="Masz coś wartościowego? Podziel się tym! Dodanie aukcji zajmuje tylko chwilę"
+                iconColor="secondary"
+                link='/add'
             />
             <StatsCard
                 icon={<GavelIcon fontSize="large"/>}
                 title="Licytuj i Wygrywaj"
                 description="Przeglądaj unikalne oferty, podbijaj cenę i zdobądź wymarzone rzeczy"
+                iconColor="secondary"
+                link='/auctions'
             />
             <StatsCard
                 icon={<FavoriteIcon fontSize="large"/>}
                 title="Realnie Pomagaj"
                 description="Każda złotówka z wylicytowanych przedmiotów trafia na szczytny cel"
+                iconColor="secondary"
             />
         </StatsCardStack>
     );
