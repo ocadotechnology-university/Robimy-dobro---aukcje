@@ -19,6 +19,7 @@ import java.util.Map;
 
 import static com.example.backend.constants.ErrorMessages.WRONG_EMAIL;
 import static com.example.backend.security.JwtTokenProvider.generateAccessToken;
+import static com.example.backend.security.JwtTokenProvider.generateRefreshToken;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -31,7 +32,7 @@ public class AuthController {
     GoogleAuthService googleAuthService;
 
     @PostMapping("/google/signup")
-    public ResponseEntity<?> googleSignUp(@RequestBody Map<String, String> body) {
+    public ResponseEntity<?> googleSignUp(@RequestBody Map<String, String> body, HttpServletResponse response) {
 
         String googleToken = body.get("credentials");
 
@@ -44,8 +45,18 @@ public class AuthController {
 
             Role role = googleAuthService.getUserRoleByEmail(verifiedToken.getEmail());
             String accessToken = generateAccessToken(verifiedToken, role);
+            String refreshToken = generateRefreshToken(verifiedToken, role);
+
             Map<String, String> tokenResponse = new HashMap<>();
             tokenResponse.put("accessToken", accessToken);
+
+            Cookie refreshTokenCookie = new Cookie("refreshToken", refreshToken);
+            refreshTokenCookie.setPath("/");
+            refreshTokenCookie.setHttpOnly(true);
+            refreshTokenCookie.setSecure(true);
+            refreshTokenCookie.setMaxAge(7 * 24 * 60 * 60);
+
+            response.addCookie(refreshTokenCookie);
 
             return ResponseEntity.ok(tokenResponse);
 
