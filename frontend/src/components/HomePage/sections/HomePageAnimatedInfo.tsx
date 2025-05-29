@@ -2,8 +2,8 @@ import React from "react";
 import Box from "@mui/material/Box";
 import StatsCard from "../statsCard/StatsCard";
 import StatsCardStack from "../statsCard/StatsCardStack";
-import SzlachetnaPaczkaLogo from "../../../image/szlachetna_paczka.svg";
-import ZobaczMnieLogo from "../../../image/zobaczMnieLogo.svg";
+import SzlachetnaPaczkaLogo from "../../../image/szlachetnaPaczka.svg";
+import ZobaczMnieLogo from "../../../image/zobaczMnie.svg";
 
 const HomePageAnimatedInfo = () => {
     return (

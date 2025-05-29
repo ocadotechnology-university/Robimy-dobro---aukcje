@@ -39,7 +39,7 @@ public class AuctionQueryBuilder {
     }
 
     public AuctionQueryBuilder withStatuses(List<String> statuses) {
-        if (statuses.contains("NO_DATES")) {
+        if (statuses.contains("NO_DATE")) {
             builder.whereIsNull(Column.AUCTION_DATE.label);
         }
 
