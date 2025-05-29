@@ -76,12 +76,12 @@ public class AuthController {
                     return ResponseEntity.ok(accessToken);
                 }catch (Exception e) {
                     logger.info("Refresh token was expired");
-                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+                    return ResponseEntity.status(440).body("Refresh token expired");
                 }
             }
         }
         logger.info("Refresh token not found");
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        return ResponseEntity.status(440).body("Refresh token was not found");
     }
 
 }
