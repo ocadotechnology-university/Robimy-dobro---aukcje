@@ -40,12 +40,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
         const requestInterceptor = API.interceptors.request.use(
             (config) => {
-                if (accessToken) {
-                    config.headers.Authorization = `Bearer ${accessToken}`;
-                    console.log("Added token to request:", config.headers.Authorization);
-                } else {
-                    console.log("No accessToken available.");
-                }
+                config.headers.Authorization = `Bearer ${accessToken}`;
+                console.log("Added token to request:", config.headers.Authorization);
                 return config;
             },
             (error) => Promise.reject(error)
@@ -55,6 +51,45 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             API.interceptors.request.eject(requestInterceptor);
         };
     }, [accessToken]);
+
+    useEffect(() => {
+        const responseInterceptor = API.interceptors.response.use(
+            response => response,
+            async error => {
+                const originalRequest = error.config;
+
+                if (originalRequest.url.includes("/api/auth/refresh")) {
+                    console.warn("refresh token request failed.");
+                    return Promise.reject(error);
+                }
+
+                if (error.response?.status === 401 && !originalRequest._retry) {
+                    originalRequest._retry = true;
+                    try {
+                        console.log("Trying to send the refresh token");
+                        const response = await axios.post('http://localhost:8080/api/auth/refresh', null, {
+                            withCredentials: true,
+                        });
+
+                        const newAccessToken = response.data;
+                        console.log("New access token: " + newAccessToken);
+                        setAccessToken(newAccessToken);
+
+                        const config = error.config;
+                        return API(config);
+                    } catch (refreshError) {
+                        console.error("Refresh failed:", refreshError);
+                        return Promise.reject(refreshError);
+                    }
+                }
+                return Promise.reject(error);
+            }
+        );
+
+        return () => {
+            API.interceptors.response.eject(responseInterceptor);
+        };
+    }, [setAccessToken])
 
     return (
         <AuthContext.Provider value={{ accessToken, loginWithGoogle}}>
