@@ -1,6 +1,5 @@
 name: github-actions.yml
-on:
-  pull_request:
+on: [push, pull_request]
 jobs:
   eslint:
     name: Run eslint scanning
