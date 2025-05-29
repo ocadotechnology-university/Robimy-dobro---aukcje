@@ -20,6 +20,8 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [accessToken, setAccessToken] = useState<string | null>(null);
+    const navigate = useNavigate();
+    let refreshPromise: Promise<string> | null = null;
 
     const loginWithGoogle = async (googleToken: string) => {
         try {
@@ -32,20 +34,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             setAccessToken(response.data.accessToken);
         } catch (error) {
             console.error("Google login failed:", error);
-            setAccessToken(null);
+            logout();
             throw error;
         }
     };
 
+    const logout = () => {
+        setAccessToken(null);
+        navigate("/auth");
+    }
+
     useEffect(() => {
         const requestInterceptor = API.interceptors.request.use(
             (config) => {
-                if (accessToken) {
-                    config.headers.Authorization = `Bearer ${accessToken}`;
-                    console.log("Added token to request:", config.headers.Authorization);
-                } else {
-                    console.log("No accessToken available.");
-                }
+                config.headers.Authorization = `Bearer ${accessToken}`;
+                console.log("Added token to request:", config.headers.Authorization);
                 return config;
             },
             (error) => Promise.reject(error)
@@ -55,6 +58,50 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             API.interceptors.request.eject(requestInterceptor);
         };
     }, [accessToken]);
+
+    useEffect(() => {
+        const responseInterceptor = API.interceptors.response.use(
+            response => response,
+            async error => {
+                if (error.response?.status === 440) {
+                    logout();
+                    return Promise.reject(error);
+                }
+
+                if (error.response?.status === 401) {
+                    try {
+                        if (!refreshPromise) {
+                            refreshPromise = axios.post('http://localhost:8080/api/auth/refresh', null, {
+                                withCredentials: true,
+                            }).then(res => {
+                                const newToken = res.data;
+                                setAccessToken(newToken);
+                                console.log("New access token: " + newToken);
+                                return newToken;
+                            }).finally(() => {
+                                refreshPromise = null;
+                            });
+                        }
+                        const newAccessToken = await refreshPromise;
+                        error.config.headers = {
+                            ...error.config.headers,
+                            Authorization: `Bearer ${newAccessToken}`,
+                        };
+                        return API(error.config);
+                    } catch (refreshError) {
+                        console.error("Refresh failed:", refreshError);
+                        logout();
+                        return Promise.reject(refreshError);
+                    }
+                }
+                return Promise.reject(error);
+            }
+        );
+
+        return () => {
+            API.interceptors.response.eject(responseInterceptor);
+        };
+    }, [])
 
     return (
         <AuthContext.Provider value={{ accessToken, loginWithGoogle}}>
