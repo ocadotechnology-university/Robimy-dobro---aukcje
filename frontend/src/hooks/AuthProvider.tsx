@@ -20,6 +20,7 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [accessToken, setAccessToken] = useState<string | null>(null);
+    const navigate = useNavigate();
 
     const loginWithGoogle = async (googleToken: string) => {
         try {
@@ -32,10 +33,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             setAccessToken(response.data.accessToken);
         } catch (error) {
             console.error("Google login failed:", error);
-            setAccessToken(null);
+            logout();
             throw error;
         }
     };
+
+    const logout = () => {
+        setAccessToken(null);
+        navigate("/auth");
+    }
 
     useEffect(() => {
         const requestInterceptor = API.interceptors.request.use(
@@ -56,15 +62,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         const responseInterceptor = API.interceptors.response.use(
             response => response,
             async error => {
-                const originalRequest = error.config;
-
-                if (originalRequest.url.includes("/api/auth/refresh")) {
-                    console.warn("refresh token request failed.");
-                    return Promise.reject(error);
+                if (error.response?.status === 440) {
+                    logout();
                 }
 
-                if (error.response?.status === 401 && !originalRequest._retry) {
-                    originalRequest._retry = true;
+                if (error.response?.status === 401) {
                     try {
                         console.log("Trying to send the refresh token");
                         const response = await axios.post('http://localhost:8080/api/auth/refresh', null, {
@@ -79,6 +81,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                         return API(config);
                     } catch (refreshError) {
                         console.error("Refresh failed:", refreshError);
+                        logout();
                         return Promise.reject(refreshError);
                     }
                 }
