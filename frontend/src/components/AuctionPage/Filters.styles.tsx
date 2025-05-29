@@ -5,6 +5,8 @@ export const FiltersPaperStyle: SxProps<Theme> = {
     minWidth: '18%',
     borderRadius: 4,
     alignSelf: 'flex-start',
+    position: 'sticky',
+    top: 80,
 };
 
 export const ClearAllTypographyStyle = (theme: Theme) => ({
