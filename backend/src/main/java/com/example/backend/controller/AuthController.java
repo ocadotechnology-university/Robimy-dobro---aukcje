@@ -53,7 +53,7 @@ public class AuthController {
             Cookie refreshTokenCookie = new Cookie("refreshToken", refreshToken);
             refreshTokenCookie.setPath("/");
             refreshTokenCookie.setHttpOnly(true);
-            refreshTokenCookie.setSecure(true);
+            refreshTokenCookie.setSecure(false); // FOR HTTPS SET true
             refreshTokenCookie.setMaxAge(7 * 24 * 60 * 60);
 
             response.addCookie(refreshTokenCookie);
@@ -65,15 +65,14 @@ public class AuthController {
         }
     }
 
-    @GetMapping("/refresh")
-    public ResponseEntity<?> refresh(@RequestHeader("Authorization") String token, HttpServletRequest request, HttpServletResponse response) {
+    @PostMapping("/refresh")
+    public ResponseEntity<?> refresh(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         for(Cookie cookie : cookies) {
             if(cookie.getName().equals("refreshToken")) {
                 String refreshToken = cookie.getValue();
                 try{
                     String accessToken = generateAccessToken(refreshToken);
-                    response.setHeader("Authorization", "Bearer " + accessToken);
                     return ResponseEntity.ok(accessToken);
                 }catch (Exception e) {
                     logger.info("Refresh token was expired");
