@@ -23,7 +23,7 @@ interface FiltersProps {
     setAucFilters: React.Dispatch<React.SetStateAction<AuctionFilters>>;
 }
 
-const statusOptions = ["Bez daty", "Niekompletne", "Zatwierdzone"];
+const statusOptions = ["Niekompletne", "Bez moderatora", "Bez daty", "Bez oferty", "Kompletne"];
 const selectedOptions = ["Moje aukcje", "Ulubione"];
 const dateOptions = ["21 listopada", "22 listopada", "23 listopada"];
 const sortOptions = ["Domyślne", "Cena: od najniższej", "Cena: od najwyższej"];
