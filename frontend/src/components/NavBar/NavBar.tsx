@@ -3,7 +3,6 @@ import {
     AppBar,
     Avatar,
     Box,
-    Button,
     Container,
     Divider,
     Stack,
@@ -12,11 +11,10 @@ import {
     useMediaQuery,
     useTheme
 } from "@mui/material";
-import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import {Link} from 'react-router-dom';
-import {ButtonStyle, AvatarStyle} from "./NavBar.styles";
-import {CenteredBox, IconButtonComponent} from "./NavBar.styles";
+import {AvatarStyle, CenteredBox} from "./NavBar.styles";
 import logoImage from "../../image/logo.png";
+import NavBarButton from "./NavBarButton";
 
 const Account = () => (
     <CenteredBox>
@@ -24,30 +22,9 @@ const Account = () => (
     </CenteredBox>
 );
 
-const ButtonSmall = () => {
-    const theme = useTheme();
-
-    return (
-        <CenteredBox>
-            <IconButtonComponent component={Link} to="/add">
-                <AddOutlinedIcon fontSize="medium" sx={{color: theme.palette.common.white}}/>
-            </IconButtonComponent>
-
-        </CenteredBox>
-    );
-};
-
 const LogoSmall = () => (
     <CenteredBox flexGrow={0}>
         <img src={logoImage} alt="logo" style={{height: 50}}/>
-    </CenteredBox>
-);
-
-const ButtonMedium = () => (
-    <CenteredBox>
-        <Button component={Link} to="/add" variant="contained" sx={ButtonStyle}>
-            Dodaj aukcję
-        </Button>
     </CenteredBox>
 );
 
@@ -77,13 +54,6 @@ const NavBar = () => {
         if (isMediumScreen) return <LogoMedium/>;
         return <LogoMedium/>;
     }
-
-    const getButton = () => {
-        if (isSmallScreen) return <ButtonSmall/>;
-        if (isMediumScreen) return <ButtonMedium/>;
-        return <ButtonMedium/>;
-    }
-
     return (
         <AppBar position="sticky" elevation={4} sx={{backgroundColor: "white", width: "100%"}}>
             <Container maxWidth="xl">
@@ -93,7 +63,11 @@ const NavBar = () => {
                             {getLogo()}
                         </Link>
                         <PlaceHolder/>
-                        {getButton()}
+                        <Stack direction="row" spacing={2} alignItems="center">
+                            <NavBarButton label="Wszystkie aukcje" link="/auctions"/>
+                            <NavBarButton label="Dodaj aukcję" link="/add"/>
+                            <NavBarButton label="Jak to działa?" />
+                        </Stack>
                         <Account/>
                     </Stack>
                 </Toolbar>
