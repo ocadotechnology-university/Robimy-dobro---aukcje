@@ -1,8 +1,9 @@
-import React from "react";
-import {Box, Stack, Typography} from "@mui/material";
+import React, {useState} from "react";
+import {Box, Stack, TextField, Typography} from "@mui/material";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import {getPriceLabel} from "./helpers";
+import {transformDateFormatToFormDate} from "../../AddPage/Services/DateTransformer";
 
 type Props = {
     publicId: string;
@@ -16,12 +17,32 @@ type Props = {
 
 const AuctionHeader = ({publicId, title, date, city, price, status, hasBids}: Props) => {
     const priceLabel = getPriceLabel(status, hasBids);
+    const [publicIdIsUpdating, setPublicIdIsUpdating] = useState(false);
+    const [newPublicId, setNewPublicId] = useState(publicId);
+
+
+    const handlePublicIdEdit = () => {
+        setPublicIdIsUpdating(true);
+    }
+
+    const handleKeyPress = (e: { key: string; }) => {
+        if (e.key === 'Enter') {
+            setPublicIdIsUpdating(false);
+        }
+    };
 
     return (
         <Stack justifyContent="space-between" direction="row" alignItems="flex-start" sx={{width: "100%"}}>
             <Box>
                 <Typography variant="h6" fontWeight="bold">
-                    <Box component="span" color="text.secondary" mr={1}>#{publicId}</Box>
+                    {!publicIdIsUpdating ? (
+                        <Box onClick={handlePublicIdEdit} component="span" color="text.secondary" mr={1} sx={{cursor:"pointer"}}>#{publicId}</Box>
+                    ) : (
+                        <TextField label="ID" defaultValue={publicId}
+                                   onChange={(e) => setNewPublicId(e.target.value)}
+                                   onKeyDown={handleKeyPress}
+                                   sx={{width: "15%", marginBottom: 2, marginRight: 2}} />
+                    )}
                     {title}</Typography>
                 <Stack direction="row" spacing={1} alignItems="center">
                     <Typography variant="body2" display="flex" alignItems="center" gap={0.5}>
