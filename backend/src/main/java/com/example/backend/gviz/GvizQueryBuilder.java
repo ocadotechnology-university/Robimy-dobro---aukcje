@@ -8,6 +8,7 @@ public class GvizQueryBuilder {
     private final Map<String, String> columnLetterMap;
     private final List<String> conditions = new ArrayList<>();
     private final List<String> selectedColumns = new ArrayList<>();
+    private final List<String> orderings = new ArrayList<>();
 
     public GvizQueryBuilder(Map<String, String> columnLetterMap) {
         this.columnLetterMap = columnLetterMap;
@@ -54,6 +55,20 @@ public class GvizQueryBuilder {
         return this;
     }
 
+    public GvizQueryBuilder whereAllNotNull(List<String> columnNames) {
+        if (columnNames == null || columnNames.isEmpty()) return this;
+
+        String andCondition = columnNames.stream()
+                .map(columnLetterMap::get)
+                .map(column -> column + " IS NOT NULL")
+                .reduce((a, b) -> a + " AND " + b)
+                .map(condition -> "(" + condition + ")")
+                .orElse("");
+
+        conditions.add(andCondition);
+        return this;
+    }
+
     public GvizQueryBuilder whereDateEqualsAnyOf(String columnName, List<String> dates) {
         if (dates == null || dates.isEmpty()) return this;
 
@@ -68,9 +83,17 @@ public class GvizQueryBuilder {
         return this;
     }
 
+    public GvizQueryBuilder orderBy(String columnName, boolean ascending) {
+        String columnLetter = columnLetterMap.get(columnName);
+        String order = columnLetter + (ascending ? " ASC" : " DESC");
+        orderings.add(order);
+        return this;
+    }
+
     public String build() {
         String selectClause = "SELECT " + String.join(", ", selectedColumns);
         String whereClause = conditions.isEmpty() ? "" : " WHERE " + String.join(" AND ", conditions);
-        return selectClause + whereClause;
+        String orderClause = orderings.isEmpty() ? "" : " ORDER BY " + String.join(", ", orderings);
+        return selectClause + whereClause + orderClause;
     }
 }

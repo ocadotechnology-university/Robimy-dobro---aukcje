@@ -42,24 +42,34 @@ public class AuctionQueryBuilder {
         if (statuses.contains("NO_DATE")) {
             builder.whereIsNull(Column.AUCTION_DATE.label);
         }
-
-        if (statuses.contains("APPROVED")) {
-            builder.whereIsNotNull(Column.AUCTION_DATE.label);
-        }
-
         if (statuses.contains("INCOMPLETE")) {
-            List<String> requiredFields = List.of(
+            builder.whereAnyIsNull(List.of(
                     Column.TITLE.label,
                     Column.DESCRIPTION.label,
                     Column.AUCTION_DATE.label,
                     Column.IMAGE_URL.label,
                     Column.STARTING_PRICE.label
-            );
-            builder.whereAnyIsNull(requiredFields);
+            ));
         }
-
+        if (statuses.contains("NO_MODERATOR")) {
+            builder.whereIsNull(Column.MODERATOR_EMAIL.label);
+        }
+        if (statuses.contains("NO_BID")) {
+            builder.whereIsNull(Column.CURRENT_BID.label);
+        }
+        if (statuses.contains("COMPLETE")) {
+            builder.whereAllNotNull(List.of(
+                    Column.TITLE.label,
+                    Column.DESCRIPTION.label,
+                    Column.AUCTION_DATE.label,
+                    Column.IMAGE_URL.label,
+                    Column.STARTING_PRICE.label,
+                    Column.CURRENT_BID.label
+            ));
+        }
         return this;
     }
+
 
     public AuctionQueryBuilder withSupplier(String email) {
         if (email != null) {
@@ -88,6 +98,19 @@ public class AuctionQueryBuilder {
     public AuctionQueryBuilder onlyFollowersById(UUID auctionId) {
         builder.select(Column.FOLLOWERS.label);
         builder.whereEquals(Column.ID.label, auctionId.toString());
+
+        return this;
+    }
+
+    public AuctionQueryBuilder withSorting(String sortBy) {
+        if ("priceAsc".equalsIgnoreCase(sortBy)) {
+            builder.orderBy(Column.CURRENT_BID.label, true);
+        } else if ("priceDesc".equalsIgnoreCase(sortBy)) {
+            builder.orderBy(Column.CURRENT_BID.label, false);
+        }
+
+        builder.orderBy(Column.PUBLIC_ID.label, true);
+
         return this;
     }
 
