@@ -31,6 +31,10 @@ public class AuctionService {
         auctionRepository.update(auctionId, auctionMapper.mapFromUpdateDtoToAuction(getAuctionById(auctionId), auctionUpdateDto, userEmail));
     }
 
+    public void updatePublicId(UUID auctionId, String publicId) throws IOException{
+        auctionRepository.update(auctionId, auctionMapper.mapFromUpdatePublicIdToAuction(getAuctionById(auctionId), publicId));
+    }
+
     public Auction getAuctionById(UUID auctionId) throws IOException {
         return auctionRepository.findByAuctionId(auctionId);
     }

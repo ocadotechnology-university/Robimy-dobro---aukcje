@@ -83,4 +83,14 @@ public class AuctionController {
         }
     }
 
+    @PatchMapping("/{auctionId}/updatePublicId")
+    public ResponseEntity<?> updateAuctionPublicId(@RequestBody String publicId, @PathVariable UUID auctionId) {
+        try {
+            auctionService.updatePublicId(auctionId, publicId);
+            return ResponseEntity.ok("Auction publicId update successfully");
+        } catch (IOException e) {
+            return ResponseEntity.status(500).body("Error while updating auction's publicId: " + e.getMessage());
+        }
+    }
+
 }
