@@ -23,15 +23,17 @@ interface FiltersProps {
     setAucFilters: React.Dispatch<React.SetStateAction<AuctionFilters>>;
 }
 
-const statusOptions = ["Bez daty", "Niekompletne", "Zatwierdzone"];
+const statusOptions = ["Niekompletne", "Bez moderatora", "Bez daty", "Bez oferty", "Kompletne"];
 const selectedOptions = ["Moje aukcje", "Ulubione"];
 const dateOptions = ["21 listopada", "22 listopada", "23 listopada"];
 const sortOptions = ["Domyślne", "Cena: od najniższej", "Cena: od najwyższej"];
 
 const statusValueMap: Record<string, string> = {
-    "Bez daty": "No date",
-    "Niekompletne": "Incomplete",
-    "Zatwierdzone": "Approved",
+    "Niekompletne": "INCOMPLETE",
+    "Bez moderatora": "NO_MODERATOR",
+    "Bez daty": "NO_DATE",
+    "Bez oferty": "NO_OFFER",
+    "Kompletne": "COMPLETE",
 };
 
 const dateValueMap: Record<string, string> = {

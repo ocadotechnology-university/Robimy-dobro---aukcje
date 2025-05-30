@@ -10,11 +10,13 @@ import java.util.UUID;
 @Setter
 public class AuctionGetDto {
     private UUID id;
+    private Long publicId;
     private String title;
     private String date;
     private String city;
     private String description;
     private AuctionStatus status;
+    private Boolean hasBids;
     private String supplier;
     private String winner;
     private Double price;
