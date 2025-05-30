@@ -70,13 +70,14 @@ public class GoogleSheetsAuctionRepository implements AuctionRepository {
 
 
     @Override
-    public List<Auction> findAllByFiltersAndUser(List<String> statuses, Boolean myAuctions, Boolean followed, List<String> dates, String userEmail) throws IOException {
+    public List<Auction> findAllByFiltersAndUser(List<String> statuses, Boolean myAuctions, Boolean followed, List<String> dates, String sortBy, String userEmail) throws IOException {
         String queryWithFilters = new AuctionQueryBuilder(headerMappingService)
                 .selectAllColumns()
                 .withStatuses(statuses)
                 .withDates(dates)
                 .withSupplier(myAuctions ? userEmail : null)
                 .withFollowed(followed ? userEmail : null)
+                .withSorting(sortBy)
                 .build();
 
         String response = googleSheetsService.queryWithGviz(queryWithFilters, "Auction");
