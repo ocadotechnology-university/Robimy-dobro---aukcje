@@ -8,9 +8,11 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.drive.Drive;
+import io.github.cdimascio.dotenv.Dotenv;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.GeneralSecurityException;
 import java.util.List;
 
@@ -18,6 +20,10 @@ public class GoogleApiConnector {
     private static final String APPLICATION_NAME = "robimy-dobro";
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     private static HttpTransport HTTP_TRANSPORT;
+    static String credentialsPath = Dotenv.configure()
+            .ignoreIfMissing()
+            .load()
+            .get("GOOGLE_APPLICATION_CREDENTIALS", System.getenv("GOOGLE_APPLICATION_CREDENTIALS") != null ? System.getenv("GOOGLE_APPLICATION_CREDENTIALS") : "");
 
     static {
         try {
@@ -27,11 +33,14 @@ public class GoogleApiConnector {
         }
     }
 
-    private static final String CREDENTIALS_FILE_PATH = "backend/src/main/resources/credentials.json";
-
     public static Credential getCredential(List<String> scopes) throws IOException {
-        return GoogleCredential.fromStream(new FileInputStream(CREDENTIALS_FILE_PATH))
-                .createScoped(scopes);
+        if (credentialsPath != "") {
+            return GoogleCredential.fromStream(new FileInputStream(credentialsPath));
+        } else {
+            InputStream in = GoogleApiConnector.class.getClassLoader().getResourceAsStream("credentials.json");
+            return GoogleCredential.fromStream(in)
+                    .createScoped(scopes);
+        }
     }
 
     public static Sheets getSheetsService() throws IOException {
