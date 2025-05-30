@@ -41,10 +41,10 @@ const AuctionHeader = ({publicId, title, date, city, price, status, hasBids, set
                     {!publicIdIsUpdating ? (
                         <Box onClick={handlePublicIdEdit} component="span" color="text.secondary" mr={1} sx={{cursor:"pointer"}}>#{publicId}</Box>
                     ) : (
-                        <TextField label="ID" defaultValue={publicId}
+                        <TextField label="ID" defaultValue={publicId} type="Number"
                                    onChange={(e) => setNewPublicId(e.target.value)}
                                    onKeyDown={handleKeyPress}
-                                   sx={{width: "15%", marginBottom: 2, marginRight: 2}} />
+                                   sx={{width: "100px", marginBottom: 2, marginRight: 2}} />
                     )}
                     {title}</Typography>
                 <Stack direction="row" spacing={1} alignItems="center">
