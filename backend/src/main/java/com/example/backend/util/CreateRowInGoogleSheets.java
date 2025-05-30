@@ -1,6 +1,7 @@
 package com.example.backend.util;
 
 import com.example.backend.model.Auction;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -10,6 +11,8 @@ import java.util.function.Function;
 
 @Component
 public class CreateRowInGoogleSheets {
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
     public String makeNotNull(Object value) {
         return value != null ? value.toString() : "";
     }
@@ -24,6 +27,14 @@ public class CreateRowInGoogleSheets {
                 Column.CURRENT_BID.label,
                 Column.FOLLOWERS_COUNT.label
         ).contains(header);
+    }
+
+    private String serializeFollowers(List<String> followers) {
+        try {
+            return objectMapper.writeValueAsString(followers);
+        } catch (Exception e) {
+            return "[]";
+        }
     }
 
     public List<Object> createRowFromAuction(Auction auction, Map<String, Integer> headerIndexMap) {
@@ -53,6 +64,11 @@ public class CreateRowInGoogleSheets {
         for (Map.Entry<String, Integer> entry : headerIndexMap.entrySet()) {
             String header = entry.getKey();
             int index = entry.getValue();
+
+            if (header.equals(Column.FOLLOWERS.label)) {
+                row[index] = serializeFollowers(auction.getFollowers());
+                continue;
+            }
 
             Object value = extractors.getOrDefault(header, a -> "").apply(auction);
             row[index] = isNumericField(header) ? makeNotNullForNumbers(value) : makeNotNull(value);
