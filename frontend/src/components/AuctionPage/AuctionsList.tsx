@@ -105,20 +105,19 @@ const AuctionsList = ({auctions}: AuctionsListProps) => {
                         id="alert-dialog-title">{"Czy na pewno chcesz rozpocząć edycję tej aukcji?"}</DialogTitle>
                     <DialogContent>
                         <Typography>
-                            Jesteś w trakcie edycji innej auckji. Czy chcesz porzucić wprowadzone zmiany i rozpocząć
-                            edycję nowej aukcji?
+                            Jesteś w trakcie edycji innej aukcji. Czy chcesz do niej powrócić, czy porzucić wprowadzone zmiany i rozpocząć edycję nowej aukcji?
                         </Typography>
                     </DialogContent>
                     <DialogActions>
-                        <Stack direction="row" justifyContent="space-between" spacing={5}>
+                        <Stack width="100%" direction="row" justifyContent="space-between" spacing={3}>
                             <Button onClick={handleCloseDialog} color="primary">
                                 Anuluj
                             </Button>
                             <Button onClick={handleBackToPreviousUpdatingAuction} color="primary">
-                                Anuluj i przenieś do rozpoczętej edycji
+                                Przenieś do edytowanej
                             </Button>
                             <Button onClick={handleNewUpdate} color="primary" autoFocus>
-                                Rozpocznij nową edycję
+                                Edytuj nową
                             </Button>
                         </Stack>
                     </DialogActions>
