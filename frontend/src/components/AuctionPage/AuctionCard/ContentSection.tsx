@@ -26,6 +26,8 @@ type Props = {
     newUpdatingAuction: boolean;
     setNewUpdatingAuction: (value: boolean) => void;
     setBackupEditingAuctionId: (value: UUID | null) => void;
+    setNewPublicId: (value: string) => void;
+    handleUpdatePublicId: () => void;
 };
 
 export const ContentSection = ({
@@ -48,11 +50,14 @@ export const ContentSection = ({
                             setOneIsUpdating,
                             newUpdatingAuction,
                             setNewUpdatingAuction,
-                            setBackupEditingAuctionId
+                            setBackupEditingAuctionId,
+                            setNewPublicId,
+                            handleUpdatePublicId
                         }: Props) => (
     <Grid2 size={{xs: 12, md: 9}}>
         <Stack spacing={1} height="100%" position="relative">
-            <AuctionHeader publicId={publicId} title={title} date={date} city={city} price={price} status={status} hasBids={hasBids}/>
+            <AuctionHeader publicId={publicId} title={title} date={date} city={city} price={price} status={status} hasBids={hasBids}
+                           setNewPublicId={setNewPublicId} handleUpdatePublicId={handleUpdatePublicId}/>
             <AuctionDescription description={description}/>
             <Box flexGrow={1}/>
             <AuctionFooter id={id} status={status} supplier={supplier} winner={winner} isFollowed={isFollowed}

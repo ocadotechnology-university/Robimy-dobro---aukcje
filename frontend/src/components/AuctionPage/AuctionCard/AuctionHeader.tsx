@@ -13,12 +13,14 @@ type Props = {
     price: string;
     status: string;
     hasBids: boolean;
+    setNewPublicId: (value: string) => void;
+    handleUpdatePublicId: () => void;
 };
 
-const AuctionHeader = ({publicId, title, date, city, price, status, hasBids}: Props) => {
+const AuctionHeader = ({publicId, title, date, city, price, status, hasBids, setNewPublicId, handleUpdatePublicId}: Props) => {
     const priceLabel = getPriceLabel(status, hasBids);
     const [publicIdIsUpdating, setPublicIdIsUpdating] = useState(false);
-    const [newPublicId, setNewPublicId] = useState(publicId);
+    // const [newPublicId, setNewPublicId] = useState(publicId);
 
 
     const handlePublicIdEdit = () => {
@@ -28,6 +30,7 @@ const AuctionHeader = ({publicId, title, date, city, price, status, hasBids}: Pr
     const handleKeyPress = (e: { key: string; }) => {
         if (e.key === 'Enter') {
             setPublicIdIsUpdating(false);
+            handleUpdatePublicId();
         }
     };
 
