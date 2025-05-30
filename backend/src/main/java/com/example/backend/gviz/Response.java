@@ -1,4 +1,4 @@
-package com.example.backend.util;
+package com.example.backend.gviz;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
@@ -34,4 +34,9 @@ public class Response {
         private Object v;
         private String f;
     }
-}
+
+    @Data
+    public static class VWrapper {
+        private String v;
+        private String vd;
+    }}

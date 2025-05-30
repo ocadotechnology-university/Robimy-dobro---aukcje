@@ -34,7 +34,7 @@ const CitySelectField = ({
                     Miasto
                     <InfoOutlinedIcon
                         fontSize="small"
-                        titleAccess="Wybierz miasto, w którym możliwy jest odbiór."
+                        titleAccess="Wybierz miasto, w którym możliwy jest odbiór"
                         sx={{cursor: 'help'}}
                     />
                 </Box>

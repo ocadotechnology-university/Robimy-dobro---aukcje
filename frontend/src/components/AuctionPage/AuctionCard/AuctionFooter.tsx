@@ -18,16 +18,22 @@ const SlackIcon = SiSlack as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
 
 type Props = {
     id: UUID;
-    status: string,
-    supplier: string,
-    winner: string,
-    isFollowed: boolean,
-    slackUrl: string
+    status: string;
+    supplier: string;
+    winner: string;
+    isFollowed: boolean;
+    slackUrl: string;
+    editingAuctionId: UUID | null;
+    setEditingAuctionId: (value: UUID | null) => void;
+    setOpenDialog: (value: boolean) => void;
+    setOneIsUpdating: (value: boolean) => void;
+    newUpdatingAuction: boolean;
+    setNewUpdatingAuction: (value: boolean) => void;
+    setBackupEditingAuctionId: (value: UUID | null) => void;
 };
 
-const AuctionFooter = ({status, supplier, winner, isFollowed, slackUrl, id}: Props) => {
+const AuctionFooter = ({status, supplier, winner, isFollowed, slackUrl, id, setEditingAuctionId, setOpenDialog, setOneIsUpdating, editingAuctionId, newUpdatingAuction, setNewUpdatingAuction, setBackupEditingAuctionId}: Props) => {
     const [followed, setFollowed] = useState(isFollowed);
-    const {mutate, isSuccess, isError} = useUpdateAuction();
     const debouncedFollowed = useDebounce(followed, 300);
     const {mutate: followAuction} = useFollowAuction();
     const {mutate: unfollowAuction} = useUnfollowAuction();
@@ -44,27 +50,19 @@ const AuctionFooter = ({status, supplier, winner, isFollowed, slackUrl, id}: Pro
     }, [debouncedFollowed]);
 
     const handleUpdate = () => {
-        const updateAuction: AuctionDto = {
-            wantsToBeModerator: false,
-            title: "Kolejny updatowy tytuł",
-            description: "Kolejny przykladowy opis",
-            fileId: "",
-            auctionDate: "2025-11-11",
-            city: "",
-            startingPrice: 79.99
-        };
+        if(!editingAuctionId) {
+            setEditingAuctionId(id);
+            setOneIsUpdating(true);
+        } else {
+            setBackupEditingAuctionId(id);
+            setOpenDialog(true);
+        }
 
-        mutate({
-            auctionId: id,
-            updateAuction: updateAuction
-        }, {
-            onSuccess: () => {
-                alert("Pomyślnie edytowano aukcję");
-            },
-            onError: () => {
-                alert("Błąd podczas edytowania aukcji");
-            }
-        });
+        // if(newUpdatingAuction) {
+        //     setEditingAuctionId(id);
+        //     setOneIsUpdating(true);
+        //     setNewUpdatingAuction(false);
+        // }
     };
 
     return (

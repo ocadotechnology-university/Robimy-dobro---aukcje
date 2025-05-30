@@ -21,15 +21,12 @@ const AuctionPage = () => {
     console.log(auctionFilters);
 
     return (
-        <React.Fragment>
-            <CssBaseline/>
-            <Container sx={(theme) => ({backgroundColor: theme.palette.background.default})}>
+            <Container>
                 <Stack direction="row" justifyContent="space-between" gap={2} mt={2}>
                     <Filters aucfilters={auctionFilters} setAucFilters={setAuctionFilters}/>
                     <AuctionsList auctions={auctions}/>
                 </Stack>
             </Container>
-        </React.Fragment>
     );
 }
 

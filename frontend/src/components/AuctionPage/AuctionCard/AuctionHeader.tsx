@@ -5,6 +5,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import {getPriceLabel} from "./helpers";
 
 type Props = {
+    publicId: string;
     title: string;
     date: string;
     city: string | null;
@@ -13,13 +14,15 @@ type Props = {
     hasBids: boolean;
 };
 
-const AuctionHeader = ({title, date, city, price, status, hasBids}: Props) => {
+const AuctionHeader = ({publicId, title, date, city, price, status, hasBids}: Props) => {
     const priceLabel = getPriceLabel(status, hasBids);
 
     return (
         <Stack justifyContent="space-between" direction="row" alignItems="flex-start" sx={{width: "100%"}}>
             <Box>
-                <Typography variant="h6" fontWeight="bold">{title}</Typography>
+                <Typography variant="h6" fontWeight="bold">
+                    <Box component="span" color="text.secondary" mr={1}>#{publicId}</Box>
+                    {title}</Typography>
                 <Stack direction="row" spacing={1} alignItems="center">
                     <Typography variant="body2" display="flex" alignItems="center" gap={0.5}>
                         <CalendarTodayIcon fontSize="small"/>

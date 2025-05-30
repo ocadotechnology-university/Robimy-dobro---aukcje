@@ -1,11 +1,11 @@
 package com.example.backend.repository;
 
+import com.example.backend.gviz.AuctionQueryBuilder;
 import com.example.backend.model.Auction;
-import com.example.backend.util.AuctionQuery;
+import com.example.backend.service.GoogleSheetsHeaderMappingService;
 import com.example.backend.service.GoogleSheetsService;
 import com.example.backend.util.CreateRowInGoogleSheets;
-import com.example.backend.util.FollowersQuery;
-import com.example.backend.util.GvizResponseParser;
+import com.example.backend.gviz.GvizResponseParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Repository;
 
@@ -17,24 +17,31 @@ import java.util.UUID;
 public class GoogleSheetsAuctionRepository implements AuctionRepository {
     private final GoogleSheetsService googleSheetsService;
     private final GvizResponseParser gvizResponseParser;
-    private CreateRowInGoogleSheets createRowInGoogleSheets;
+    private final CreateRowInGoogleSheets createRowInGoogleSheets;
+    private final GoogleSheetsHeaderMappingService headerMappingService;
 
-    public GoogleSheetsAuctionRepository(GoogleSheetsService googleSheetsService, GvizResponseParser gvizResponseParser, CreateRowInGoogleSheets createRowInGoogleSheets) {
+    public GoogleSheetsAuctionRepository(
+            GoogleSheetsService googleSheetsService,
+            GvizResponseParser gvizResponseParser,
+            CreateRowInGoogleSheets createRowInGoogleSheets,
+            GoogleSheetsHeaderMappingService headerMappingService
+    ) {
         this.googleSheetsService = googleSheetsService;
         this.gvizResponseParser = gvizResponseParser;
         this.createRowInGoogleSheets = createRowInGoogleSheets;
+        this.headerMappingService = headerMappingService;
     }
 
     @Override
     public void save(Auction auction) throws IOException {
-        List<Object> row = createRowInGoogleSheets.createRow(auction);
+        List<Object> row = createRowInGoogleSheets.createRowFromAuction(auction, headerMappingService.getHeaderIndexMap("Auction"));
 
         googleSheetsService.appendRow("Auction", List.of(row));
     }
 
     @Override
     public void update(UUID auctionId, Auction auction) throws IOException {
-        List<Object> updatedRow = createRowInGoogleSheets.createRow(auction);
+        List<Object> updatedRow = createRowInGoogleSheets.createRowFromAuction(auction, headerMappingService.getHeaderIndexMap("Auction"));
 
         try {
             List<List<Object>> rows = googleSheetsService.readAll("Auction");
@@ -53,23 +60,34 @@ public class GoogleSheetsAuctionRepository implements AuctionRepository {
 
     @Override
     public Auction findByAuctionId(UUID auctionId) throws IOException {
-        AuctionQuery auctionQuery = new AuctionQuery(auctionId);
-        String queryWithAuctionId = auctionQuery.getQueryWithAuctionId();
-        String response = googleSheetsService.queryWithGviz(queryWithAuctionId, "Auction");
+        String query = new AuctionQueryBuilder(headerMappingService)
+                .selectAllColumns()
+                .withId(auctionId)
+                .build();
+        String response = googleSheetsService.queryWithGviz(query, "Auction");
         return gvizResponseParser.parseAuctionsResponse(response).get(0);
     }
 
+
     @Override
     public List<Auction> findAllByFiltersAndUser(List<String> statuses, Boolean myAuctions, Boolean followed, List<String> dates, String userEmail) throws IOException {
-        AuctionQuery auctionQuery = new AuctionQuery(statuses, myAuctions, followed, dates, userEmail);
-        String queryWithFilters = auctionQuery.getQueryWithFilters();
+        String queryWithFilters = new AuctionQueryBuilder(headerMappingService)
+                .selectAllColumns()
+                .withStatuses(statuses)
+                .withDates(dates)
+                .withSupplier(myAuctions ? userEmail : null)
+                .withFollowed(followed ? userEmail : null)
+                .build();
+
         String response = googleSheetsService.queryWithGviz(queryWithFilters, "Auction");
         return gvizResponseParser.parseAuctionsResponse(response);
     }
 
+
     private List<String> findFollowersByAuctionId(UUID auctionId) throws IOException {
-        FollowersQuery followersQuery = new FollowersQuery(auctionId);
-        String query = followersQuery.getQuery();
+        String query = new AuctionQueryBuilder(headerMappingService)
+                .onlyFollowersById(auctionId)
+                .build();
         String response = googleSheetsService.queryWithGviz(query, "Auction");
         return gvizResponseParser.parseFollowersResponse(response);
     }
@@ -81,10 +99,14 @@ public class GoogleSheetsAuctionRepository implements AuctionRepository {
                 List<Object> row = rows.get(i);
                 if (!row.isEmpty() && auctionId.toString().equals(row.get(0).toString())) {
                     String json = new ObjectMapper().writeValueAsString(followers);
-                    // TODO: Replace hardcoded column index 11 with dynamic detection of the "followers" column
-                    googleSheetsService.updateCellValue("Auction", i, 11, json);
+                    int followersIndex = headerMappingService.getColumnIndex("Auction", "followers");
+                    int followersCountIndex = headerMappingService.getColumnIndex("Auction", "followersCount");
+
+
+                    googleSheetsService.updateCellValue("Auction", i, followersIndex, json);
                     // This should probably be replaced with a single batched request to reduce latency and API usage
-                    googleSheetsService.updateCellValue("Auction", i, 12, createRowInGoogleSheets.makeNotNull(followers.size()));
+                    googleSheetsService.updateCellValue("Auction", i, followersCountIndex, createRowInGoogleSheets.makeNotNull(followers.size()));
+
                     return;
                 }
             }

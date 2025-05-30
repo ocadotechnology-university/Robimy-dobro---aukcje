@@ -4,8 +4,8 @@ import com.example.backend.constants.CustomException;
 
 import static com.example.backend.constants.ErrorMessages.GOOGLE_VERIFICATION_FAILED;
 
-import com.example.backend.util.AdminQuery;
-import com.example.backend.util.GvizResponseParser;
+import com.example.backend.gviz.GvizQueryBuilder;
+import com.example.backend.gviz.GvizResponseParser;
 import com.example.backend.security.Role;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
@@ -26,10 +26,12 @@ public class GoogleAuthService {
             .get("GOOGLE_CLIENT_ID", System.getenv("GOOGLE_CLIENT_ID") != null ? System.getenv("GOOGLE_CLIENT_ID") : "");
     private final GoogleSheetsService googleSheetsService;
     private final GvizResponseParser gvizResponseParser;
+    private final GoogleSheetsHeaderMappingService googleSheetsHeaderMappingService;
 
-    public GoogleAuthService(GoogleSheetsService googleSheetsService, GvizResponseParser gvizResponseParser) {
+    public GoogleAuthService(GoogleSheetsService googleSheetsService, GvizResponseParser gvizResponseParser, GoogleSheetsHeaderMappingService googleSheetsHeaderMappingService) {
         this.googleSheetsService = googleSheetsService;
         this.gvizResponseParser = gvizResponseParser;
+        this.googleSheetsHeaderMappingService = googleSheetsHeaderMappingService;
     }
 
     HttpTransport transport = new NetHttpTransport();
@@ -54,8 +56,11 @@ public class GoogleAuthService {
     }
 
     public Role getUserRoleByEmail(String email) {
-        AdminQuery adminQuery = new AdminQuery(email);
-        String query = adminQuery.getQuery();
+        String query = new GvizQueryBuilder(googleSheetsHeaderMappingService.getHeaderLetterMap("Admin"))
+                .select("email")
+                .whereEquals("email", email)
+                .build();
+
         String response = googleSheetsService.queryWithGviz(query, "Admin");
 
         try {

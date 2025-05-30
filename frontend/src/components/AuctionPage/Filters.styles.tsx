@@ -5,11 +5,13 @@ export const FiltersPaperStyle: SxProps<Theme> = {
     minWidth: '18%',
     borderRadius: 4,
     alignSelf: 'flex-start',
+    position: 'sticky',
+    top: 80,
 };
 
 export const ClearAllTypographyStyle = (theme: Theme) => ({
     cursor: 'pointer',
-    color: theme.palette.secondary.main,
+    color: theme.palette.text.primary,
     fontSize: '0.9rem',
     fontWeight: 500,
     display: 'flex',
@@ -18,7 +20,7 @@ export const ClearAllTypographyStyle = (theme: Theme) => ({
 
 export const SectionActionTypographyStyle: SxProps<Theme> = (theme) => ({
     cursor: 'pointer',
-    color: theme.palette.secondary.main,
+    color: theme.palette.text.primary,
     fontSize: '0.7rem',
     fontWeight: 500,
     margin: '0 !important',
