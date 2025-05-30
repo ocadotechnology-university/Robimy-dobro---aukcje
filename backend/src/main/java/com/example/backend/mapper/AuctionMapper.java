@@ -97,6 +97,7 @@ public class AuctionMapper {
 
         return Auction.builder()
                 .id(auction.getId())
+                .publicId(auction.getPublicId())
                 .moderatorEmail(moderatorEmail)
                 .supplierEmail(userEmail)
                 .supplierName(auction.getSupplierName())
