@@ -3,6 +3,7 @@ package com.example.backend.mapper;
 import com.example.backend.dto.AuctionCreateDto;
 import com.example.backend.dto.AuctionGetDto;
 import com.example.backend.dto.AuctionUpdateDto;
+import com.example.backend.dto.PublicIdDto;
 import com.example.backend.model.Auction;
 import com.example.backend.model.AuctionStatus;
 import com.example.backend.util.DateTransformer;
@@ -117,11 +118,11 @@ public class AuctionMapper {
                 .build();
     }
 
-    public Auction mapFromUpdatePublicIdToAuction(Auction auction, String publicId) {
+    public Auction mapFromUpdatePublicIdToAuction(Auction auction, PublicIdDto publicIdDto) {
         long longPublicId;
 
         try {
-            longPublicId = Long.parseLong(publicId);
+            longPublicId = Long.parseLong(publicIdDto.getPublicId());
         } catch(NumberFormatException e) {
             longPublicId = auction.getPublicId();
         }

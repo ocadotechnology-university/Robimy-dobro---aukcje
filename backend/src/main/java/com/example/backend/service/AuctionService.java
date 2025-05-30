@@ -3,6 +3,7 @@ package com.example.backend.service;
 import com.example.backend.dto.AuctionCreateDto;
 import com.example.backend.dto.AuctionGetDto;
 import com.example.backend.dto.AuctionUpdateDto;
+import com.example.backend.dto.PublicIdDto;
 import com.example.backend.mapper.AuctionMapper;
 import com.example.backend.model.Auction;
 import com.example.backend.repository.AuctionRepository;
@@ -31,8 +32,8 @@ public class AuctionService {
         auctionRepository.update(auctionId, auctionMapper.mapFromUpdateDtoToAuction(getAuctionById(auctionId), auctionUpdateDto, userEmail));
     }
 
-    public void updatePublicId(UUID auctionId, String publicId) throws IOException{
-        auctionRepository.update(auctionId, auctionMapper.mapFromUpdatePublicIdToAuction(getAuctionById(auctionId), publicId));
+    public void updatePublicId(UUID auctionId, PublicIdDto publicIdDto) throws IOException{
+        auctionRepository.update(auctionId, auctionMapper.mapFromUpdatePublicIdToAuction(getAuctionById(auctionId), publicIdDto));
     }
 
     public Auction getAuctionById(UUID auctionId) throws IOException {

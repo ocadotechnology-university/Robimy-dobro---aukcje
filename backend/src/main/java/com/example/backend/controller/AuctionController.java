@@ -2,6 +2,7 @@ package com.example.backend.controller;
 
 import com.example.backend.dto.AuctionCreateDto;
 import com.example.backend.dto.AuctionUpdateDto;
+import com.example.backend.dto.PublicIdDto;
 import com.example.backend.service.AuctionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -84,9 +85,10 @@ public class AuctionController {
     }
 
     @PatchMapping("/{auctionId}/updatePublicId")
-    public ResponseEntity<?> updateAuctionPublicId(@RequestBody String publicId, @PathVariable UUID auctionId) {
+    public ResponseEntity<?> updateAuctionPublicId(@RequestBody PublicIdDto publicIdDto, @PathVariable UUID auctionId) {
         try {
-            auctionService.updatePublicId(auctionId, publicId);
+            String userEmail = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+            auctionService.updatePublicId(auctionId, publicIdDto);
             return ResponseEntity.ok("Auction publicId update successfully");
         } catch (IOException e) {
             return ResponseEntity.status(500).body("Error while updating auction's publicId: " + e.getMessage());
