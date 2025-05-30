@@ -23,10 +23,16 @@ type Props = {
     winner: string;
     isFollowed: boolean;
     slackUrl: string;
+    editingAuctionId: UUID | null;
     setEditingAuctionId: (value: UUID | null) => void;
+    setOpenDialog: (value: boolean) => void;
+    setOneIsUpdating: (value: boolean) => void;
+    newUpdatingAuction: boolean;
+    setNewUpdatingAuction: (value: boolean) => void;
+    setBackupEditingAuctionId: (value: UUID | null) => void;
 };
 
-const AuctionFooter = ({status, supplier, winner, isFollowed, slackUrl, id, setEditingAuctionId}: Props) => {
+const AuctionFooter = ({status, supplier, winner, isFollowed, slackUrl, id, setEditingAuctionId, setOpenDialog, setOneIsUpdating, editingAuctionId, newUpdatingAuction, setNewUpdatingAuction, setBackupEditingAuctionId}: Props) => {
     const [followed, setFollowed] = useState(isFollowed);
     const debouncedFollowed = useDebounce(followed, 300);
     const {mutate: followAuction} = useFollowAuction();
@@ -44,7 +50,19 @@ const AuctionFooter = ({status, supplier, winner, isFollowed, slackUrl, id, setE
     }, [debouncedFollowed]);
 
     const handleUpdate = () => {
-        setEditingAuctionId(id);
+        if(!editingAuctionId) {
+            setEditingAuctionId(id);
+            setOneIsUpdating(true);
+        } else {
+            setBackupEditingAuctionId(id);
+            setOpenDialog(true);
+        }
+
+        // if(newUpdatingAuction) {
+        //     setEditingAuctionId(id);
+        //     setOneIsUpdating(true);
+        //     setNewUpdatingAuction(false);
+        // }
     };
 
     return (
