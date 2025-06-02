@@ -2,9 +2,17 @@ import {createContext, ReactNode, useCallback, useContext, useEffect, useState} 
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import API from "../services/API"
+import {jwtDecode} from "jwt-decode";
+
+interface JwtPayload {
+    role: string;
+    supplier: string;
+}
 
 interface AuthContextType {
     accessToken: string | null;
+    role: string | null;
+    supplier: string | null;
     loginWithGoogle: (googleToken: string) => Promise<void>;
 }
 
@@ -18,20 +26,30 @@ export const useAuth = () => {
     return context;
 }
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
+export const AuthProvider = ({children}: { children: ReactNode }) => {
     const [accessToken, setAccessToken] = useState<string | null>(null);
+    const [role, setRole] = useState<string | null>(null);
+    const [supplier, setSupplier] = useState<string | null>(null);
     const navigate = useNavigate();
     let refreshPromise: Promise<string> | null = null;
+
+    const decodeAndSetTokenData = (token: string) => {
+        const decoded: JwtPayload = jwtDecode(token);
+        setRole(decoded.role);
+        setSupplier(decoded.supplier);
+    };
 
     const loginWithGoogle = async (googleToken: string) => {
         try {
             const response = await axios.post(
                 "http://localhost:8080/api/auth/google/signup",
-                { credentials: googleToken },
+                {credentials: googleToken},
                 {withCredentials: true}
             );
-            console.log(response.data.accessToken);
-            setAccessToken(response.data.accessToken);
+            const token = response.data.accessToken;
+            console.log(token);
+            setAccessToken(token);
+            decodeAndSetTokenData(token);
         } catch (error) {
             console.error("Google login failed:", error);
             logout();
@@ -41,6 +59,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const logout = () => {
         setAccessToken(null);
+        setRole(null);
+        setSupplier(null);
         navigate("/auth");
     }
 
@@ -76,6 +96,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                             }).then(res => {
                                 const newToken = res.data;
                                 setAccessToken(newToken);
+                                decodeAndSetTokenData(newToken);
                                 console.log("New access token: " + newToken);
                                 return newToken;
                             }).finally(() => {
@@ -104,7 +125,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }, [])
 
     return (
-        <AuthContext.Provider value={{ accessToken, loginWithGoogle}}>
+        <AuthContext.Provider value={{accessToken, role, supplier, loginWithGoogle}}>
             {children}
         </AuthContext.Provider>
     );
