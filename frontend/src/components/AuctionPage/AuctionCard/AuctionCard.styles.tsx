@@ -1,10 +1,19 @@
 import {Grid2, styled} from "@mui/material";
 import Box from "@mui/material/Box";
 
-export const CardStyle = {
+export const CardStyle = (
+    isFinished: boolean,
+    isOwnedByUser: boolean
+) => ({
+    ...CardStyle,
+    backgroundColor: isFinished
+        ? "#d7d7d7"
+        : isOwnedByUser
+            ? "#a4d3a2"
+            : "white",
     borderRadius: 4,
     p: 2,
-};
+});
 
 export const ImageWrapperStyle = {
     display: 'flex',
@@ -20,10 +29,12 @@ export const UpdateImageWrapperStyle = {
     paddingRight: {md: 1.8, lg: 1.8},
 };
 
-export const ImageStyle = {
+export const ImageStyle = (isFinished: boolean) => ({
     borderRadius: 2,
     height: '100%',
-};
+    filter: isFinished ? 'grayscale(1)' : 'none',
+    transition: 'filter 0.3s ease-in-out',
+});
 
 export const IconBox = styled(Box)({
     display: 'flex',
