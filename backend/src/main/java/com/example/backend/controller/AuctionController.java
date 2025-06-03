@@ -1,18 +1,26 @@
 package com.example.backend.controller;
 
+import com.example.backend.constants.CustomException;
+import com.example.backend.constants.ErrorMessages;
 import com.example.backend.dto.AuctionCreateDto;
 import com.example.backend.dto.AuctionUpdateDto;
 import com.example.backend.dto.PublicIdDto;
 import com.example.backend.service.AuctionService;
+import com.example.backend.service.GoogleAuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/auctions")
@@ -21,6 +29,8 @@ public class AuctionController {
     public AuctionController(AuctionService auctionService) {
         this.auctionService = auctionService;
     }
+
+    private static final Logger logger = LoggerFactory.getLogger(AuctionController.class);
 
     @PostMapping
     public ResponseEntity<?> saveAuction(@RequestBody AuctionCreateDto auctionCreateDto) {
@@ -91,8 +101,19 @@ public class AuctionController {
     public ResponseEntity<?> updateAuctionPublicId(@RequestBody PublicIdDto publicIdDto, @PathVariable UUID auctionId) {
         try {
             String userEmail = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+
+            Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+            boolean isAdmin = authorities.stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
+
+            if(!isAdmin) {
+                throw new CustomException(ErrorMessages.NO_PERMISSION);
+            }
+
             auctionService.updatePublicId(auctionId, publicIdDto);
             return ResponseEntity.ok("Auction publicId update successfully");
+        } catch (CustomException e) {
+            logger.error("Error while updating auction's publicId: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         } catch (IOException e) {
             return ResponseEntity.status(500).body("Error while updating auction's publicId: " + e.getMessage());
         }
