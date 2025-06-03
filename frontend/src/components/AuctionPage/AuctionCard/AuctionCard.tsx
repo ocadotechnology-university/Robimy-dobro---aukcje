@@ -162,7 +162,7 @@ const AuctionCard = (props: Props) => {
     }
 
     return (
-        <Card variant="outlined" sx={CardStyle(props.status === "FINISHED", props.supplierEmail === supplier)}>
+        <Card variant="outlined" sx={CardStyle(props.status === "FINISHED", props.supplierEmail === supplier, props.isUpdating)}>
             {!props.isUpdating ? (
                 <Grid2 container spacing={2}>
                     <ImageSection fileId={props.fileId} status={props.status}/>

@@ -83,6 +83,7 @@ const Filters = ({aucfilters, setAucFilters}: FiltersProps) => {
             ...prev,
             sortBy: sortValueMap[sort] || undefined,
         }));
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }, [sort]);
 
     const isAnySelected =
