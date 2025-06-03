@@ -3,14 +3,17 @@ import Box from "@mui/material/Box";
 
 export const CardStyle = (
     isFinished: boolean,
-    isOwnedByUser: boolean
+    isOwnedByUser: boolean,
+    isUpdating: boolean
 ) => ({
     ...CardStyle,
-    backgroundColor: isFinished
-        ? "#d7d7d7"
-        : isOwnedByUser
-            ? "#a4d3a2"
-            : "white",
+    backgroundColor: isUpdating
+        ? 'white'
+        : isFinished
+            ? '#d7d7d7'
+            : isOwnedByUser
+                ? '#a4d3a2'
+                : 'white',
     borderRadius: 4,
     p: 2,
 });
