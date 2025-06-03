@@ -6,5 +6,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PublicIdDto {
-    String publicId;
+    Long publicId;
 }

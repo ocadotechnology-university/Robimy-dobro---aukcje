@@ -119,17 +119,10 @@ public class AuctionMapper {
     }
 
     public Auction mapFromUpdatePublicIdToAuction(Auction auction, PublicIdDto publicIdDto) {
-        long longPublicId;
-
-        try {
-            longPublicId = Long.parseLong(publicIdDto.getPublicId());
-        } catch(NumberFormatException e) {
-            longPublicId = auction.getPublicId();
-        }
 
         return Auction.builder()
                 .id(auction.getId())
-                .publicId(longPublicId)
+                .publicId(publicIdDto.getPublicId())
                 .moderatorEmail(auction.getModeratorEmail())
                 .supplierEmail(auction.getSupplierEmail())
                 .supplierName(auction.getSupplierName())
