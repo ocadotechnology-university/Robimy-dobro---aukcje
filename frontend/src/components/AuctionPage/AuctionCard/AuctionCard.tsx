@@ -28,6 +28,7 @@ type Props = {
     description: string;
     status: string;
     hasBids: boolean;
+    supplierEmail: string;
     supplier: string;
     winner: string;
     price: string;
@@ -198,6 +199,7 @@ const AuctionCard = (props: Props) => {
                                     setOneIsUpdating={props.setOneIsUpdating} editingAuctionId={props.editingAuctionId}
                                     setBackupEditingAuctionId={props.setBackupEditingAuctionId}
                                     setNewPublicId={setNewPublicId} handleUpdatePublicId={handleUpdatePublicId}/>
+
                 </Grid2>
             ) : (
                 <Grid2 container spacing={1}>

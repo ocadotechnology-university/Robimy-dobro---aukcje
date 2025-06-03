@@ -8,6 +8,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import {AuctionFilters} from "../../services/fetchAuctions";
 import {useEffect} from "react";
+import {useViewMode} from "../../contexts/ViewModeContext";
 
 import {
     FiltersPaperStyle,
@@ -32,8 +33,14 @@ const statusValueMap: Record<string, string> = {
     "Niekompletne": "INCOMPLETE",
     "Bez moderatora": "NO_MODERATOR",
     "Bez daty": "NO_DATE",
-    "Bez oferty": "NO_OFFER",
+    "Bez oferty": "NO_BID",
     "Kompletne": "COMPLETE",
+};
+
+const sortValueMap: Record<string, string | null> = {
+    "Domyślne": null,
+    "Cena: od najniższej": "priceAsc",
+    "Cena: od najwyższej": "priceDesc",
 };
 
 const dateValueMap: Record<string, string> = {
@@ -47,6 +54,7 @@ const Filters = ({aucfilters, setAucFilters}: FiltersProps) => {
     const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
     const [selectedDates, setSelectedDates] = useState<string[]>([]);
     const [sort, setSort] = useState<string>("Domyślne");
+    const {adminViewMode} = useViewMode();
 
     useEffect(() => {
         setAucFilters(prev => ({
@@ -70,6 +78,13 @@ const Filters = ({aucfilters, setAucFilters}: FiltersProps) => {
         }));
     }, [selectedDates]);
 
+    useEffect(() => {
+        setAucFilters(prev => ({
+            ...prev,
+            sortBy: sortValueMap[sort] || undefined,
+        }));
+    }, [sort]);
+
     const isAnySelected =
         selectedStatuses.length > 0 ||
         selectedTypes.length > 0 ||
@@ -79,6 +94,7 @@ const Filters = ({aucfilters, setAucFilters}: FiltersProps) => {
         setSelectedStatuses([]);
         setSelectedTypes([]);
         setSelectedDates([]);
+        setSort("Domyślne");
     };
 
     return (
@@ -86,13 +102,15 @@ const Filters = ({aucfilters, setAucFilters}: FiltersProps) => {
             <Stack spacing={1}>
                 <FiltersHeader showClear={isAnySelected} onClearAll={handleClearAll}/>
 
-                <FilterSection
-                    title="Status aukcji"
-                    icon={<ShieldIcon fontSize="small" sx={{color: '#fbc02d'}}/>}
-                    options={statusOptions}
-                    selectedOptions={selectedStatuses}
-                    setSelectedOptions={setSelectedStatuses}
-                />
+                {adminViewMode && (
+                    <FilterSection
+                        title="Status aukcji"
+                        icon={<ShieldIcon fontSize="small" sx={{color: '#fbc02d'}}/>}
+                        options={statusOptions}
+                        selectedOptions={selectedStatuses}
+                        setSelectedOptions={setSelectedStatuses}
+                    />
+                )}
 
                 <FilterSection
                     title="Wybrane aukcje"

@@ -21,8 +21,11 @@ public class GoogleDriveConfig {
 
     @Bean
     public String googleDriveFolderId() {
-        String folderId = Dotenv.load().get("GOOGLE_DRIVE_FOLDER_ID");
-        if (folderId == null || folderId.isBlank()) {
+        String folderId = Dotenv.configure()
+                .ignoreIfMissing()
+                .load()
+                .get("GOOGLE_DRIVE_FOLDER_ID", System.getenv("GOOGLE_DRIVE_FOLDER_ID") != null ? System.getenv("GOOGLE_DRIVE_FOLDER_ID") : "");
+        if (folderId.isBlank()) {
             logger.error("GOOGLE_DRIVE_FOLDER_ID id not found in .env file");
             throw new IllegalStateException("GOOGLE_DRIVE_FOLDER_ID not found in .env file");
         }

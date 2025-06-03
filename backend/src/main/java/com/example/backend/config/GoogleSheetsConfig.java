@@ -21,8 +21,11 @@ public class GoogleSheetsConfig {
 
     @Bean
     public String googleSheetsSpreadsheetId() {
-        String spreadsheetId = Dotenv.load().get("GOOGLE_SHEET_ID");
-        if (spreadsheetId == null || spreadsheetId.isEmpty()) {
+        String spreadsheetId = Dotenv.configure()
+                .ignoreIfMissing()
+                .load()
+                .get("GOOGLE_SHEET_ID", System.getenv("GOOGLE_SHEET_ID") != null ? System.getenv("GOOGLE_SHEET_ID") : "");
+        if (spreadsheetId.isEmpty()) {
             logger.error("GOOGLE_SHEET_ID not found in .env file");
             throw new IllegalStateException("GOOGLE_SHEET_ID not found in .env file");
         }

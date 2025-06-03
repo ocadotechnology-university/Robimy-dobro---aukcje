@@ -14,6 +14,7 @@ type Props = {
     description: string;
     status: string;
     hasBids: boolean;
+    supplierEmail: string;
     supplier: string;
     winner: string;
     price: string;
@@ -39,6 +40,7 @@ export const ContentSection = ({
                             description,
                             status,
                             hasBids,
+                            supplierEmail,
                             supplier,
                             winner,
                             price,
@@ -60,10 +62,12 @@ export const ContentSection = ({
                            setNewPublicId={setNewPublicId} handleUpdatePublicId={handleUpdatePublicId}/>
             <AuctionDescription description={description}/>
             <Box flexGrow={1}/>
-            <AuctionFooter id={id} status={status} supplier={supplier} winner={winner} isFollowed={isFollowed}
+            <AuctionFooter id={id} status={status} supplierEmail={supplierEmail} supplier={supplier} winner={winner}
+                           isFollowed={isFollowed}
                            slackUrl={slackUrl} setEditingAuctionId={setEditingAuctionId} setOpenDialog={setOpenDialog}
                            setOneIsUpdating={setOneIsUpdating} editingAuctionId={editingAuctionId}
-                           newUpdatingAuction={newUpdatingAuction} setNewUpdatingAuction={setNewUpdatingAuction} setBackupEditingAuctionId={setBackupEditingAuctionId}/>
+                           newUpdatingAuction={newUpdatingAuction} setNewUpdatingAuction={setNewUpdatingAuction}
+                           setBackupEditingAuctionId={setBackupEditingAuctionId}/>
         </Stack>
     </Grid2>
 );
