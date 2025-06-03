@@ -164,10 +164,11 @@ const AuctionCard = (props: Props) => {
 
     const handleUpdatePublicId = async () => {
         setIsLoading(true);
+        const newNumberPublicId = isNaN(Number(newPublicId)) ? null : Number(newPublicId);
 
         mutatePublicId({
             auctionId: props.id,
-            publicId: newPublicId
+            publicId: newNumberPublicId
         }, {
             onSuccess: () => {
                 setSnackbarMessage("Pomyślnie edytowano ID");
