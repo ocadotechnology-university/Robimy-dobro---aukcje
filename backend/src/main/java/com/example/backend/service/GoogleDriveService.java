@@ -1,6 +1,6 @@
 package com.example.backend.service;
 
-import com.example.backend.constants.CustomException;
+import com.example.backend.exception.CustomException;
 import com.example.backend.model.ImageData;
 import com.example.backend.util.MimeTypeDetector;
 import com.google.api.services.drive.Drive;

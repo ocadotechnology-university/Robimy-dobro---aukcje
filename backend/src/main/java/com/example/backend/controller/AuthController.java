@@ -1,6 +1,6 @@
 package com.example.backend.controller;
 
-import com.example.backend.constants.CustomException;
+import com.example.backend.exception.CustomException;
 import com.example.backend.service.GoogleAuthService;
 import com.example.backend.security.Role;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.example.backend.constants.ErrorMessages.WRONG_EMAIL;
+import static com.example.backend.exception.ErrorMessages.WRONG_EMAIL;
 import static com.example.backend.security.JwtTokenProvider.generateAccessToken;
 import static com.example.backend.security.JwtTokenProvider.generateRefreshToken;
 
