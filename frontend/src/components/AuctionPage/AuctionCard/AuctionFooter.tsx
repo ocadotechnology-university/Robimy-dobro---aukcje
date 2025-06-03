@@ -19,7 +19,7 @@ const SlackIcon = SiSlack as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
 type Props = {
     id: UUID;
     status: string;
-    email: string;
+    supplierEmail: string;
     supplier: string;
     winner: string;
     isFollowed: boolean;
@@ -35,7 +35,7 @@ type Props = {
 
 const AuctionFooter = ({
                            status,
-                           email,
+                           supplierEmail,
                            supplier,
                            winner,
                            isFollowed,
@@ -55,7 +55,7 @@ const AuctionFooter = ({
     const {mutate: unfollowAuction} = useUnfollowAuction();
     const {role, supplier: currentUserEmail} = useAuth();
     const {adminViewMode} = useViewMode();
-    const canEditOrDelete = role === "ADMIN" && adminViewMode || email === currentUserEmail;
+    const canEditOrDelete = role === "ADMIN" && adminViewMode || supplierEmail === currentUserEmail;
 
     useEffect(() => {
         if (debouncedFollowed !== isFollowed) {

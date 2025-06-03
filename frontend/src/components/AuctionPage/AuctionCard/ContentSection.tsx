@@ -14,7 +14,7 @@ type Props = {
     description: string;
     status: string;
     hasBids: boolean;
-    email: string;
+    supplierEmail: string;
     supplier: string;
     winner: string;
     price: string;
@@ -38,7 +38,7 @@ export const ContentSection = ({
                                    description,
                                    status,
                                    hasBids,
-                                   email,
+                                   supplierEmail,
                                    supplier,
                                    winner,
                                    price,
@@ -58,7 +58,7 @@ export const ContentSection = ({
                            hasBids={hasBids}/>
             <AuctionDescription description={description}/>
             <Box flexGrow={1}/>
-            <AuctionFooter id={id} status={status} email={email} supplier={supplier} winner={winner}
+            <AuctionFooter id={id} status={status} supplierEmail={supplierEmail} supplier={supplier} winner={winner}
                            isFollowed={isFollowed}
                            slackUrl={slackUrl} setEditingAuctionId={setEditingAuctionId} setOpenDialog={setOpenDialog}
                            setOneIsUpdating={setOneIsUpdating} editingAuctionId={editingAuctionId}
