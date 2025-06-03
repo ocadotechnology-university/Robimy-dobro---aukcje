@@ -9,6 +9,7 @@ export interface Auction {
     description: string,
     status: string,
     hasBids: boolean,
+    supplierEmail: string;
     supplier: string,
     winner: string,
     price: string,

@@ -8,6 +8,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import {AuctionFilters} from "../../services/fetchAuctions";
 import {useEffect} from "react";
+import {useViewMode} from "../../contexts/ViewModeContext";
 
 import {
     FiltersPaperStyle,
@@ -53,6 +54,7 @@ const Filters = ({aucfilters, setAucFilters}: FiltersProps) => {
     const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
     const [selectedDates, setSelectedDates] = useState<string[]>([]);
     const [sort, setSort] = useState<string>("Domyślne");
+    const {adminViewMode} = useViewMode();
 
     useEffect(() => {
         setAucFilters(prev => ({
@@ -100,13 +102,15 @@ const Filters = ({aucfilters, setAucFilters}: FiltersProps) => {
             <Stack spacing={1}>
                 <FiltersHeader showClear={isAnySelected} onClearAll={handleClearAll}/>
 
-                <FilterSection
-                    title="Status aukcji"
-                    icon={<ShieldIcon fontSize="small" sx={{color: '#fbc02d'}}/>}
-                    options={statusOptions}
-                    selectedOptions={selectedStatuses}
-                    setSelectedOptions={setSelectedStatuses}
-                />
+                {adminViewMode && (
+                    <FilterSection
+                        title="Status aukcji"
+                        icon={<ShieldIcon fontSize="small" sx={{color: '#fbc02d'}}/>}
+                        options={statusOptions}
+                        selectedOptions={selectedStatuses}
+                        setSelectedOptions={setSelectedStatuses}
+                    />
+                )}
 
                 <FilterSection
                     title="Wybrane aukcje"

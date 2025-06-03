@@ -9,6 +9,7 @@ import {ThemeProvider} from '@mui/material/styles'
 import theme from "./theme/theme";
 import {AuthProvider} from "./hooks/AuthProvider";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import {ViewModeProvider} from "./contexts/ViewModeContext";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -17,19 +18,21 @@ const root = ReactDOM.createRoot(
 const queryClient = new QueryClient();
 
 root.render(
-  <React.StrictMode>
-      <GoogleOAuthProvider clientId={"536919436480-2k0ca1hu29hc7hdj9lqekmj31r1hl299.apps.googleusercontent.com"}>
-        <BrowserRouter>
-          <ThemeProvider theme={theme}>
-             <AuthProvider>
-                <QueryClientProvider client={queryClient}>
-                  <App />
-                </QueryClientProvider>
-             </AuthProvider>
-          </ThemeProvider>
-        </BrowserRouter>
-      </GoogleOAuthProvider>
-  </React.StrictMode>
+    <React.StrictMode>
+        <GoogleOAuthProvider clientId={"536919436480-2k0ca1hu29hc7hdj9lqekmj31r1hl299.apps.googleusercontent.com"}>
+            <BrowserRouter>
+                <ThemeProvider theme={theme}>
+                    <AuthProvider>
+                        <ViewModeProvider>
+                            <QueryClientProvider client={queryClient}>
+                                <App/>
+                            </QueryClientProvider>
+                        </ViewModeProvider>
+                    </AuthProvider>
+                </ThemeProvider>
+            </BrowserRouter>
+        </GoogleOAuthProvider>
+    </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import NavBarButton from "./NavBarButton";
 import {LogoSwitcher} from "./NavBarLogo";
 import {UserAvatar} from "./UserAvatar";
+import {ViewModeButton} from "./ViewModeButton";
 
 const NavBar = () => {
     return (
@@ -16,6 +17,7 @@ const NavBar = () => {
                         </Link>
                         <Box flexGrow={1}/>
                         <Stack direction="row" spacing={2} alignItems="center">
+                            <ViewModeButton/>
                             <NavBarButton label="Wszystkie aukcje" link="/auctions"/>
                             <NavBarButton label="Dodaj aukcję" link="/add"/>
                             <NavBarButton label="Jak to działa?"/>
