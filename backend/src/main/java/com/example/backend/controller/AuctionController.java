@@ -35,16 +35,19 @@ public class AuctionController {
     }
 
     @GetMapping
-    public ResponseEntity<?> findAllFilteredAuctions(@RequestParam(required = false) List<String> statuses,
-                                                     @RequestParam Boolean myAuctions,
-                                                     @RequestParam Boolean followed,
-                                                     @RequestParam(required = false) List<String> dates) {
+    public ResponseEntity<?> findAllFilteredAuctions(
+            @RequestParam(required = false) List<String> statuses,
+            @RequestParam Boolean myAuctions,
+            @RequestParam Boolean followed,
+            @RequestParam(required = false) List<String> dates,
+            @RequestParam(required = false) String sortBy
+    ) {
         try {
             String userEmail = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
 
             statuses = Objects.requireNonNullElse(statuses, List.of());
             dates = Objects.requireNonNullElse(dates, List.of());
-            return ResponseEntity.ok(auctionService.getFilteredAuctions(statuses, myAuctions, followed, dates, userEmail));
+            return ResponseEntity.ok(auctionService.getFilteredAuctions(statuses, myAuctions, followed, dates, sortBy, userEmail));
         } catch (IOException e) {
             return ResponseEntity.status(500).body("Error while retrieving filtered auctions: " + e.getMessage());
         }

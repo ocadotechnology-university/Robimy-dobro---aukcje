@@ -35,8 +35,8 @@ public class AuctionService {
         return auctionRepository.findByAuctionId(auctionId);
     }
 
-    public List<AuctionGetDto> getFilteredAuctions(List<String> statuses, boolean myAuctions, boolean followed, List<String> dates, String userEmail) throws IOException {
-        List<Auction> auctions = auctionRepository.findAllByFiltersAndUser(statuses, myAuctions, followed, dates, userEmail);
+    public List<AuctionGetDto> getFilteredAuctions(List<String> statuses, boolean myAuctions, boolean followed, List<String> dates, String sortBy, String userEmail) throws IOException {
+        List<Auction> auctions = auctionRepository.findAllByFiltersAndUser(statuses, myAuctions, followed, dates, sortBy, userEmail);
 
         return auctions.stream().map(auction -> auctionMapper.mapToGetDto(auction, userEmail)).toList();
     }

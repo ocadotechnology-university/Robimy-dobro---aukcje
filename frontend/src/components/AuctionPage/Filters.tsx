@@ -32,8 +32,14 @@ const statusValueMap: Record<string, string> = {
     "Niekompletne": "INCOMPLETE",
     "Bez moderatora": "NO_MODERATOR",
     "Bez daty": "NO_DATE",
-    "Bez oferty": "NO_OFFER",
+    "Bez oferty": "NO_BID",
     "Kompletne": "COMPLETE",
+};
+
+const sortValueMap: Record<string, string | null> = {
+    "Domyślne": null,
+    "Cena: od najniższej": "priceAsc",
+    "Cena: od najwyższej": "priceDesc",
 };
 
 const dateValueMap: Record<string, string> = {
@@ -70,6 +76,13 @@ const Filters = ({aucfilters, setAucFilters}: FiltersProps) => {
         }));
     }, [selectedDates]);
 
+    useEffect(() => {
+        setAucFilters(prev => ({
+            ...prev,
+            sortBy: sortValueMap[sort] || undefined,
+        }));
+    }, [sort]);
+
     const isAnySelected =
         selectedStatuses.length > 0 ||
         selectedTypes.length > 0 ||
@@ -79,6 +92,7 @@ const Filters = ({aucfilters, setAucFilters}: FiltersProps) => {
         setSelectedStatuses([]);
         setSelectedTypes([]);
         setSelectedDates([]);
+        setSort("Domyślne");
     };
 
     return (

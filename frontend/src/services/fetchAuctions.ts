@@ -6,6 +6,7 @@ export interface AuctionFilters {
     myAuctions?: boolean;
     followed?: boolean;
     dates?: string[];
+    sortBy?: string;
 }
 
 export const fetchAuctions = async (filters: AuctionFilters): Promise<Auction[]> => {
