@@ -1,6 +1,7 @@
 package com.example.backend.util;
 
 import com.example.backend.model.Auction;
+import com.example.backend.model.AuctionStatus;
 
 import java.util.List;
 
@@ -8,6 +9,12 @@ public class AuctionSorter {
     public static List<Auction> sortAuctions(List<Auction> auctions, String sortBy) {
         return auctions.stream()
                 .sorted((auctionA, auctionB) -> {
+                    boolean isAuctionAFinished = AuctionStatusResolver.resolveStatus(auctionA) == AuctionStatus.FINISHED;
+                    boolean isAuctionBFinished = AuctionStatusResolver.resolveStatus(auctionB) == AuctionStatus.FINISHED;
+
+                    if (isAuctionAFinished && !isAuctionBFinished) return 1;
+                    if (!isAuctionAFinished && isAuctionBFinished) return -1;
+
                     boolean sortByPriceAscending = "priceAsc".equalsIgnoreCase(sortBy);
                     boolean sortByPriceDescending = "priceDesc".equalsIgnoreCase(sortBy);
 
