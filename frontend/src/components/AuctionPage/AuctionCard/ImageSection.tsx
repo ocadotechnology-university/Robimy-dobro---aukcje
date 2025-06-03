@@ -5,9 +5,10 @@ import {useGetImages} from "../../../hooks/useGetImages";
 
 type Props = {
     fileId: string;
+    status: string;
 };
 
-const ImageSection = ({fileId}: Props) => {
+const ImageSection = ({fileId, status}: Props) => {
     const { data: blob, isLoading } = useGetImages(fileId);
     const [blobUrl, setBlobUrl] = useState<string | null>(null);
 
@@ -36,7 +37,7 @@ const ImageSection = ({fileId}: Props) => {
                         component="img"
                         image={blobUrl}
                         alt="Auction item"
-                        sx={ImageStyle}
+                        sx={ImageStyle(status === "FINISHED")}
                     />
                 )}
             </Box>
