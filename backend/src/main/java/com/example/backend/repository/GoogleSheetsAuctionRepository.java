@@ -4,6 +4,7 @@ import com.example.backend.gviz.AuctionQueryBuilder;
 import com.example.backend.model.Auction;
 import com.example.backend.service.GoogleSheetsHeaderMappingService;
 import com.example.backend.service.GoogleSheetsService;
+import com.example.backend.util.AuctionSorter;
 import com.example.backend.util.CreateRowInGoogleSheets;
 import com.example.backend.gviz.GvizResponseParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -68,7 +69,6 @@ public class GoogleSheetsAuctionRepository implements AuctionRepository {
         return gvizResponseParser.parseAuctionsResponse(response).get(0);
     }
 
-
     @Override
     public List<Auction> findAllByFiltersAndUser(List<String> statuses, Boolean myAuctions, Boolean followed, List<String> dates, String sortBy, String userEmail) throws IOException {
         String queryWithFilters = new AuctionQueryBuilder(headerMappingService)
@@ -77,13 +77,12 @@ public class GoogleSheetsAuctionRepository implements AuctionRepository {
                 .withDates(dates)
                 .withSupplier(myAuctions ? userEmail : null)
                 .withFollowed(followed ? userEmail : null)
-                .withSorting(sortBy)
                 .build();
 
         String response = googleSheetsService.queryWithGviz(queryWithFilters, "Auction");
-        return gvizResponseParser.parseAuctionsResponse(response);
+        List<Auction> auctions = gvizResponseParser.parseAuctionsResponse(response);
+        return AuctionSorter.sortAuctions(auctions, sortBy);
     }
-
 
     private List<String> findFollowersByAuctionId(UUID auctionId) throws IOException {
         String query = new AuctionQueryBuilder(headerMappingService)

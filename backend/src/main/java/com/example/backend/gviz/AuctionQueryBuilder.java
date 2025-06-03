@@ -102,18 +102,6 @@ public class AuctionQueryBuilder {
         return this;
     }
 
-    public AuctionQueryBuilder withSorting(String sortBy) {
-        if ("priceAsc".equalsIgnoreCase(sortBy)) {
-            builder.orderBy(Column.CURRENT_BID.label, true);
-        } else if ("priceDesc".equalsIgnoreCase(sortBy)) {
-            builder.orderBy(Column.CURRENT_BID.label, false);
-        }
-
-        builder.orderBy(Column.PUBLIC_ID.label, true);
-
-        return this;
-    }
-
     public String build() {
         return builder.build();
     }
