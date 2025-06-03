@@ -19,6 +19,8 @@ const AuctionsList = ({auctions}: AuctionsListProps) => {
 
     const auctionRefs = useRef<Record<UUID, HTMLDivElement | null>>({});
 
+    const publicIdList = auctions.map((auction) => auction.publicId);
+
     const scrollToAuction = (id: UUID | null) => {
         if (id) {
             auctionRefs.current[id]?.scrollIntoView({behavior: "smooth", block: "center"});
@@ -44,7 +46,6 @@ const AuctionsList = ({auctions}: AuctionsListProps) => {
     return (
         <Stack width="100%" gap={1}>
             {auctions.map((auction) => (
-
                 <div
                     key={auction.id}
                     ref={(el) => {
@@ -57,6 +58,7 @@ const AuctionsList = ({auctions}: AuctionsListProps) => {
                         setOneIsUpdating={setOneIsUpdating} newUpdatingAuction={newUpdatingAuction}
                         setNewUpdatingAuction={setNewUpdatingAuction}
                         setBackupEditingAuctionId={setBackupEditingAuctionId}
+                        publicIdList={publicIdList}
                     />
                 </div>
             ))}
@@ -67,23 +69,19 @@ const AuctionsList = ({auctions}: AuctionsListProps) => {
                     onClose={handleCloseDialog}
                 >
                     <DialogTitle
-                        id="alert-dialog-title">{"Czy na pewno chcesz rozpocząć edycję tej aukcji?"}</DialogTitle>
+                        id="alert-dialog-title">{"Trwa edycja innej aukcji"}</DialogTitle>
                     <DialogContent>
                         <Typography>
-                            Jesteś w trakcie edycji innej aukcji. Czy chcesz do niej powrócić, czy porzucić wprowadzone
-                            zmiany i rozpocząć edycję nowej aukcji?
+                            Czy chcesz wrócić do wcześniej edytowanej aukcji?
                         </Typography>
                     </DialogContent>
                     <DialogActions>
                         <Stack width="100%" direction="row" justifyContent="space-between" spacing={3}>
-                            <Button onClick={handleCloseDialog} color="primary">
-                                Anuluj
-                            </Button>
                             <Button onClick={handleBackToPreviousUpdatingAuction} color="primary">
-                                Przenieś do edytowanej
+                                Tak, wróć do edytowanej
                             </Button>
                             <Button onClick={handleNewUpdate} color="primary" autoFocus>
-                                Edytuj nową
+                                Nie, edytuj nową
                             </Button>
                         </Stack>
                     </DialogActions>
