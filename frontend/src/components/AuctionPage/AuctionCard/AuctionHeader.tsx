@@ -1,9 +1,10 @@
 import React, {useState} from "react";
-import {Box, Stack, TextField, Typography} from "@mui/material";
+import {Alert, Box, Snackbar, Stack, TextField, Typography} from "@mui/material";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import {getPriceLabel} from "./helpers";
 import {transformDateFormatToFormDate} from "../../AddPage/Services/DateTransformer";
+import {useAuth} from "../../../hooks/AuthProvider";
 
 type Props = {
     publicId: string;
@@ -33,23 +34,31 @@ const AuctionHeader = ({
     const priceLabel = getPriceLabel(status, hasBids);
     const [publicIdIsUpdating, setPublicIdIsUpdating] = useState(false);
     const [newCheckPublicId, setNewCheckPublicId] = useState(publicId);
+    const stringPublicId = publicId != null ? publicId.toString() : "";
+    const {role} = useAuth();
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
 
+    const canEditPublicId = role === "ADMIN"
+    // const canEditPublicId = role === "USER"          // for testing
 
     const handlePublicIdEdit = () => {
-        setPublicIdIsUpdating(true);
+        if (canEditPublicId) {
+            setPublicIdIsUpdating(true);
+        }
     }
 
     const handleKeyPress = (e: { key: string; }) => {
         if (e.key === 'Enter') {
-            if (newCheckPublicId === publicId) {
+            if (newCheckPublicId === stringPublicId) {
                 setPublicIdIsUpdating(false);
                 return;
             }
+
             if (!publicIdList.includes(newCheckPublicId)) {
                 setPublicIdIsUpdating(false);
                 handleUpdatePublicId();
             } else {
-                alert("Takie id istnieje");
+                setSnackbarOpen(true);
             }
         }
 
@@ -64,7 +73,7 @@ const AuctionHeader = ({
                 <Typography variant="h6" fontWeight="bold">
                     {!publicIdIsUpdating ? (
                         <Box onClick={handlePublicIdEdit} component="span" color="text.secondary" mr={1}
-                             sx={{cursor: "pointer"}}>#{publicId}</Box>
+                             sx={{cursor: canEditPublicId ? "pointer" : "default"}}>#{publicId}</Box>
                     ) : (
                         <TextField label="ID" defaultValue={publicId} type="Number"
                                    onChange={(e) => {setNewCheckPublicId(e.target.value)
@@ -96,6 +105,23 @@ const AuctionHeader = ({
                     {price} PLN
                 </Typography>
             </Box>
+
+            <Snackbar
+                anchorOrigin={{vertical: "top", horizontal: "center"}}
+                open={snackbarOpen}
+                onClose={() => setSnackbarOpen(false)}
+                autoHideDuration={4000}
+                key="top-center"
+            >
+                <Alert
+                    onClose={() => setSnackbarOpen(false)}
+                    severity={"warning"}
+                    variant="filled"
+                    sx={{width: "100%"}}
+                >
+                    Podane ID już istnieje
+                </Alert>
+            </Snackbar>
         </Stack>
     );
 };
