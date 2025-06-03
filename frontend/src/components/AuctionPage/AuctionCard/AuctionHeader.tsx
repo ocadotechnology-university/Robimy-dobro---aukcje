@@ -5,6 +5,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import {getPriceLabel} from "./helpers";
 import {transformDateFormatToFormDate} from "../../AddPage/Services/DateTransformer";
 import {useAuth} from "../../../hooks/AuthProvider";
+import {useViewMode} from "../../../contexts/ViewModeContext";
 
 type Props = {
     publicId: string;
@@ -38,7 +39,8 @@ const AuctionHeader = ({
     const {role} = useAuth();
     const [snackbarOpen, setSnackbarOpen] = useState(false);
 
-    const canEditPublicId = role === "ADMIN"
+    const {adminViewMode} = useViewMode();
+    const canEditPublicId = role === "ADMIN" && adminViewMode
 
     const handlePublicIdEdit = () => {
         if (canEditPublicId) {
