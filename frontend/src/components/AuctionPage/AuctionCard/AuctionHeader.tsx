@@ -33,13 +33,12 @@ const AuctionHeader = ({
                        }: Props) => {
     const priceLabel = getPriceLabel(status, hasBids);
     const [publicIdIsUpdating, setPublicIdIsUpdating] = useState(false);
-    const [newCheckPublicId, setNewCheckPublicId] = useState(publicId);
     const stringPublicId = publicId != null ? publicId.toString() : "";
+    const [newCheckPublicId, setNewCheckPublicId] = useState(stringPublicId);
     const {role} = useAuth();
     const [snackbarOpen, setSnackbarOpen] = useState(false);
 
     const canEditPublicId = role === "ADMIN"
-    // const canEditPublicId = role === "USER"          // for testing
 
     const handlePublicIdEdit = () => {
         if (canEditPublicId) {
