@@ -31,6 +31,7 @@ public class AuctionMapper {
         auctionGetDto.setDescription(auction.getDescription());
         auctionGetDto.setFileId(auction.getFileId());
         auctionGetDto.setSlackUrl(auction.getSlackThreadLink());
+        auctionGetDto.setEmail(auction.getSupplierEmail());
         auctionGetDto.setSupplier(auction.getSupplierName());
         auctionGetDto.setWinner(auction.getWinner());
         auctionGetDto.setPrice(auction.getCurrentBid() == null ? auction.getStartingPrice() : auction.getCurrentBid());

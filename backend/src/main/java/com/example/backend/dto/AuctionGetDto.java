@@ -17,6 +17,7 @@ public class AuctionGetDto {
     private String description;
     private AuctionStatus status;
     private Boolean hasBids;
+    private String email;
     private String supplier;
     private String winner;
     private Double price;
