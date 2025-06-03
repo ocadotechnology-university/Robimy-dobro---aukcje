@@ -1,5 +1,7 @@
 package com.example.backend.service;
 
+import com.example.backend.constants.CustomException;
+import com.example.backend.constants.ErrorMessages;
 import com.example.backend.dto.AuctionCreateDto;
 import com.example.backend.dto.AuctionGetDto;
 import com.example.backend.dto.AuctionUpdateDto;
@@ -28,8 +30,14 @@ public class AuctionService {
         auctionRepository.save(auctionMapper.mapFromCreateDtoToAuction(auctionCreateDto, userEmail, userName));
     }
 
-    public void update(UUID auctionId, AuctionUpdateDto auctionUpdateDto, String userEmail) throws IOException {
-        auctionRepository.update(auctionId, auctionMapper.mapFromUpdateDtoToAuction(getAuctionById(auctionId), auctionUpdateDto, userEmail));
+    public void update(UUID auctionId, AuctionUpdateDto auctionUpdateDto, String userEmail, boolean isAdmin) throws IOException {
+        Auction auction = auctionMapper.mapFromUpdateDtoToAuction(getAuctionById(auctionId), auctionUpdateDto, userEmail);
+
+        if(!isAdmin && !auction.getSupplierEmail().equals(userEmail)) {
+            throw new CustomException(ErrorMessages.NO_PERMISSION);
+        }
+
+        auctionRepository.update(auctionId, auction);
     }
 
     public void updatePublicId(UUID auctionId, PublicIdDto publicIdDto) throws IOException{

@@ -90,7 +90,11 @@ public class AuctionController {
     public ResponseEntity<?> updateAuction(@RequestBody AuctionUpdateDto auctionUpdateDto, @PathVariable UUID auctionId) {
         try {
             String userEmail = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-            auctionService.update(auctionId, auctionUpdateDto, userEmail);
+
+            Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+            boolean isAdmin = authorities.stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
+
+            auctionService.update(auctionId, auctionUpdateDto, userEmail, isAdmin);
             return ResponseEntity.ok("Auction update successfully");
         } catch (IOException e) {
             return ResponseEntity.status(500).body("Error while updating the auction: " + e.getMessage());

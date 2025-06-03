@@ -42,7 +42,7 @@ public class AuctionMapper {
         auctionGetDto.setIsSupplier(userEmail != null && userEmail.equals(auction.getSupplierEmail()));
         auctionGetDto.setStatus(determineStatus(auction));
         auctionGetDto.setHasBids(auction.getCurrentBid() != null);
-        auctionGetDto.setWantsToBeModerator(userEmail != null && userEmail.equals(auction.getModeratorEmail()));
+        auctionGetDto.setWantsToBeModerator(auction.getSupplierEmail() != null && auction.getSupplierEmail().equals(auction.getModeratorEmail()));
         return auctionGetDto;
     }
 
@@ -87,12 +87,11 @@ public class AuctionMapper {
     public Auction mapFromUpdateDtoToAuction(Auction auction, AuctionUpdateDto auctionUpdateDto, String userEmail) {
         String moderatorEmail = auction.getModeratorEmail();
         LocalDate date = auction.getAuctionDate();
-//        LocalDate date = null;
 
         if (auctionUpdateDto.getWantsToBeModerator()) {
-            moderatorEmail = userEmail;
+            moderatorEmail = auction.getSupplierEmail();
         } else {
-            if (moderatorEmail != null && moderatorEmail.equals(userEmail)) moderatorEmail = "";
+            if (moderatorEmail != null && moderatorEmail.equals(auction.getSupplierEmail())) moderatorEmail = "";
         }
 
         if (auctionUpdateDto.getAuctionDate() != null) {
@@ -103,7 +102,7 @@ public class AuctionMapper {
                 .id(auction.getId())
                 .publicId(auction.getPublicId())
                 .moderatorEmail(moderatorEmail)
-                .supplierEmail(userEmail)
+                .supplierEmail(auction.getSupplierEmail())
                 .supplierName(auction.getSupplierName())
                 .title(auctionUpdateDto.getTitle())
                 .description(auctionUpdateDto.getDescription())
