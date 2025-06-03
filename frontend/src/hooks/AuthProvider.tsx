@@ -6,7 +6,7 @@ import {jwtDecode} from "jwt-decode";
 
 interface JwtPayload {
     role: string;
-    supplier: string;
+    sub: string;
 }
 
 interface AuthContextType {
@@ -36,7 +36,7 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
     const decodeAndSetTokenData = (token: string) => {
         const decoded: JwtPayload = jwtDecode(token);
         setRole(decoded.role);
-        setSupplier(decoded.supplier);
+        setSupplier(decoded.sub);
     };
 
     const loginWithGoogle = async (googleToken: string) => {

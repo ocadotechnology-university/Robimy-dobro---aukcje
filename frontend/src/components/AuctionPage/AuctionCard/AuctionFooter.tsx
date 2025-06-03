@@ -11,14 +11,15 @@ import {AuctionCardFooterGrid, IconBox} from "./AuctionCard.styles";
 import {useFollowAuction} from "../../../hooks/useFollowAuction";
 import {useUnfollowAuction} from "../../../hooks/useUnfollowAuction";
 import {useDebounce} from "../../../hooks/useDebounce";
-import {AuctionDto} from "../../AddPage/AuctionDto";
-import {useUpdateAuction} from "../../../hooks/useUpdateAuction";
+import {useAuth} from "../../../hooks/AuthProvider";
+import {useViewMode} from "../../../contexts/ViewModeContext";
 
 const SlackIcon = SiSlack as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
 
 type Props = {
     id: UUID;
     status: string;
+    email: string;
     supplier: string;
     winner: string;
     isFollowed: boolean;
@@ -32,11 +33,29 @@ type Props = {
     setBackupEditingAuctionId: (value: UUID | null) => void;
 };
 
-const AuctionFooter = ({status, supplier, winner, isFollowed, slackUrl, id, setEditingAuctionId, setOpenDialog, setOneIsUpdating, editingAuctionId, newUpdatingAuction, setNewUpdatingAuction, setBackupEditingAuctionId}: Props) => {
+const AuctionFooter = ({
+                           status,
+                           email,
+                           supplier,
+                           winner,
+                           isFollowed,
+                           slackUrl,
+                           id,
+                           setEditingAuctionId,
+                           setOpenDialog,
+                           setOneIsUpdating,
+                           editingAuctionId,
+                           newUpdatingAuction,
+                           setNewUpdatingAuction,
+                           setBackupEditingAuctionId
+                       }: Props) => {
     const [followed, setFollowed] = useState(isFollowed);
     const debouncedFollowed = useDebounce(followed, 300);
     const {mutate: followAuction} = useFollowAuction();
     const {mutate: unfollowAuction} = useUnfollowAuction();
+    const {role, supplier: currentUserEmail} = useAuth();
+    const {adminViewMode} = useViewMode();
+    const canEditOrDelete = role === "ADMIN" && adminViewMode || email === currentUserEmail;
 
     useEffect(() => {
         if (debouncedFollowed !== isFollowed) {
@@ -50,19 +69,13 @@ const AuctionFooter = ({status, supplier, winner, isFollowed, slackUrl, id, setE
     }, [debouncedFollowed]);
 
     const handleUpdate = () => {
-        if(!editingAuctionId) {
+        if (!editingAuctionId) {
             setEditingAuctionId(id);
             setOneIsUpdating(true);
         } else {
             setBackupEditingAuctionId(id);
             setOpenDialog(true);
         }
-
-        // if(newUpdatingAuction) {
-        //     setEditingAuctionId(id);
-        //     setOneIsUpdating(true);
-        //     setNewUpdatingAuction(false);
-        // }
     };
 
     return (
@@ -81,16 +94,20 @@ const AuctionFooter = ({status, supplier, winner, isFollowed, slackUrl, id, setE
                         <FavoriteBorderIcon fontSize="large" color="secondary"/>
                     )}
                 </Box>
-                <IconBox>
-                    <IconButton size="small">
-                        <EditIcon onClick={handleUpdate}/>
-                    </IconButton>
-                </IconBox>
-                <IconBox>
-                    <IconButton size="small">
-                        <DeleteIcon/>
-                    </IconButton>
-                </IconBox>
+                {canEditOrDelete && (
+                    <>
+                        <IconBox>
+                            <IconButton size="small">
+                                <EditIcon onClick={handleUpdate}/>
+                            </IconButton>
+                        </IconBox>
+                        <IconBox>
+                            <IconButton size="small">
+                                <DeleteIcon/>
+                            </IconButton>
+                        </IconBox>
+                    </>
+                )}
             </Box>
         </AuctionCardFooterGrid>
     );

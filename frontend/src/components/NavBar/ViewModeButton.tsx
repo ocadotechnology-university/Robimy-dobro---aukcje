@@ -13,7 +13,7 @@ export const ViewModeButton = () => {
 
     return (
         <Tooltip title={adminViewMode ? "Widok admina" : "Widok użytkownika"}>
-            <IconButton onClick={toggleViewMode} size="large" disableRipple sx={{color: '#fbc02d'}}>
+            <IconButton onClick={toggleViewMode} size="small" disableRipple sx={{color: '#fbc02d'}}>
                 {adminViewMode ? <ShieldIcon/> : <RemoveModeratorIcon/>}
             </IconButton>
         </Tooltip>

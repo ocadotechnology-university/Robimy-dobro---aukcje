@@ -13,7 +13,7 @@ import {AuctionDto} from "../../AddPage/AuctionDto";
 import imageCompression from "browser-image-compression";
 import {useNavigate} from "react-router-dom";
 import {usePostImages} from "../../../hooks/usePostImage";
-import { Snackbar, Alert } from '@mui/material';
+import {Snackbar, Alert} from '@mui/material';
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 
@@ -26,6 +26,7 @@ type Props = {
     description: string;
     status: string;
     hasBids: boolean;
+    email: string;
     supplier: string;
     winner: string;
     price: string;
@@ -55,7 +56,7 @@ const AuctionCard = (props: Props) => {
     const [croppedImage, setCroppedImage] = useState<any | null>(null);
     const {mutate, isSuccess, isError} = useUpdateAuction();
     const navigate = useNavigate();
-    const { mutate: postImage, isSuccess: isImageSuccess, isError: isImageError } = usePostImages();
+    const {mutate: postImage, isSuccess: isImageSuccess, isError: isImageError} = usePostImages();
 
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -138,7 +139,8 @@ const AuctionCard = (props: Props) => {
                 onError: (e) => {
                     alert("Błąd podczas dodawania zdjęcia");
                     setIsLoading(false);
-                }});
+                }
+            });
 
         } catch (error) {
             console.error("Błąd kompresji zdjęcia", error);
@@ -162,16 +164,23 @@ const AuctionCard = (props: Props) => {
             {!props.isUpdating ? (
                 <Grid2 container spacing={2}>
                     <ImageSection fileId={props.fileId}/>
-                    <ContentSection {...props} setEditingAuctionId={props.setEditingAuctionId} setOpenDialog={props.setOpenDialog}
-                                    setOneIsUpdating={props.setOneIsUpdating} editingAuctionId={props.editingAuctionId} setBackupEditingAuctionId={props.setBackupEditingAuctionId}/>
+                    <ContentSection {...props} setEditingAuctionId={props.setEditingAuctionId}
+                                    setOpenDialog={props.setOpenDialog}
+                                    setOneIsUpdating={props.setOneIsUpdating} editingAuctionId={props.editingAuctionId}
+                                    setBackupEditingAuctionId={props.setBackupEditingAuctionId}/>
                 </Grid2>
             ) : (
                 <Grid2 container spacing={1}>
-                    <UpdateImageSection fileId={props.fileId} setFileId={setUpdateFileId} setCroppedImage={setCroppedImage}/>
-                    <UpdateContentSection id={props.id} title={updatedTitle} setTitle={setUpdatedTitle} date={updatedDate}
-                                          setDate={setUpdatedDate} city={updatedCity} setCity={setUpdatedCity} description={updatedDescription}
-                                          descriptionRteRef={descriptionRteRef} price={updatedPrice} setPrice={setUpdatedPrice}
-                                          wantsToBeModerator={updateWantsToBeModerator} setWantsToBeModerator={setUpdateWantsToBeModerator}
+                    <UpdateImageSection fileId={props.fileId} setFileId={setUpdateFileId}
+                                        setCroppedImage={setCroppedImage}/>
+                    <UpdateContentSection id={props.id} title={updatedTitle} setTitle={setUpdatedTitle}
+                                          date={updatedDate}
+                                          setDate={setUpdatedDate} city={updatedCity} setCity={setUpdatedCity}
+                                          description={updatedDescription}
+                                          descriptionRteRef={descriptionRteRef} price={updatedPrice}
+                                          setPrice={setUpdatedPrice}
+                                          wantsToBeModerator={updateWantsToBeModerator}
+                                          setWantsToBeModerator={setUpdateWantsToBeModerator}
                                           handleUpdate={handleUpdate} handleCancellation={handleCancellation}/>
                 </Grid2>
             )
@@ -184,7 +193,7 @@ const AuctionCard = (props: Props) => {
             )}
 
             <Snackbar
-                anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                anchorOrigin={{vertical: "top", horizontal: "center"}}
                 open={snackbarOpen}
                 onClose={() => setSnackbarOpen(false)}
                 autoHideDuration={2000}
@@ -194,7 +203,7 @@ const AuctionCard = (props: Props) => {
                     onClose={() => setSnackbarOpen(false)}
                     severity={snackbarSeverity}
                     variant="filled"
-                    sx={{ width: "100%" }}
+                    sx={{width: "100%"}}
                 >
                     {snackbarMessage}
                 </Alert>
