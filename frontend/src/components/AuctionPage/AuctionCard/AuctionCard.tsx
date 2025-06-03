@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from "react";
-import {Button, Card, Dialog, DialogActions, DialogContent, DialogTitle, Grid2, LinearProgress} from "@mui/material";
+import {Card, Grid2, LinearProgress} from "@mui/material";
 import {CardStyle} from "./AuctionCard.styles";
 import ImageSection from "./ImageSection";
 import UpdateImageSection from "./UpdateComponents/UpdateImageSection";
@@ -16,6 +16,7 @@ import {useNavigate} from "react-router-dom";
 import {usePostImages} from "../../../hooks/usePostImage";
 import {Snackbar, Alert} from '@mui/material';
 import Stack from "@mui/material/Stack";
+import {useAuth} from "../../../hooks/AuthProvider";
 
 type Props = {
     id: UUID;
@@ -65,6 +66,8 @@ const AuctionCard = (props: Props) => {
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">("success");
     const [isLoading, setIsLoading] = useState(false);
+
+    const {supplier} = useAuth();
 
     const options = {
         maxSizeMB: 1,
@@ -189,10 +192,10 @@ const AuctionCard = (props: Props) => {
     };
 
     return (
-        <Card variant="outlined" sx={CardStyle}>
+        <Card variant="outlined" sx={CardStyle(props.status === "FINISHED", props.supplierEmail === supplier, props.isUpdating)}>
             {!props.isUpdating ? (
                 <Grid2 container spacing={2}>
-                    <ImageSection fileId={props.fileId}/>
+                    <ImageSection fileId={props.fileId} status={props.status}/>
                     <ContentSection {...props} setEditingAuctionId={props.setEditingAuctionId}
                                     setOpenDialog={props.setOpenDialog}
                                     setOneIsUpdating={props.setOneIsUpdating} editingAuctionId={props.editingAuctionId}

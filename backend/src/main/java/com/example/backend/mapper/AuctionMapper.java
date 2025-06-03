@@ -5,13 +5,12 @@ import com.example.backend.dto.AuctionGetDto;
 import com.example.backend.dto.AuctionUpdateDto;
 import com.example.backend.dto.PublicIdDto;
 import com.example.backend.model.Auction;
-import com.example.backend.model.AuctionStatus;
+import com.example.backend.util.AuctionStatusResolver;
 import com.example.backend.util.DateTransformer;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -40,24 +39,10 @@ public class AuctionMapper {
         auctionGetDto.setPrice(auction.getCurrentBid() == null ? auction.getStartingPrice() : auction.getCurrentBid());
         auctionGetDto.setIsFollowed(auction.getFollowers() != null && auction.getFollowers().contains(userEmail));
         auctionGetDto.setIsSupplier(userEmail != null && userEmail.equals(auction.getSupplierEmail()));
-        auctionGetDto.setStatus(determineStatus(auction));
+        auctionGetDto.setStatus(AuctionStatusResolver.resolveStatus(auction));
         auctionGetDto.setHasBids(auction.getCurrentBid() != null);
         auctionGetDto.setWantsToBeModerator(auction.getSupplierEmail() != null && auction.getSupplierEmail().equals(auction.getModeratorEmail()));
         return auctionGetDto;
-    }
-
-    private AuctionStatus determineStatus(Auction auction) {
-        LocalDateTime now = LocalDateTime.now();
-        if (auction.getAuctionStartDateTime() == null || auction.getAuctionEndDateTime() == null) {
-            return AuctionStatus.NOT_STARTED;
-        }
-        if (now.isBefore(auction.getAuctionStartDateTime())) {
-            return AuctionStatus.NOT_STARTED;
-        } else if (now.isAfter(auction.getAuctionEndDateTime())) {
-            return AuctionStatus.FINISHED;
-        } else {
-            return AuctionStatus.IN_PROGRESS;
-        }
     }
 
     public Auction mapFromCreateDtoToAuction(AuctionCreateDto auctionCreateDto, String userEmail, String userName) {
