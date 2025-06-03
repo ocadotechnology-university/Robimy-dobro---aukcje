@@ -19,7 +19,7 @@ const AuctionsList = ({auctions}: AuctionsListProps) => {
 
     const auctionRefs = useRef<Record<UUID, HTMLDivElement | null>>({});
 
-    const publicIdList = auctions.map((auction) => auction.publicId);
+    const publicIdList = auctions.map((auction) => (auction.publicId != null ? auction.publicId.toString() : ""));
 
     const scrollToAuction = (id: UUID | null) => {
         if (id) {

@@ -16,8 +16,6 @@ import {useNavigate} from "react-router-dom";
 import {usePostImages} from "../../../hooks/usePostImage";
 import {Snackbar, Alert} from '@mui/material';
 import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
-import {updatePublicId} from "../../../services/updatePublicId";
 
 type Props = {
     id: UUID;
@@ -44,6 +42,7 @@ type Props = {
     newUpdatingAuction: boolean;
     setNewUpdatingAuction: (value: boolean) => void;
     setBackupEditingAuctionId: (value: UUID | null) => void;
+    publicIdList: string[];
 };
 
 const AuctionCard = (props: Props) => {
@@ -166,7 +165,6 @@ const AuctionCard = (props: Props) => {
     const handleUpdatePublicId = async () => {
         setIsLoading(true);
 
-        console.log(newPublicId)
         mutatePublicId({
             auctionId: props.id,
             publicId: newPublicId
@@ -198,7 +196,8 @@ const AuctionCard = (props: Props) => {
                                     setOpenDialog={props.setOpenDialog}
                                     setOneIsUpdating={props.setOneIsUpdating} editingAuctionId={props.editingAuctionId}
                                     setBackupEditingAuctionId={props.setBackupEditingAuctionId}
-                                    setNewPublicId={setNewPublicId} handleUpdatePublicId={handleUpdatePublicId}/>
+                                    setNewPublicId={setNewPublicId} handleUpdatePublicId={handleUpdatePublicId}
+                                    publicIdList={props.publicIdList}/>
 
                 </Grid2>
             ) : (

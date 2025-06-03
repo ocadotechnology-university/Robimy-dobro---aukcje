@@ -15,12 +15,24 @@ type Props = {
     hasBids: boolean;
     setNewPublicId: (value: string) => void;
     handleUpdatePublicId: () => void;
+    publicIdList: string[];
 };
 
-const AuctionHeader = ({publicId, title, date, city, price, status, hasBids, setNewPublicId, handleUpdatePublicId}: Props) => {
+const AuctionHeader = ({
+                           publicId,
+                           title,
+                           date,
+                           city,
+                           price,
+                           status,
+                           hasBids,
+                           setNewPublicId,
+                           handleUpdatePublicId,
+                           publicIdList
+                       }: Props) => {
     const priceLabel = getPriceLabel(status, hasBids);
     const [publicIdIsUpdating, setPublicIdIsUpdating] = useState(false);
-    // const [newPublicId, setNewPublicId] = useState(publicId);
+    const [newCheckPublicId, setNewCheckPublicId] = useState(publicId);
 
 
     const handlePublicIdEdit = () => {
@@ -29,8 +41,20 @@ const AuctionHeader = ({publicId, title, date, city, price, status, hasBids, set
 
     const handleKeyPress = (e: { key: string; }) => {
         if (e.key === 'Enter') {
+            if (newCheckPublicId === publicId) {
+                setPublicIdIsUpdating(false);
+                return;
+            }
+            if (!publicIdList.includes(newCheckPublicId)) {
+                setPublicIdIsUpdating(false);
+                handleUpdatePublicId();
+            } else {
+                alert("Takie id istnieje");
+            }
+        }
+
+        if (e.key === 'Escape') {
             setPublicIdIsUpdating(false);
-            handleUpdatePublicId();
         }
     };
 
@@ -39,12 +63,14 @@ const AuctionHeader = ({publicId, title, date, city, price, status, hasBids, set
             <Box>
                 <Typography variant="h6" fontWeight="bold">
                     {!publicIdIsUpdating ? (
-                        <Box onClick={handlePublicIdEdit} component="span" color="text.secondary" mr={1} sx={{cursor:"pointer"}}>#{publicId}</Box>
+                        <Box onClick={handlePublicIdEdit} component="span" color="text.secondary" mr={1}
+                             sx={{cursor: "pointer"}}>#{publicId}</Box>
                     ) : (
                         <TextField label="ID" defaultValue={publicId} type="Number"
-                                   onChange={(e) => setNewPublicId(e.target.value)}
+                                   onChange={(e) => {setNewCheckPublicId(e.target.value)
+                                                                                        setNewPublicId(e.target.value)}}
                                    onKeyDown={handleKeyPress}
-                                   sx={{width: "100px", marginBottom: 2, marginRight: 2}} />
+                                   sx={{width: "100px", marginBottom: 2, marginRight: 2}}/>
                     )}
                     {title}</Typography>
                 <Stack direction="row" spacing={1} alignItems="center">
