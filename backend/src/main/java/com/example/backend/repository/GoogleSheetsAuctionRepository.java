@@ -1,7 +1,5 @@
 package com.example.backend.repository;
 
-import com.example.backend.constants.CustomException;
-import com.example.backend.constants.ErrorMessages;
 import com.example.backend.gviz.AuctionQueryBuilder;
 import com.example.backend.model.Auction;
 import com.example.backend.service.GoogleSheetsHeaderMappingService;

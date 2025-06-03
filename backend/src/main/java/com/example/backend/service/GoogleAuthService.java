@@ -1,8 +1,8 @@
 package com.example.backend.service;
 
-import com.example.backend.constants.CustomException;
+import com.example.backend.exception.CustomException;
 
-import static com.example.backend.constants.ErrorMessages.GOOGLE_VERIFICATION_FAILED;
+import static com.example.backend.exception.ErrorMessages.GOOGLE_VERIFICATION_FAILED;
 
 import com.example.backend.gviz.GvizQueryBuilder;
 import com.example.backend.gviz.GvizResponseParser;

@@ -1,6 +1,6 @@
 package com.example.backend.controller;
 
-import com.example.backend.constants.CustomException;
+import com.example.backend.exception.CustomException;
 import com.example.backend.model.ImageData;
 import com.example.backend.service.GoogleDriveService;
 import com.example.backend.service.ImageCacheService;
