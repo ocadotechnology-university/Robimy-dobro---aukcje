@@ -37,23 +37,19 @@ public class AuctionService {
     public void update(UUID auctionId, AuctionUpdateDto auctionUpdateDto, String userEmail) throws IOException {
         Auction auction = auctionMapper.mapFromUpdateDtoToAuction(getAuctionById(auctionId), auctionUpdateDto, userEmail);
 
-        Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-        boolean isAdmin = authorities.stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
-
-        if(!isAdmin && !auction.getSupplierEmail().equals(userEmail)) {
+        if(!isAdmin() && !auction.getSupplierEmail().equals(userEmail))
             throw new NotAuctionOwnerException(ErrorMessages.NO_PERMISSION_EDIT_AUCTION);
-        }
 
         auctionRepository.update(auctionId, auction);
     }
 
-    public void updatePublicId(UUID auctionId, PublicIdDto publicIdDto) throws IOException {
-        Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-        boolean isAdmin = authorities.stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
+    private boolean isAdmin() {
+        return SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
+    }
 
-        if(!isAdmin) {
-            throw new AdminPermissionRequiredException(ErrorMessages.NO_PERMISSION_EDIT_ID);
-        }
+    public void updatePublicId(UUID auctionId, PublicIdDto publicIdDto) throws IOException {
+        if(!isAdmin()) throw new AdminPermissionRequiredException(ErrorMessages.NO_PERMISSION_EDIT_ID);
 
         auctionRepository.update(auctionId, auctionMapper.mapFromUpdatePublicIdToAuction(getAuctionById(auctionId), publicIdDto));
     }
@@ -74,5 +70,14 @@ public class AuctionService {
 
     public void unfollowAuction(UUID auctionId, String userEmail) throws IOException {
         auctionRepository.unfollow(auctionId, userEmail);
+    }
+
+    public void deleteAuction(UUID auctionId, String userEmail) throws IOException {
+        Auction auction = getAuctionById(auctionId);
+
+        if (!isAdmin() && !auction.getSupplierEmail().equals(userEmail))
+            throw new NotAuctionOwnerException(ErrorMessages.NO_PERMISSION_DELETE_AUCTION);
+
+        auctionRepository.delete(auctionId);
     }
 }

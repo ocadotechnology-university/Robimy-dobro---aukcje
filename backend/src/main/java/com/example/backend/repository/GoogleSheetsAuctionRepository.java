@@ -133,4 +133,21 @@ public class GoogleSheetsAuctionRepository implements AuctionRepository {
             updateFollowersInAuction(auctionId, followers);
         }
     }
+
+    @Override
+    public void delete(UUID auctionId) throws IOException {
+        List<List<Object>> rows = googleSheetsService.readAll("Auction");
+        try {
+            for (int i = 0; i < rows.size(); i++) {
+                List<Object> row = rows.get(i);
+                if (!row.isEmpty() && auctionId.toString().equals(row.get(0).toString())) {
+                    googleSheetsService.deleteRow("Auction", i);
+                    return;
+                }
+            }
+            throw new RuntimeException("Auction not found: " + auctionId);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to delete auction", e);
+        }
+    }
 }

@@ -15,4 +15,5 @@ public interface AuctionRepository {
     List<Auction> findAllByFiltersAndUser(List<String> statuses, Boolean myAuctions, Boolean followed, List<String> dates, String sortBy, String userEmail) throws IOException;
     void follow(UUID auctionId, String userEmail) throws IOException;
     void unfollow(UUID auctionId, String userEmail) throws IOException;
+    void delete(UUID auctionId) throws IOException;
 }
