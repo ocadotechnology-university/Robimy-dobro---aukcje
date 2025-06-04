@@ -49,6 +49,16 @@ public class GoogleDriveService {
         return uploadedFile.getId();
     }
 
+    public void updateFile(String id, MultipartFile multipartFile) throws IOException {
+        java.io.File tempFile = java.io.File.createTempFile("update-", multipartFile.getOriginalFilename());
+        multipartFile.transferTo(tempFile);
+
+        logger.info("Updating file with id: {}", id);
+        FileContent mediaContent = new FileContent(multipartFile.getContentType(), tempFile);
+
+        driveService.files().update(id, null, mediaContent).execute();
+    }
+
     public ImageData downloadFile(String fileId) throws IOException {
         byte[] image = driveService.files().get(fileId).executeMediaAsInputStream().readAllBytes();
 
