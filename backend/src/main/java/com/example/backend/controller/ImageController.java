@@ -40,6 +40,20 @@ public class ImageController {
         }
     }
 
+    @PostMapping("/{fileId")
+    public ResponseEntity<?> postImage(@PathVariable String fileId, @RequestParam(value = "file", required = false) MultipartFile multipartFile){
+        if (multipartFile == null || multipartFile.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+        try{
+            googleDriveService.updateFile(fileId, multipartFile);
+            return ResponseEntity.ok().build();
+        }catch (Exception e){
+            logger.error("Internal server error for updating fileId: {}", fileId);
+            return ResponseEntity.status(500).body("Internal server error.");
+        }
+    }
+
     @GetMapping("/{fileId}")
     public ResponseEntity<?> getImage(@PathVariable String fileId){
         try {
