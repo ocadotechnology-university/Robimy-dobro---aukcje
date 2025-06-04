@@ -26,7 +26,7 @@ public class ImageController {
     @PostMapping("/")
     public ResponseEntity<?> postImage(@RequestParam(value = "file", required = false) MultipartFile multipartFile){
         if (multipartFile == null || multipartFile.isEmpty()) {
-            return ResponseEntity.ok("No image uploaded");
+            return ResponseEntity.badRequest().build();
         }
 
         try {
@@ -41,7 +41,7 @@ public class ImageController {
     }
 
     @PostMapping("/{fileId")
-    public ResponseEntity<?> postImage(@PathVariable String fileId, @RequestParam(value = "file", required = false) MultipartFile multipartFile){
+    public ResponseEntity<?> uploadImage(@PathVariable String fileId, @RequestParam(value = "file", required = false) MultipartFile multipartFile){
         if (multipartFile == null || multipartFile.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
