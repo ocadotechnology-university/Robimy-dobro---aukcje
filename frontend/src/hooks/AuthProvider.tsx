@@ -58,11 +58,18 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
         }
     };
 
-    const logout = () => {
-        setAccessToken(null);
-        setRole(null);
-        setSupplier(null);
-        navigate("/auth");
+    const logout = async () => {
+        try {
+            await axios.post("http://localhost:8080/api/auth/logout", null, {
+                withCredentials: true
+            });
+            setAccessToken(null);
+            setRole(null);
+            setSupplier(null);
+            navigate("/auth");
+        } catch (error) {
+            console.error("Logout failed", error);
+        }
     }
 
     useEffect(() => {
