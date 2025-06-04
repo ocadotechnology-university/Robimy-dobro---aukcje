@@ -1,14 +1,21 @@
 package com.example.backend.service;
 
+import com.example.backend.exception.AdminPermissionRequiredException;
+import com.example.backend.exception.ErrorMessages;
+import com.example.backend.exception.NotAuctionOwnerException;
 import com.example.backend.dto.AuctionCreateDto;
 import com.example.backend.dto.AuctionGetDto;
 import com.example.backend.dto.AuctionUpdateDto;
+import com.example.backend.dto.PublicIdDto;
 import com.example.backend.mapper.AuctionMapper;
 import com.example.backend.model.Auction;
 import com.example.backend.repository.AuctionRepository;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,7 +35,27 @@ public class AuctionService {
     }
 
     public void update(UUID auctionId, AuctionUpdateDto auctionUpdateDto, String userEmail) throws IOException {
-        auctionRepository.update(auctionId, auctionMapper.mapFromUpdateDtoToAuction(getAuctionById(auctionId), auctionUpdateDto, userEmail));
+        Auction auction = auctionMapper.mapFromUpdateDtoToAuction(getAuctionById(auctionId), auctionUpdateDto, userEmail);
+
+        Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        boolean isAdmin = authorities.stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
+
+        if(!isAdmin && !auction.getSupplierEmail().equals(userEmail)) {
+            throw new NotAuctionOwnerException(ErrorMessages.NO_PERMISSION_EDIT_AUCTION);
+        }
+
+        auctionRepository.update(auctionId, auction);
+    }
+
+    public void updatePublicId(UUID auctionId, PublicIdDto publicIdDto) throws IOException {
+        Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        boolean isAdmin = authorities.stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
+
+        if(!isAdmin) {
+            throw new AdminPermissionRequiredException(ErrorMessages.NO_PERMISSION_EDIT_ID);
+        }
+
+        auctionRepository.update(auctionId, auctionMapper.mapFromUpdatePublicIdToAuction(getAuctionById(auctionId), publicIdDto));
     }
 
     public Auction getAuctionById(UUID auctionId) throws IOException {

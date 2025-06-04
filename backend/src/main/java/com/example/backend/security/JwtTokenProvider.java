@@ -30,7 +30,7 @@ public class JwtTokenProvider {
         Jws<Claims> claims = parseToken(refreshToken);
 
         Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + 10 * 1000);
+        Date expiryDate = new Date(now.getTime() + 900 * 1000);
 
         return Jwts.builder()
                 .setSubject(claims.getBody().getSubject())

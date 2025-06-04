@@ -1,6 +1,6 @@
 package com.example.backend.service;
 
-import com.example.backend.constants.CustomException;
+import com.example.backend.exception.CustomException;
 import com.example.backend.model.ImageData;
 import com.google.api.client.http.FileContent;
 import com.google.api.services.drive.Drive;

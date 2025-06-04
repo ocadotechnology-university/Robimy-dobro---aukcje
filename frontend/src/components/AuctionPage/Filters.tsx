@@ -18,6 +18,7 @@ import {
     MenuPaperStyle,
     MenuItemStyle,
 } from './Filters.styles';
+import {useAuth} from "../../hooks/AuthProvider";
 
 interface FiltersProps {
     aucfilters: AuctionFilters;
@@ -54,7 +55,10 @@ const Filters = ({aucfilters, setAucFilters}: FiltersProps) => {
     const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
     const [selectedDates, setSelectedDates] = useState<string[]>([]);
     const [sort, setSort] = useState<string>("Domyślne");
+
+    const {role} = useAuth();
     const {adminViewMode} = useViewMode();
+    const hasMoreFilters = role === "ADMIN" && adminViewMode
 
     useEffect(() => {
         setAucFilters(prev => ({
@@ -103,7 +107,7 @@ const Filters = ({aucfilters, setAucFilters}: FiltersProps) => {
             <Stack spacing={1}>
                 <FiltersHeader showClear={isAnySelected} onClearAll={handleClearAll}/>
 
-                {adminViewMode && (
+                {hasMoreFilters && (
                     <FilterSection
                         title="Status aukcji"
                         icon={<ShieldIcon fontSize="small" sx={{color: '#fbc02d'}}/>}

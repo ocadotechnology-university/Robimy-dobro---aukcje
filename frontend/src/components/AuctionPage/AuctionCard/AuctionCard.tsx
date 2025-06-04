@@ -9,6 +9,7 @@ import {UUID} from "node:crypto";
 import {transformDateFormatToFormDate, transformDateToDateFormat} from "../../AddPage/Services/DateTransformer";
 import {RichTextEditorRef} from "mui-tiptap";
 import {useUpdateAuction} from "../../../hooks/useUpdateAuction";
+import {useUpdatePublicId} from "../../../hooks/useUpdatePublicId";
 import {AuctionDto} from "../../AddPage/AuctionDto";
 import imageCompression from "browser-image-compression";
 import {useNavigate} from "react-router-dom";
@@ -42,6 +43,7 @@ type Props = {
     newUpdatingAuction: boolean;
     setNewUpdatingAuction: (value: boolean) => void;
     setBackupEditingAuctionId: (value: UUID | null) => void;
+    publicIdList: string[];
 };
 
 const AuctionCard = (props: Props) => {
@@ -55,6 +57,8 @@ const AuctionCard = (props: Props) => {
     const [updateFileId, setUpdateFileId] = useState(props.fileId);
     const [croppedImage, setCroppedImage] = useState<any | null>(null);
     const {mutate, isSuccess, isError} = useUpdateAuction();
+    const {mutate: mutatePublicId, isSuccess: isPublicIdSuccess, isError: isPublicIdError} = useUpdatePublicId();
+    const [newPublicId, setNewPublicId] = useState<string>("");
     const navigate = useNavigate();
     const {mutate: postImage, isSuccess: isImageSuccess, isError: isImageError} = usePostImages();
 
@@ -161,6 +165,32 @@ const AuctionCard = (props: Props) => {
         props.setOneIsUpdating(false);
     }
 
+    const handleUpdatePublicId = async () => {
+        setIsLoading(true);
+        const newNumberPublicId = isNaN(Number(newPublicId)) ? null : Number(newPublicId);
+
+        mutatePublicId({
+            auctionId: props.id,
+            publicId: newNumberPublicId
+        }, {
+            onSuccess: () => {
+                setSnackbarMessage("Pomyślnie edytowano ID");
+                setSnackbarSeverity("success");
+                setSnackbarOpen(true);
+                setIsLoading(false);
+                setNewPublicId("");
+                navigate("/auctions");
+            },
+            onError: () => {
+                setSnackbarMessage("Błąd podczas edytowania ID");
+                setSnackbarSeverity("error");
+                setSnackbarOpen(true);
+                setIsLoading(false);
+                setNewPublicId(props.publicId);
+            }
+        });
+    };
+
     return (
         <Card variant="outlined" sx={CardStyle(props.status === "FINISHED", props.supplierEmail === supplier, props.isUpdating)}>
             {!props.isUpdating ? (
@@ -169,7 +199,10 @@ const AuctionCard = (props: Props) => {
                     <ContentSection {...props} setEditingAuctionId={props.setEditingAuctionId}
                                     setOpenDialog={props.setOpenDialog}
                                     setOneIsUpdating={props.setOneIsUpdating} editingAuctionId={props.editingAuctionId}
-                                    setBackupEditingAuctionId={props.setBackupEditingAuctionId}/>
+                                    setBackupEditingAuctionId={props.setBackupEditingAuctionId}
+                                    setNewPublicId={setNewPublicId} handleUpdatePublicId={handleUpdatePublicId}
+                                    publicIdList={props.publicIdList}/>
+
                 </Grid2>
             ) : (
                 <Grid2 container spacing={1}>

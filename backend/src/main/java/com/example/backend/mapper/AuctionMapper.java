@@ -3,11 +3,13 @@ package com.example.backend.mapper;
 import com.example.backend.dto.AuctionCreateDto;
 import com.example.backend.dto.AuctionGetDto;
 import com.example.backend.dto.AuctionUpdateDto;
+import com.example.backend.dto.PublicIdDto;
 import com.example.backend.model.Auction;
 import com.example.backend.util.AuctionStatusResolver;
 import com.example.backend.util.DateTransformer;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -15,6 +17,7 @@ import java.util.UUID;
 @Component
 public class AuctionMapper {
     private final DateTransformer dateTransformer;
+
     public AuctionMapper(DateTransformer dateTransformer) {
         this.dateTransformer = dateTransformer;
     }
@@ -38,14 +41,14 @@ public class AuctionMapper {
         auctionGetDto.setIsSupplier(userEmail != null && userEmail.equals(auction.getSupplierEmail()));
         auctionGetDto.setStatus(AuctionStatusResolver.resolveStatus(auction));
         auctionGetDto.setHasBids(auction.getCurrentBid() != null);
-        auctionGetDto.setWantsToBeModerator(userEmail != null && userEmail.equals(auction.getModeratorEmail()));
+        auctionGetDto.setWantsToBeModerator(auction.getSupplierEmail() != null && auction.getSupplierEmail().equals(auction.getModeratorEmail()));
         return auctionGetDto;
     }
 
     public Auction mapFromCreateDtoToAuction(AuctionCreateDto auctionCreateDto, String userEmail, String userName) {
         String moderatorEmail = null;
 
-        if(auctionCreateDto.getWantsToBeModerator()) {
+        if (auctionCreateDto.getWantsToBeModerator()) {
             moderatorEmail = userEmail;
         }
 
@@ -68,23 +71,23 @@ public class AuctionMapper {
 
     public Auction mapFromUpdateDtoToAuction(Auction auction, AuctionUpdateDto auctionUpdateDto, String userEmail) {
         String moderatorEmail = auction.getModeratorEmail();
-//        LocalDate date = auction.getAuctionDate();
-        LocalDate date = null;
+        LocalDate date = auction.getAuctionDate();
 
-        if(auctionUpdateDto.getWantsToBeModerator()) {
-            moderatorEmail = userEmail;
+        if (auctionUpdateDto.getWantsToBeModerator()) {
+            moderatorEmail = auction.getSupplierEmail();
         } else {
-            if(moderatorEmail != null && moderatorEmail.equals(userEmail)) moderatorEmail = "";
+            if (moderatorEmail != null && moderatorEmail.equals(auction.getSupplierEmail())) moderatorEmail = "";
         }
 
-        if(auctionUpdateDto.getAuctionDate() != null) {
+        if (auctionUpdateDto.getAuctionDate() != null) {
             date = dateTransformer.transformDate(auctionUpdateDto.getAuctionDate());
         }
 
         return Auction.builder()
                 .id(auction.getId())
+                .publicId(auction.getPublicId())
                 .moderatorEmail(moderatorEmail)
-                .supplierEmail(userEmail)
+                .supplierEmail(auction.getSupplierEmail())
                 .supplierName(auction.getSupplierName())
                 .title(auctionUpdateDto.getTitle())
                 .description(auctionUpdateDto.getDescription())
@@ -93,6 +96,28 @@ public class AuctionMapper {
                 .startingPrice(auctionUpdateDto.getStartingPrice())
                 .currentBid(auctionUpdateDto.getStartingPrice())
                 .auctionDate(date)
+                .followers(auction.getFollowers())
+                .followersCount(auction.getFollowersCount())
+                .winner(auction.getWinner())
+                .slackThreadLink(auction.getSlackThreadLink())
+                .build();
+    }
+
+    public Auction mapFromUpdatePublicIdToAuction(Auction auction, PublicIdDto publicIdDto) {
+
+        return Auction.builder()
+                .id(auction.getId())
+                .publicId(publicIdDto.getPublicId())
+                .moderatorEmail(auction.getModeratorEmail())
+                .supplierEmail(auction.getSupplierEmail())
+                .supplierName(auction.getSupplierName())
+                .title(auction.getTitle())
+                .description(auction.getDescription())
+                .fileId(auction.getFileId())
+                .city(auction.getCity())
+                .startingPrice(auction.getStartingPrice())
+                .currentBid(auction.getStartingPrice())
+                .auctionDate(auction.getAuctionDate())
                 .followers(auction.getFollowers())
                 .followersCount(auction.getFollowersCount())
                 .winner(auction.getWinner())

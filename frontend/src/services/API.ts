@@ -27,6 +27,9 @@ export const auctionPostAPI = (newAuction: AuctionDto) =>
 export const auctionUpdateAPI = (auctionId: string, updateAuction: AuctionDto) => 
     API.patch(`/auctions/${auctionId}/update`, updateAuction);
 
+export const auctionUpdatePublicIdAPI = (auctionId: string, publicId: number | null) =>
+    API.patch(`/auctions/${auctionId}/updatePublicId`, {publicId});
+
 export const followAuctionAPI = (id: string) =>
     API.post(`/auctions/${id}/follow`);
 
