@@ -3,6 +3,7 @@ package com.example.backend.controller;
 import com.example.backend.dto.AuctionCreateDto;
 import com.example.backend.dto.AuctionUpdateDto;
 import com.example.backend.dto.PublicIdDto;
+import com.example.backend.exception.NotAuctionOwnerException;
 import com.example.backend.service.AuctionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -99,4 +100,16 @@ public class AuctionController {
         }
     }
 
+    @DeleteMapping("/{auctionId}")
+    public ResponseEntity<?> deleteAuction(@PathVariable UUID auctionId) {
+        try {
+            String userEmail = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+            auctionService.deleteAuction(auctionId, userEmail);
+            return ResponseEntity.ok("Auction deleted successfully");
+        } catch (IOException e) {
+            return ResponseEntity.status(500).body("Error while deleting the auction: " + e.getMessage());
+        } catch (NotAuctionOwnerException e) {
+            return ResponseEntity.status(403).body("Forbidden: " + e.getMessage());
+        }
+    }
 }
