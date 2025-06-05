@@ -3,8 +3,9 @@ import Stack from '@mui/material/Stack';
 import {UUID} from "node:crypto";
 import AuctionCard from './AuctionCard/AuctionCard';
 import {Auction} from './Auction'
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, Alert} from "@mui/material";
 import Typography from "@mui/material/Typography";
+import {useDeleteAuction} from "../../hooks/useDeleteAuction";
 
 interface AuctionsListProps {
     auctions: Auction[];
@@ -16,6 +17,13 @@ const AuctionsList = ({auctions}: AuctionsListProps) => {
     const [oneIsUpdating, setOneIsUpdating] = useState(false);
     const [newUpdatingAuction, setNewUpdatingAuction] = useState(false);
     const [backupEditingAuctionId, setBackupEditingAuctionId] = useState<UUID | null>(null);
+    const [deletingAuctionId, setDeletingAuctionId] = useState<UUID | null>(null);
+    const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+    const deleteAuction = useDeleteAuction();
+    const [isDeletingAuctionId, setIsDeletingAuctionId] = useState<UUID | null>(null);
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+    const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">("success");
 
     const auctionRefs = useRef<Record<UUID, HTMLDivElement | null>>({});
 
@@ -43,6 +51,43 @@ const AuctionsList = ({auctions}: AuctionsListProps) => {
     const handleBackToPreviousUpdatingAuction = () => {
         scrollToAuction(editingAuctionId);
     }
+
+    const handleDeleteClick = (auctionId: UUID) => {
+        setDeletingAuctionId(auctionId);
+        setOpenDeleteDialog(true);
+    };
+
+    const handleCancelDelete = () => {
+        setOpenDeleteDialog(false);
+        setDeletingAuctionId(null);
+    };
+
+    const handleConfirmDelete = () => {
+        if (deletingAuctionId) {
+            setIsDeletingAuctionId(deletingAuctionId);
+            deleteAuction.mutate(deletingAuctionId, {
+                onSuccess: () => {
+                    setSnackbarMessage("Pomyślnie usunięto aukcję");
+                    setSnackbarSeverity("success");
+                    setSnackbarOpen(true);
+                    setOpenDeleteDialog(false);
+                    setDeletingAuctionId(null);
+                    setIsDeletingAuctionId(null);
+                },
+                onError: () => {
+                    setSnackbarMessage("Błąd podczas usuwania aukcji");
+                    setSnackbarSeverity("error");
+                    setSnackbarOpen(true);
+                    setOpenDeleteDialog(false);
+                    setDeletingAuctionId(null);
+                    setIsDeletingAuctionId(null);
+                }
+            });
+        }
+        setOpenDeleteDialog(false);
+        setDeletingAuctionId(null);
+    };
+
     return (
         <Stack width="100%" gap={1}>
             {auctions.map((auction) => (
@@ -58,6 +103,8 @@ const AuctionsList = ({auctions}: AuctionsListProps) => {
                         setOneIsUpdating={setOneIsUpdating} newUpdatingAuction={newUpdatingAuction}
                         setNewUpdatingAuction={setNewUpdatingAuction}
                         setBackupEditingAuctionId={setBackupEditingAuctionId}
+                        onDeleteClick={handleDeleteClick}
+                        isDeleting={isDeletingAuctionId === auction.id}
                         publicIdList={publicIdList}
                     />
                 </div>
@@ -88,6 +135,38 @@ const AuctionsList = ({auctions}: AuctionsListProps) => {
                 </Dialog>
             )}
 
+            <Dialog open={openDeleteDialog} onClose={handleCancelDelete}>
+                <DialogTitle>Czy na pewno chcesz usunąć aukcję?</DialogTitle>
+                <DialogContent>
+                    <Typography>
+                        Tej operacji nie można cofnąć.
+                    </Typography>
+                </DialogContent>
+                <DialogActions sx={{display: "flex", justifyContent: "space-between", p: 2}}>
+                    <Button onClick={handleCancelDelete} sx={{textTransform: "none"}}>
+                        Anuluj
+                    </Button>
+                    <Button onClick={handleConfirmDelete} color="error" sx={{textTransform: "none"}} autoFocus>
+                        Usuń
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            <Snackbar
+                anchorOrigin={{vertical: "top", horizontal: "center"}}
+                open={snackbarOpen}
+                onClose={() => setSnackbarOpen(false)}
+                autoHideDuration={2000}
+            >
+                <Alert
+                    onClose={() => setSnackbarOpen(false)}
+                    severity={snackbarSeverity}
+                    variant="filled"
+                    sx={{width: "100%"}}
+                >
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
         </Stack>
     );
 };

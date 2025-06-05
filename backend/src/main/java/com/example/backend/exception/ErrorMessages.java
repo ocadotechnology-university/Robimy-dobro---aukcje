@@ -5,4 +5,5 @@ public class ErrorMessages {
     public static final String WRONG_EMAIL = "Wrong email";
     public static final String NO_PERMISSION_EDIT_AUCTION = "You do not have permission to edit this auction";
     public static final String NO_PERMISSION_EDIT_ID = "You do not have permission to edit this auction's ID";
+    public static final String NO_PERMISSION_DELETE_AUCTION = "You do not have permission to delete this auction.";
 }

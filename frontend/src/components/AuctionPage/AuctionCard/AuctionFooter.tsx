@@ -31,6 +31,7 @@ type Props = {
     newUpdatingAuction: boolean;
     setNewUpdatingAuction: (value: boolean) => void;
     setBackupEditingAuctionId: (value: UUID | null) => void;
+    onDeleteClick: (id: UUID) => void;
 };
 
 const AuctionFooter = ({
@@ -47,12 +48,15 @@ const AuctionFooter = ({
                            editingAuctionId,
                            newUpdatingAuction,
                            setNewUpdatingAuction,
-                           setBackupEditingAuctionId
+                           setBackupEditingAuctionId,
+                           onDeleteClick,
                        }: Props) => {
     const [followed, setFollowed] = useState(isFollowed);
     const debouncedFollowed = useDebounce(followed, 300);
+
     const {mutate: followAuction} = useFollowAuction();
     const {mutate: unfollowAuction} = useUnfollowAuction();
+
     const {role, supplier: currentUserEmail} = useAuth();
     const {adminViewMode} = useViewMode();
     const canEditOrDelete = role === "ADMIN" && adminViewMode || supplierEmail === currentUserEmail;
@@ -76,6 +80,10 @@ const AuctionFooter = ({
             setBackupEditingAuctionId(id);
             setOpenDialog(true);
         }
+    };
+
+    const handleDelete = () => {
+        onDeleteClick(id);
     };
 
     return (
@@ -103,7 +111,7 @@ const AuctionFooter = ({
                         </IconBox>
                         <IconBox>
                             <IconButton size="small">
-                                <DeleteIcon/>
+                                <DeleteIcon onClick={handleDelete}/>
                             </IconButton>
                         </IconBox>
                     </>

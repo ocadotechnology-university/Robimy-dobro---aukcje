@@ -2,7 +2,7 @@ package com.example.backend.service;
 
 import com.example.backend.util.UrlSanitizer;
 import com.google.api.services.sheets.v4.Sheets;
-import com.google.api.services.sheets.v4.model.ValueRange;
+import com.google.api.services.sheets.v4.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -61,6 +61,44 @@ public class GoogleSheetsService {
         sheetsService.spreadsheets().values()
                 .update(SPREADSHEET_ID, row, body)
                 .setValueInputOption("USER_ENTERED")
+                .execute();
+    }
+
+    private Integer getSheetIdByName(String sheetName) throws IOException {
+        return sheetsService.spreadsheets()
+                .get(SPREADSHEET_ID)
+                .execute()
+                .getSheets()
+                .stream()
+                .filter(sheet -> sheet.getProperties().getTitle().equals(sheetName))
+                .findFirst()
+                .map(sheet -> sheet.getProperties().getSheetId())
+                .orElse(null);
+    }
+
+    public void deleteRow(String sheetName, int rowIndex) throws IOException {
+        logger.info("Deleting row {} from sheet: {}", rowIndex, sheetName);
+
+        Integer sheetId = getSheetIdByName(sheetName);
+        if (sheetId == null) {
+            throw new IllegalArgumentException("Sheet not found: " + sheetName);
+        }
+
+        DeleteDimensionRequest deleteRequest = new DeleteDimensionRequest()
+                .setRange(new DimensionRange()
+                        .setSheetId(sheetId)
+                        .setDimension("ROWS")
+                        .setStartIndex(rowIndex)
+                        .setEndIndex(rowIndex + 1)
+                );
+
+        Request request = new Request().setDeleteDimension(deleteRequest);
+
+        BatchUpdateSpreadsheetRequest body = new BatchUpdateSpreadsheetRequest()
+                .setRequests(List.of(request));
+
+        sheetsService.spreadsheets()
+                .batchUpdate(SPREADSHEET_ID, body)
                 .execute();
     }
 

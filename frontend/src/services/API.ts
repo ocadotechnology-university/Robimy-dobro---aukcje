@@ -36,4 +36,7 @@ export const followAuctionAPI = (id: string) =>
 export const unfollowAuctionAPI = (id: string) =>
     API.delete(`/auctions/${id}/follow`);
 
+export const deleteAuctionAPI = (id: string) =>
+    API.delete(`/auctions/${id}`);
+
 export default API;
