@@ -20,6 +20,7 @@ const AuctionsList = ({auctions}: AuctionsListProps) => {
     const [deletingAuctionId, setDeletingAuctionId] = useState<UUID | null>(null);
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
     const deleteAuction = useDeleteAuction();
+    const [isDeletingAuctionId, setIsDeletingAuctionId] = useState<UUID | null>(null);
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">("success");
@@ -63,6 +64,7 @@ const AuctionsList = ({auctions}: AuctionsListProps) => {
 
     const handleConfirmDelete = () => {
         if (deletingAuctionId) {
+            setIsDeletingAuctionId(deletingAuctionId);
             deleteAuction.mutate(deletingAuctionId, {
                 onSuccess: () => {
                     setSnackbarMessage("Pomyślnie usunięto aukcję");
@@ -70,6 +72,7 @@ const AuctionsList = ({auctions}: AuctionsListProps) => {
                     setSnackbarOpen(true);
                     setOpenDeleteDialog(false);
                     setDeletingAuctionId(null);
+                    setIsDeletingAuctionId(null);
                 },
                 onError: () => {
                     setSnackbarMessage("Błąd podczas usuwania aukcji");
@@ -77,6 +80,7 @@ const AuctionsList = ({auctions}: AuctionsListProps) => {
                     setSnackbarOpen(true);
                     setOpenDeleteDialog(false);
                     setDeletingAuctionId(null);
+                    setIsDeletingAuctionId(null);
                 }
             });
         }
@@ -100,6 +104,7 @@ const AuctionsList = ({auctions}: AuctionsListProps) => {
                         setNewUpdatingAuction={setNewUpdatingAuction}
                         setBackupEditingAuctionId={setBackupEditingAuctionId}
                         onDeleteClick={handleDeleteClick}
+                        isDeleting={isDeletingAuctionId === auction.id}
                         publicIdList={publicIdList}
                     />
                 </div>
@@ -148,7 +153,7 @@ const AuctionsList = ({auctions}: AuctionsListProps) => {
             </Dialog>
 
             <Snackbar
-                anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                anchorOrigin={{vertical: "top", horizontal: "center"}}
                 open={snackbarOpen}
                 onClose={() => setSnackbarOpen(false)}
                 autoHideDuration={2000}
@@ -157,7 +162,7 @@ const AuctionsList = ({auctions}: AuctionsListProps) => {
                     onClose={() => setSnackbarOpen(false)}
                     severity={snackbarSeverity}
                     variant="filled"
-                    sx={{ width: "100%" }}
+                    sx={{width: "100%"}}
                 >
                     {snackbarMessage}
                 </Alert>

@@ -38,6 +38,7 @@ type Props = {
     editingAuctionId: UUID | null;
     setEditingAuctionId: (value: UUID | null) => void;
     onDeleteClick: (id: UUID) => void;
+    isDeleting?: boolean;
     isUpdating: boolean;
     setOpenDialog: (value: boolean) => void;
     setOneIsUpdating: (value: boolean) => void;
@@ -193,7 +194,8 @@ const AuctionCard = (props: Props) => {
     };
 
     return (
-        <Card variant="outlined" sx={CardStyle(props.status === "FINISHED", props.supplierEmail === supplier, props.isUpdating)}>
+        <Card variant="outlined"
+              sx={CardStyle(props.status === "FINISHED", props.supplierEmail === supplier, props.isUpdating)}>
             {!props.isUpdating ? (
                 <Grid2 container spacing={2}>
                     <ImageSection fileId={props.fileId} status={props.status}/>
@@ -225,6 +227,12 @@ const AuctionCard = (props: Props) => {
 
             {isLoading && (
                 <Stack sx={{width: "100%"}} marginTop={3}>
+                    <LinearProgress color="primary"/>
+                </Stack>
+            )}
+
+            {props.isDeleting && (
+                <Stack sx={{width: "100%"}} marginTop={2}>
                     <LinearProgress color="primary"/>
                 </Stack>
             )}
