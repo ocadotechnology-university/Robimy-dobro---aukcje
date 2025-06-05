@@ -14,6 +14,8 @@ interface AuthContextType {
     role: string | null;
     supplier: string | null;
     loginWithGoogle: (googleToken: string) => Promise<void>;
+    logout: () => void;
+    profileImageURL: string | null;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -31,6 +33,7 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
     const [role, setRole] = useState<string | null>(null);
     const [supplier, setSupplier] = useState<string | null>(null);
     const navigate = useNavigate();
+    const [profileImageURL, setProfileImageURL] = useState<string | null>(null);
     let refreshPromise: Promise<string> | null = null;
 
     const decodeAndSetTokenData = (token: string) => {
@@ -41,6 +44,8 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
 
     const loginWithGoogle = async (googleToken: string) => {
         try {
+            const decoded: any = jwtDecode(googleToken);
+            setProfileImageURL(decoded.picture);
             const response = await axios.post(
                 "http://localhost:8080/api/auth/google/signup",
                 {credentials: googleToken},
@@ -57,11 +62,18 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
         }
     };
 
-    const logout = () => {
-        setAccessToken(null);
-        setRole(null);
-        setSupplier(null);
-        navigate("/auth");
+    const logout = async () => {
+        try {
+            await axios.post("http://localhost:8080/api/auth/logout", null, {
+                withCredentials: true
+            });
+            setAccessToken(null);
+            setRole(null);
+            setSupplier(null);
+            navigate("/auth");
+        } catch (error) {
+            console.error("Logout failed", error);
+        }
     }
 
     useEffect(() => {
@@ -125,7 +137,7 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
     }, [])
 
     return (
-        <AuthContext.Provider value={{accessToken, role, supplier, loginWithGoogle}}>
+        <AuthContext.Provider value={{accessToken, role, supplier, loginWithGoogle, logout, profileImageURL}}>
             {children}
         </AuthContext.Provider>
     );
