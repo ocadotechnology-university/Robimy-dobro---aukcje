@@ -45,6 +45,8 @@ const AuctionsList = ({auctions}: AuctionsListProps) => {
     }
     return (
         <Stack width="100%" gap={1}>
+            <Typography color="#a0a0a0">Liczba aukcji: {auctions.length}</Typography>
+
             {auctions.map((auction) => (
                 <div
                     key={auction.id}
