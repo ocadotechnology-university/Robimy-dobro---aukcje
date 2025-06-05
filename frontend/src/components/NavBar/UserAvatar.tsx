@@ -25,7 +25,7 @@ export const UserAvatar = () => {
     return (
         <CenteredBox>
             <IconButton onClick={handleClick} size="small">
-                <Avatar sx={AvatarStyle} src={profileImageURL ?? undefined}/>
+                <Avatar key={profileImageURL} sx={AvatarStyle} src={profileImageURL ?? undefined}/>
             </IconButton>
             <Menu
                 anchorEl={anchorEl}
