@@ -12,7 +12,7 @@ export const CardStyle = (
         : isFinished
             ? '#d7d7d7'
             : isOwnedByUser
-                ? '#a4d3a2'
+                ? '#dcf3db'
                 : 'white',
     borderRadius: 4,
     p: 2,
@@ -34,7 +34,7 @@ export const UpdateImageWrapperStyle = {
 
 export const ImageStyle = (isFinished: boolean) => ({
     borderRadius: 2,
-    height: '100%',
+    // height: '100%',
     filter: isFinished ? 'grayscale(1)' : 'none',
     transition: 'filter 0.3s ease-in-out',
 });
