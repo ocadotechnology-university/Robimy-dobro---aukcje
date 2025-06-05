@@ -37,6 +37,7 @@ type Props = {
     wantsToBeModerator: boolean;
     editingAuctionId: UUID | null;
     setEditingAuctionId: (value: UUID | null) => void;
+    onDeleteClick: (id: UUID) => void;
     isUpdating: boolean;
     setOpenDialog: (value: boolean) => void;
     setOneIsUpdating: (value: boolean) => void;
@@ -200,6 +201,7 @@ const AuctionCard = (props: Props) => {
                                     setOpenDialog={props.setOpenDialog}
                                     setOneIsUpdating={props.setOneIsUpdating} editingAuctionId={props.editingAuctionId}
                                     setBackupEditingAuctionId={props.setBackupEditingAuctionId}
+                                    onDeleteClick={props.onDeleteClick}
                                     setNewPublicId={setNewPublicId} handleUpdatePublicId={handleUpdatePublicId}
                                     publicIdList={props.publicIdList}/>
 

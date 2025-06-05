@@ -13,7 +13,6 @@ import {useUnfollowAuction} from "../../../hooks/useUnfollowAuction";
 import {useDebounce} from "../../../hooks/useDebounce";
 import {useAuth} from "../../../hooks/AuthProvider";
 import {useViewMode} from "../../../contexts/ViewModeContext";
-import {useDeleteAuction} from "../../../hooks/useDeleteAuction";
 
 const SlackIcon = SiSlack as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
 
@@ -32,6 +31,7 @@ type Props = {
     newUpdatingAuction: boolean;
     setNewUpdatingAuction: (value: boolean) => void;
     setBackupEditingAuctionId: (value: UUID | null) => void;
+    onDeleteClick: (id: UUID) => void;
 };
 
 const AuctionFooter = ({
@@ -48,14 +48,14 @@ const AuctionFooter = ({
                            editingAuctionId,
                            newUpdatingAuction,
                            setNewUpdatingAuction,
-                           setBackupEditingAuctionId
+                           setBackupEditingAuctionId,
+                           onDeleteClick,
                        }: Props) => {
     const [followed, setFollowed] = useState(isFollowed);
     const debouncedFollowed = useDebounce(followed, 300);
 
     const {mutate: followAuction} = useFollowAuction();
     const {mutate: unfollowAuction} = useUnfollowAuction();
-    const {mutate: deleteAuction} = useDeleteAuction();
 
     const {role, supplier: currentUserEmail} = useAuth();
     const {adminViewMode} = useViewMode();
@@ -83,7 +83,7 @@ const AuctionFooter = ({
     };
 
     const handleDelete = () => {
-        deleteAuction(id);
+        onDeleteClick(id);
     };
 
     return (
@@ -110,8 +110,8 @@ const AuctionFooter = ({
                             </IconButton>
                         </IconBox>
                         <IconBox>
-                            <IconButton size="small" onClick={handleDelete}>
-                                <DeleteIcon/>
+                            <IconButton size="small">
+                                <DeleteIcon onClick={handleDelete}/>
                             </IconButton>
                         </IconBox>
                     </>

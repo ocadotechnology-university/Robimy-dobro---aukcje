@@ -5,6 +5,7 @@ import AuctionCard from './AuctionCard/AuctionCard';
 import {Auction} from './Auction'
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
 import Typography from "@mui/material/Typography";
+import {useDeleteAuction} from "../../hooks/useDeleteAuction";
 
 interface AuctionsListProps {
     auctions: Auction[];
@@ -16,6 +17,9 @@ const AuctionsList = ({auctions}: AuctionsListProps) => {
     const [oneIsUpdating, setOneIsUpdating] = useState(false);
     const [newUpdatingAuction, setNewUpdatingAuction] = useState(false);
     const [backupEditingAuctionId, setBackupEditingAuctionId] = useState<UUID | null>(null);
+    const [deletingAuctionId, setDeletingAuctionId] = useState<UUID | null>(null);
+    const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+    const deleteAuction = useDeleteAuction();
 
     const auctionRefs = useRef<Record<UUID, HTMLDivElement | null>>({});
 
@@ -43,6 +47,25 @@ const AuctionsList = ({auctions}: AuctionsListProps) => {
     const handleBackToPreviousUpdatingAuction = () => {
         scrollToAuction(editingAuctionId);
     }
+
+    const handleDeleteClick = (auctionId: UUID) => {
+        setDeletingAuctionId(auctionId);
+        setOpenDeleteDialog(true);
+    };
+
+    const handleCancelDelete = () => {
+        setOpenDeleteDialog(false);
+        setDeletingAuctionId(null);
+    };
+
+    const handleConfirmDelete = () => {
+        if (deletingAuctionId) {
+            deleteAuction.mutate(deletingAuctionId);
+        }
+        setOpenDeleteDialog(false);
+        setDeletingAuctionId(null);
+    };
+
     return (
         <Stack width="100%" gap={1}>
             {auctions.map((auction) => (
@@ -58,6 +81,7 @@ const AuctionsList = ({auctions}: AuctionsListProps) => {
                         setOneIsUpdating={setOneIsUpdating} newUpdatingAuction={newUpdatingAuction}
                         setNewUpdatingAuction={setNewUpdatingAuction}
                         setBackupEditingAuctionId={setBackupEditingAuctionId}
+                        onDeleteClick={handleDeleteClick}
                         publicIdList={publicIdList}
                     />
                 </div>
@@ -87,6 +111,23 @@ const AuctionsList = ({auctions}: AuctionsListProps) => {
                     </DialogActions>
                 </Dialog>
             )}
+
+            <Dialog open={openDeleteDialog} onClose={handleCancelDelete}>
+                <DialogTitle>Czy na pewno chcesz usunąć aukcję?</DialogTitle>
+                <DialogContent>
+                    <Typography>
+                        Tej operacji nie można cofnąć.
+                    </Typography>
+                </DialogContent>
+                <DialogActions sx={{display: "flex", justifyContent: "space-between", p: 2}}>
+                    <Button onClick={handleCancelDelete} sx={{textTransform: "none"}}>
+                        Anuluj
+                    </Button>
+                    <Button onClick={handleConfirmDelete} color="error" sx={{textTransform: "none"}} autoFocus>
+                        Usuń
+                    </Button>
+                </DialogActions>
+            </Dialog>
 
         </Stack>
     );

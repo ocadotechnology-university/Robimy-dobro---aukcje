@@ -22,6 +22,7 @@ type Props = {
     slackUrl: string;
     editingAuctionId: UUID | null;
     setEditingAuctionId: (value: UUID | null) => void;
+    onDeleteClick: (id: UUID) => void;
     setOpenDialog: (value: boolean) => void;
     setOneIsUpdating: (value: boolean) => void;
     newUpdatingAuction: boolean;
@@ -54,6 +55,7 @@ export const ContentSection = ({
                             newUpdatingAuction,
                             setNewUpdatingAuction,
                             setBackupEditingAuctionId,
+                            onDeleteClick,
                             setNewPublicId,
                             handleUpdatePublicId,
                             publicIdList
@@ -69,7 +71,9 @@ export const ContentSection = ({
                            slackUrl={slackUrl} setEditingAuctionId={setEditingAuctionId} setOpenDialog={setOpenDialog}
                            setOneIsUpdating={setOneIsUpdating} editingAuctionId={editingAuctionId}
                            newUpdatingAuction={newUpdatingAuction} setNewUpdatingAuction={setNewUpdatingAuction}
-                           setBackupEditingAuctionId={setBackupEditingAuctionId}/>
+                           setBackupEditingAuctionId={setBackupEditingAuctionId}
+                           onDeleteClick={onDeleteClick}
+            />
         </Stack>
     </Grid2>
 );
