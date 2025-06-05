@@ -33,7 +33,9 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
     const [role, setRole] = useState<string | null>(null);
     const [supplier, setSupplier] = useState<string | null>(null);
     const navigate = useNavigate();
-    const [profileImageURL, setProfileImageURL] = useState<string | null>(null);
+    const [profileImageURL, setProfileImageURL] = useState<string | null>(() => {
+        return localStorage.getItem("profileImageURL");
+    });
     let refreshPromise: Promise<string> | null = null;
 
     const decodeAndSetTokenData = (token: string) => {
@@ -46,6 +48,7 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
         try {
             const decoded: any = jwtDecode(googleToken);
             setProfileImageURL(decoded.picture);
+            localStorage.setItem("profileImageURL", decoded.picture);
             const response = await axios.post(
                 "http://localhost:8080/api/auth/google/signup",
                 {credentials: googleToken},
@@ -70,6 +73,8 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
             setAccessToken(null);
             setRole(null);
             setSupplier(null);
+            setProfileImageURL(null);
+            localStorage.removeItem("profileImage");
             navigate("/auth");
         } catch (error) {
             console.error("Logout failed", error);
