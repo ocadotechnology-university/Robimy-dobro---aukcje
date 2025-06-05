@@ -3,8 +3,8 @@ import {PaletteOptions} from '@mui/material';
 const palette: PaletteOptions = {
     primary: {
         main: '#7EBFD1',
-        light: '#BBE4F1',
-        dark: '#6397A6',
+        light: '#e9f6fd',
+        dark: '#4a90a4',
         contrastText: '#FFFFFF',
     },
     secondary: {

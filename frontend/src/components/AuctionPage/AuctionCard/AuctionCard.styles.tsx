@@ -12,7 +12,7 @@ export const CardStyle = (
         : isFinished
             ? '#d7d7d7'
             : isOwnedByUser
-                ? '#dcf3db'
+                ? 'primary.light'
                 : 'white',
     borderRadius: 4,
     p: 2,
