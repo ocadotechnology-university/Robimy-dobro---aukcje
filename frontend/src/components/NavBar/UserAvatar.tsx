@@ -12,7 +12,7 @@ const AvatarStyle = {
 export const UserAvatar = () => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
-    const {logout} = useAuth();
+    const {logout, profileImageURL} = useAuth();
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
@@ -25,7 +25,7 @@ export const UserAvatar = () => {
     return (
         <CenteredBox>
             <IconButton onClick={handleClick} size="small">
-                <Avatar sx={AvatarStyle}/>
+                <Avatar sx={AvatarStyle} src={profileImageURL ?? undefined}/>
             </IconButton>
             <Menu
                 anchorEl={anchorEl}
