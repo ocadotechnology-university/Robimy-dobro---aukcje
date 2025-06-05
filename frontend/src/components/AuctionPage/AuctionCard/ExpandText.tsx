@@ -19,6 +19,11 @@ const ExpandText = ({text, maxLength}: ExpandTextProps) => {
     const textWithoutHtml = stripHTML(text);
 
     const isTooLong = textWithoutHtml.length > maxLength;
+    const matches = text.match(/<(strong|em|u)\b[^>]*>/gi);
+    const tagAMatches = text.match(/<(a)\b[^>]*>/gi);
+    const tagAMatchesSize = tagAMatches ? tagAMatches.length : 0;
+    const tagAMatchesLength = tagAMatches ? tagAMatches.join("").length + 4*tagAMatchesSize : 0;
+    const htmlTagsLength = matches ? matches.join("").length*2 + matches.length + tagAMatchesLength : 0;
 
     const removeParagraphTags = (textWithParagraph: string) => {
         return textWithParagraph.replace(/^<p>|<\/p>$/g, '');
@@ -41,7 +46,7 @@ const ExpandText = ({text, maxLength}: ExpandTextProps) => {
                     </Link>
                 </span>
                 ) : (<>
-                        {parse(removeParagraphTags(text.slice(0, maxLength) + "... "))}&nbsp;
+                        {parse(removeParagraphTags(text.slice(0, maxLength + htmlTagsLength) + "... "))}&nbsp;
                         <Link
                             component="button"
                             variant="body2"
