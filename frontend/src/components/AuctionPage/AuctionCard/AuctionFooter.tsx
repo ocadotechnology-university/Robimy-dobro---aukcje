@@ -13,6 +13,7 @@ import {useUnfollowAuction} from "../../../hooks/useUnfollowAuction";
 import {useDebounce} from "../../../hooks/useDebounce";
 import {useAuth} from "../../../hooks/AuthProvider";
 import {useViewMode} from "../../../contexts/ViewModeContext";
+import {useDeleteAuction} from "../../../hooks/useDeleteAuction";
 
 const SlackIcon = SiSlack as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
 
@@ -51,8 +52,11 @@ const AuctionFooter = ({
                        }: Props) => {
     const [followed, setFollowed] = useState(isFollowed);
     const debouncedFollowed = useDebounce(followed, 300);
+
     const {mutate: followAuction} = useFollowAuction();
     const {mutate: unfollowAuction} = useUnfollowAuction();
+    const {mutate: deleteAuction} = useDeleteAuction();
+
     const {role, supplier: currentUserEmail} = useAuth();
     const {adminViewMode} = useViewMode();
     const canEditOrDelete = role === "ADMIN" && adminViewMode || supplierEmail === currentUserEmail;
@@ -76,6 +80,10 @@ const AuctionFooter = ({
             setBackupEditingAuctionId(id);
             setOpenDialog(true);
         }
+    };
+
+    const handleDelete = () => {
+        deleteAuction(id);
     };
 
     return (
@@ -102,7 +110,7 @@ const AuctionFooter = ({
                             </IconButton>
                         </IconBox>
                         <IconBox>
-                            <IconButton size="small">
+                            <IconButton size="small" onClick={handleDelete}>
                                 <DeleteIcon/>
                             </IconButton>
                         </IconBox>
