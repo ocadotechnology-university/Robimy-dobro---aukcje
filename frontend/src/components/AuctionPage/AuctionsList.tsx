@@ -3,7 +3,7 @@ import Stack from '@mui/material/Stack';
 import {UUID} from "node:crypto";
 import AuctionCard from './AuctionCard/AuctionCard';
 import {Auction} from './Auction'
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, Alert} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import {useDeleteAuction} from "../../hooks/useDeleteAuction";
 
@@ -20,6 +20,9 @@ const AuctionsList = ({auctions}: AuctionsListProps) => {
     const [deletingAuctionId, setDeletingAuctionId] = useState<UUID | null>(null);
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
     const deleteAuction = useDeleteAuction();
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+    const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">("success");
 
     const auctionRefs = useRef<Record<UUID, HTMLDivElement | null>>({});
 
@@ -60,7 +63,22 @@ const AuctionsList = ({auctions}: AuctionsListProps) => {
 
     const handleConfirmDelete = () => {
         if (deletingAuctionId) {
-            deleteAuction.mutate(deletingAuctionId);
+            deleteAuction.mutate(deletingAuctionId, {
+                onSuccess: () => {
+                    setSnackbarMessage("Pomyślnie usunięto aukcję");
+                    setSnackbarSeverity("success");
+                    setSnackbarOpen(true);
+                    setOpenDeleteDialog(false);
+                    setDeletingAuctionId(null);
+                },
+                onError: () => {
+                    setSnackbarMessage("Błąd podczas usuwania aukcji");
+                    setSnackbarSeverity("error");
+                    setSnackbarOpen(true);
+                    setOpenDeleteDialog(false);
+                    setDeletingAuctionId(null);
+                }
+            });
         }
         setOpenDeleteDialog(false);
         setDeletingAuctionId(null);
@@ -129,6 +147,21 @@ const AuctionsList = ({auctions}: AuctionsListProps) => {
                 </DialogActions>
             </Dialog>
 
+            <Snackbar
+                anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                open={snackbarOpen}
+                onClose={() => setSnackbarOpen(false)}
+                autoHideDuration={2000}
+            >
+                <Alert
+                    onClose={() => setSnackbarOpen(false)}
+                    severity={snackbarSeverity}
+                    variant="filled"
+                    sx={{ width: "100%" }}
+                >
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
         </Stack>
     );
 };
