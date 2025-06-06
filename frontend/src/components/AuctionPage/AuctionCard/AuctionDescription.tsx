@@ -17,7 +17,7 @@ const AuctionDescription = ({description}: Props) => {
             //     component="div"
             //     dangerouslySetInnerHTML={{ __html: cleanedHTMLDescription }}
             // />
-        <ExpandText text={cleanedHTMLDescription} maxLength={400}/>
+        <ExpandText text={cleanedHTMLDescription} maxLinesNumber={4}/>
         );
 };
 
