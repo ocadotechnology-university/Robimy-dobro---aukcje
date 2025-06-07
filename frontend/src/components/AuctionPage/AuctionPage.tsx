@@ -18,12 +18,10 @@ const AuctionPage = () => {
 
     const {data: auctions = []} = useGetAuctions(auctionFilters);
 
-    console.log(auctionFilters);
-
     return (
             <Container>
                 <Stack direction="row" justifyContent="space-between" gap={2} mt={2}>
-                    <Filters aucfilters={auctionFilters} setAucFilters={setAuctionFilters}/>
+                    <Filters aucfilters={auctionFilters} setAucFilters={setAuctionFilters} auctionsAmount={auctions.length}/>
                     <AuctionsList auctions={auctions}/>
                 </Stack>
             </Container>

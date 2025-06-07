@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Box, CardMedia, Grid2, Skeleton} from "@mui/material";
 import {ImageWrapperStyle, ImageStyle} from "./AuctionCard.styles";
 import {useGetImages} from "../../../hooks/useGetImages";
+import Stack from "@mui/material/Stack";
 
 type Props = {
     fileId: string;
@@ -22,7 +23,7 @@ const ImageSection = ({fileId, status}: Props) => {
 
     return (
         <Grid2 size={{xs: 12, md: 3}} sx={ImageWrapperStyle}>
-            <Box height="100%">
+            <Stack height="100%" justifyContent="center" >
                 { isLoading && <Skeleton
                         variant="rectangular"
                         sx={{
@@ -40,7 +41,7 @@ const ImageSection = ({fileId, status}: Props) => {
                         sx={ImageStyle(status === "FINISHED")}
                     />
                 )}
-            </Box>
+            </Stack>
         </Grid2>
     );
 }
