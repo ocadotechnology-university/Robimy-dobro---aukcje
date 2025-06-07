@@ -109,7 +109,7 @@ const ExpandText = ({text, maxLinesNumber}: ExpandTextProps) => {
                         component="button"
                         variant="body2"
                         onClick={() => setIsExpanded(!isExpanded)}
-                        sx={{ display: "inline", padding: 0, minWidth: 0 }}
+                        sx={{display: "inline", padding: 0, minWidth: 0, color: "primary.dark", textDecorationColor: "primary.dark"}}
                     >
                             {'Zobacz mniej'}
                     </Link>
@@ -121,6 +121,7 @@ const ExpandText = ({text, maxLinesNumber}: ExpandTextProps) => {
                             component="button"
                             variant="body2"
                             onClick={() => setIsExpanded(!isExpanded)}
+                            sx={{display: "inline", padding: 0, minWidth: 0, color: "primary.dark", textDecorationColor: "primary.dark"}}
                         >
                             {'Zobacz więcej'}
                         </Link>

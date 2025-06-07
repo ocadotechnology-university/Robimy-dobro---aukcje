@@ -73,17 +73,19 @@ const AuctionHeader = ({
         <Stack justifyContent="space-between" direction="row" alignItems="flex-start" gap={3} sx={{width: "100%"}}>
             <Box>
                 <Typography variant="h6" fontWeight="bold">
-                    {!publicIdIsUpdating ? (
-                        <Box onClick={handlePublicIdEdit} component="span" color="text.secondary" mr={1}
-                             sx={{cursor: canEditPublicId ? "pointer" : "default"}}>#{publicId}</Box>
-                    ) : (
-                        <TextField label="ID" defaultValue={publicId} type="Number"
-                                   onChange={(e) => {setNewCheckPublicId(e.target.value)
-                                                                                        setNewPublicId(e.target.value)}}
-                                   onKeyDown={handleKeyPress}
-                                   sx={{width: "100px", marginBottom: 2, marginRight: 2}}/>
-                    )}
-                    <ExpandTitle text={title} maxLength={39}/>
+                    <Stack direction="row">
+                        {!publicIdIsUpdating ? (
+                            <Box onClick={handlePublicIdEdit} component="span" color="text.secondary" mr={1}
+                                 sx={{cursor: canEditPublicId ? "pointer" : "default"}}>#{publicId}</Box>
+                        ) : (
+                            <TextField label="ID" defaultValue={publicId} type="Number"
+                                       onChange={(e) => {setNewCheckPublicId(e.target.value)
+                                                                                            setNewPublicId(e.target.value)}}
+                                       onKeyDown={handleKeyPress}
+                                       sx={{width: "100px", marginBottom: 2, marginRight: 2}}/>
+                        )}
+                        <ExpandTitle text={title} maxLength={39}/>
+                    </Stack>
                     </Typography>
                 <Stack direction="row" spacing={1} alignItems="center">
                     <Typography variant="body2" display="flex" alignItems="center" gap={0.5}>
