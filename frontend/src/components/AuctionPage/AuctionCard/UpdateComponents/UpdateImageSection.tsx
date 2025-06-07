@@ -8,7 +8,7 @@ import theme from "../../../../theme/theme";
 type Props = {
     fileId: string;
     setFileId: (value: string) => void;
-    setCroppedImage: (img: any | null) => void;
+    setCroppedImage: (img: Blob | File | null) => void;
 };
 
 const UpdateImageSection = ({fileId, setFileId, setCroppedImage}: Props) => {

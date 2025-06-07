@@ -1,4 +1,11 @@
-export const getCroppedImage = async (imageSrc: string, croppedAreaPixels: any): Promise<Blob> => {
+type CropArea = {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+};
+
+export const getCroppedImage = async (imageSrc: string, croppedAreaPixels: CropArea): Promise<Blob> => {
     const image = new Image();
     image.src = imageSrc;
 

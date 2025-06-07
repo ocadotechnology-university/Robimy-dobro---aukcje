@@ -57,7 +57,7 @@ const AuctionCard = (props: Props) => {
     const [updateWantsToBeModerator, setUpdateWantsToBeModerator] = useState(props.wantsToBeModerator);
     const descriptionRteRef = useRef<RichTextEditorRef>(null);
     const [updateFileId, setUpdateFileId] = useState(props.fileId);
-    const [croppedImage, setCroppedImage] = useState<any | null>(null);
+    const [croppedImage, setCroppedImage] = useState<Blob | File | null>(null);
     const {mutate, isSuccess, isError} = useUpdateAuction();
     const {mutate: mutatePublicId, isSuccess: isPublicIdSuccess, isError: isPublicIdError} = useUpdatePublicId();
     const [newPublicId, setNewPublicId] = useState<string>("");

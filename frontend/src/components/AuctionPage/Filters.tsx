@@ -9,6 +9,7 @@ import MenuItem from '@mui/material/MenuItem';
 import {AuctionFilters} from "../../services/fetchAuctions";
 import {useEffect} from "react";
 import {useViewMode} from "../../contexts/ViewModeContext";
+import * as React from "react";
 
 import {
     FiltersPaperStyle,
@@ -50,7 +51,7 @@ const dateValueMap: Record<string, string> = {
     "23 listopada": "2025-11-23",
 };
 
-const Filters = ({aucfilters, setAucFilters}: FiltersProps) => {
+const Filters = ({setAucFilters}: FiltersProps) => {
     const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
     const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
     const [selectedDates, setSelectedDates] = useState<string[]>([]);

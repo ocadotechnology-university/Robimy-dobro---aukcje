@@ -39,7 +39,7 @@ const AddPage = () => {
     const [wantsToBeModerator, setWantsToBeModerator] = useState(false);
     const [selectedDate, setSelectedDate] = useState("");
     const rteRef = useRef<RichTextEditorRef>(null);
-    const [croppedImage, setCroppedImage] = useState<any | null>(null);
+    const [croppedImage, setCroppedImage] = useState<File | Blob | null>(null);
     const fileId = "";
 
     const handlePickup = (value: boolean) => {
@@ -83,7 +83,7 @@ const AddPage = () => {
 }
 
 interface ImageUploadSectionProps {
-    setCroppedImage: (img: any | null) => void;
+    setCroppedImage: (img: File | Blob | null) => void;
 }
 
 const ImageUploadSection = ({setCroppedImage}: ImageUploadSectionProps) => (
@@ -188,7 +188,7 @@ const ModeratorSection = ({
 };
 
 interface FormButtonsSectionProps {
-    croppedImage: any | null;
+    croppedImage: File | Blob | null;
     isModerator: boolean;
     title: string;
     descriptionRteRef: React.RefObject<RichTextEditorRef | null>;
@@ -209,8 +209,8 @@ const FormButtonsSection = ({
     const navigate = useNavigate();
     const {mutate: postImage, isSuccess: isImageSuccess, isError: isImageError} = usePostImages();
     const {mutate, isSuccess, isError} = usePostAuction();
-    const [successMessage, setSuccessMessage] = useState<String>("");
-    const [errorMessage, setErrorMessage] = useState<String>("");
+    const [successMessage, setSuccessMessage] = useState<string>("");
+    const [errorMessage, setErrorMessage] = useState<string>("");
 
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
