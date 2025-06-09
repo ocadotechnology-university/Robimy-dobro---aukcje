@@ -2,12 +2,11 @@ import React, {useEffect, useRef, useState} from "react";
 import {Stack, Box, Grid2} from "@mui/material";
 import UpdateAuctionHeader from "./UpdateAuctionHeader";
 import UpdateAuctionDescription from "./UpdateAuctionDescription";
-import {UUID} from "node:crypto";
 import {RichTextEditorRef} from "mui-tiptap";
 import {UpdateActionButtonSave, UpdateActionButtonCancel} from "../../../common/UpdateActionButtons";
 
 type Props = {
-    id: UUID;
+    id: string;
     title: string;
     setTitle: (value: string) => void;
     date: string;

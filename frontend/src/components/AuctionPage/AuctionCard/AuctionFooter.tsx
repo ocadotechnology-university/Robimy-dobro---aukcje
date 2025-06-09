@@ -5,7 +5,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import {SiSlack} from "react-icons/si";
-import {UUID} from "node:crypto";
 import AuctionStatus from "./AuctionStatus";
 import {AuctionCardFooterGrid, IconBox} from "./AuctionCard.styles";
 import {useFollowAuction} from "../../../hooks/useFollowAuction";
@@ -17,21 +16,21 @@ import {useViewMode} from "../../../contexts/ViewModeContext";
 const SlackIcon = SiSlack as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
 
 type Props = {
-    id: UUID;
+    id: string;
     status: string;
     supplierEmail: string;
     supplier: string;
     winner: string;
     isFollowed: boolean;
     slackUrl: string;
-    editingAuctionId: UUID | null;
-    setEditingAuctionId: (value: UUID | null) => void;
+    editingAuctionId: string | null;
+    setEditingAuctionId: (value: string | null) => void;
     setOpenDialog: (value: boolean) => void;
     setOneIsUpdating: (value: boolean) => void;
     newUpdatingAuction: boolean;
     setNewUpdatingAuction: (value: boolean) => void;
-    setBackupEditingAuctionId: (value: UUID | null) => void;
-    onDeleteClick: (id: UUID) => void;
+    setBackupEditingAuctionId: (value: string | null) => void;
+    onDeleteClick: (id: string) => void;
 };
 
 const AuctionFooter = ({

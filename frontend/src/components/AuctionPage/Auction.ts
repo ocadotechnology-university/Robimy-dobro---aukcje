@@ -1,7 +1,5 @@
-import {UUID} from "node:crypto";
-
 export interface Auction {
-    id: UUID,
+    id: string,
     publicId: string,
     title: string,
     date: string,
