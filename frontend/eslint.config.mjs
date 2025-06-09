@@ -17,7 +17,16 @@ export default defineConfig([
                     jsx: true,
                 },
             },
-            globals: globals.browser,
+            globals: {
+                ...globals.browser,
+                ...globals.node,
+                vi: true,
+                describe: true,
+                it: true,
+                expect: true,
+                beforeEach: true,
+                afterEach: true,
+            },
         },
         plugins: {
             js,
