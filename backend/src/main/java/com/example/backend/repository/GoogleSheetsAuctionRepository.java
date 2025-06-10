@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -81,7 +82,17 @@ public class GoogleSheetsAuctionRepository implements AuctionRepository {
 
         String response = googleSheetsService.queryWithGviz(queryWithFilters, "Auction");
         List<Auction> auctions = gvizResponseParser.parseAuctionsResponse(response);
-        return AuctionSorter.sortAuctions(auctions, sortBy);
+        return AuctionSorter.sortAuctions(auctions, sortBy).stream()
+                .filter(auction -> shouldIncludeAuction(auction, statuses))
+                .toList();
+    }
+
+    private boolean shouldIncludeAuction(Auction auction, List<String> statuses) {
+        boolean isFilteringNoBid = statuses.contains("NO_BID");
+        if (isFilteringNoBid && auction.getAuctionEndDateTime() != null) {
+            return auction.getAuctionEndDateTime().isBefore(LocalDateTime.now());
+        }
+        return true;
     }
 
     private List<String> findFollowersByAuctionId(UUID auctionId) throws IOException {

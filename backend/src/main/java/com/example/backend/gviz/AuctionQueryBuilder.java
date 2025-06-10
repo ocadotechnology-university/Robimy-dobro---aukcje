@@ -56,7 +56,6 @@ public class AuctionQueryBuilder {
         }
         if (statuses.contains("NO_BID")) {
             builder.whereIsNull(Column.CURRENT_BID.label);
-            builder.whereDateBeforeNow(Column.END_DATETIME.label);
         }
         if (statuses.contains("COMPLETE")) {
             builder.whereAllNotNull(List.of(
