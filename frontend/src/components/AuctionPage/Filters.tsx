@@ -1,4 +1,4 @@
-import {useState} from "react";
+import React, {useState} from "react";
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import Typography from "@mui/material/Typography";
@@ -24,6 +24,7 @@ import {useAuth} from "../../hooks/AuthProvider";
 interface FiltersProps {
     aucfilters: AuctionFilters;
     setAucFilters: React.Dispatch<React.SetStateAction<AuctionFilters>>;
+    auctionsAmount: number;
 }
 
 const statusOptions = ["Niekompletne", "Bez moderatora", "Bez daty", "Bez oferty", "Kompletne"];
@@ -106,7 +107,7 @@ const Filters = ({setAucFilters}: FiltersProps) => {
     return (
         <Paper elevation={0} variant={"outlined"} sx={FiltersPaperStyle}>
             <Stack spacing={1}>
-                <FiltersHeader showClear={isAnySelected} onClearAll={handleClearAll}/>
+                <FiltersHeader showClear={isAnySelected} onClearAll={handleClearAll} auctionsAmount={auctionsAmount}/>
 
                 {hasMoreFilters && (
                     <FilterSection
@@ -141,13 +142,17 @@ const Filters = ({setAucFilters}: FiltersProps) => {
 type FiltersHeaderProps = {
     showClear: boolean;
     onClearAll: () => void;
+    auctionsAmount: number;
 };
 
-const FiltersHeader = ({showClear, onClearAll}: FiltersHeaderProps) => (
+const FiltersHeader = ({showClear, onClearAll, auctionsAmount}: FiltersHeaderProps) => (
     <Stack direction="column" spacing={0.5}>
-        <Typography variant="h5" fontWeight={700}>
-            Filtry
-        </Typography>
+        <Stack direction="row" alignItems="center" justifyContent="space-between">
+            <Typography variant="h5" fontWeight={700}>
+                Filtry
+            </Typography>
+            <Typography color="#a0a0a0">(Aukcje: {auctionsAmount})</Typography>
+        </Stack>
         <Typography
             variant="body1"
             sx={(theme) => ({

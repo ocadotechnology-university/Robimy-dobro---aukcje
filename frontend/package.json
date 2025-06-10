@@ -27,6 +27,7 @@
     "browser-image-compression": "^2.0.2",
     "dompurify": "^3.2.5",
     "framer-motion": "^12.15.0",
+    "html-react-parser": "^5.2.5",
     "jwt-decode": "^4.0.0",
     "mui": "^0.0.1",
     "mui-tiptap": "^1.18.1",

@@ -63,7 +63,7 @@ const AuctionHeader = ({title, setTitle, date, setDate, city, setCity, price, se
                     />
                 </Stack>
             </Stack>
-            <Stack width="30%" flexDirection="column" alignItems="center" gap={2}>
+            <Stack width="30%" flexDirection="column" alignItems="flex-end" gap={2}>
                 <PriceTextField price={price} setPrice={setPrice}/>
 
                 <DateSelectField
