@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import {useState} from "react";
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import Typography from "@mui/material/Typography";
@@ -52,7 +52,7 @@ const dateValueMap: Record<string, string> = {
     "23 listopada": "2025-11-23",
 };
 
-const Filters = ({setAucFilters}: FiltersProps) => {
+const Filters = ({setAucFilters, auctionsAmount}: FiltersProps) => {
     const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
     const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
     const [selectedDates, setSelectedDates] = useState<string[]>([]);
