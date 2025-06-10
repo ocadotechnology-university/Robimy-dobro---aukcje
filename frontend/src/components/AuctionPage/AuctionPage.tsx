@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Filters from './Filters';

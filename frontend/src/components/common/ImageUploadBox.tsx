@@ -1,7 +1,8 @@
 import React, {useEffect} from 'react';
 import Box from '@mui/material/Box';
 import UploadIcon from '@mui/icons-material/Upload';
-import {useState} from 'react'
+import {useState} from 'react';
+import { PercentCrop } from 'react-image-crop';
 import Stack from "@mui/material/Stack";
 import {
     boxStyleBeforeUpload,
@@ -18,7 +19,7 @@ import {getCroppedImage} from "./Services/CropImage";
 import CropConfirmButton from "./CropConfirmButton"
 
 interface ImageUploadBoxProps {
-    setCroppedImage: (img: any | null) => void;
+    setCroppedImage: (img: Blob | File | null) => void;
     updateBlobImage: Blob | undefined;
     updateBlobImageUrl: string | null;
 }
@@ -32,8 +33,8 @@ const ImageUploadBox = ({setCroppedImage, updateBlobImage, updateBlobImageUrl}: 
     const [imageSrcBackup, setImageSrcBackup] = useState<string | null>(null)
     const [isUpload, setIsUpload] = useState(false)
     const [crop, setCrop] = useState<Crop>()
-    const [croppedAreaPercent, setCroppedAreaPercent] = useState<any>(null)
-    const [displayCroppedImage, setDisplayCroppedImage] = useState<any>(null)
+    const [croppedAreaPercent, setCroppedAreaPercent] = useState<PercentCrop | null>(null);
+    const [displayCroppedImage, setDisplayCroppedImage] = useState<string | null>(null);
     const [open, setOpen] = React.useState(false);
     const [savedCrop, setSavedCrop] = useState<Crop>();
     const [savedCropBackup, setSavedCropBackup] = useState<Crop>();
@@ -85,7 +86,7 @@ const ImageUploadBox = ({setCroppedImage, updateBlobImage, updateBlobImageUrl}: 
         setImageSrc(imageSrcBackup);
     }
 
-    const onImageLoad = (e: any) => {
+    const onImageLoad = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
         if (savedCrop) {
             setCrop(savedCrop);
             return;

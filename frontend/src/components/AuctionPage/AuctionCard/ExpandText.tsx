@@ -19,7 +19,7 @@ const ExpandText = ({text, maxLinesNumber}: ExpandTextProps) => {
     };
 
     const textWithoutHtml = stripHTML(text);
-    const textWithReplaceParagraph = text.replace(/<p>/g, '<br>').replace(/<\/p>/g, '').replace('<br>', '<p>') + '<\/p>';
+    const textWithReplaceParagraph = text.replace(/<p>/g, '<br>').replace(/<\/p>/g, '').replace('<br>', '<p>') + '</p>';
 
     const matches = textWithReplaceParagraph.match(/<(strong|em|u)\b[^>]*>/gi);
     const tagAMatches = textWithReplaceParagraph.match(/<(a)\b[^>]*>/gi);

@@ -3,10 +3,9 @@ import {Stack, Box, Grid2} from "@mui/material";
 import AuctionHeader from "./AuctionHeader";
 import AuctionDescription from "./AuctionDescription";
 import AuctionFooter from "./AuctionFooter";
-import {UUID} from "node:crypto";
 
 type Props = {
-    id: UUID;
+    id: string;
     publicId: string;
     title: string;
     date: string;
@@ -20,14 +19,14 @@ type Props = {
     price: string;
     isFollowed: boolean;
     slackUrl: string;
-    editingAuctionId: UUID | null;
-    setEditingAuctionId: (value: UUID | null) => void;
-    onDeleteClick: (id: UUID) => void;
+    editingAuctionId: string | null;
+    setEditingAuctionId: (value: string | null) => void;
+    onDeleteClick: (id: string) => void;
     setOpenDialog: (value: boolean) => void;
     setOneIsUpdating: (value: boolean) => void;
     newUpdatingAuction: boolean;
     setNewUpdatingAuction: (value: boolean) => void;
-    setBackupEditingAuctionId: (value: UUID | null) => void;
+    setBackupEditingAuctionId: (value: string | null) => void;
     setNewPublicId: (value: string) => void;
     handleUpdatePublicId: () => void;
     publicIdList: string[];

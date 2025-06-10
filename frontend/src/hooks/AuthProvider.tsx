@@ -1,4 +1,4 @@
-import {createContext, ReactNode, useCallback, useContext, useEffect, useState} from "react";
+import {createContext, ReactNode, useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import API from "../services/API"
@@ -44,9 +44,13 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
         setSupplier(decoded.sub);
     };
 
+    interface GoogleJwtPayload extends JwtPayload {
+        picture: string;
+    }
+
     const loginWithGoogle = async (googleToken: string) => {
         try {
-            const decoded: any = jwtDecode(googleToken);
+            const decoded: GoogleJwtPayload = jwtDecode(googleToken);
             setProfileImageURL(decoded.picture);
             localStorage.setItem("profileImageURL", decoded.picture);
             const response = await axios.post(

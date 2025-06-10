@@ -1,6 +1,5 @@
 import React, {useRef, useState} from "react";
 import Stack from '@mui/material/Stack';
-import {UUID} from "node:crypto";
 import AuctionCard from './AuctionCard/AuctionCard';
 import {Auction} from './Auction'
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, Alert} from "@mui/material";
@@ -12,24 +11,24 @@ interface AuctionsListProps {
 }
 
 const AuctionsList = ({auctions}: AuctionsListProps) => {
-    const [editingAuctionId, setEditingAuctionId] = useState<UUID | null>(null);
+    const [editingAuctionId, setEditingAuctionId] = useState<string | null>(null);
     const [openDialog, setOpenDialog] = useState(false);
     const [oneIsUpdating, setOneIsUpdating] = useState(false);
     const [newUpdatingAuction, setNewUpdatingAuction] = useState(false);
-    const [backupEditingAuctionId, setBackupEditingAuctionId] = useState<UUID | null>(null);
-    const [deletingAuctionId, setDeletingAuctionId] = useState<UUID | null>(null);
+    const [backupEditingAuctionId, setBackupEditingAuctionId] = useState<string | null>(null);
+    const [deletingAuctionId, setDeletingAuctionId] = useState<string | null>(null);
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
     const deleteAuction = useDeleteAuction();
-    const [isDeletingAuctionId, setIsDeletingAuctionId] = useState<UUID | null>(null);
+    const [isDeletingAuctionId, setIsDeletingAuctionId] = useState<string | null>(null);
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">("success");
 
-    const auctionRefs = useRef<Record<UUID, HTMLDivElement | null>>({});
+    const auctionRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
     const publicIdList = auctions.map((auction) => (auction.publicId != null ? auction.publicId.toString() : ""));
 
-    const scrollToAuction = (id: UUID | null) => {
+    const scrollToAuction = (id: string | null) => {
         if (id) {
             auctionRefs.current[id]?.scrollIntoView({behavior: "smooth", block: "center"});
             setOpenDialog(false);
@@ -52,7 +51,7 @@ const AuctionsList = ({auctions}: AuctionsListProps) => {
         scrollToAuction(editingAuctionId);
     }
 
-    const handleDeleteClick = (auctionId: UUID) => {
+    const handleDeleteClick = (auctionId: string) => {
         setDeletingAuctionId(auctionId);
         setOpenDeleteDialog(true);
     };

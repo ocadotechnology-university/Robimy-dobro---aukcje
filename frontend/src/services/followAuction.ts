@@ -1,6 +1,5 @@
 import {followAuctionAPI} from './API';
-import {UUID} from "node:crypto";
 
-export const followAuction = async (id: UUID): Promise<void> => {
+export const followAuction = async (id: string): Promise<void> => {
     await followAuctionAPI(id);
 };

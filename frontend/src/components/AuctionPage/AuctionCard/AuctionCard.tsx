@@ -5,7 +5,6 @@ import ImageSection from "./ImageSection";
 import UpdateImageSection from "./UpdateComponents/UpdateImageSection";
 import {ContentSection} from "./ContentSection";
 import UpdateContentSection from "./UpdateComponents/UpdateContentSection";
-import {UUID} from "node:crypto";
 import {transformDateFormatToFormDate, transformDateToDateFormat} from "../../AddPage/Services/DateTransformer";
 import {RichTextEditorRef} from "mui-tiptap";
 import {useUpdateAuction} from "../../../hooks/useUpdateAuction";
@@ -19,7 +18,7 @@ import Stack from "@mui/material/Stack";
 import {useAuth} from "../../../hooks/AuthProvider";
 
 type Props = {
-    id: UUID;
+    id: string;
     publicId: string;
     title: string;
     date: string;
@@ -35,16 +34,16 @@ type Props = {
     isFollowed: boolean;
     slackUrl: string;
     wantsToBeModerator: boolean;
-    editingAuctionId: UUID | null;
-    setEditingAuctionId: (value: UUID | null) => void;
-    onDeleteClick: (id: UUID) => void;
+    editingAuctionId: string | null;
+    setEditingAuctionId: (value: string | null) => void;
+    onDeleteClick: (id: string) => void;
     isDeleting?: boolean;
     isUpdating: boolean;
     setOpenDialog: (value: boolean) => void;
     setOneIsUpdating: (value: boolean) => void;
     newUpdatingAuction: boolean;
     setNewUpdatingAuction: (value: boolean) => void;
-    setBackupEditingAuctionId: (value: UUID | null) => void;
+    setBackupEditingAuctionId: (value: string | null) => void;
     publicIdList: string[];
 };
 
@@ -57,7 +56,7 @@ const AuctionCard = (props: Props) => {
     const [updateWantsToBeModerator, setUpdateWantsToBeModerator] = useState(props.wantsToBeModerator);
     const descriptionRteRef = useRef<RichTextEditorRef>(null);
     const [updateFileId, setUpdateFileId] = useState(props.fileId);
-    const [croppedImage, setCroppedImage] = useState<any | null>(null);
+    const [croppedImage, setCroppedImage] = useState<Blob | File | null>(null);
     const {mutate, isSuccess, isError} = useUpdateAuction();
     const {mutate: mutatePublicId, isSuccess: isPublicIdSuccess, isError: isPublicIdError} = useUpdatePublicId();
     const [newPublicId, setNewPublicId] = useState<string>("");
