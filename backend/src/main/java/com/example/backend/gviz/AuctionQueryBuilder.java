@@ -70,7 +70,6 @@ public class AuctionQueryBuilder {
         return this;
     }
 
-
     public AuctionQueryBuilder withSupplier(String email) {
         if (email != null) {
             builder.whereEquals(Column.SUPPLIER_EMAIL.label, email);
