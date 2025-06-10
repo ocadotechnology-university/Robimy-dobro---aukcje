@@ -40,7 +40,7 @@ const StatsCard = ({
                     </Box>
                     {value !== undefined && useCounter ? (
                         <Typography variant="h2" fontWeight={600}>
-                            <CountUp end={value} duration={3} separator=" "/>{suffix}
+                            <CountUp end={value} duration={2} separator=" "/>{suffix}
                         </Typography>
                     ) : (
                         title && (
