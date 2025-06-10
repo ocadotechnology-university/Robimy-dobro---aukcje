@@ -33,6 +33,7 @@ export const UserAvatar = () => {
                 onClose={handleClose}
                 anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
                 transformOrigin={{vertical: 'top', horizontal: 'right'}}
+                disableScrollLock
             >
                 <MenuItem onClick={() => {
                     handleClose();
