@@ -83,6 +83,12 @@ public class GvizQueryBuilder {
         return this;
     }
 
+    public GvizQueryBuilder whereDateBeforeNow(String columnName) {
+        String columnLetter = columnLetterMap.get(columnName);
+        conditions.add(columnLetter + " < now()");
+        return this;
+    }
+
     public GvizQueryBuilder orderBy(String columnName, boolean ascending) {
         String columnLetter = columnLetterMap.get(columnName);
         String order = columnLetter + (ascending ? " ASC" : " DESC");

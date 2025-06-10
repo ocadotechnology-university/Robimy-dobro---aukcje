@@ -67,9 +67,12 @@ public class AuctionQueryBuilder {
                     Column.CURRENT_BID.label
             ));
         }
+        if (statuses.contains("FINISHED_WITH_NO_BIDS")) {
+            builder.whereDateBeforeNow(Column.END_DATETIME.label);
+            builder.whereIsNull(Column.CURRENT_BID.label);
+        }
         return this;
     }
-
 
     public AuctionQueryBuilder withSupplier(String email) {
         if (email != null) {
