@@ -58,7 +58,7 @@ const AuctionFooter = ({
 
     const {role, supplier: currentUserEmail} = useAuth();
     const {adminViewMode} = useViewMode();
-    const canEditOrDelete = role === "ADMIN" && adminViewMode || supplierEmail === currentUserEmail;
+    const canEditOrDelete = role === "ADMIN" && adminViewMode || (supplierEmail === currentUserEmail && status === "NOT_STARTED");
 
     useEffect(() => {
         if (debouncedFollowed !== isFollowed) {

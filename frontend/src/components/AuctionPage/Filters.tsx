@@ -1,11 +1,6 @@
 import {useState} from "react";
-import Stack from '@mui/material/Stack';
-import Paper from '@mui/material/Paper';
-import Typography from "@mui/material/Typography";
+import {Stack, Box, Typography, Paper, Select, MenuItem, Chip} from '@mui/material';
 import ShieldIcon from '@mui/icons-material/Shield';
-import Chip from '@mui/material/Chip';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
 import {AuctionFilters} from "../../services/fetchAuctions";
 import {useEffect} from "react";
 import {useViewMode} from "../../contexts/ViewModeContext";
@@ -13,6 +8,7 @@ import * as React from "react";
 
 import {
     FiltersPaperStyle,
+    FiltersScrollContainerStyle,
     SectionActionTypographyStyle,
     FilterChipStyle,
     ClearAllTypographyStyle,
@@ -89,7 +85,7 @@ const Filters = ({setAucFilters, auctionsAmount}: FiltersProps) => {
             ...prev,
             sortBy: sortValueMap[sort] || undefined,
         }));
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({top: 0, behavior: 'smooth'});
     }, [sort]);
 
     const isAnySelected =
@@ -106,35 +102,38 @@ const Filters = ({setAucFilters, auctionsAmount}: FiltersProps) => {
 
     return (
         <Paper elevation={0} variant={"outlined"} sx={FiltersPaperStyle}>
-            <Stack spacing={1}>
-                <FiltersHeader showClear={isAnySelected} onClearAll={handleClearAll} auctionsAmount={auctionsAmount}/>
+            <Box sx={FiltersScrollContainerStyle}>
+                <Stack spacing={1}>
+                    <FiltersHeader showClear={isAnySelected} onClearAll={handleClearAll}
+                                   auctionsAmount={auctionsAmount}/>
 
-                {hasMoreFilters && (
+                    {hasMoreFilters && (
+                        <FilterSection
+                            title="Status aukcji"
+                            icon={<ShieldIcon fontSize="small" sx={{color: '#fbc02d'}}/>}
+                            options={statusOptions}
+                            selectedOptions={selectedStatuses}
+                            setSelectedOptions={setSelectedStatuses}
+                        />
+                    )}
+
                     <FilterSection
-                        title="Status aukcji"
-                        icon={<ShieldIcon fontSize="small" sx={{color: '#fbc02d'}}/>}
-                        options={statusOptions}
-                        selectedOptions={selectedStatuses}
-                        setSelectedOptions={setSelectedStatuses}
+                        title="Wybrane aukcje"
+                        options={selectedOptions}
+                        selectedOptions={selectedTypes}
+                        setSelectedOptions={setSelectedTypes}
                     />
-                )}
 
-                <FilterSection
-                    title="Wybrane aukcje"
-                    options={selectedOptions}
-                    selectedOptions={selectedTypes}
-                    setSelectedOptions={setSelectedTypes}
-                />
+                    <FilterSection
+                        title="Dzień"
+                        options={dateOptions}
+                        selectedOptions={selectedDates}
+                        setSelectedOptions={setSelectedDates}
+                    />
 
-                <FilterSection
-                    title="Dzień"
-                    options={dateOptions}
-                    selectedOptions={selectedDates}
-                    setSelectedOptions={setSelectedDates}
-                />
-
-                <SortSection sort={sort} setSort={setSort}/>
-            </Stack>
+                    <SortSection sort={sort} setSort={setSort}/>
+                </Stack>
+            </Box>
         </Paper>
     );
 };
@@ -250,6 +249,7 @@ const SortSection: React.FC<SortSectionProps> = ({sort, setSort}) => {
                 MenuProps={{
                     PaperProps: {sx: MenuPaperStyle},
                     MenuListProps: {sx: {py: 0}},
+                    disableScrollLock: true,
                 }}
             >
                 {sortOptions.map((option) => (

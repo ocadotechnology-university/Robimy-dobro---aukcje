@@ -45,6 +45,11 @@ const DateSelectField = ({
             disabled={disabled}
             InputLabelProps={{shrink: true}}
             sx={selectFieldStyle}
+            SelectProps={{
+                MenuProps: {
+                    disableScrollLock: true,
+                },
+            }}
         >
             {options.map((date) => (
                 <MenuItem key={date} value={date}>

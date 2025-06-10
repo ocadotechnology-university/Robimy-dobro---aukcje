@@ -5,8 +5,16 @@ export const FiltersPaperStyle: SxProps<Theme> = {
     minWidth: '18%',
     borderRadius: 4,
     alignSelf: 'flex-start',
+    overflowY: 'hidden',
     position: 'sticky',
     top: 80,
+};
+
+export const FiltersScrollContainerStyle: SxProps<Theme> = {
+    maxHeight: 'calc(100vh - 80px)',
+    overflowY: 'auto',
+    pr: 1,
+    scrollbarWidth: 'thin',
 };
 
 export const ClearAllTypographyStyle = (theme: Theme) => ({

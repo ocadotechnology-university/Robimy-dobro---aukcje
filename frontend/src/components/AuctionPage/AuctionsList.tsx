@@ -88,7 +88,7 @@ const AuctionsList = ({auctions}: AuctionsListProps) => {
     };
 
     return (
-        <Stack width="100%" gap={1}>
+        <Stack width="100%" gap={1.5} sx={{pb: 2}}>
             {auctions.map((auction) => (
                 <div
                     key={auction.id}

@@ -45,6 +45,11 @@ const CitySelectField = ({
             disabled={disabled}
             InputLabelProps={{shrink: true}}
             sx={selectFieldStyle}
+            SelectProps={{
+                MenuProps: {
+                    disableScrollLock: true,
+                },
+            }}
         >
             {options.map((city) => (
                 <MenuItem key={city} value={city}>
