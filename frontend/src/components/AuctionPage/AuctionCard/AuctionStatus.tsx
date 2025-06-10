@@ -30,7 +30,11 @@ const AuctionStatus = ({ status, supplier, winner }: Props) => {
                 <br />
                 Dostawca: <b>{supplier}</b>
                 <br />
-                Zwycięzca: <b>{winner}</b>
+                {winner && (
+                    <>
+                        Zwycięzca: <b>{winner}</b>
+                    </>
+                )}
             </Typography>
         </Box>
     );
