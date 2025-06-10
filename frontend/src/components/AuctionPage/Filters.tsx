@@ -249,6 +249,7 @@ const SortSection: React.FC<SortSectionProps> = ({sort, setSort}) => {
                 MenuProps={{
                     PaperProps: {sx: MenuPaperStyle},
                     MenuListProps: {sx: {py: 0}},
+                    disableScrollLock: true,
                 }}
             >
                 {sortOptions.map((option) => (
