@@ -56,6 +56,7 @@ public class AuctionQueryBuilder {
         }
         if (statuses.contains("NO_BID")) {
             builder.whereIsNull(Column.CURRENT_BID.label);
+            builder.whereDateBeforeNow(Column.END_DATETIME.label);
         }
         if (statuses.contains("COMPLETE")) {
             builder.whereAllNotNull(List.of(
@@ -66,10 +67,6 @@ public class AuctionQueryBuilder {
                     Column.STARTING_PRICE.label,
                     Column.CURRENT_BID.label
             ));
-        }
-        if (statuses.contains("FINISHED_WITH_NO_BIDS")) {
-            builder.whereDateBeforeNow(Column.END_DATETIME.label);
-            builder.whereIsNull(Column.CURRENT_BID.label);
         }
         return this;
     }
