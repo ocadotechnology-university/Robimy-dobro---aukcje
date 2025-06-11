@@ -10,6 +10,7 @@ import theme from "./theme/theme";
 import {AuthProvider} from "./hooks/AuthProvider";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {ViewModeProvider} from "./contexts/ViewModeContext";
+import {AuctionDatesProvider} from "./contexts/AuctionDatesContext";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -24,16 +25,19 @@ root.render(
                 <ThemeProvider theme={theme}>
                     <AuthProvider>
                         <ViewModeProvider>
-                            <QueryClientProvider client={queryClient}>
-                                <App/>
-                            </QueryClientProvider>
+                            <AuctionDatesProvider>
+                                <QueryClientProvider client={queryClient}>
+                                    <App/>
+                                </QueryClientProvider>
+                            </AuctionDatesProvider>
                         </ViewModeProvider>
                     </AuthProvider>
                 </ThemeProvider>
             </BrowserRouter>
         </GoogleOAuthProvider>
     </React.StrictMode>
-);
+)
+;
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
