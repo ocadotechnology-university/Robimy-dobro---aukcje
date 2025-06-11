@@ -39,7 +39,7 @@ public class GoogleSheetsService {
         ValueRange body = new ValueRange().setValues(values);
         sheetsService.spreadsheets().values()
                 .append(SPREADSHEET_ID, sheetName, body)
-                .setValueInputOption("RAW")
+                .setValueInputOption("USER_ENTERED")
                 .setInsertDataOption("INSERT_ROWS")
                 .execute();
     }
