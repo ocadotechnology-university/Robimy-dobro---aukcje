@@ -12,9 +12,11 @@ const API = axios.create({
 export const imageAPI = (fileId: string) =>
     API.get(`/images/${fileId}`, {responseType: 'blob'});
 
-export const imagePostAPI = (blob: Blob) => {
+export const imagePostAPI = (blob: Blob | null) => {
     const form = new FormData();
-    form.append('file', blob);
+    if(blob) {
+        form.append('file', blob);
+    }
     return API.post(`/images/`, form, {responseType: 'text'});
 }
 
