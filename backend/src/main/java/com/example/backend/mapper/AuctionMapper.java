@@ -81,6 +81,8 @@ public class AuctionMapper {
 
         if (auctionUpdateDto.getAuctionDate() != null) {
             date = dateTransformer.transformDate(auctionUpdateDto.getAuctionDate());
+        } else {
+            date = null;
         }
 
         return Auction.builder()
