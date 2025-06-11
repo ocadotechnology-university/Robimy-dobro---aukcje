@@ -11,12 +11,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/cities")
 public class CityController {
-    private final CityService cityService;
-
-    public CityController(CityService cityService) {
-        this.cityService = cityService;
-    }
-
     @GetMapping
     public ResponseEntity<?> getAllCities() {
         List<String> cities = List.of("Wrocław", "Kraków");

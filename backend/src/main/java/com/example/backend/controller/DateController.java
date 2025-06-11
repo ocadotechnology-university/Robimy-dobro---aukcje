@@ -12,12 +12,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/dates")
 public class DateController {
-    private final DateService dateService;
-
-    public DateController(DateService dateService) {
-        this.dateService = dateService;
-    }
-
     @GetMapping
     public ResponseEntity<List<LocalDate>> getAllDates() {
         List<LocalDate> dates = List.of(
