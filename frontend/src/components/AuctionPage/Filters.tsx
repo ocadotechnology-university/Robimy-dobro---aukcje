@@ -52,13 +52,16 @@ const Filters = ({setAucFilters, auctionsAmount}: FiltersProps) => {
     const {adminViewMode} = useViewMode();
     const hasMoreFilters = role === "ADMIN" && adminViewMode
 
-    const dateOptions = dates.map(date =>
-        `${date.getDate()} ${date.toLocaleString('pl-PL', {month: 'long'})}`
-    );
+    const dateFormatter = new Intl.DateTimeFormat('pl-PL', {
+        day: 'numeric',
+        month: 'long',
+    });
+
+    const dateOptions = dates.map(date => dateFormatter.format(date));
 
     const dateValueMap = Object.fromEntries(
         dates.map(date => [
-            `${date.getDate()} ${date.toLocaleString('pl-PL', {month: 'long'})}`,
+            dateFormatter.format(date),
             date.toISOString().split('T')[0]
         ])
     );

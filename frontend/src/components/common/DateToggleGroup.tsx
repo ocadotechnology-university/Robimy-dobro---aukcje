@@ -29,9 +29,12 @@ const DateToggleGroup = ({
                          }: DateToggleGroupProps) => {
     const {dates, loading} = useAuctionDates();
 
-    const formatDateLabel = (date: Date) =>
-        `${date.getDate()} ${date.toLocaleString('pl-PL', {month: 'long'})}`;
+    const dateFormatter = new Intl.DateTimeFormat('pl-PL', {
+        day: 'numeric',
+        month: 'long',
+    });
 
+    const formatDateLabel = (date: Date) => dateFormatter.format(date);
     const options = dates.map(formatDateLabel);
 
     if (loading) return null;
