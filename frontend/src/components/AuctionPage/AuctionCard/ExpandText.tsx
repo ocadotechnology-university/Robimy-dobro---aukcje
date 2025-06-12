@@ -37,6 +37,14 @@ const ExpandText = ({text, maxLinesNumber}: ExpandTextProps) => {
         return textWithParagraph.replace(/^<p>|<\/p>$/g, '');
     }
 
+    const tempCutText = removeParagraphTags(textWithReplaceParagraph.slice(0, maxLinesNumber*lineLength));
+    const tempMatches = tempCutText.match(/<(strong|em|u)\b[^>]*>/gi);
+    const tempHtmlSEUTagsLength = tempMatches ? tempMatches.join("").length*2 + tempMatches.length : 0;
+    const tempTagAMatches = tempCutText.match(/<(a)\b[^>]*>/gi);
+    const tempTagAMatchesSize = tempTagAMatches ? tempTagAMatches.length : 0;
+    const tempTagAMatchesLength = tempTagAMatches ? tempTagAMatches.join("").length + 4*tempTagAMatchesSize : 0;
+    const tempAdditionalLength = tempHtmlSEUTagsLength + tempTagAMatchesLength;
+
     const parts = textWithReplaceParagraph.split('<br>');
     let resultWithoutHtml = '';
     let resultWithHtml = '';
@@ -62,7 +70,7 @@ const ExpandText = ({text, maxLinesNumber}: ExpandTextProps) => {
         displayedBrAmount = i;
 
         if (partLinesNumber + lineNumber - 1 > maxLinesNumber) {
-            resultWithHtml += parts[i].slice(0, (maxLinesNumber+1-lineNumber)*lineLength + htmlTagsLength);
+            resultWithHtml += parts[i].slice(0, (maxLinesNumber+1-lineNumber)*lineLength + tempAdditionalLength);
             resultWithoutHtml += parts[i].slice(0, (maxLinesNumber+1-lineNumber)*lineLength);
             lineNumber = maxLinesNumber + 1;
             break;
@@ -89,9 +97,17 @@ const ExpandText = ({text, maxLinesNumber}: ExpandTextProps) => {
         }
     }
 
+    const initialCutText = removeParagraphTags(textWithReplaceParagraph.slice(0, resultWithHtml.length));
+    const cutMatches = initialCutText.match(/<(strong|em|u)\b[^>]*>/gi);
+    const cutHtmlSEUTagsLength = cutMatches ? cutMatches.join("").length*2 + cutMatches.length : 0;
+    const cutTagAMatches = initialCutText.match(/<(a)\b[^>]*>/gi);
+    const cutTagAMatchesSize = cutTagAMatches ? cutTagAMatches.length : 0;
+    const cutTagAMatchesLength = cutTagAMatches ? cutTagAMatches.join("").length + 4*cutTagAMatchesSize : 0;
+    const finalAdditionalLength = (displayedBrAmount == 0) ? cutHtmlSEUTagsLength + cutTagAMatchesLength : displayedBrAmount*4 + cutHtmlSEUTagsLength + cutTagAMatchesLength;
+
     const additionalLength = (displayedBrAmount == 0) ? htmlTagsLength : displayedBrAmount*4;
 
-    let cutText = removeParagraphTags(textWithReplaceParagraph.slice(0, resultWithoutHtml.length + additionalLength));
+    let cutText = removeParagraphTags(textWithReplaceParagraph.slice(0, resultWithoutHtml.length + finalAdditionalLength));
 
     if (cutText[cutText.length-1] === '<') {
         cutText = cutText.slice(0, cutText.length - 1);
