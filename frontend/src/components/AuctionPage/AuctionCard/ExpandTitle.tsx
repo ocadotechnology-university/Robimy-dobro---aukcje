@@ -9,10 +9,9 @@ import theme from "../../../theme/theme";
 
 type ExpandTitleProps = {
     text: string;
-    maxLengthPixels: number;
 }
 
-const ExpandText = ({text, maxLengthPixels}: ExpandTitleProps) => {
+const ExpandText = ({text}: ExpandTitleProps) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
     const anchorRef = useRef<HTMLDivElement | null>(null);
@@ -21,16 +20,25 @@ const ExpandText = ({text, maxLengthPixels}: ExpandTitleProps) => {
     const [width, setWidth] = useState(0);
 
     useEffect(() => {
-        if (ref.current) {
-            const rect = ref.current.offsetWidth;
-            setWidth(rect);
-        }
-    }, [ref.current]);
+        if (!anchorRef.current) return;
+
+        const observer = new ResizeObserver(entries => {
+            for (let entry of entries) {
+                setWidth(entry.contentRect.width);
+            }
+        });
+
+        observer.observe(anchorRef.current);
+
+        return () => observer.disconnect();
+    }, []);
 
     const title = text ? text : "";
     const textLength = text ? text.length : 0;
     const textLengthPixels = getTextWidth(text);
-    const maxLength = getTextCharacterCount(width, text);
+    const dotsLengthPixels = getTextWidth("...");
+    const maxLength = getTextCharacterCount(width-dotsLengthPixels, text);
+
     console.log(width);
     console.log(textLengthPixels);
     const isTooLong = textLengthPixels > width;
@@ -47,7 +55,7 @@ const ExpandText = ({text, maxLengthPixels}: ExpandTitleProps) => {
         if(context) {
             const fontVariant = theme.typography.h6;
             const fontSize = fontVariant?.fontSize || '17px';
-            const fontWeight = fontVariant?.fontWeight || 700;
+            const fontWeight = "bold";
             const fontFamily = theme.typography.fontFamily || 'sans-serif';
 
             context.font = `${fontWeight} ${fontSize} ${fontFamily}`;
@@ -64,7 +72,7 @@ const ExpandText = ({text, maxLengthPixels}: ExpandTitleProps) => {
         if (context) {
             const fontVariant = theme.typography.h6;
             const fontSize = fontVariant?.fontSize || '17px';
-            const fontWeight = fontVariant?.fontWeight || 700;
+            const fontWeight = "bold";
             const fontFamily = theme.typography.fontFamily || 'sans-serif';
 
             context.font = `${fontWeight} ${fontSize} ${fontFamily}`;
@@ -90,7 +98,7 @@ const ExpandText = ({text, maxLengthPixels}: ExpandTitleProps) => {
             ref={anchorRef}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
-            sx={{cursor: isTooLong ? 'pointer' : 'default'}}
+            sx={{cursor: isTooLong ? 'pointer' : 'default', width: '100%'}}
         >
             {!isTooLong || isExpanded ? (
                 title
