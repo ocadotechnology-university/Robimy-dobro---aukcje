@@ -84,7 +84,7 @@ const AuctionHeader = ({
                                        onKeyDown={handleKeyPress}
                                        sx={{width: "100px", marginBottom: 2, marginRight: 2}}/>
                         )}
-                        <ExpandTitle text={title} maxLength={39}/>
+                        <ExpandTitle text={title} maxLengthPixels={170}/>
                     </Stack>
                     </Typography>
                 <Stack direction="row" spacing={1} alignItems="center">

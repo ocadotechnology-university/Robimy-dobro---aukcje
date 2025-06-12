@@ -1,28 +1,81 @@
-import React, {useEffect, useState, useRef } from "react";
+import React, {useState, useRef, useLayoutEffect, useEffect} from "react";
 import {Button, Typography, Link} from "@mui/material";
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Box from "@mui/material/Box";
 import { Popper, styled } from '@mui/material';
+import theme from "../../../theme/theme";
 
 
 type ExpandTitleProps = {
     text: string;
-    maxLength: number;
+    maxLengthPixels: number;
 }
 
-const ExpandText = ({text, maxLength}: ExpandTitleProps) => {
+const ExpandText = ({text, maxLengthPixels}: ExpandTitleProps) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
     const anchorRef = useRef<HTMLDivElement | null>(null);
+    const ref = useRef<HTMLHeadingElement | null>(null);
+
+    const [width, setWidth] = useState(0);
+
+    useEffect(() => {
+        if (ref.current) {
+            const rect = ref.current.offsetWidth;
+            setWidth(rect);
+        }
+    }, [ref.current]);
 
     const title = text ? text : "";
     const textLength = text ? text.length : 0;
-    const isTooLong = textLength > maxLength;
+    const textLengthPixels = getTextWidth(text);
+    const maxLength = getTextCharacterCount(width, text);
+    console.log(width);
+    console.log(textLengthPixels);
+    const isTooLong = textLengthPixels > width;
     const slicedTitle = text ? text.slice(0, maxLength) : text;
 
     const handleClick = () => {
         setIsExpanded(!isExpanded);
+    }
+
+    function getTextWidth(text: string) {
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+
+        if(context) {
+            const fontVariant = theme.typography.h6;
+            const fontSize = fontVariant?.fontSize || '17px';
+            const fontWeight = fontVariant?.fontWeight || 700;
+            const fontFamily = theme.typography.fontFamily || 'sans-serif';
+
+            context.font = `${fontWeight} ${fontSize} ${fontFamily}`;
+            return context.measureText(text).width;
+        }
+
+        return 0;
+    }
+
+    function getTextCharacterCount(pixelWidth: number, text: string) {
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+
+        if (context) {
+            const fontVariant = theme.typography.h6;
+            const fontSize = fontVariant?.fontSize || '17px';
+            const fontWeight = fontVariant?.fontWeight || 700;
+            const fontFamily = theme.typography.fontFamily || 'sans-serif';
+
+            context.font = `${fontWeight} ${fontSize} ${fontFamily}`;
+
+            const totalWidth = context.measureText(text).width;
+            const averageCharWidth = totalWidth / text.length;
+
+            return Math.floor(pixelWidth / averageCharWidth);
+        }
+
+        return 0;
     }
 
     const StyledPopperDiv = styled('div')(({ theme }) => ({
