@@ -6,6 +6,9 @@ import AddAuction from "./components/AddPage/AddPage";
 import Auctions from "./components/AuctionPage/AuctionPage"
 import {Box} from "@mui/material";
 import Root from "./Root";
+import {useEffect} from "react";
+import {useAuth} from "./hooks/AuthProvider";
+import {useAuctionDates} from "./contexts/AuctionDatesContext";
 
 const Background = () => {
     return <Box
@@ -27,6 +30,15 @@ const Background = () => {
 }
 
 function App() {
+    const {accessToken} = useAuth();
+    const {refetch} = useAuctionDates();
+
+    useEffect(() => {
+        if (accessToken) {
+            refetch();
+        }
+    }, [accessToken]);
+
     return (
         <Box
             sx={{
