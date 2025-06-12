@@ -87,7 +87,6 @@ const AuctionHeader = ({
                     selectedCity={normalizedCity}
                     setSelectedCity={setCity}
                     disabled={!pickupOnlyInCity}
-                    options={["Wrocław", "Kraków"]}
                 />
             </Stack>
         </Stack>

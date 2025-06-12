@@ -142,7 +142,6 @@ const CitySection = ({
             selectedCity={selectedCity}
             setSelectedCity={setSelectedCity}
             disabled={!pickupOnlyInCity}
-            options={["Wrocław", "Kraków"]}
         />
     </Stack>
 );
