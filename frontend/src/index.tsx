@@ -11,6 +11,7 @@ import {AuthProvider} from "./hooks/AuthProvider";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {ViewModeProvider} from "./contexts/ViewModeContext";
 import {AuctionDatesProvider} from "./contexts/AuctionDatesContext";
+import {CityProvider} from "./contexts/CitiesContext";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -25,11 +26,13 @@ root.render(
                 <ThemeProvider theme={theme}>
                     <AuthProvider>
                         <ViewModeProvider>
-                            <AuctionDatesProvider>
-                                <QueryClientProvider client={queryClient}>
-                                    <App/>
-                                </QueryClientProvider>
-                            </AuctionDatesProvider>
+                            <CityProvider>
+                                <AuctionDatesProvider>
+                                    <QueryClientProvider client={queryClient}>
+                                        <App/>
+                                    </QueryClientProvider>
+                                </AuctionDatesProvider>
+                            </CityProvider>
                         </ViewModeProvider>
                     </AuthProvider>
                 </ThemeProvider>

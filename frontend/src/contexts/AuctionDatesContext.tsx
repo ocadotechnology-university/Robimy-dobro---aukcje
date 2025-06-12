@@ -22,7 +22,7 @@ export const AuctionDatesProvider = ({children}: { children: ReactNode }) => {
     const [dates, setDates] = useState<Date[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const { accessToken } = useAuth();
+    const {accessToken} = useAuth();
 
     useEffect(() => {
         if (!accessToken) return;

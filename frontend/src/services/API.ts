@@ -42,4 +42,7 @@ export const deleteAuctionAPI = (id: string) =>
 export const auctionDatesAPI = () =>
     API.get<string[]>('/dates');
 
+export const citiesAPI = () =>
+    API.get<string[]>('/cities');
+
 export default API;
