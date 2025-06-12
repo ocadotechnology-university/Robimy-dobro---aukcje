@@ -71,16 +71,12 @@ public class AuctionMapper {
 
     public Auction mapFromUpdateDtoToAuction(Auction auction, AuctionUpdateDto auctionUpdateDto, String userEmail) {
         String moderatorEmail = auction.getModeratorEmail();
-        LocalDate date = auction.getAuctionDate();
+        LocalDate date = dateTransformer.transformDate(auctionUpdateDto.getAuctionDate());
 
         if (auctionUpdateDto.getWantsToBeModerator()) {
-            moderatorEmail = auction.getSupplierEmail();
+            moderatorEmail = userEmail;
         } else {
             if (moderatorEmail != null && moderatorEmail.equals(auction.getSupplierEmail())) moderatorEmail = "";
-        }
-
-        if (auctionUpdateDto.getAuctionDate() != null) {
-            date = dateTransformer.transformDate(auctionUpdateDto.getAuctionDate());
         }
 
         return Auction.builder()

@@ -229,7 +229,8 @@ const FormButtonsSection = ({
 
         try {
             if (croppedImage) {
-                compressedCroppedImage = await imageCompression(croppedImage, options);
+                const fileFromBlob = new File([croppedImage], `cropped-${Date.now()}.jpg`, { type: croppedImage.type });
+                compressedCroppedImage = await imageCompression(fileFromBlob, options);
             } else {
                 compressedCroppedImage = croppedImage;
             }

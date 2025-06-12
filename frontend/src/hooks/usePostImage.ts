@@ -3,6 +3,6 @@ import {postImage} from '../services/postImage';
 
 export const usePostImages = () => {
     return useMutation({
-        mutationFn: async (blob: Blob) => await postImage(blob)
+        mutationFn: async (blob: Blob | null) => await postImage(blob)
     });
 };
