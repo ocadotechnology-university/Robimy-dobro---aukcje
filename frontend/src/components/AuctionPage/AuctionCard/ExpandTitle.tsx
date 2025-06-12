@@ -107,7 +107,7 @@ const ExpandText = ({text}: ExpandTitleProps) => {
             )}
 
             <Popper open={isHovered && isTooLong} placement="top" anchorEl={anchorRef.current}>
-                <StyledPopperDiv>
+                <StyledPopperDiv style={{maxWidth: "50vw"}}>
                     <Typography fontWeight="bold" color="info.dark">
                         {title}
                     </Typography>
