@@ -12,15 +12,22 @@ const HomePageInfo = () => {
     const getAuctionDatesText = () => {
         if (dates.length === 0) return "";
 
-        const dayNumbers = dates.map(d => d.getDate()).sort((a, b) => a - b);
-        const monthName = dates[0].toLocaleString("pl-PL", {month: "long"});
+        const sortedDates = [...dates].sort((a, b) => a.getDate() - b.getDate());
+        const dayNumbers = sortedDates.map(d => d.getDate());
 
-        if (dayNumbers.length === 1) return `${dayNumbers[0]} ${monthName}`;
-        if (dayNumbers.length === 2) return `${dayNumbers[0]} i ${dayNumbers[1]} ${monthName}`;
+        const monthGenitive = new Intl.DateTimeFormat("pl-PL", {
+            month: "long",
+            day: "numeric"
+        }).formatToParts(sortedDates[0]).find(p => p.type === "month")?.value;
+
+        if (!monthGenitive) return "";
+
+        if (dayNumbers.length === 1) return `${dayNumbers[0]} ${monthGenitive}`;
+        if (dayNumbers.length === 2) return `${dayNumbers[0]} i ${dayNumbers[1]} ${monthGenitive}`;
 
         const allButLast = dayNumbers.slice(0, -1).join(", ");
         const last = dayNumbers[dayNumbers.length - 1];
-        return `${allButLast} i ${last} ${monthName}`;
+        return `${allButLast} i ${last} ${monthGenitive}`;
     };
 
     return (
