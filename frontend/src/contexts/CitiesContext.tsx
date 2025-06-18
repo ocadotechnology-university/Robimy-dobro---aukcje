@@ -6,14 +6,14 @@ interface CityContextType {
     cities: string[];
     loading: boolean;
     error: string | null;
-    refetch: () => Promise<void>;
+    fetch: () => Promise<void>;
 }
 
 const CitiesContext = createContext<CityContextType>({
     cities: [],
     loading: true,
     error: null,
-    refetch: async () => {
+    fetch: async () => {
     },
 });
 
@@ -23,9 +23,9 @@ export const CityProvider = ({children}: { children: ReactNode }) => {
     const [cities, setCities] = useState<string[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const {accessToken} = useAuth();
+    const {isAxiosReady} = useAuth();
 
-    const refetch = async () => {
+    const fetch = async () => {
         setLoading(true);
         setError(null);
         try {
@@ -39,13 +39,13 @@ export const CityProvider = ({children}: { children: ReactNode }) => {
     };
 
     useEffect(() => {
-        if (accessToken) {
-            refetch();
+        if (isAxiosReady) {
+            fetch();
         }
-    }, [accessToken]);
+    }, [isAxiosReady]);
 
     return (
-        <CitiesContext.Provider value={{cities, loading, error, refetch}}>
+        <CitiesContext.Provider value={{cities, loading, error, fetch}}>
             {children}
         </CitiesContext.Provider>
     );

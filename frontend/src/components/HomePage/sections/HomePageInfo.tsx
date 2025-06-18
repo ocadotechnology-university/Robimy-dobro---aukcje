@@ -13,7 +13,7 @@ const HomePageInfo = () => {
         if (dates.length === 0) return "";
 
         const dayNumbers = dates.map(d => d.getDate()).sort((a, b) => a - b);
-        const monthName = dates[0].toLocaleString("pl-PL", { month: "long", day: 'numeric' });
+        const monthName = dates[0].toLocaleString("pl-PL", {month: "long"});
 
         if (dayNumbers.length === 1) return `${dayNumbers[0]} ${monthName}`;
         if (dayNumbers.length === 2) return `${dayNumbers[0]} i ${dayNumbers[1]} ${monthName}`;
