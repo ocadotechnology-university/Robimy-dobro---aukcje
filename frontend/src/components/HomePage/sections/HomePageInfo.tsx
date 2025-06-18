@@ -4,10 +4,12 @@ import {Stack, Typography, Button} from "@mui/material";
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import PrimaryActionButton from "../../common/PrimaryActionButton";
 import {useAuctionDates} from "../../../contexts/AuctionDatesContext";
+import {useHomePageContent} from "../../../hooks/useHomePageContent";
 
 const HomePageInfo = () => {
     const navigate = useNavigate();
     const {dates, loading} = useAuctionDates();
+    const {data, loading: loadingContent} = useHomePageContent();
 
     const getAuctionDatesText = () => {
         if (dates.length === 0) return "";
@@ -53,11 +55,11 @@ const HomePageInfo = () => {
                 lub przeglądaj wszystkie aukcje
             </Button>
 
-            {!loading && (
+            {(!loading && data && !loadingContent) && (
                 <Typography variant="subtitle1">
                     Zapraszamy na fantastyczne licytacje w dniach <strong>{getAuctionDatesText()}</strong>!
                     <br/>
-                    Slack: <strong>#robimydobro-2025-licytacje</strong>
+                    Slack: <strong>{data.slackChannel}</strong>
                 </Typography>
             )}
         </Stack>
