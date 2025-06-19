@@ -6,14 +6,26 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
 @RequestMapping("/cities")
 public class CityController {
+    private final CityService cityService;
+
+    public CityController(CityService cityService) {
+        this.cityService = cityService;
+    }
+
     @GetMapping
     public ResponseEntity<?> getAllCities() {
-        List<String> cities = List.of("Wrocław", "Kraków");
-        return ResponseEntity.ok(cities);
+        try {
+            List<String> cities = cityService.getAllCities();
+            System.out.println(cities);
+            return ResponseEntity.ok(cities);
+        } catch (IOException e) {
+            return ResponseEntity.status(500).body("Failed to fetch cities: " + e.getMessage());
+        }
     }
 }
