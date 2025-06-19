@@ -95,6 +95,18 @@ public class GvizResponseParser {
                 .build();
     }
 
+    public List<String> parseSingleColumn(String gvizJson) throws IOException {
+        String cleanedJson = cleanGvizJson(gvizJson);
+        Response response = new ObjectMapper().readValue(cleanedJson, Response.class);
+
+        return response.getTable().getRows().stream()
+                .skip(1)
+                .map(row -> row.getC().get(0))
+                .filter(cell -> cell != null && cell.getV() != null)
+                .map(cell -> cell.getV().toString())
+                .toList();
+    }
+
     private String getRaw(List<Response.Cell> cells, int index) {
         if (index >= cells.size()) return null;
         Response.Cell cell = cells.get(index);
