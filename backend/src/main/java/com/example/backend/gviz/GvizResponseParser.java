@@ -13,10 +13,14 @@ import java.util.*;
 
 @Component
 public class GvizResponseParser {
-
     public List<Auction> parseAuctionsResponse(String gvizJson) throws IOException {
         String cleanedJson = cleanGvizJson(gvizJson);
         Response response = new ObjectMapper().readValue(cleanedJson, Response.class);
+
+        if (response.getTable() == null || response.getTable().getCols() == null || response.getTable().getRows() == null) {
+            return List.of();
+        }
+
         Map<String, Integer> headerIndices = mapHeaders(response.getTable().getCols());
 
         List<Auction> auctions = new ArrayList<>();
