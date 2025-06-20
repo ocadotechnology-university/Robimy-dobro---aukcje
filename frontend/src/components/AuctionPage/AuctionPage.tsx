@@ -15,13 +15,13 @@ const AuctionPage = () => {
         dates: ["23-11-2025"],
     });
 
-    const {data: auctions = []} = useGetAuctions(auctionFilters);
+    const {data: auctions = [], isLoading} = useGetAuctions(auctionFilters);
 
     return (
             <Container>
                 <Stack direction="row" justifyContent="space-between" gap={2} mt={2}>
                     <Filters aucfilters={auctionFilters} setAucFilters={setAuctionFilters} auctionsAmount={auctions.length}/>
-                    <AuctionsList auctions={auctions}/>
+                    <AuctionsList auctions={auctions} isLoading={isLoading}/>
                 </Stack>
             </Container>
     );

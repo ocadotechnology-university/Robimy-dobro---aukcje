@@ -71,7 +71,7 @@ const AuctionHeader = ({
 
     return (
         <Stack justifyContent="space-between" direction="row" alignItems="flex-start" gap={3} sx={{width: "100%"}}>
-            <Box>
+            <Box width="100%">
                 <Typography variant="h6" fontWeight="bold">
                     <Stack direction="row">
                         {!publicIdIsUpdating ? (
@@ -84,9 +84,9 @@ const AuctionHeader = ({
                                        onKeyDown={handleKeyPress}
                                        sx={{width: "100px", marginBottom: 2, marginRight: 2}}/>
                         )}
-                        <ExpandTitle text={title} maxLength={39}/>
+                        <ExpandTitle text={title}/>
                     </Stack>
-                    </Typography>
+                </Typography>
                 <Stack direction="row" spacing={1} alignItems="center">
                     <Typography variant="body2" display="flex" alignItems="center" gap={0.5}>
                         <CalendarTodayIcon fontSize="small"/>
