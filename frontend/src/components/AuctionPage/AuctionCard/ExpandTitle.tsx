@@ -9,7 +9,7 @@ type ExpandTitleProps = {
     text: string;
 }
 
-const ExpandText = ({text}: ExpandTitleProps) => {
+const ExpandTitle = ({text}: ExpandTitleProps) => {
     const [isHovered, setIsHovered] = useState(false);
     const anchorRef = useRef<HTMLDivElement | null>(null);
 
@@ -30,12 +30,12 @@ const ExpandText = ({text}: ExpandTitleProps) => {
     }, []);
 
     const title = text ? text : "";
-    const textLengthPixels = getTextWidth(text);
+    const textLengthPixels = getTextWidth(title);
     const dotsLengthPixels = getTextWidth("...");
-    const maxLength = getTextCharacterCount(width*0.99-dotsLengthPixels, text);
+    const maxLength = getTextCharacterCount(width*0.99-dotsLengthPixels, title);
 
     const isTooLong = textLengthPixels > width*0.99;
-    const slicedTitle = text ? text.slice(0, maxLength) : text;
+    const slicedTitle = title ? title.slice(0, maxLength) : title;
 
     function getTextWidth(text: string) {
         const canvas = document.createElement('canvas');
@@ -107,4 +107,4 @@ const ExpandText = ({text}: ExpandTitleProps) => {
 
 }
 
-export default ExpandText;
+export default ExpandTitle;
