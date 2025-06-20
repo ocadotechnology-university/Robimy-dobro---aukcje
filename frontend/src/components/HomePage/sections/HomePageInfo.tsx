@@ -10,6 +10,11 @@ const HomePageInfo = () => {
     const navigate = useNavigate();
     const {dates, loading} = useAuctionDates();
     const {data, loading: loadingContent} = useHomePageContent();
+    const today = new Date().toISOString().split('T')[0];
+    const isAuctionDay = dates.some(date =>
+        date.toISOString().split('T')[0] === today
+    );
+
 
     const getAuctionDatesText = () => {
         if (dates.length === 0) return "";
@@ -45,15 +50,17 @@ const HomePageInfo = () => {
                 onClick={() => navigate('/auctions')}
             />
 
-            <Button
-                variant="text"
-                component={RouterLink}
-                to="/auctions"
-                endIcon={<ArrowRightAltIcon/>}
-                sx={{textTransform: 'none', fontSize: '0.9rem', color: 'text.primary'}}
-            >
-                lub zobacz dzisiejsze aukcje
-            </Button>
+            {!loading && isAuctionDay && (
+                <Button
+                    variant="text"
+                    component={RouterLink}
+                    to="/auctions"
+                    endIcon={<ArrowRightAltIcon/>}
+                    sx={{textTransform: 'none', fontSize: '0.9rem', color: 'text.primary'}}
+                >
+                    lub zobacz dzisiejsze aukcje
+                </Button>
+            )}
 
             {(!loading && data && !loadingContent) && (
                 <Typography variant="subtitle1">
