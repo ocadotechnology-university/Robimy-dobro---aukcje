@@ -142,7 +142,6 @@ const CitySection = ({
             selectedCity={selectedCity}
             setSelectedCity={setSelectedCity}
             disabled={!pickupOnlyInCity}
-            options={["Wrocław", "Kraków"]}
         />
     </Stack>
 );
@@ -160,7 +159,6 @@ const ModeratorSection = ({
                               setSelectedDate,
                               handleModerator,
                           }: ModeratorSectionProps) => {
-    const dates = ['21 listopada', '22 listopada', '23 listopada'];
 
     return (
         <Stack spacing={2} sx={{width: '100%'}}>
@@ -181,7 +179,6 @@ const ModeratorSection = ({
                 selectedDate={selectedDate}
                 setSelectedDate={setSelectedDate}
                 disabled={!wantsToBeModerator}
-                dates={dates}
             />
         </Stack>
     );

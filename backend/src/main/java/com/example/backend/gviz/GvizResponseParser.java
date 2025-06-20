@@ -13,10 +13,14 @@ import java.util.*;
 
 @Component
 public class GvizResponseParser {
-
     public List<Auction> parseAuctionsResponse(String gvizJson) throws IOException {
         String cleanedJson = cleanGvizJson(gvizJson);
         Response response = new ObjectMapper().readValue(cleanedJson, Response.class);
+
+        if (response.getTable() == null || response.getTable().getCols() == null || response.getTable().getRows() == null) {
+            return List.of();
+        }
+
         Map<String, Integer> headerIndices = mapHeaders(response.getTable().getCols());
 
         List<Auction> auctions = new ArrayList<>();
@@ -93,6 +97,32 @@ public class GvizResponseParser {
                 .auctionStartDateTime(parseDateTime(getRaw(cells, headerIndexMap.get(Column.START_DATETIME.label))))
                 .auctionEndDateTime(parseDateTime(getRaw(cells, headerIndexMap.get(Column.END_DATETIME.label))))
                 .build();
+    }
+
+    public List<String> parseSingleColumn(String gvizJson) throws IOException {
+        String cleanedJson = cleanGvizJson(gvizJson);
+        Response response = new ObjectMapper().readValue(cleanedJson, Response.class);
+
+        return response.getTable().getRows().stream()
+                .skip(1)
+                .map(row -> row.getC().get(0))
+                .filter(cell -> cell != null && cell.getV() != null)
+                .map(cell -> cell.getV().toString())
+                .toList();
+    }
+
+    public List<LocalDate> parseSingleDateColumn(String gvizJson) throws IOException {
+        String cleanedJson = cleanGvizJson(gvizJson);
+        Response response = new ObjectMapper().readValue(cleanedJson, Response.class);
+
+        return Optional.ofNullable(response.getTable().getRows())
+                .orElse(List.of())
+                .stream()
+                .map(row -> row.getC().get(0))
+                .filter(cell -> cell != null && cell.getV() != null)
+                .map(cell -> parseDate(cell.getV().toString()))
+                .filter(Objects::nonNull)
+                .toList();
     }
 
     private String getRaw(List<Response.Cell> cells, int index) {

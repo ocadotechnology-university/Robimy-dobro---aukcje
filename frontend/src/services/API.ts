@@ -41,4 +41,10 @@ export const unfollowAuctionAPI = (id: string) =>
 export const deleteAuctionAPI = (id: string) =>
     API.delete(`/auctions/${id}`);
 
+export const auctionDatesAPI = () =>
+    API.get<string[]>('/dates');
+
+export const citiesAPI = () =>
+    API.get<string[]>('/cities');
+
 export default API;

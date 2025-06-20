@@ -82,17 +82,7 @@ public class GoogleSheetsAuctionRepository implements AuctionRepository {
 
         String response = googleSheetsService.queryWithGviz(queryWithFilters, "Auction");
         List<Auction> auctions = gvizResponseParser.parseAuctionsResponse(response);
-        return AuctionSorter.sortAuctions(auctions, sortBy).stream()
-                .filter(auction -> shouldIncludeAuction(auction, statuses))
-                .toList();
-    }
-
-    private boolean shouldIncludeAuction(Auction auction, List<String> statuses) {
-        boolean isFilteringNoBid = statuses.contains("NO_BID");
-        if (isFilteringNoBid && auction.getAuctionEndDateTime() != null) {
-            return auction.getAuctionEndDateTime().isBefore(LocalDateTime.now());
-        }
-        return true;
+        return AuctionSorter.sortAuctions(auctions, sortBy);
     }
 
     private List<String> findFollowersByAuctionId(UUID auctionId) throws IOException {

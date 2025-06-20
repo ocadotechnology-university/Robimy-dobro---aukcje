@@ -4,6 +4,7 @@ import ShieldIcon from '@mui/icons-material/Shield';
 import {AuctionFilters} from "../../services/fetchAuctions";
 import {useEffect} from "react";
 import {useViewMode} from "../../contexts/ViewModeContext";
+import {useAuctionDates} from "../../contexts/AuctionDatesContext";
 import * as React from "react";
 
 import {
@@ -25,7 +26,6 @@ interface FiltersProps {
 
 const statusOptions = ["Niekompletne", "Bez moderatora", "Bez daty", "Bez oferty", "Kompletne"];
 const selectedOptions = ["Moje aukcje", "Ulubione"];
-const dateOptions = ["21 listopada", "22 listopada", "23 listopada"];
 const sortOptions = ["Domyślne", "Cena: od najniższej", "Cena: od najwyższej"];
 
 const statusValueMap: Record<string, string> = {
@@ -42,21 +42,29 @@ const sortValueMap: Record<string, string | null> = {
     "Cena: od najwyższej": "priceDesc",
 };
 
-const dateValueMap: Record<string, string> = {
-    "21 listopada": "2025-11-21",
-    "22 listopada": "2025-11-22",
-    "23 listopada": "2025-11-23",
-};
-
 const Filters = ({setAucFilters, auctionsAmount}: FiltersProps) => {
     const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
     const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
     const [selectedDates, setSelectedDates] = useState<string[]>([]);
     const [sort, setSort] = useState<string>("Domyślne");
-
+    const {dates, loading} = useAuctionDates();
     const {role} = useAuth();
     const {adminViewMode} = useViewMode();
     const hasMoreFilters = role === "ADMIN" && adminViewMode
+
+    const dateFormatter = new Intl.DateTimeFormat('pl-PL', {
+        day: 'numeric',
+        month: 'long',
+    });
+
+    const dateOptions = dates.map(date => dateFormatter.format(date));
+
+    const dateValueMap = Object.fromEntries(
+        dates.map(date => [
+            dateFormatter.format(date),
+            date.toISOString().split('T')[0]
+        ])
+    );
 
     useEffect(() => {
         setAucFilters(prev => ({
@@ -99,6 +107,8 @@ const Filters = ({setAucFilters, auctionsAmount}: FiltersProps) => {
         setSelectedDates([]);
         setSort("Domyślne");
     };
+
+    if (loading) return null;
 
     return (
         <Paper elevation={0} variant={"outlined"} sx={FiltersPaperStyle}>

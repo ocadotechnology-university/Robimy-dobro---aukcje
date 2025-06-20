@@ -1,12 +1,12 @@
 import React from 'react';
 import {TextField, MenuItem, Box} from '@mui/material';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import {useAuctionDates} from "../../contexts/AuctionDatesContext";
 
 type CitySelectFieldProps = {
     selectedDate: string;
     setSelectedDate: (value: string) => void;
     disabled?: boolean;
-    options: string[];
 };
 
 const labelWrapperStyle = {
@@ -20,12 +20,21 @@ const selectFieldStyle = {
     maxWidth: 150,
 };
 
+const dateFormatter = new Intl.DateTimeFormat('pl-PL', {
+    day: 'numeric',
+    month: 'long',
+});
+
+const formatDateLabel = (date: Date) => dateFormatter.format(date);
+
 const DateSelectField = ({
                              selectedDate,
                              setSelectedDate,
                              disabled = false,
-                             options,
                          }: CitySelectFieldProps) => {
+    const {dates, loading} = useAuctionDates();
+    const options = dates.map(formatDateLabel);
+
     return (
         <TextField
             select
@@ -42,7 +51,7 @@ const DateSelectField = ({
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}
             size="small"
-            disabled={disabled}
+            disabled={disabled || loading}
             InputLabelProps={{shrink: true}}
             sx={selectFieldStyle}
             SelectProps={{

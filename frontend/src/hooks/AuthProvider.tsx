@@ -3,6 +3,7 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import API from "../services/API"
 import {jwtDecode} from "jwt-decode";
+import {useAuctionDates} from "../contexts/AuctionDatesContext";
 
 interface JwtPayload {
     role: string;
@@ -16,6 +17,7 @@ interface AuthContextType {
     loginWithGoogle: (googleToken: string) => Promise<void>;
     logout: () => void;
     profileImageURL: string | null;
+    isAxiosReady: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -33,6 +35,7 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
     const [role, setRole] = useState<string | null>(null);
     const [supplier, setSupplier] = useState<string | null>(null);
     const navigate = useNavigate();
+    const [isAxiosReady, setIsAxiosReady] = useState(false);
     const [profileImageURL, setProfileImageURL] = useState<string | null>(() => {
         return localStorage.getItem("profileImageURL");
     });
@@ -95,6 +98,10 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
             (error) => Promise.reject(error)
         );
 
+        if (accessToken) {
+            setIsAxiosReady(true);
+        }
+
         return () => {
             API.interceptors.request.eject(requestInterceptor);
         };
@@ -146,7 +153,7 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
     }, [])
 
     return (
-        <AuthContext.Provider value={{accessToken, role, supplier, loginWithGoogle, logout, profileImageURL}}>
+        <AuthContext.Provider value={{accessToken, role, supplier, loginWithGoogle, logout, profileImageURL, isAxiosReady}}>
             {children}
         </AuthContext.Provider>
     );

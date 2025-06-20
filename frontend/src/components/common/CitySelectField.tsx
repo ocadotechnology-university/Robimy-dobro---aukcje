@@ -1,12 +1,12 @@
 import React from 'react';
 import {TextField, MenuItem, Box} from '@mui/material';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import {useCities} from "../../contexts/CitiesContext";
 
 type CitySelectFieldProps = {
     selectedCity: string;
     setSelectedCity: (value: string) => void;
     disabled?: boolean;
-    options: string[];
 };
 
 const labelWrapperStyle = {
@@ -24,8 +24,9 @@ const CitySelectField = ({
                              selectedCity,
                              setSelectedCity,
                              disabled = false,
-                             options,
                          }: CitySelectFieldProps) => {
+    const {cities, loading} = useCities();
+
     return (
         <TextField
             select
@@ -42,7 +43,7 @@ const CitySelectField = ({
             value={selectedCity}
             onChange={(e) => setSelectedCity(e.target.value)}
             size="small"
-            disabled={disabled}
+            disabled={disabled || loading}
             InputLabelProps={{shrink: true}}
             sx={selectFieldStyle}
             SelectProps={{
@@ -51,7 +52,7 @@ const CitySelectField = ({
                 },
             }}
         >
-            {options.map((city) => (
+            {cities.map((city) => (
                 <MenuItem key={city} value={city}>
                     {city}
                 </MenuItem>

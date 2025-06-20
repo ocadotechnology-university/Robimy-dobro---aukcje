@@ -2,12 +2,12 @@ import React from 'react';
 import ToggleButton from '@mui/material/ToggleButton';
 import EventIcon from '@mui/icons-material/Event';
 import Stack from '@mui/material/Stack';
+import {useAuctionDates} from "../../contexts/AuctionDatesContext";
 
 type DateToggleGroupProps = {
     selectedDate: string;
     setSelectedDate: (value: string) => void;
     disabled?: boolean;
-    dates: string[];
 };
 
 const dateToggleButtonStyle = (selected: boolean) => ({
@@ -26,11 +26,21 @@ const DateToggleGroup = ({
                              selectedDate,
                              setSelectedDate,
                              disabled = false,
-                             dates,
                          }: DateToggleGroupProps) => {
+    const {dates, loading} = useAuctionDates();
+
+    const dateFormatter = new Intl.DateTimeFormat('pl-PL', {
+        day: 'numeric',
+        month: 'long',
+    });
+
+    const formatDateLabel = (date: Date) => dateFormatter.format(date);
+    const options = dates.map(formatDateLabel);
+
+    if (loading) return null;
     return (
         <Stack direction="row" spacing={1}>
-            {dates.map((label) => (
+            {options.map((label) => (
                 <ToggleButton
                     key={label}
                     value={label}

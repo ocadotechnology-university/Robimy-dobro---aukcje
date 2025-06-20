@@ -3,9 +3,35 @@ import {useNavigate, Link as RouterLink} from 'react-router-dom';
 import {Stack, Typography, Button} from "@mui/material";
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import PrimaryActionButton from "../../common/PrimaryActionButton";
+import {useAuctionDates} from "../../../contexts/AuctionDatesContext";
+import {useHomePageContent} from "../../../hooks/useHomePageContent";
 
 const HomePageInfo = () => {
     const navigate = useNavigate();
+    const {dates, loading} = useAuctionDates();
+    const {data, loading: loadingContent} = useHomePageContent();
+
+    const getAuctionDatesText = () => {
+        if (dates.length === 0) return "";
+
+        const sortedDates = [...dates].sort((a, b) => a.getDate() - b.getDate());
+        const dayNumbers = sortedDates.map(d => d.getDate());
+
+        const monthGenitive = new Intl.DateTimeFormat("pl-PL", {
+            month: "long",
+            day: "numeric"
+        }).formatToParts(sortedDates[0]).find(p => p.type === "month")?.value;
+
+        if (!monthGenitive) return "";
+
+        if (dayNumbers.length === 1) return `${dayNumbers[0]} ${monthGenitive}`;
+        if (dayNumbers.length === 2) return `${dayNumbers[0]} i ${dayNumbers[1]} ${monthGenitive}`;
+
+        const allButLast = dayNumbers.slice(0, -1).join(", ");
+        const last = dayNumbers[dayNumbers.length - 1];
+        return `${allButLast} i ${last} ${monthGenitive}`;
+    };
+
     return (
         <Stack direction="column" alignItems="center" spacing={3} mt={3} textAlign="center">
             <Typography variant="subtitle2">
@@ -29,11 +55,13 @@ const HomePageInfo = () => {
                 lub przeglądaj wszystkie aukcje
             </Button>
 
-            <Typography variant="subtitle1">
-                Zapraszamy na fantastyczne licytacje w dniach <strong>22, 23 i 24 listopada</strong>!
-                <br/>
-                Slack: <strong>#robimydobro-2025-licytacje</strong>
-            </Typography>
+            {(!loading && data && !loadingContent) && (
+                <Typography variant="subtitle1">
+                    Zapraszamy na fantastyczne licytacje w dniach <strong>{getAuctionDatesText()}</strong>!
+                    <br/>
+                    Slack: <strong>{data.slackChannel}</strong>
+                </Typography>
+            )}
         </Stack>
     );
 };

@@ -23,7 +23,18 @@ type Props = {
     setWantsToBeModerator: (value: boolean) => void;
 };
 
-const AuctionHeader = ({title, setTitle, date, setDate, city, setCity, price, setPrice, wantsToBeModerator, setWantsToBeModerator}: Props) => {
+const AuctionHeader = ({
+                           title,
+                           setTitle,
+                           date,
+                           setDate,
+                           city,
+                           setCity,
+                           price,
+                           setPrice,
+                           wantsToBeModerator,
+                           setWantsToBeModerator
+                       }: Props) => {
     const normalizedCity = city ?? "";
     const [pickupOnlyInCity, setPickupOnlyInCity] = useState(Boolean(city));
 
@@ -70,14 +81,12 @@ const AuctionHeader = ({title, setTitle, date, setDate, city, setCity, price, se
                     selectedDate={date}
                     setSelectedDate={setDate}
                     disabled={!wantsToBeModerator}
-                    options={["21 listopada", "22 listopada", "23 listopada"]}
                 />
 
                 <CitySelectField
                     selectedCity={normalizedCity}
                     setSelectedCity={setCity}
                     disabled={!pickupOnlyInCity}
-                    options={["Wrocław", "Kraków"]}
                 />
             </Stack>
         </Stack>
