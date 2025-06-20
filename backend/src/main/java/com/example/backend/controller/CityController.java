@@ -22,7 +22,6 @@ public class CityController {
     public ResponseEntity<?> getAllCities() {
         try {
             List<String> cities = cityService.getAllCities();
-            System.out.println(cities);
             return ResponseEntity.ok(cities);
         } catch (IOException e) {
             return ResponseEntity.status(500).body("Failed to fetch cities: " + e.getMessage());

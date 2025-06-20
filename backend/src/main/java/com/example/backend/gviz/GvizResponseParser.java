@@ -107,6 +107,20 @@ public class GvizResponseParser {
                 .toList();
     }
 
+    public List<LocalDate> parseSingleDateColumn(String gvizJson) throws IOException {
+        String cleanedJson = cleanGvizJson(gvizJson);
+        Response response = new ObjectMapper().readValue(cleanedJson, Response.class);
+
+        return Optional.ofNullable(response.getTable().getRows())
+                .orElse(List.of())
+                .stream()
+                .map(row -> row.getC().get(0))
+                .filter(cell -> cell != null && cell.getV() != null)
+                .map(cell -> parseDate(cell.getV().toString()))
+                .filter(Objects::nonNull)
+                .toList();
+    }
+
     private String getRaw(List<Response.Cell> cells, int index) {
         if (index >= cells.size()) return null;
         Response.Cell cell = cells.get(index);
