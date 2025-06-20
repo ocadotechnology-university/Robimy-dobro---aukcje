@@ -41,7 +41,7 @@ const HomePageInfo = () => {
             </Typography>
 
             <PrimaryActionButton
-                label="Zobacz Aukcje Dnia"
+                label="Zobacz wszystkie aukcje"
                 onClick={() => navigate('/auctions')}
             />
 
@@ -52,7 +52,7 @@ const HomePageInfo = () => {
                 endIcon={<ArrowRightAltIcon/>}
                 sx={{textTransform: 'none', fontSize: '0.9rem', color: 'text.primary'}}
             >
-                lub przeglądaj wszystkie aukcje
+                lub zobacz dzisiejsze aukcje
             </Button>
 
             {(!loading && data && !loadingContent) && (
