@@ -3,7 +3,6 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import API from "../services/API"
 import {jwtDecode} from "jwt-decode";
-import {useAuctionDates} from "../contexts/AuctionDatesContext";
 
 interface JwtPayload {
     role: string;
@@ -151,6 +150,10 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
             API.interceptors.response.eject(responseInterceptor);
         };
     }, [])
+
+    useEffect(() => {
+        setIsAxiosReady(true);
+    }, []);
 
     return (
         <AuthContext.Provider value={{accessToken, role, supplier, loginWithGoogle, logout, profileImageURL, isAxiosReady}}>

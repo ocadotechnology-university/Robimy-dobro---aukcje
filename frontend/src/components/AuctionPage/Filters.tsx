@@ -22,6 +22,7 @@ interface FiltersProps {
     aucfilters: AuctionFilters;
     setAucFilters: React.Dispatch<React.SetStateAction<AuctionFilters>>;
     auctionsAmount: number;
+    initialSelectedDate?: string;
 }
 
 const statusOptions = ["Niekompletne", "Bez moderatora", "Bez daty", "Bez oferty", "Kompletne"];
@@ -42,7 +43,7 @@ const sortValueMap: Record<string, string | null> = {
     "Cena: od najwyższej": "priceDesc",
 };
 
-const Filters = ({setAucFilters, auctionsAmount}: FiltersProps) => {
+const Filters = ({setAucFilters, auctionsAmount, initialSelectedDate}: FiltersProps) => {
     const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
     const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
     const [selectedDates, setSelectedDates] = useState<string[]>([]);
@@ -65,6 +66,13 @@ const Filters = ({setAucFilters, auctionsAmount}: FiltersProps) => {
             date.toISOString().split('T')[0]
         ])
     );
+
+    useEffect(() => {
+        if (initialSelectedDate) {
+            const formatted = dateFormatter.format(new Date(initialSelectedDate));
+            setSelectedDates([formatted]);
+        }
+    }, [initialSelectedDate]);
 
     useEffect(() => {
         setAucFilters(prev => ({
