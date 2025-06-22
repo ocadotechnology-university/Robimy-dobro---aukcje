@@ -1,11 +1,11 @@
 import React, {useState} from "react";
-import Container from '@mui/material/Container';
-import Stack from '@mui/material/Stack';
+import {Container, Box, Typography, Stack} from '@mui/material';
 import Filters from './Filters';
 import AuctionsList from "./AuctionsList";
 import {useGetAuctions} from '../../hooks/useGetAuctions';
 import {AuctionFilters} from "../../services/fetchAuctions";
 import {useLocation} from 'react-router-dom';
+import SearchOffIcon from '@mui/icons-material/SearchOff';
 
 const AuctionPage = () => {
     const location = useLocation();
@@ -29,7 +29,24 @@ const AuctionPage = () => {
                     auctionsAmount={auctions.length}
                     initialSelectedDate={dateFromState}
                 />
-                <AuctionsList auctions={auctions}/>
+
+                {auctions.length === 0 ? (
+                    <Box
+                        display="flex"
+                        alignSelf="flex-start"
+                        alignItems="center"
+                        justifyContent="center"
+                        width="100%"
+                        p={3}
+                    >
+                        <Typography variant="h6" color="text.secondary">
+                            Brak wyników
+                        </Typography>
+                        <SearchOffIcon sx={{fontSize: 25, color: 'text.secondary', pl: 1}}/>
+                    </Box>
+                ) : (
+                    <AuctionsList auctions={auctions}/>
+                )}
             </Stack>
         </Container>
     );
