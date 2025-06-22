@@ -18,7 +18,7 @@ const AuctionPage = () => {
         dates: dateFromState ? [dateFromState] : [],
     });
 
-    const {data: auctions = []} = useGetAuctions(auctionFilters);
+    const {data: auctions = [], isLoading} = useGetAuctions(auctionFilters);
 
     return (
         <Container>
@@ -45,7 +45,7 @@ const AuctionPage = () => {
                         <SearchOffIcon sx={{fontSize: 25, color: 'text.secondary', pl: 1}}/>
                     </Box>
                 ) : (
-                    <AuctionsList auctions={auctions}/>
+                    <AuctionsList auctions={auctions} isLoading={isLoading}/>
                 )}
             </Stack>
         </Container>

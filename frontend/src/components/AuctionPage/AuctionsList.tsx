@@ -2,15 +2,16 @@ import React, {useRef, useState} from "react";
 import Stack from '@mui/material/Stack';
 import AuctionCard from './AuctionCard/AuctionCard';
 import {Auction} from './Auction'
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, Alert} from "@mui/material";
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, Alert, Skeleton} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import {useDeleteAuction} from "../../hooks/useDeleteAuction";
 
 interface AuctionsListProps {
     auctions: Auction[];
+    isLoading: boolean;
 }
 
-const AuctionsList = ({auctions}: AuctionsListProps) => {
+const AuctionsList = ({auctions, isLoading}: AuctionsListProps) => {
     const [editingAuctionId, setEditingAuctionId] = useState<string | null>(null);
     const [openDialog, setOpenDialog] = useState(false);
     const [oneIsUpdating, setOneIsUpdating] = useState(false);
@@ -89,25 +90,33 @@ const AuctionsList = ({auctions}: AuctionsListProps) => {
 
     return (
         <Stack width="100%" gap={1.5} sx={{pb: 2}}>
-            {auctions.map((auction) => (
-                <div
-                    key={auction.id}
-                    ref={(el) => {
-                        auctionRefs.current[auction.id] = el
-                    }}
-                >
-                    <AuctionCard
-                        {...auction} isUpdating={editingAuctionId === auction.id} editingAuctionId={editingAuctionId}
-                        setEditingAuctionId={setEditingAuctionId} setOpenDialog={setOpenDialog}
-                        setOneIsUpdating={setOneIsUpdating} newUpdatingAuction={newUpdatingAuction}
-                        setNewUpdatingAuction={setNewUpdatingAuction}
-                        setBackupEditingAuctionId={setBackupEditingAuctionId}
-                        onDeleteClick={handleDeleteClick}
-                        isDeleting={isDeletingAuctionId === auction.id}
-                        publicIdList={publicIdList}
-                    />
-                </div>
-            ))}
+            {isLoading ? (
+                [...Array(10)].map((_, index) => (
+                    <div key={index}>
+                        <Skeleton variant="rectangular" width="100%" height={150} sx={{ borderRadius: 2 }} />
+                    </div>
+                ))
+            ) : (
+                auctions.map((auction) => (
+                    <div
+                        key={auction.id}
+                        ref={(el) => {
+                            auctionRefs.current[auction.id] = el
+                        }}
+                    >
+                        <AuctionCard
+                            {...auction} isUpdating={editingAuctionId === auction.id} editingAuctionId={editingAuctionId}
+                            setEditingAuctionId={setEditingAuctionId} setOpenDialog={setOpenDialog}
+                            setOneIsUpdating={setOneIsUpdating} newUpdatingAuction={newUpdatingAuction}
+                            setNewUpdatingAuction={setNewUpdatingAuction}
+                            setBackupEditingAuctionId={setBackupEditingAuctionId}
+                            onDeleteClick={handleDeleteClick}
+                            isDeleting={isDeletingAuctionId === auction.id}
+                            publicIdList={publicIdList}
+                        />
+                    </div>
+            ))
+            )}
 
             {oneIsUpdating && (
                 <Dialog
