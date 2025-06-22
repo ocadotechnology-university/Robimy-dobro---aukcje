@@ -1,28 +1,78 @@
-import React, {useEffect, useState, useRef } from "react";
-import {Button, Typography, Link} from "@mui/material";
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import React, {useState, useRef, useEffect} from "react";
+import {Typography} from "@mui/material";
 import Box from "@mui/material/Box";
 import { Popper, styled } from '@mui/material';
+import theme from "../../../theme/theme";
 
 
 type ExpandTitleProps = {
     text: string;
-    maxLength: number;
 }
 
-const ExpandText = ({text, maxLength}: ExpandTitleProps) => {
-    const [isExpanded, setIsExpanded] = useState(false);
+const ExpandTitle = ({text}: ExpandTitleProps) => {
     const [isHovered, setIsHovered] = useState(false);
     const anchorRef = useRef<HTMLDivElement | null>(null);
 
-    const title = text ? text : "";
-    const textLength = text ? text.length : 0;
-    const isTooLong = textLength > maxLength;
-    const slicedTitle = text ? text.slice(0, maxLength) : text;
+    const [width, setWidth] = useState(0);
 
-    const handleClick = () => {
-        setIsExpanded(!isExpanded);
+    useEffect(() => {
+        if (!anchorRef.current) return;
+
+        const observer = new ResizeObserver(entries => {
+            for (let entry of entries) {
+                setWidth(entry.contentRect.width);
+            }
+        });
+
+        observer.observe(anchorRef.current);
+
+        return () => observer.disconnect();
+    }, []);
+
+    const title = text ? text : "";
+    const textLengthPixels = getTextWidth(title);
+    const dotsLengthPixels = getTextWidth("...");
+    const maxLength = getTextCharacterCount(width*0.99-dotsLengthPixels, title);
+
+    const isTooLong = textLengthPixels > width*0.99;
+    const slicedTitle = title ? title.slice(0, maxLength) : title;
+
+    function getTextWidth(text: string) {
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+
+        if(context) {
+            const fontVariant = theme.typography.h6;
+            const fontSize = fontVariant?.fontSize || '17px';
+            const fontWeight = "bold";
+            const fontFamily = theme.typography.fontFamily || 'sans-serif';
+
+            context.font = `${fontWeight} ${fontSize} ${fontFamily}`;
+            return context.measureText(text).width;
+        }
+
+        return 0;
+    }
+
+    function getTextCharacterCount(pixelWidth: number, text: string) {
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+
+        if (context) {
+            const fontVariant = theme.typography.h6;
+            const fontSize = fontVariant?.fontSize || '17px';
+            const fontWeight = "bold";
+            const fontFamily = theme.typography.fontFamily || 'sans-serif';
+
+            context.font = `${fontWeight} ${fontSize} ${fontFamily}`;
+
+            const totalWidth = context.measureText(text).width;
+            const averageCharWidth = totalWidth / text.length;
+
+            return Math.floor(pixelWidth / averageCharWidth);
+        }
+
+        return 0;
     }
 
     const StyledPopperDiv = styled('div')(({ theme }) => ({
@@ -37,30 +87,24 @@ const ExpandText = ({text, maxLength}: ExpandTitleProps) => {
             ref={anchorRef}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
-            sx={{cursor: isTooLong ? 'pointer' : 'default'}}
+            sx={{cursor: isTooLong ? 'pointer' : 'default', width: '100%'}}
         >
-            {!isTooLong || isExpanded ? (
+            {!isTooLong ? (
                 title
             ) : (
                 slicedTitle + "..."
             )}
 
             <Popper open={isHovered && isTooLong} placement="top" anchorEl={anchorRef.current}>
-                <StyledPopperDiv>
+                <StyledPopperDiv style={{maxWidth: "50vw"}}>
                     <Typography fontWeight="bold" color="info.dark">
                         {title}
                     </Typography>
                 </StyledPopperDiv>
             </Popper >
-
-            {/*{isTooLong && (*/}
-            {/*    <Button size="small" onClick={handleClick} sx={{padding: "0px", minWidth: 0, marginLeft: "1.5px", color: (theme) => theme.palette.primary.dark}}>*/}
-            {/*        {isExpanded ? <KeyboardArrowUpIcon sx={{marginLeft: -0.5}}/> : <span style={{fontWeight: 800}}>...</span>}*/}
-            {/*    </Button>*/}
-            {/*)}*/}
         </Box>
     );
 
 }
 
-export default ExpandText;
+export default ExpandTitle;

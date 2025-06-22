@@ -5,5 +5,6 @@ export const useGetAuctions = (filters: AuctionFilters) => {
     return useQuery({
         queryKey: ["auctions", filters],
         queryFn: () => fetchAuctions(filters),
+        refetchInterval: 2000,
     });
 };
