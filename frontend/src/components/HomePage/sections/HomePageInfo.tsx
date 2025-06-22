@@ -53,8 +53,7 @@ const HomePageInfo = () => {
             {!loading && isAuctionDay && (
                 <Button
                     variant="text"
-                    component={RouterLink}
-                    to="/auctions"
+                    onClick={() => navigate('/auctions', {state: {dateFilter: today}})}
                     endIcon={<ArrowRightAltIcon/>}
                     sx={{textTransform: 'none', fontSize: '0.9rem', color: 'text.primary'}}
                 >
