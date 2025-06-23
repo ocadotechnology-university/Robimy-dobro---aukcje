@@ -29,11 +29,11 @@ public class ImageRepository {
 
     public ImageData get(String fileid) throws Exception {
         try{
-            localDriveService.get(fileid);
+            return localDriveService.get(fileid);
         }catch (ImageNotFoundException e){
             ImageData imageData = googleDriveService.downloadFile(fileid);
             localDriveService.save(imageData, fileid);
+            return imageData;
         }
-        return null;
     }
 }
