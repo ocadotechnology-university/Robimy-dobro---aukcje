@@ -4,11 +4,12 @@ import com.example.backend.exception.ImageNotFoundException;
 import com.example.backend.model.ImageData;
 import com.example.backend.util.MimeTypeDetector;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.MediaType;
 
 import java.io.IOException;
 import java.nio.file.*;
+
+import static com.example.backend.util.MimeTypeDetector.mediaTypeToExtension;
 
 @Service
 public class LocalDriveService {
@@ -59,14 +60,5 @@ public class LocalDriveService {
         }
     }
 
-    private String mediaTypeToExtension(MediaType mediaType) {
-        if (MediaType.IMAGE_JPEG.equals(mediaType)) {
-            return ".jpg";
-        } else if (MediaType.IMAGE_PNG.equals(mediaType)) {
-            return ".png";
-        } else if (MediaType.IMAGE_GIF.equals(mediaType)) {
-            return ".gif";
-        }
-        return "";
-    }
+
 }
