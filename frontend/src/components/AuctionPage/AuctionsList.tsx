@@ -93,7 +93,7 @@ const AuctionsList = ({auctions, isLoading}: AuctionsListProps) => {
             {isLoading ? (
                 [...Array(10)].map((_, index) => (
                     <div key={index}>
-                        <Skeleton variant="rectangular" width="100%" height={150} sx={{ borderRadius: 2 }} />
+                        <Skeleton variant="rectangular" width="100%" height={225} sx={{ borderRadius: 2 }} />
                     </div>
                 ))
             ) : (
