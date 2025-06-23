@@ -20,13 +20,14 @@ public class ImageRepository {
         this.localDriveService = localDriveService;
     }
 
-    void save(MultipartFile file) throws IOException {
+    public String save(MultipartFile file) throws IOException {
         String fileid = googleDriveService.uploadFile(file);
         ImageData imageData = ImageData.fromMultipartFile(file);
         localDriveService.save(imageData, fileid);
+        return fileid;
     }
 
-    ImageData get(String fileid) throws Exception {
+    public ImageData get(String fileid) throws Exception {
         try{
             localDriveService.get(fileid);
         }catch (ImageNotFoundException e){
