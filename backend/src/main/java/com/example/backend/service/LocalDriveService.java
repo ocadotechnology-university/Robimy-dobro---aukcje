@@ -14,7 +14,7 @@ public class LocalDriveService {
 
     private static final String IMAGES_FOLDER = "Images";
 
-    public void save(MultipartFile file) {
+    public void save(MultipartFile file, String fileid) {
         try {
             Path path = Paths.get(IMAGES_FOLDER);
 
@@ -22,7 +22,17 @@ public class LocalDriveService {
                 Files.createDirectories(path);
             }
 
-            Path filePath = path.resolve(file.getOriginalFilename());
+            String originalFilename = file.getOriginalFilename();
+            String extension = "";
+
+            if(originalFilename != null && !originalFilename.contains(".")) {
+                extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+                throw new RuntimeException("File is not an image");
+            }
+
+            String newFileName = fileid + extension;
+
+            Path filePath = path.resolve(newFileName);
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             throw new RuntimeException("Failed to save image inside local drive", e);
