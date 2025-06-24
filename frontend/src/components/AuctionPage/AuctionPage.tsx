@@ -30,7 +30,7 @@ const AuctionPage = () => {
                     initialSelectedDate={dateFromState}
                 />
 
-                {auctions.length === 0 ? (
+                {!isLoading && auctions.length === 0 ? (
                     <Box
                         display="flex"
                         alignSelf="flex-start"
