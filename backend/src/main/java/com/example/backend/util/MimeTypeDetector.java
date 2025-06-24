@@ -24,4 +24,15 @@ public class MimeTypeDetector {
         }
         return MediaType.APPLICATION_OCTET_STREAM;
     }
+
+    public static String mediaTypeToExtension(MediaType mediaType) {
+        if (MediaType.IMAGE_JPEG.equals(mediaType)) {
+            return ".jpg";
+        } else if (MediaType.IMAGE_PNG.equals(mediaType)) {
+            return ".png";
+        } else if (MediaType.IMAGE_GIF.equals(mediaType)) {
+            return ".gif";
+        }
+        return "";
+    }
 }

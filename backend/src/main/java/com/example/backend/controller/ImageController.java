@@ -2,8 +2,7 @@ package com.example.backend.controller;
 
 import com.example.backend.exception.CustomException;
 import com.example.backend.model.ImageData;
-import com.example.backend.service.GoogleDriveService;
-import com.example.backend.service.ImageCacheService;
+import com.example.backend.service.ImageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -15,12 +14,10 @@ import java.io.IOException;
 @RequestMapping("/images")
 public class ImageController {
     private static final Logger logger = LoggerFactory.getLogger(ImageController.class);
-    private final ImageCacheService imageCacheService;
-    private final GoogleDriveService googleDriveService;
+    private final ImageService imageService;
 
-    public ImageController(ImageCacheService imageCacheService, GoogleDriveService googleDriveService) {
-        this.imageCacheService = imageCacheService;
-        this.googleDriveService = googleDriveService;
+    public ImageController(ImageService imageService) {
+        this.imageService = imageService;
     }
 
     @PostMapping("/")
@@ -30,7 +27,7 @@ public class ImageController {
         }
 
         try {
-            String fileId = googleDriveService.uploadFile(multipartFile);
+            String fileId = imageService.save(multipartFile);
             return ResponseEntity.status(201).body(fileId);
         } catch (CustomException e) {
             return ResponseEntity.status(500).body(e.getMessage());
@@ -43,13 +40,15 @@ public class ImageController {
     @GetMapping("/{fileId}")
     public ResponseEntity<?> getImage(@PathVariable String fileId){
         try {
-            ImageData image = imageCacheService.get(fileId);
+            ImageData image = imageService.get(fileId);
             return ResponseEntity.ok().contentType(image.mediaType()).body(image.content());
         }catch (CustomException e){
             return ResponseEntity.status(404).body("File not found or empty");
         }catch (IOException e){
             logger.error("Internal server error for getting fileId: {}", fileId);
             return ResponseEntity.status(500).body("Internal server error.");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }
