@@ -63,9 +63,18 @@ const AuctionFooter = ({
     useEffect(() => {
         if (debouncedFollowed !== isFollowed) {
             const action = debouncedFollowed ? followAuction : unfollowAuction;
+
+            const buffer = JSON.parse(sessionStorage.getItem("followedBuffer") || "{}");
+            buffer[id] = debouncedFollowed;
+            sessionStorage.setItem("followedBuffer", JSON.stringify(buffer));
+
             action(id, {
                 onError: () => {
                     setFollowed(!debouncedFollowed);
+
+                    const rollback = JSON.parse(sessionStorage.getItem("followedBuffer") || "{}");
+                    rollback[id] = !debouncedFollowed;
+                    sessionStorage.setItem("followedBuffer", JSON.stringify(rollback));
                 }
             });
         }
