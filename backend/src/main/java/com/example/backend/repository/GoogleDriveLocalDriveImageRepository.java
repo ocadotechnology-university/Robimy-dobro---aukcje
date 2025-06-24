@@ -22,8 +22,8 @@ public class GoogleDriveLocalDriveImageRepository implements ImageRepository {
 
     @Override
     public String save(MultipartFile file) throws IOException {
-        String fileid = googleDriveService.uploadFile(file);
         ImageData imageData = ImageData.fromMultipartFile(file);
+        String fileid = googleDriveService.uploadFile(file);
         localDriveService.save(imageData, fileid);
         return fileid;
     }
