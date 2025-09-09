@@ -61,7 +61,7 @@ const HomePageInfo = () => {
                 </Button>
             )}
 
-            {(!loading && data && !loadingContent) && (
+            {(!loading && data && !loadingContent && dates.length > 0) && (
                 <Typography variant="subtitle1">
                     Zapraszamy na fantastyczne licytacje w dniach <strong>{getAuctionDatesText()}</strong>!
                     <br/>

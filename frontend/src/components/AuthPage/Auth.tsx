@@ -1,15 +1,24 @@
 import {GoogleLogin} from "@react-oauth/google";
 import {useNavigate} from "react-router-dom";
-import React from "react";
+import React, {useState, useEffect} from "react";
 import {Container, Box, Typography, Stack} from "@mui/material";
 import {useAuth} from "../../hooks/AuthProvider";
+import {useAuctionDates} from "../../contexts/AuctionDatesContext";
 import {CenteredBox} from "../common/CenteredBox";
 import logoImage from "../../image/logo.png";
 import typography from "../../theme/typography";
 
 export default function Auth() {
     const navigate = useNavigate();
-    const {loginWithGoogle} = useAuth();
+    const {loginWithGoogle, accessToken} = useAuth();
+    const { fetch: fetchAuctionDates } = useAuctionDates();
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        if (accessToken) {
+            navigate("/home", { replace: true });
+        }
+    }, [accessToken, navigate]);
 
     return (
         <Container disableGutters sx={{
@@ -41,15 +50,21 @@ export default function Auth() {
                 <GoogleLogin
                     onSuccess={async (credentialResponse) => {
                         try {
-                            if (credentialResponse.credential != null) {
-                                await loginWithGoogle(credentialResponse.credential);
-                            }
-                            navigate("/home");
-                        } catch (error) {
+                            if (!credentialResponse.credential) return;
+                            setLoading(true);
+                            await loginWithGoogle(credentialResponse.credential);
+                            await Promise.all([
+                                fetchAuctionDates(),
+                            ]);
+                            navigate("/home", { replace: true });
+                        } catch {
+                            setLoading(false);
                             console.log("There was a problem with getting an access token");
                         }
                     }}
-                    onError={() => console.log("Login failed")}
+                    onError={() => {
+                        console.log("Login failed");
+                    }}
                 />
             </Stack>
         </Container>
