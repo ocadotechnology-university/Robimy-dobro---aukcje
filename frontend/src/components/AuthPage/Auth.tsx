@@ -1,7 +1,7 @@
 import {GoogleLogin} from "@react-oauth/google";
 import {useNavigate} from "react-router-dom";
 import React, {useState, useEffect} from "react";
-import {Container, Box, Typography, Stack} from "@mui/material";
+import {Container, Box, Typography, Stack, CircularProgress} from "@mui/material";
 import {useAuth} from "../../hooks/AuthProvider";
 import {useAuctionDates} from "../../contexts/AuctionDatesContext";
 import {CenteredBox} from "../common/CenteredBox";
@@ -47,25 +47,34 @@ export default function Auth() {
                 <Typography sx={{textAlign: "center", ...typography.body1}}>
                     Musisz się zalogować przy pomocy mail&#39;a służbowego, aby kontynuować
                 </Typography>
-                <GoogleLogin
-                    onSuccess={async (credentialResponse) => {
-                        try {
-                            if (!credentialResponse.credential) return;
-                            setLoading(true);
-                            await loginWithGoogle(credentialResponse.credential);
-                            await Promise.all([
-                                fetchAuctionDates(),
-                            ]);
-                            navigate("/home", { replace: true });
-                        } catch {
-                            setLoading(false);
-                            console.log("There was a problem with getting an access token");
-                        }
-                    }}
-                    onError={() => {
-                        console.log("Login failed");
-                    }}
-                />
+                {loading ? (
+                    <Stack alignItems="center" spacing={1} sx={{ mt: 1 }}>
+                        <CircularProgress />
+                        <Typography variant="body1" color="text.secondary">
+                            Logowanie…
+                        </Typography>
+                    </Stack>
+                ) : (
+                    <GoogleLogin
+                        onSuccess={async (credentialResponse) => {
+                            try {
+                                if (!credentialResponse.credential) return;
+                                setLoading(true);
+                                await loginWithGoogle(credentialResponse.credential);
+                                await Promise.all([
+                                    fetchAuctionDates(),
+                                ]);
+                                navigate("/home", { replace: true });
+                            } catch {
+                                setLoading(false);
+                                console.log("There was a problem with getting an access token");
+                            }
+                        }}
+                        onError={() => {
+                            console.log("Login failed");
+                        }}
+                    />
+                )}
             </Stack>
         </Container>
     )
