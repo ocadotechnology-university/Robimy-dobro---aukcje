@@ -7,12 +7,14 @@ import {useAuctionDates} from "../../contexts/AuctionDatesContext";
 import {CenteredBox} from "../common/CenteredBox";
 import logoImage from "../../image/logo.png";
 import typography from "../../theme/typography";
+import {useHomePageContent} from "../../hooks/useHomePageContent";
 
 export default function Auth() {
     const navigate = useNavigate();
     const {loginWithGoogle, accessToken} = useAuth();
     const { fetch: fetchAuctionDates } = useAuctionDates();
     const [loading, setLoading] = useState(false);
+    const {data, loading: loadingData} = useHomePageContent();
 
     useEffect(() => {
         if (accessToken) {
@@ -41,9 +43,11 @@ export default function Auth() {
                         <img src={logoImage} style={{height: 250}}/>
                     </CenteredBox>
                 </Box>
-                <Typography sx={{textAlign: "center", ...typography.h3}}>
-                    Robimy Dobro 2025
-                </Typography>
+                {!loadingData && data && (
+                    <Typography sx={{textAlign: "center", ...typography.h3}}>
+                        Robimy Dobro {data.year}
+                    </Typography>
+                )}
                 <Typography sx={{textAlign: "center", ...typography.body1}}>
                     Musisz się zalogować przy pomocy mail&#39;a służbowego, aby kontynuować
                 </Typography>
