@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 
 type HomePageContent = {
+    year: number;
     slackChannel: string;
     stats: {
         funds: number;
