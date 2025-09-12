@@ -1,5 +1,5 @@
-import { Auction } from "../components/AuctionPage/Auction";
-import { auctionsAPI } from "./API";
+import {Auction} from "../components/AuctionPage/Auction";
+import {auctionsAPI} from "./API";
 
 export interface AuctionFilters {
     statuses?: string[];

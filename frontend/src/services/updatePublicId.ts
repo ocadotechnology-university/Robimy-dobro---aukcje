@@ -1,4 +1,4 @@
-import { auctionUpdatePublicIdAPI } from './API';
+import {auctionUpdatePublicIdAPI} from './API';
 
 interface UpdatePublicIdParams {
     auctionId: string;

@@ -14,7 +14,7 @@ export const imageAPI = (fileId: string) =>
 
 export const imagePostAPI = (blob: Blob | null) => {
     const form = new FormData();
-    if(blob) {
+    if (blob) {
         form.append('file', blob);
     }
     return API.post(`/images/`, form, {responseType: 'text'});
@@ -26,7 +26,7 @@ export const auctionsAPI = (filters?: AuctionFilters) =>
 export const auctionPostAPI = (newAuction: AuctionDto) =>
     API.post('/auctions', newAuction);
 
-export const auctionUpdateAPI = (auctionId: string, updateAuction: AuctionDto) => 
+export const auctionUpdateAPI = (auctionId: string, updateAuction: AuctionDto) =>
     API.patch(`/auctions/${auctionId}/update`, updateAuction);
 
 export const auctionUpdatePublicIdAPI = (auctionId: string, publicId: number | null) =>
