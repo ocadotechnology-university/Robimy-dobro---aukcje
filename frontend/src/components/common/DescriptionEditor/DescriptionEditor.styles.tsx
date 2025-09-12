@@ -1,6 +1,6 @@
-import { Theme } from '@mui/material/styles';
+import {Theme} from '@mui/material/styles';
 
-export const WrapperStyle= (theme: Theme) => ({
+export const WrapperStyle = (theme: Theme) => ({
     position: 'relative',
     width: '100%',
     border: '1px solid',

@@ -12,13 +12,13 @@ import {useHomePageContent} from "../../hooks/useHomePageContent";
 export default function Auth() {
     const navigate = useNavigate();
     const {loginWithGoogle, accessToken} = useAuth();
-    const { fetch: fetchAuctionDates } = useAuctionDates();
+    const {fetch: fetchAuctionDates} = useAuctionDates();
     const [loading, setLoading] = useState(false);
     const {data, loading: loadingData} = useHomePageContent();
 
     useEffect(() => {
         if (accessToken) {
-            navigate("/home", { replace: true });
+            navigate("/home", {replace: true});
         }
     }, [accessToken, navigate]);
 
@@ -52,8 +52,8 @@ export default function Auth() {
                     Musisz się zalogować przy pomocy mail&#39;a służbowego, aby kontynuować
                 </Typography>
                 {loading ? (
-                    <Stack alignItems="center" spacing={1} sx={{ mt: 1 }}>
-                        <CircularProgress />
+                    <Stack alignItems="center" spacing={1} sx={{mt: 1}}>
+                        <CircularProgress/>
                         <Typography variant="body1" color="text.secondary">
                             Logowanie…
                         </Typography>
@@ -68,14 +68,12 @@ export default function Auth() {
                                 await Promise.all([
                                     fetchAuctionDates(),
                                 ]);
-                                navigate("/home", { replace: true });
+                                navigate("/home", {replace: true});
                             } catch {
                                 setLoading(false);
-                                console.log("There was a problem with getting an access token");
                             }
                         }}
                         onError={() => {
-                            console.log("Login failed");
                         }}
                     />
                 )}

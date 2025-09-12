@@ -1,10 +1,10 @@
-import { styled, keyframes } from '@mui/system';
+import {styled, keyframes} from '@mui/system';
 
 const fadeDot = keyframes`
-  0% { opacity: 0; }
-  30% { opacity: 1; }
-  60% { opacity: 0; }
-  100% { opacity: 0; }
+  0% {opacity: 0;}
+  30% {opacity: 1;}
+  60% {opacity: 0;}
+  100% {opacity: 0;}
 `;
 
 const Dot = styled('span')({
@@ -17,9 +17,9 @@ const Dot = styled('span')({
     transform: 'translateY(3px)',
     animation: `${fadeDot} 1.5s infinite`,
 
-    '&:nth-of-type(1)': { animationDelay: '0s' },
-    '&:nth-of-type(2)': { animationDelay: '0.3s' },
-    '&:nth-of-type(3)': { animationDelay: '0.6s' },
+    '&:nth-of-type(1)': {animationDelay: '0s'},
+    '&:nth-of-type(2)': {animationDelay: '0.3s'},
+    '&:nth-of-type(3)': {animationDelay: '0.6s'},
 });
 
 export default Dot;

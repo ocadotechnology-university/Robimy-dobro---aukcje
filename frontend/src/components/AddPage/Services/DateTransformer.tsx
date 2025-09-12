@@ -40,7 +40,7 @@ export function transformDateToDateFormat(dateFromForm: string): string | undefi
     const month = monthsMap[dateParts[1].toLowerCase()]
     const actualYear = new Date().getFullYear();
 
-    if(!month) return "";
+    if (!month) return "";
 
     return `${actualYear}-${month}-${day}`;
 }
@@ -54,7 +54,7 @@ export function transformDateFormatToFormDate(date?: string | null): string {
     const day = dateParts[2];
     const month = reverseMonthsMap[dateParts[1]]
 
-    if(!month) return "";
+    if (!month) return "";
 
     return `${day} ${month}`;
 }
