@@ -1,6 +1,6 @@
 import {CenteredBox} from "../common/CenteredBox";
 import {Avatar, IconButton, Menu} from "@mui/material";
-import React, {useState} from "react";
+import React from "react";
 import MenuItem from "@mui/material/MenuItem";
 import {useAuth} from "../../hooks/AuthProvider";
 
