@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Container, Box, Typography, Stack} from '@mui/material';
-import Filters from './Filters';
+import Filters from './Filters/Filters';
 import AuctionsList from "./AuctionsList";
 import {useGetAuctions} from '../../hooks/useGetAuctions';
 import {AuctionFilters} from "../../services/fetchAuctions";

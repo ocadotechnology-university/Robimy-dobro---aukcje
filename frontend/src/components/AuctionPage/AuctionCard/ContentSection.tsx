@@ -33,36 +33,38 @@ type Props = {
 };
 
 export const ContentSection = ({
-                            id,
-                            publicId,
-                            title,
-                            date,
-                            city,
-                            description,
-                            status,
-                            hasBids,
-                            supplierEmail,
-                            supplier,
-                            winner,
-                            price,
-                            isFollowed,
-                            slackUrl,
-                            editingAuctionId,
-                            setEditingAuctionId,
-                            setOpenDialog,
-                            setOneIsUpdating,
-                            newUpdatingAuction,
-                            setNewUpdatingAuction,
-                            setBackupEditingAuctionId,
-                            onDeleteClick,
-                            setNewPublicId,
-                            handleUpdatePublicId,
-                            publicIdList
-                        }: Props) => (
+                                   id,
+                                   publicId,
+                                   title,
+                                   date,
+                                   city,
+                                   description,
+                                   status,
+                                   hasBids,
+                                   supplierEmail,
+                                   supplier,
+                                   winner,
+                                   price,
+                                   isFollowed,
+                                   slackUrl,
+                                   editingAuctionId,
+                                   setEditingAuctionId,
+                                   setOpenDialog,
+                                   setOneIsUpdating,
+                                   newUpdatingAuction,
+                                   setNewUpdatingAuction,
+                                   setBackupEditingAuctionId,
+                                   onDeleteClick,
+                                   setNewPublicId,
+                                   handleUpdatePublicId,
+                                   publicIdList
+                               }: Props) => (
     <Grid2 size={{xs: 12, md: 9}}>
         <Stack spacing={1} height="100%" position="relative">
-            <AuctionHeader publicId={publicId} title={title} date={date} city={city} price={price} status={status} hasBids={hasBids}
-                           setNewPublicId={setNewPublicId} handleUpdatePublicId={handleUpdatePublicId} publicIdList={publicIdList}/>
+            <AuctionHeader publicId={publicId} title={title} date={date} city={city} price={price} status={status}
+                           hasBids={hasBids}
+                           setNewPublicId={setNewPublicId} handleUpdatePublicId={handleUpdatePublicId}
+                           publicIdList={publicIdList}/>
             <AuctionDescription description={description}/>
             <Box flexGrow={1}/>
             <AuctionFooter id={id} status={status} supplierEmail={supplierEmail} supplier={supplier} winner={winner}

@@ -1,5 +1,5 @@
-import React, {useEffect, useRef, useState} from "react";
-import {Stack, Box, Grid2} from "@mui/material";
+import React from "react";
+import {Stack, Grid2} from "@mui/material";
 import UpdateAuctionHeader from "./UpdateAuctionHeader";
 import UpdateAuctionDescription from "./UpdateAuctionDescription";
 import {RichTextEditorRef} from "mui-tiptap";
@@ -24,20 +24,23 @@ type Props = {
 };
 
 const UpdateContentSection = ({
-                            id,
-                            title, setTitle,
-                            date, setDate,
-                            city, setCity,
-                            description, descriptionRteRef,
-                            price, setPrice,
-                            wantsToBeModerator, setWantsToBeModerator,
-                            handleUpdate, handleCancellation
-                        }: Props) => {
+                                  id,
+                                  title, setTitle,
+                                  date, setDate,
+                                  city, setCity,
+                                  description, descriptionRteRef,
+                                  price, setPrice,
+                                  wantsToBeModerator, setWantsToBeModerator,
+                                  handleUpdate, handleCancellation
+                              }: Props) => {
 
     return (
         <Grid2 size={{xs: 12, md: 7.5, lg: 8.3}}>
             <Stack spacing={3} height="100%" position="relative" marginLeft={1}>
-                <UpdateAuctionHeader title={title} setTitle={setTitle} date={date} setDate={setDate} city={city} setCity={setCity} price={price} setPrice={setPrice} wantsToBeModerator={wantsToBeModerator} setWantsToBeModerator={setWantsToBeModerator}/>
+                <UpdateAuctionHeader title={title} setTitle={setTitle} date={date} setDate={setDate} city={city}
+                                     setCity={setCity} price={price} setPrice={setPrice}
+                                     wantsToBeModerator={wantsToBeModerator}
+                                     setWantsToBeModerator={setWantsToBeModerator}/>
                 <UpdateAuctionDescription description={description} descriptionRteRef={descriptionRteRef}/>
                 <Stack direction="row" width="100%" alignItems={"center"} justifyContent="space-between">
                     <UpdateActionButtonCancel

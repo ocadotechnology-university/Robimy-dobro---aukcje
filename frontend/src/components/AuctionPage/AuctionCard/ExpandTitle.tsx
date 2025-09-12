@@ -1,9 +1,8 @@
 import React, {useState, useRef, useEffect} from "react";
 import {Typography} from "@mui/material";
 import Box from "@mui/material/Box";
-import { Popper, styled } from '@mui/material';
+import {Popper, styled} from '@mui/material';
 import theme from "../../../theme/theme";
-
 
 type ExpandTitleProps = {
     text: string;
@@ -32,16 +31,16 @@ const ExpandTitle = ({text}: ExpandTitleProps) => {
     const title = text ? text : "";
     const textLengthPixels = getTextWidth(title);
     const dotsLengthPixels = getTextWidth("...");
-    const maxLength = getTextCharacterCount(width*0.99-dotsLengthPixels, title);
+    const maxLength = getTextCharacterCount(width * 0.99 - dotsLengthPixels, title);
 
-    const isTooLong = textLengthPixels > width*0.99;
+    const isTooLong = textLengthPixels > width * 0.99;
     const slicedTitle = title ? title.slice(0, maxLength) : title;
 
     function getTextWidth(text: string) {
         const canvas = document.createElement('canvas');
         const context = canvas.getContext('2d');
 
-        if(context) {
+        if (context) {
             const fontVariant = theme.typography.h6;
             const fontSize = fontVariant?.fontSize || '17px';
             const fontWeight = "bold";
@@ -75,7 +74,7 @@ const ExpandTitle = ({text}: ExpandTitleProps) => {
         return 0;
     }
 
-    const StyledPopperDiv = styled('div')(({ theme }) => ({
+    const StyledPopperDiv = styled('div')(({theme}) => ({
         padding: '10px 14px',
         backgroundColor: theme.palette.info.light,
         borderRadius: '5px',
@@ -101,7 +100,7 @@ const ExpandTitle = ({text}: ExpandTitleProps) => {
                         {title}
                     </Typography>
                 </StyledPopperDiv>
-            </Popper >
+            </Popper>
         </Box>
     );
 

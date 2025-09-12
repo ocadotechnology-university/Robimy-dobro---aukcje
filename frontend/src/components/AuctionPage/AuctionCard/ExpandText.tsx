@@ -1,5 +1,5 @@
-import React, {useEffect, useState, useRef } from "react";
-import {Button, Typography, Link} from "@mui/material";
+import React, {useState} from "react";
+import {Typography, Link} from "@mui/material";
 import parse from "html-react-parser";
 
 type ExpandTextProps = {
@@ -18,31 +18,30 @@ const ExpandText = ({text, maxLinesNumber}: ExpandTextProps) => {
         return tmp.textContent || tmp.innerText || '';
     };
 
-    const textWithoutHtml = stripHTML(text);
     const textWithReplaceParagraph = text.replace(/<p>/g, '<br>').replace(/<\/p>/g, '').replace('<br>', '<p>') + '</p>';
 
     const matches = textWithReplaceParagraph.match(/<(strong|em|u)\b[^>]*>/gi);
     const tagAMatches = textWithReplaceParagraph.match(/<(a)\b[^>]*>/gi);
     const tagAMatchesSize = tagAMatches ? tagAMatches.length : 0;
-    const tagAMatchesLength = tagAMatches ? tagAMatches.join("").length + 4*tagAMatchesSize : 0;
+    const tagAMatchesLength = tagAMatches ? tagAMatches.join("").length + 4 * tagAMatchesSize : 0;
     const tagBrMatches = textWithReplaceParagraph.match(/<(br)\b[^>]*>/gi);
     const tagBrMatchesSize = tagBrMatches ? tagBrMatches.length : 0;
 
-    const htmlSEUTagsLength = matches ? matches.join("").length*2 + matches.length : 0;
+    const htmlSEUTagsLength = matches ? matches.join("").length * 2 + matches.length : 0;
     const htmlATagLength = tagAMatches ? tagAMatchesLength : 0;
-    const htmlBrTagLength = tagBrMatches ? tagBrMatchesSize*4 : 0;
+    const htmlBrTagLength = tagBrMatches ? tagBrMatchesSize * 4 : 0;
     const htmlTagsLength = htmlSEUTagsLength + htmlATagLength + htmlBrTagLength;
 
     const removeParagraphTags = (textWithParagraph: string) => {
         return textWithParagraph.replace(/^<p>|<\/p>$/g, '');
     }
 
-    const tempCutText = removeParagraphTags(textWithReplaceParagraph.slice(0, maxLinesNumber*lineLength));
+    const tempCutText = removeParagraphTags(textWithReplaceParagraph.slice(0, maxLinesNumber * lineLength));
     const tempMatches = tempCutText.match(/<(strong|em|u)\b[^>]*>/gi);
-    const tempHtmlSEUTagsLength = tempMatches ? tempMatches.join("").length*2 + tempMatches.length : 0;
+    const tempHtmlSEUTagsLength = tempMatches ? tempMatches.join("").length * 2 + tempMatches.length : 0;
     const tempTagAMatches = tempCutText.match(/<(a)\b[^>]*>/gi);
     const tempTagAMatchesSize = tempTagAMatches ? tempTagAMatches.length : 0;
-    const tempTagAMatchesLength = tempTagAMatches ? tempTagAMatches.join("").length + 4*tempTagAMatchesSize : 0;
+    const tempTagAMatchesLength = tempTagAMatches ? tempTagAMatches.join("").length + 4 * tempTagAMatchesSize : 0;
     const tempAdditionalLength = tempHtmlSEUTagsLength + tempTagAMatchesLength;
 
     const parts = textWithReplaceParagraph.split('<br>');
@@ -50,28 +49,29 @@ const ExpandText = ({text, maxLinesNumber}: ExpandTextProps) => {
     let resultWithHtml = '';
     let lineNumber = 1;
     let partLinesNumber = 0;
-    let maxLengthResult = maxLinesNumber*lineLength;
+    let maxLengthResult = maxLinesNumber * lineLength;
     let displayedBrAmount = 0;
 
     for (let i = 0; i < parts.length; i++) {
-        for(let j = 1; j <= maxLinesNumber; j++) {
+        for (let j = 1; j <= maxLinesNumber; j++) {
             if (parts[i].length == 0) {
                 partLinesNumber = j;
                 break;
             }
 
-            if (parts[i].length > (j-1)*lineLength && parts[i].length <= j*lineLength) {
+            if (parts[i].length > (j - 1) * lineLength && parts[i].length <= j * lineLength) {
                 partLinesNumber = j;
                 break;
+            } else {
+                partLinesNumber = j + 1;
             }
-            else {partLinesNumber = j+1;}
         }
 
         displayedBrAmount = i;
 
         if (partLinesNumber + lineNumber - 1 > maxLinesNumber) {
-            resultWithHtml += parts[i].slice(0, (maxLinesNumber+1-lineNumber)*lineLength + tempAdditionalLength);
-            resultWithoutHtml += parts[i].slice(0, (maxLinesNumber+1-lineNumber)*lineLength);
+            resultWithHtml += parts[i].slice(0, (maxLinesNumber + 1 - lineNumber) * lineLength + tempAdditionalLength);
+            resultWithoutHtml += parts[i].slice(0, (maxLinesNumber + 1 - lineNumber) * lineLength);
             lineNumber = maxLinesNumber + 1;
             break;
         }
@@ -87,7 +87,7 @@ const ExpandText = ({text, maxLinesNumber}: ExpandTextProps) => {
         }
 
         if (parts.length > 1) {
-            maxLengthResult -= lineNumber*lineLength - (lineNumber-1)*lineLength - parts[i].length%lineLength;
+            maxLengthResult -= lineNumber * lineLength - (lineNumber - 1) * lineLength - parts[i].length % lineLength;
         }
 
         lineNumber += partLinesNumber;
@@ -99,17 +99,15 @@ const ExpandText = ({text, maxLinesNumber}: ExpandTextProps) => {
 
     const initialCutText = removeParagraphTags(textWithReplaceParagraph.slice(0, resultWithHtml.length));
     const cutMatches = initialCutText.match(/<(strong|em|u)\b[^>]*>/gi);
-    const cutHtmlSEUTagsLength = cutMatches ? cutMatches.join("").length*2 + cutMatches.length : 0;
+    const cutHtmlSEUTagsLength = cutMatches ? cutMatches.join("").length * 2 + cutMatches.length : 0;
     const cutTagAMatches = initialCutText.match(/<(a)\b[^>]*>/gi);
     const cutTagAMatchesSize = cutTagAMatches ? cutTagAMatches.length : 0;
-    const cutTagAMatchesLength = cutTagAMatches ? cutTagAMatches.join("").length + 4*cutTagAMatchesSize : 0;
-    const finalAdditionalLength = (displayedBrAmount == 0) ? cutHtmlSEUTagsLength + cutTagAMatchesLength : displayedBrAmount*4 + cutHtmlSEUTagsLength + cutTagAMatchesLength;
-
-    const additionalLength = (displayedBrAmount == 0) ? htmlTagsLength : displayedBrAmount*4;
+    const cutTagAMatchesLength = cutTagAMatches ? cutTagAMatches.join("").length + 4 * cutTagAMatchesSize : 0;
+    const finalAdditionalLength = (displayedBrAmount == 0) ? cutHtmlSEUTagsLength + cutTagAMatchesLength : displayedBrAmount * 4 + cutHtmlSEUTagsLength + cutTagAMatchesLength;
 
     let cutText = removeParagraphTags(textWithReplaceParagraph.slice(0, resultWithoutHtml.length + finalAdditionalLength));
 
-    if (cutText[cutText.length-1] === '<') {
+    if (cutText[cutText.length - 1] === '<') {
         cutText = cutText.slice(0, cutText.length - 1);
     }
 
@@ -121,27 +119,38 @@ const ExpandText = ({text, maxLinesNumber}: ExpandTextProps) => {
             ) : isExpanded ?
                 (<span>
                     {parse(removeParagraphTags(textWithReplaceParagraph))}&nbsp;
-                    <Link
-                        component="button"
-                        variant="body2"
-                        onClick={() => setIsExpanded(!isExpanded)}
-                        sx={{display: "inline", padding: 0, minWidth: 0, color: "primary.dark", textDecorationColor: "primary.dark"}}
-                    >
-                            {'Zobacz mniej'}
-                    </Link>
-                </span>
-                ) : (<>
-                        {/*{parse(removeParagraphTags(textWithReplaceParagraph.slice(0, maxLength + htmlTagsLength) + "... "))}&nbsp;*/}
-                        {parse(cutText + "... ")}&nbsp;
                         <Link
                             component="button"
                             variant="body2"
                             onClick={() => setIsExpanded(!isExpanded)}
-                            sx={{display: "inline", padding: 0, minWidth: 0, color: "primary.dark", textDecorationColor: "primary.dark"}}
+                            sx={{
+                                display: "inline",
+                                padding: 0,
+                                minWidth: 0,
+                                color: "primary.dark",
+                                textDecorationColor: "primary.dark"
+                            }}
                         >
-                            {'Zobacz więcej'}
-                        </Link>
-                    </>)
+                            {'Zobacz mniej'}
+                    </Link>
+                </span>
+                ) : (<>
+                    {parse(cutText + "... ")}&nbsp;
+                    <Link
+                        component="button"
+                        variant="body2"
+                        onClick={() => setIsExpanded(!isExpanded)}
+                        sx={{
+                            display: "inline",
+                            padding: 0,
+                            minWidth: 0,
+                            color: "primary.dark",
+                            textDecorationColor: "primary.dark"
+                        }}
+                    >
+                        {'Zobacz więcej'}
+                    </Link>
+                </>)
             }
         </Typography>
     );

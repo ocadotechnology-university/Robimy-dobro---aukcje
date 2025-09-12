@@ -3,7 +3,6 @@ import {Alert, Box, Snackbar, Stack, TextField, Typography} from "@mui/material"
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import {getPriceLabel} from "./helpers";
-import {transformDateFormatToFormDate} from "../../AddPage/Services/DateTransformer";
 import {useAuth} from "../../../hooks/AuthProvider";
 import {useViewMode} from "../../../contexts/ViewModeContext";
 import ExpandTitle from "./ExpandTitle";
@@ -79,8 +78,10 @@ const AuctionHeader = ({
                                  sx={{cursor: canEditPublicId ? "pointer" : "default"}}>#{publicId}</Box>
                         ) : (
                             <TextField label="ID" defaultValue={publicId} type="Number"
-                                       onChange={(e) => {setNewCheckPublicId(e.target.value)
-                                                                                            setNewPublicId(e.target.value)}}
+                                       onChange={(e) => {
+                                           setNewCheckPublicId(e.target.value)
+                                           setNewPublicId(e.target.value)
+                                       }}
                                        onKeyDown={handleKeyPress}
                                        sx={{width: "100px", marginBottom: 2, marginRight: 2}}/>
                         )}

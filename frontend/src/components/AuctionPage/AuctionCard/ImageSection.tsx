@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Box, CardMedia, Grid2, Skeleton} from "@mui/material";
+import {CardMedia, Grid2, Skeleton} from "@mui/material";
 import {ImageWrapperStyle, ImageStyle} from "./AuctionCard.styles";
 import {useGetImages} from "../../../hooks/useGetImages";
 import Stack from "@mui/material/Stack";
