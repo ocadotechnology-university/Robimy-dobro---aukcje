@@ -1,5 +1,5 @@
-import { updateAuction } from '../services/updateAuction';
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {updateAuction} from '../services/updateAuction';
+import {useMutation, useQueryClient} from "@tanstack/react-query";
 
 export const useUpdateAuction = () => {
     const queryClient = useQueryClient();
@@ -7,7 +7,7 @@ export const useUpdateAuction = () => {
     return useMutation({
         mutationFn: updateAuction,
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['auctions'] });
+            queryClient.invalidateQueries({queryKey: ['auctions']});
         }
     })
 };

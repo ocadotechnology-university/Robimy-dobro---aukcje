@@ -61,7 +61,6 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
                 {withCredentials: true}
             );
             const token = response.data.accessToken;
-            console.log(token);
             setAccessToken(token);
             decodeAndSetTokenData(token);
         } catch (error) {
@@ -91,7 +90,6 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
         const requestInterceptor = API.interceptors.request.use(
             (config) => {
                 config.headers.Authorization = `Bearer ${accessToken}`;
-                console.log("Added token to request:", config.headers.Authorization);
                 return config;
             },
             (error) => Promise.reject(error)
@@ -124,7 +122,6 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
                                 const newToken = res.data;
                                 setAccessToken(newToken);
                                 decodeAndSetTokenData(newToken);
-                                console.log("New access token: " + newToken);
                                 return newToken;
                             }).finally(() => {
                                 refreshPromise = null;
@@ -156,7 +153,8 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
     }, []);
 
     return (
-        <AuthContext.Provider value={{accessToken, role, supplier, loginWithGoogle, logout, profileImageURL, isAxiosReady}}>
+        <AuthContext.Provider
+            value={{accessToken, role, supplier, loginWithGoogle, logout, profileImageURL, isAxiosReady}}>
             {children}
         </AuthContext.Provider>
     );

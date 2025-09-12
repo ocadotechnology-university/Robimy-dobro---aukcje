@@ -1,5 +1,5 @@
-import { postAuction } from '../services/postAuction';
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {postAuction} from '../services/postAuction';
+import {useMutation, useQueryClient} from "@tanstack/react-query";
 
 export const usePostAuction = () => {
     const queryClient = useQueryClient();
@@ -7,7 +7,7 @@ export const usePostAuction = () => {
     return useMutation({
         mutationFn: postAuction,
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['auctions'] });
+            queryClient.invalidateQueries({queryKey: ['auctions']});
         }
     })
 };
