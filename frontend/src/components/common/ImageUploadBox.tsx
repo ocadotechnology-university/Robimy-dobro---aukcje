@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import Box from '@mui/material/Box';
 import UploadIcon from '@mui/icons-material/Upload';
 import {useState} from 'react';
-import { PercentCrop } from 'react-image-crop';
+import {PercentCrop} from 'react-image-crop';
 import Stack from "@mui/material/Stack";
 import {
     boxStyleBeforeUpload,
@@ -98,8 +98,8 @@ const ImageUploadBox = ({setCroppedImage, updateBlobImage, updateBlobImageUrl}: 
         const crop = makeAspectCrop(
             {
                 unit: '%',
-                width: takeByWidth ? (height/width*100) : 100,
-                height: takeByWidth ? 100 : (width/height*100)
+                width: takeByWidth ? (height / width * 100) : 100,
+                height: takeByWidth ? 100 : (width / height * 100)
             }, ASPECT_RATIO, width, height
         );
         const centeredCrop = centerCrop(crop, width, height);

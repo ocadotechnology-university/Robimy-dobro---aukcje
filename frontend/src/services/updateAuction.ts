@@ -1,5 +1,5 @@
-import { AuctionDto } from '../components/AddPage/AuctionDto';
-import { auctionUpdateAPI } from './API';
+import {AuctionDto} from '../components/AddPage/AuctionDto';
+import {auctionUpdateAPI} from './API';
 
 interface UpdateAuctionParams {
     auctionId: string;

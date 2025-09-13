@@ -1,5 +1,4 @@
 import React from "react";
-import {Typography} from "@mui/material";
 import DOMPurify from 'dompurify';
 import ExpandText from "./ExpandText";
 
@@ -11,14 +10,8 @@ const AuctionDescription = ({description}: Props) => {
     const cleanedHTMLDescription = DOMPurify.sanitize(description);
 
     return (
-            // <Typography
-            //     variant="body2"
-            //     color="text.secondary"
-            //     component="div"
-            //     dangerouslySetInnerHTML={{ __html: cleanedHTMLDescription }}
-            // />
         <ExpandText text={cleanedHTMLDescription} maxLinesNumber={4}/>
-        );
+    );
 };
 
 export default AuctionDescription;

@@ -23,11 +23,12 @@ export const LogoMedium = () => {
                 </Stack>
                 <Divider sx={{borderColor: "primary"}} orientation="vertical" variant="middle" flexItem/>
                 {!loading && data && (
-                    <Typography fontSize="15px" color="black" fontWeight="bold" fontFamily="Inter">{data.year}</Typography>
+                    <Typography fontSize="15px" color="black" fontWeight="bold"
+                                fontFamily="Inter">{data.year}</Typography>
                 )}
             </Stack>
         </Box>
-)
+    )
 };
 
 export const LogoSwitcher = () => {

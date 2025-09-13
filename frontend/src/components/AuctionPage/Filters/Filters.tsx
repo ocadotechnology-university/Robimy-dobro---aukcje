@@ -1,22 +1,20 @@
 import {useState} from "react";
-import {Stack, Box, Typography, Paper, Select, MenuItem, Chip} from '@mui/material';
+import {Stack, Box, Paper} from '@mui/material';
 import ShieldIcon from '@mui/icons-material/Shield';
-import {AuctionFilters} from "../../services/fetchAuctions";
+import {AuctionFilters} from "../../../services/fetchAuctions";
 import {useEffect} from "react";
-import {useViewMode} from "../../contexts/ViewModeContext";
-import {useAuctionDates} from "../../contexts/AuctionDatesContext";
-import * as React from "react";
+import {useViewMode} from "../../../contexts/ViewModeContext";
+import {useAuctionDates} from "../../../contexts/AuctionDatesContext";
+import React from "react";
 
 import {
     FiltersPaperStyle,
     FiltersScrollContainerStyle,
-    SectionActionTypographyStyle,
-    FilterChipStyle,
-    ClearAllTypographyStyle,
-    MenuPaperStyle,
-    MenuItemStyle,
 } from './Filters.styles';
-import {useAuth} from "../../hooks/AuthProvider";
+import {useAuth} from "../../../hooks/AuthProvider";
+import FiltersHeader from "./FiltersHeader";
+import FilterSection from "./FilterSection";
+import SortSection from "./SortSection";
 
 interface FiltersProps {
     aucfilters: AuctionFilters;
@@ -149,134 +147,10 @@ const Filters = ({setAucFilters, auctionsAmount, initialSelectedDate}: FiltersPr
                         setSelectedOptions={setSelectedDates}
                     />
 
-                    <SortSection sort={sort} setSort={setSort}/>
+                    <SortSection sort={sort} setSort={setSort} options={sortOptions}/>
                 </Stack>
             </Box>
         </Paper>
-    );
-};
-
-type FiltersHeaderProps = {
-    showClear: boolean;
-    onClearAll: () => void;
-    auctionsAmount: number;
-};
-
-const FiltersHeader = ({showClear, onClearAll, auctionsAmount}: FiltersHeaderProps) => (
-    <Stack direction="column" spacing={0.5}>
-        <Stack direction="row" alignItems="center" justifyContent="space-between">
-            <Typography variant="h5" fontWeight={700}>
-                Filtry
-            </Typography>
-            <Typography color="#a0a0a0">(Aukcje: {auctionsAmount})</Typography>
-        </Stack>
-        <Typography
-            variant="body1"
-            sx={(theme) => ({
-                ...ClearAllTypographyStyle(theme),
-                visibility: showClear ? 'visible' : 'hidden',
-            })}
-            onClick={onClearAll}
-        >
-            Odznacz wszystkie
-        </Typography>
-    </Stack>
-);
-
-type FilterSectionProps = {
-    title: string;
-    icon?: React.ReactNode;
-    options: string[];
-    selectedOptions: string[];
-    setSelectedOptions: React.Dispatch<React.SetStateAction<string[]>>;
-};
-
-const FilterSection: React.FC<FilterSectionProps> = ({
-                                                         title,
-                                                         icon,
-                                                         options,
-                                                         selectedOptions,
-                                                         setSelectedOptions,
-                                                     }) => {
-    const toggleOption = (label: string) => {
-        setSelectedOptions((prev) =>
-            prev.includes(label)
-                ? prev.filter((item) => item !== label)
-                : [...prev, label]
-        );
-    };
-
-    const hasAnySelected = selectedOptions.length > 0;
-
-    return (
-        <Stack spacing={0.5}>
-            <Stack direction="row" alignItems="center" spacing={0.5}>
-                <Typography variant="subtitle1" fontWeight={600}>
-                    {title}
-                </Typography>
-                {icon}
-            </Stack>
-
-            <Typography
-                onClick={() =>
-                    hasAnySelected ? setSelectedOptions([]) : setSelectedOptions(options)
-                }
-                sx={SectionActionTypographyStyle}
-            >
-                {hasAnySelected ? 'Odznacz wszystkie' : 'Zaznacz wszystkie'}
-            </Typography>
-
-            <Stack direction="column" alignItems="flex-start" spacing={1}>
-                {options.map((label) => (
-                    <Chip
-                        key={label}
-                        label={label}
-                        size="small"
-                        variant={selectedOptions.includes(label) ? 'filled' : 'outlined'}
-                        onClick={() => toggleOption(label)}
-                        clickable
-                        sx={FilterChipStyle}
-                    />
-                ))}
-            </Stack>
-        </Stack>
-    );
-};
-
-type SortSectionProps = {
-    sort: string;
-    setSort: (value: string) => void;
-};
-
-const SortSection: React.FC<SortSectionProps> = ({sort, setSort}) => {
-    const [open, setOpen] = useState(false);
-    return (
-        <Stack spacing={0.5}>
-            <Typography variant="subtitle1" fontWeight={600}>
-                Sortowanie
-            </Typography>
-
-            <Select
-                open={open}
-                onOpen={() => setOpen(true)}
-                onClose={() => setOpen(false)}
-                value={sort}
-                onChange={(e) => setSort(e.target.value)}
-                size="small"
-                sx={{borderRadius: open ? '8px 8px 0 0' : '8px', fontSize: '0.8rem'}}
-                MenuProps={{
-                    PaperProps: {sx: MenuPaperStyle},
-                    MenuListProps: {sx: {py: 0}},
-                    disableScrollLock: true,
-                }}
-            >
-                {sortOptions.map((option) => (
-                    <MenuItem key={option} value={option} sx={MenuItemStyle}>
-                        {option}
-                    </MenuItem>
-                ))}
-            </Select>
-        </Stack>
     );
 };
 

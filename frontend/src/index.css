@@ -3,28 +3,3 @@ html, body, #root {
   padding: 0;
   height: 100%;
 }
-
-/*html, body {
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  width: 100%;
-  background-color: lightgray;
-  font-family: 'Inter', sans-serif;
-  overflow-x: hidden;
-}
-
-#root {
-  height: 100vh;
-  margin: 0;
-  padding: 0;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-  monospace;
-}
-
-button {
-  font-family: 'Inter', sans-serif;
-}*/

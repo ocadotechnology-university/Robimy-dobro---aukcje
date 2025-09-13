@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {deleteAuction} from "../services/deleteAuction";
 
 export const useDeleteAuction = () => {
@@ -7,7 +7,7 @@ export const useDeleteAuction = () => {
     return useMutation({
         mutationFn: deleteAuction,
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['auctions'] });
+            queryClient.invalidateQueries({queryKey: ['auctions']});
         }
     });
 };

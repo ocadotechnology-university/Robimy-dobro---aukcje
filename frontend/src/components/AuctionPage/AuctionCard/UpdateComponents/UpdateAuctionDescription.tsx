@@ -1,4 +1,4 @@
-import React, {useRef} from "react";
+import React from "react";
 import {RichTextEditorRef} from "mui-tiptap";
 import DescriptionEditor from "../../../common/DescriptionEditor/DescriptionEditor";
 

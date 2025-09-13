@@ -1,13 +1,10 @@
 import React, {useEffect, useState} from "react";
-import {Box, Stack, Typography} from "@mui/material";
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
+import {Stack} from "@mui/material";
 import TitleTextField from "../../../common/TitleTextField";
 import PriceTextField from "../../../common/PriceTextField";
 import ControlledCheckbox from "../../../common/ControlledCheckbox";
 import CitySelectField from "../../../common/CitySelectField";
 import DateSelectField from "../../../common/DateSelectedField";
-import {transformDateFormatToFormDate} from "../../../AddPage/Services/DateTransformer";
 import Divider from '@mui/material/Divider';
 
 type Props = {

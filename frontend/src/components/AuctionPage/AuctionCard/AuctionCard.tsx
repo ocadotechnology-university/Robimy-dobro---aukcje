@@ -103,7 +103,7 @@ const AuctionCard = (props: Props) => {
 
         try {
             if (croppedImage) {
-                const fileFromBlob = new File([croppedImage], `cropped-${Date.now()}.jpg`, { type: croppedImage.type });
+                const fileFromBlob = new File([croppedImage], `cropped-${Date.now()}.jpg`, {type: croppedImage.type});
                 compressedCroppedImage = await imageCompression(fileFromBlob, options);
             } else {
                 compressedCroppedImage = croppedImage;

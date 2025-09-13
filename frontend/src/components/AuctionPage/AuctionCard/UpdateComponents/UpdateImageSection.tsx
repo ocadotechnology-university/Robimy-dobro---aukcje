@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from "react";
-import {Box, CardMedia, Grid2, Skeleton} from "@mui/material";
+import {Grid2} from "@mui/material";
 import {UpdateImageWrapperStyle} from "../AuctionCard.styles";
 import {useGetImages} from "../../../../hooks/useGetImages";
 import ImageUploadBox from "../../../common/ImageUploadBox";
-import theme from "../../../../theme/theme";
 
 type Props = {
     fileId: string;
@@ -12,7 +11,7 @@ type Props = {
 };
 
 const UpdateImageSection = ({fileId, setFileId, setCroppedImage}: Props) => {
-    const { data: blob, isLoading } = useGetImages(fileId);
+    const {data: blob, isLoading} = useGetImages(fileId);
     const [blobUrl, setBlobUrl] = useState<string | null>(null);
 
     useEffect(() => {

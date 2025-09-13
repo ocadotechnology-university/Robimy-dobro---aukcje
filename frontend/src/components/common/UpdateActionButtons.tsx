@@ -55,5 +55,3 @@ export const UpdateActionButtonCancel = ({label, onClick}: UpdateActionButtonPro
         </Button>
     );
 };
-
-// export default UpdateActionButtonSave;
