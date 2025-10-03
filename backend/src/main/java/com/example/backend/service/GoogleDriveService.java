@@ -49,6 +49,24 @@ public class GoogleDriveService {
         return uploadedFile.getId();
     }
 
+    public String updateFile(MultipartFile multipartFile, String fileId) throws IOException {
+        File fileMetadata = new File();
+        fileMetadata.setName(multipartFile.getOriginalFilename());
+        fileMetadata.setParents(Collections.singletonList(FOLDER_ID));
+
+        java.io.File tempFile = java.io.File.createTempFile("upload-", multipartFile.getOriginalFilename());
+        multipartFile.transferTo(tempFile);
+
+        FileContent mediaContent = new FileContent(multipartFile.getContentType(), tempFile);
+
+        logger.info("Updating file: {}", multipartFile.getOriginalFilename());
+        File updatedFile = driveService.files().update(fileId, fileMetadata, mediaContent).execute();
+
+        tempFile.delete();
+
+        return updatedFile.getId();
+    }
+
     public ImageData downloadFile(String fileId) throws IOException {
         byte[] image = driveService.files().get(fileId).executeMediaAsInputStream().readAllBytes();
 

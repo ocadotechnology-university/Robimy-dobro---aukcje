@@ -37,6 +37,21 @@ public class ImageController {
         }
     }
 
+    @PostMapping("/{fileId}")
+    public ResponseEntity<?> updateImage(@PathVariable String fileId, @RequestParam(value = "file", required = false) MultipartFile multipartFile){
+        if (multipartFile == null || multipartFile.isEmpty()) {
+            return ResponseEntity.ok("No image uploaded");
+        }
+
+        try {
+            String newFileId = imageService.update(multipartFile, fileId);
+            return ResponseEntity.status(201).body(newFileId);
+        } catch (IOException e) {
+            logger.error("Internal server error for uploading an image");
+            return ResponseEntity.status(500).body("Internal server error.");
+        }
+    }
+
     @GetMapping("/{fileId}")
     public ResponseEntity<?> getImage(@PathVariable String fileId){
         try {

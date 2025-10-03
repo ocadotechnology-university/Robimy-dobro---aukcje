@@ -10,4 +10,5 @@ import java.io.IOException;
 public interface ImageRepository {
     String save(MultipartFile file) throws IOException;
     ImageData get(String fileid) throws Exception;
+    String upload(MultipartFile multipartFile, String fileId) throws IOException;
 }

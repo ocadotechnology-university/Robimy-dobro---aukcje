@@ -22,4 +22,8 @@ public class ImageService {
     public ImageData get(String fileid) throws Exception {
         return googleDriveLocalDriveImageRepository.get(fileid);
     }
+
+    public String update(MultipartFile multipartFile, String fileid) throws IOException {
+        return googleDriveLocalDriveImageRepository.upload(multipartFile, fileid);
+    }
 }

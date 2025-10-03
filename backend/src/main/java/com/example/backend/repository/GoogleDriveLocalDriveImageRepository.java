@@ -38,4 +38,12 @@ public class GoogleDriveLocalDriveImageRepository implements ImageRepository {
             return imageData;
         }
     }
+
+    @Override
+    public String upload(MultipartFile file, String fileId) throws IOException {
+        ImageData imageData = ImageData.fromMultipartFile(file);
+        String fileid = googleDriveService.updateFile(file, fileId);
+        localDriveService.save(imageData, fileid);
+        return fileid;
+    }
 }
